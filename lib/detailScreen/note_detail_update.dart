@@ -19,7 +19,7 @@ class _LocalStore {
   set setDetail(String detail) => _detail = detail;
 }
 
-class NoteDetail extends StatelessWidget {
+class NoteDetailUpdate extends StatelessWidget {
   final TimeOfDay _timeNow = TimeOfDay.now();
   final _LocalStore _local = _LocalStore();
 

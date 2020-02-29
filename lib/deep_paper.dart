@@ -41,8 +41,8 @@ class DeepPaper extends StatelessWidget {
             type: BottomNavigationBarType.fixed,
             selectedFontSize: 14,
             unselectedFontSize: 14,
-            selectedItemColor: Colors.blueAccent,
-            unselectedItemColor: Colors.white60,
+            selectedItemColor: Colors.blue[400],
+            unselectedItemColor: Colors.white70,
             showUnselectedLabels: true,
             currentIndex: deepProvider.currentIndex,
             elevation: 0, // use this to remove appBar's elevation
@@ -52,11 +52,13 @@ class DeepPaper extends StatelessWidget {
             },
             items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.library_books),
+                icon: Icon(MyIcon.library_books_outline),
+                activeIcon: Icon(Icons.library_books),
                 title: Text('Note'),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.event_note),
+                icon: Icon(MyIcon.event_note_outline),
+                activeIcon: Icon(Icons.event_note),
                 title: Text('Plan'),
               ),
               BottomNavigationBarItem(

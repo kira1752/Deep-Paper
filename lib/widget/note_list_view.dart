@@ -79,20 +79,22 @@ class NoteListView extends StatelessWidget {
     return StreamProvider<List<Note>>.value(
       value: _database.noteDao.watchAllNotes(),
       child: Consumer<List<Note>>(builder: (context, data, child) {
-        if (data == null || data.length == 0)
+        if (data == null)
+          return Container();
+        else if (data.isEmpty) {
           return Center(
               child: Text(
             "CREATE NEW NOTE",
             style: Theme.of(context).textTheme.headline6,
           ));
-        else
+        } else
           return StaggeredGridView.countBuilder(
             physics: ClampingScrollPhysics(),
             crossAxisCount: 4,
             itemCount: data.length,
             staggeredTileBuilder: (index) => StaggeredTile.fit(2),
             itemBuilder: (BuildContext context, int index) => Material(
-              color: Color(0xff212121),
+              color: Color(0xff121212),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0),
               ),

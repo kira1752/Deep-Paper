@@ -29,10 +29,10 @@ class MyIcon {
   static const _kFontFam = 'MyIcon';
 
   static const IconData search = const IconData(0xe800, fontFamily: _kFontFam);
-  static const IconData add = const IconData(0xe801, fontFamily: _kFontFam);
-  static const IconData export_icon = const IconData(0xe802, fontFamily: _kFontFam);
+  static const IconData plus = const IconData(0xe801, fontFamily: _kFontFam);
   static const IconData picture = const IconData(0xe803, fontFamily: _kFontFam);
-  static const IconData edit = const IconData(0xe804, fontFamily: _kFontFam);
+  static const IconData library_books_outline = const IconData(0xe805, fontFamily: _kFontFam);
+  static const IconData event_note_outline = const IconData(0xe806, fontFamily: _kFontFam);
   static const IconData plus_square = const IconData(0xf196, fontFamily: _kFontFam);
   static const IconData chart_line = const IconData(0xf201, fontFamily: _kFontFam);
 }

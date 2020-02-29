@@ -1,4 +1,5 @@
 import 'package:deep_paper/data/deep.dart';
+import 'package:deep_paper/detailScreen/note_detail_update.dart';
 import 'package:deep_paper/screen/note_page.dart';
 import 'package:deep_paper/transition/fade.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,10 +23,10 @@ class DeepPaperApp extends StatelessWidget {
             colorScheme: ColorScheme(
               primary: const Color(0xffbb86fc),
               primaryVariant: const Color(0xff3700B3),
-              secondary: const Color(0xff121212),
-              secondaryVariant: const Color(0xff121212),
-              surface: const Color(0xff121212),
-              background: const Color(0xff121212),
+              secondary: Colors.black,
+              secondaryVariant: Colors.black,
+              surface: Colors.black,
+              background: Colors.black,
               error: const Color(0xffcf6679),
               onPrimary: Colors.black,
               onSecondary: Colors.black,
@@ -42,12 +43,12 @@ class DeepPaperApp extends StatelessWidget {
                     fontSize: 24),
                 subtitle2: TextStyle(
                     fontFamily: "Open Sans",
-                    color: Colors.white70,
+                    color: Colors.white.withOpacity(0.80),
                     fontWeight: FontWeight.w600,
                     fontSize: 22.0),
                 bodyText1: TextStyle(
                     fontFamily: "Open Sans",
-                    color: Colors.white70,
+                    color: Colors.white.withOpacity(0.80),
                     fontSize: 16.0,
                     fontWeight: FontWeight.w600),
                 bodyText2: TextStyle(
@@ -66,6 +67,9 @@ class DeepPaperApp extends StatelessWidget {
               break;
             case '/NoteDetail':
               return Fade(page: NoteDetail(), settings: settings);
+              break;
+            case '/NoteDetailUpdate':
+              return Fade(page: NoteDetailUpdate(), settings: settings);
               break;
             case '/NotePage':
               return Fade(page: NotePage(), settings: settings);

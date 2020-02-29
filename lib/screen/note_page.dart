@@ -99,7 +99,7 @@ class NotePage extends StatelessWidget {
                       .copyWith(color: Colors.white.withOpacity(0.87))),
               trailing: FlatButton(
                   shape: StadiumBorder(
-                      side: BorderSide(color: Colors.blueAccent, width: 2.0)),
+                      side: BorderSide(color: Colors.blue[400], width: 2.0)),
                   onPressed: () {},
                   child: Text(
                     "ADD",
@@ -122,7 +122,7 @@ class NotePage extends StatelessWidget {
           return Material(
             clipBehavior: Clip.hardEdge,
             color: data == setIndex
-                ? Colors.blueAccent.withOpacity(0.2)
+                ? Colors.blue[400].withOpacity(0.3)
                 : Colors.transparent,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
@@ -202,7 +202,7 @@ class NotePage extends StatelessWidget {
                   return Material(
                     clipBehavior: Clip.hardEdge,
                     color: data.item2 == index
-                        ? Colors.blueAccent.withOpacity(0.2)
+                        ? Colors.blue[400].withOpacity(0.3)
                         : Colors.transparent,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
@@ -266,7 +266,7 @@ class NotePage extends StatelessWidget {
     final icons = [
       DeepAction(
           icon: Icon(
-        MyIcon.edit,
+        Icons.edit,
         color: Colors.white,
       )),
       DeepAction(
