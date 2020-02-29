@@ -20,6 +20,7 @@ class DeepPaper extends StatelessWidget {
             builder: (context, controller, child) {
               debugPrintSynchronously("Deep Paper Main Menu Rebuild");
               return PageView(
+                physics: NeverScrollableScrollPhysics(),
                 controller: controller,
                 onPageChanged: (index) {
                   Provider.of<DeepBottomProvider>(context, listen: false)

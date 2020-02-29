@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 
 class DeepBottomProvider with ChangeNotifier {
   int _currentIndex = 0;
-  PageController _controller = PageController();
+  PageController _controller = PageController(keepPage: false);
 
   int get currentIndex => _currentIndex;
   PageController get controller => _controller;

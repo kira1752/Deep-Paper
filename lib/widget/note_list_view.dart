@@ -102,36 +102,43 @@ class NoteListView extends StatelessWidget {
                   debugPrint("Note $index Tapped");
                   Navigator.pushNamed(context, '/NoteDetail');
                 },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                  /*if (data[index].imagePath != null)
-                    Center(
-                        child: FadeInImage(
-                      placeholder: MemoryImage(kTransparentImage),
-                      image: FileImage(File("$data[index].imagePath")),
-                    )),*/
-                  if (data[index].title != null)
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(18, 16, 18, 16),
-                      child: Text(
-                        "${data[index].title}",
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(color: Colors.white.withOpacity(0.87)),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  if (data[index].detail != null)
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(18, 16, 18, 16),
-                      child: Text(
-                        "${data[index].detail}",
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white.withOpacity(0.87)),
-                        maxLines: 6,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                ]),
+                child: Container(
+                  padding: EdgeInsets.all(24),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        /*if (data[index].imagePath != null)
+                      Center(
+                          child: FadeInImage(
+                        placeholder: MemoryImage(kTransparentImage),
+                        image: FileImage(File("$data[index].imagePath")),
+                      )),*/
+                        if (data[index].title != null)
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 16),
+                            child: Text(
+                              "${data[index].title}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2
+                                  .copyWith(
+                                      color: Colors.white.withOpacity(0.80)),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        if (data[index].detail != null)
+                          Text(
+                            "${data[index].detail}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(color: Colors.white70),
+                            maxLines: 6,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                      ]),
+                ),
               ),
             ),
             mainAxisSpacing: 20.0,

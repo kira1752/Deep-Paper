@@ -25,7 +25,7 @@ class NotePage extends StatelessWidget {
               IconButton(
                   icon: Icon(
                     MyIcon.search,
-                    color: Colors.white70,
+                    color: Colors.white.withOpacity(0.87),
                   ),
                   onPressed: () {}),
             ],
@@ -34,7 +34,8 @@ class NotePage extends StatelessWidget {
             title: Selector<NoteDrawerProvider, String>(
               builder: (context, title, child) {
                 debugPrintSynchronously("Text Title rebuilt");
-                return Text('$title', style: Theme.of(context).textTheme.headline6);
+                return Text('$title',
+                    style: Theme.of(context).textTheme.headline6);
               },
               selector: (context, noteDrawerProvider) =>
                   noteDrawerProvider.getTitleFragment,
@@ -73,6 +74,7 @@ class NotePage extends StatelessWidget {
     else
       return DeepScrollbar(child: TrashListView());
   }
+
   Widget _noteDrawer({BuildContext context}) {
     debugPrintSynchronously("Drawer rebuilt");
     return Drawer(
@@ -96,7 +98,8 @@ class NotePage extends StatelessWidget {
                       .bodyText2
                       .copyWith(color: Colors.white.withOpacity(0.87))),
               trailing: FlatButton(
-                  shape: StadiumBorder(side: BorderSide(color: Colors.blueAccent, width: 2.0)),
+                  shape: StadiumBorder(
+                      side: BorderSide(color: Colors.blueAccent, width: 2.0)),
                   onPressed: () {},
                   child: Text(
                     "ADD",
@@ -264,12 +267,12 @@ class NotePage extends StatelessWidget {
       DeepAction(
           icon: Icon(
         MyIcon.edit,
-        color: Colors.white.withOpacity(0.87),
+        color: Colors.white,
       )),
       DeepAction(
           icon: Icon(
         Icons.mic_none,
-        color: Colors.white.withOpacity(0.87),
+        color: Colors.white,
       )),
     ];
 
