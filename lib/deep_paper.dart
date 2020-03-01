@@ -38,7 +38,6 @@ class DeepPaper extends StatelessWidget {
             builder: (context, deepProvider, child) {
           debugPrintSynchronously("Bottom Bar Rebuild");
           return BottomNavigationBar(
-            //backgroundColor: Color(0xff1A1A1A),
             elevation: 0.0,
             type: BottomNavigationBarType.fixed,
             selectedFontSize: 14,

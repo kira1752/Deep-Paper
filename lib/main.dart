@@ -23,7 +23,7 @@ class DeepPaperApp extends StatelessWidget {
             colorScheme: ColorScheme(
               primary: const Color(0xffbb86fc),
               primaryVariant: const Color(0xff3700B3),
-              secondary: Colors.black,
+              secondary: Colors.blue,
               secondaryVariant: Colors.black,
               surface: Colors.black,
               background: Colors.black,

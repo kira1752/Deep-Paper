@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:moor/moor.dart';
 import 'package:provider/provider.dart';
-import 'package:deep_paper/utils/extension.dart' show TextUtilsStringExtension;
+import 'package:deep_paper/utility/extension.dart' show TextUtilsStringExtension;
 
 class _LocalStore {
   String _title;

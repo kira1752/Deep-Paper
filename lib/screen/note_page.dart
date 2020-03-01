@@ -188,74 +188,79 @@ class NotePage extends StatelessWidget {
 
   Widget _folderListView() {
     return DeepScrollbar(
-      child: Selector<NoteDrawerProvider, Tuple2<int, int>>(
-          selector: (context, drawerProvider) => Tuple2(
-              drawerProvider.getFolderCount, drawerProvider.getIndexFolderItem),
-          builder: (context, data, child) {
+      child: Selector<NoteDrawerProvider, int>(
+          selector: (context, drawerProvider) => drawerProvider.getFolderCount,
+          builder: (context, count, child) {
             debugPrintSynchronously("Folder ListView rebuilt");
             return ScrollablePositionedList.builder(
                 key: const PageStorageKey("Folder ListView"),
                 physics: ClampingScrollPhysics(),
-                itemCount: data.item1,
+                itemCount: count,
                 itemBuilder: (BuildContext context, int index) {
                   debugPrintSynchronously("Folder $index rebuild");
-                  return Material(
-                    clipBehavior: Clip.hardEdge,
-                    color: data.item2 == index
-                        ? Colors.blue[400].withOpacity(0.3)
-                        : Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(50),
-                            bottomRight: Radius.circular(50))),
-                    child: ListTile(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          if (data.item2 != index &&
+                  return Selector<NoteDrawerProvider, int>(
+                    selector: (context, drawerProvider) =>
+                        drawerProvider.getIndexFolderItem,
+                    builder: (context, folderIndex, child) { 
+                      debugPrintSynchronously("Folder $index rebuild");
+                      return Material(
+                      clipBehavior: Clip.hardEdge,
+                      color: folderIndex == index
+                          ? Colors.blue[400].withOpacity(0.3)
+                          : Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(50),
+                              bottomRight: Radius.circular(50))),
+                      child: ListTile(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            if (folderIndex != index &&
+                                Provider.of<NoteDrawerProvider>(context,
+                                            listen: false)
+                                        .getIndexDrawerItem !=
+                                    null) {
                               Provider.of<NoteDrawerProvider>(context,
-                                          listen: false)
-                                      .getIndexDrawerItem !=
-                                  null) {
-                            Provider.of<NoteDrawerProvider>(context,
-                                    listen: false)
-                                .setFolderState = true;
-                            Provider.of<NoteDrawerProvider>(context,
-                                    listen: false)
-                                .setIndexFolderItem = index;
-                            Provider.of<NoteDrawerProvider>(context,
-                                    listen: false)
-                                .setIndexDrawerItem = null;
-                            Provider.of<NoteDrawerProvider>(context,
-                                    listen: false)
-                                .setTitleFragment = "Folders $index";
-                          } else if (data.item2 != index) {
-                            Provider.of<NoteDrawerProvider>(context,
-                                    listen: false)
-                                .setIndexFolderItem = index;
-                            Provider.of<NoteDrawerProvider>(context,
-                                    listen: false)
-                                .setTitleFragment = "Folders $index";
-                          }
-                        },
-                        leading: Icon(Icons.folder_open,
-                            color: data.item2 == index
-                                ? Colors.white
-                                : Colors.white70),
-                        trailing: Icon(Icons.more_vert,
-                            color: data.item2 == index
-                                ? Colors.white
-                                : Colors.white70),
-                        title: Text(
-                          "Folders $index",
-                          style: data.item2 == index
-                              ? Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  .copyWith(color: Colors.white)
-                              : Theme.of(context).textTheme.bodyText1,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        )),
+                                      listen: false)
+                                  .setFolderState = true;
+                              Provider.of<NoteDrawerProvider>(context,
+                                      listen: false)
+                                  .setIndexFolderItem = index;
+                              Provider.of<NoteDrawerProvider>(context,
+                                      listen: false)
+                                  .setIndexDrawerItem = null;
+                              Provider.of<NoteDrawerProvider>(context,
+                                      listen: false)
+                                  .setTitleFragment = "Folders $index";
+                            } else if (folderIndex != index) {
+                              Provider.of<NoteDrawerProvider>(context,
+                                      listen: false)
+                                  .setIndexFolderItem = index;
+                              Provider.of<NoteDrawerProvider>(context,
+                                      listen: false)
+                                  .setTitleFragment = "Folders $index";
+                            }
+                          },
+                          leading: Icon(Icons.folder_open,
+                              color: folderIndex == index
+                                  ? Colors.white
+                                  : Colors.white70),
+                          trailing: Icon(Icons.more_vert,
+                              color: folderIndex == index
+                                  ? Colors.white
+                                  : Colors.white70),
+                          title: Text(
+                            "Folders $index",
+                            style: folderIndex == index
+                                ? Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    .copyWith(color: Colors.white)
+                                : Theme.of(context).textTheme.bodyText1,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          )),
+                    );}
                   );
                 });
           }),
