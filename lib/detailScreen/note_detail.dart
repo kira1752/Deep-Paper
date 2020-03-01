@@ -4,6 +4,7 @@ import 'package:deep_paper/provider/note_detail_provider.dart';
 import 'package:deep_paper/provider/text_controller_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:moor/moor.dart';
 import 'package:provider/provider.dart';
 import 'package:deep_paper/utils/extension.dart' show TextUtilsStringExtension;
@@ -20,15 +21,13 @@ class _LocalStore {
 }
 
 class NoteDetail extends StatelessWidget {
-  final TimeOfDay _timeNow = TimeOfDay.now();
   final _LocalStore _local = _LocalStore();
 
   @override
   Widget build(BuildContext context) {
     debugPrintSynchronously("Note Detail Rebuild");
-    final MaterialLocalizations localizations =
-        MaterialLocalizations.of(context);
-    final String formattedTimeOfDay = localizations.formatTimeOfDay(_timeNow);
+    final String date =
+        DateFormat.yMMMd('en_US').add_jm().format(DateTime.now());
 
     return ChangeNotifierProvider<NoteDetailProvider>(
       create: (_) => NoteDetailProvider(),
@@ -60,7 +59,7 @@ class NoteDetail extends StatelessWidget {
             elevation: 0.0,
             centerTitle: true,
           ),
-          bottomNavigationBar: _bottomAppBar(timeOfDay: formattedTimeOfDay),
+          bottomNavigationBar: _bottomAppBar(date: date),
           body: ListView(
             physics: ClampingScrollPhysics(),
             children: <Widget>[
@@ -104,7 +103,7 @@ class NoteDetail extends StatelessWidget {
     return true;
   }
 
-  Widget _bottomAppBar({String timeOfDay}) {
+  Widget _bottomAppBar({String date}) {
     return BottomAppBar(
       elevation: 0.0,
       child: Row(
@@ -120,9 +119,10 @@ class NoteDetail extends StatelessWidget {
           ),
           Selector<NoteDetailProvider, bool>(
               selector: (context, detailProvider) => detailProvider.isTextTyped,
-              builder: (context, data, child) {
+              builder: (context, isTyped, child) {
                 debugPrintSynchronously("Undo Redo Rebuild");
-                return _textOrUndoRedo(context, data, timeOfDay);
+                return _textOrUndoRedo(
+                    context: context, isTyped: isTyped, date: date);
               }),
           IconButton(
             icon: Icon(
@@ -196,8 +196,10 @@ class NoteDetail extends StatelessWidget {
   }
 
   Widget _textOrUndoRedo(
-      BuildContext context, bool textTyped, String formattedTimeOfDay) {
-    if (textTyped) {
+      {@required BuildContext context,
+      @required bool isTyped,
+      @required String date}) {
+    if (isTyped) {
       return Row(
         children: <Widget>[
           IconButton(
@@ -215,7 +217,7 @@ class NoteDetail extends StatelessWidget {
       );
     } else {
       return Text(
-        "Editted $formattedTimeOfDay",
+        "$date",
         style: Theme.of(context).textTheme.bodyText2,
       );
     }

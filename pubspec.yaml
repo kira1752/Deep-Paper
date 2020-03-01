@@ -27,6 +27,7 @@ dependencies:
   path: ^1.6.4
   path_provider: ^1.6.0
   tuple: ^1.0.3
+  intl: ^0.16.1
 
 
 dev_dependencies:

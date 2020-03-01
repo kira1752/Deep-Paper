@@ -38,14 +38,15 @@ class DeepPaper extends StatelessWidget {
             builder: (context, deepProvider, child) {
           debugPrintSynchronously("Bottom Bar Rebuild");
           return BottomNavigationBar(
+            //backgroundColor: Color(0xff1A1A1A),
+            elevation: 0.0,
             type: BottomNavigationBarType.fixed,
             selectedFontSize: 14,
             unselectedFontSize: 14,
             selectedItemColor: Colors.blue[400],
             unselectedItemColor: Colors.white70,
             showUnselectedLabels: true,
-            currentIndex: deepProvider.currentIndex,
-            elevation: 0, // use this to remove appBar's elevation
+            currentIndex: deepProvider.currentIndex,// use this to remove appBar's elevation
             onTap: (index) {
               deepProvider.setCurrentIndex = index;
               deepProvider.controller.jumpToPage(index);

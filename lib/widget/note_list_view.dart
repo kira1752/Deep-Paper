@@ -4,6 +4,7 @@ import 'package:deep_paper/data/deep.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
+import 'package:deep_paper/utils/extension.dart';
 
 class NoteListView extends StatelessWidget {
   final Uint8List kTransparentImage = new Uint8List.fromList(<int>[
@@ -94,7 +95,7 @@ class NoteListView extends StatelessWidget {
             itemCount: data.length,
             staggeredTileBuilder: (index) => StaggeredTile.fit(2),
             itemBuilder: (BuildContext context, int index) => Material(
-              color: Color(0xff121212),
+              color: Color(0xff212121),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0),
               ),
@@ -102,7 +103,8 @@ class NoteListView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12.0),
                 onTap: () {
                   debugPrint("Note $index Tapped");
-                  Navigator.pushNamed(context, '/NoteDetail');
+                  Navigator.pushNamed(context, '/NoteDetailUpdate',
+                      arguments: data[index]);
                 },
                 child: Container(
                   padding: EdgeInsets.all(24),
@@ -115,7 +117,7 @@ class NoteListView extends StatelessWidget {
                         placeholder: MemoryImage(kTransparentImage),
                         image: FileImage(File("$data[index].imagePath")),
                       )),*/
-                        if (data[index].title != null)
+                        if (!data[index].title.isNullEmptyOrWhitespace)
                           Padding(
                             padding: EdgeInsets.only(bottom: 16),
                             child: Text(
@@ -129,7 +131,7 @@ class NoteListView extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                        if (data[index].detail != null)
+                        if (!data[index].detail.isNullEmptyOrWhitespace)
                           Text(
                             "${data[index].detail}",
                             style: Theme.of(context)

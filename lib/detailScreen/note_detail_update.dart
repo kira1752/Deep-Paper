@@ -4,7 +4,7 @@ import 'package:deep_paper/provider/note_detail_provider.dart';
 import 'package:deep_paper/provider/text_controller_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:moor/moor.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:deep_paper/utils/extension.dart' show TextUtilsStringExtension;
 
@@ -20,21 +20,23 @@ class _LocalStore {
 }
 
 class NoteDetailUpdate extends StatelessWidget {
-  final TimeOfDay _timeNow = TimeOfDay.now();
   final _LocalStore _local = _LocalStore();
 
   @override
   Widget build(BuildContext context) {
+    Note data = ModalRoute.of(context).settings.arguments;
+    _local._title = data.title;
+    _local._detail = data.detail;
+
     debugPrintSynchronously("Note Detail Rebuild");
-    final MaterialLocalizations localizations =
-        MaterialLocalizations.of(context);
-    final String formattedTimeOfDay = localizations.formatTimeOfDay(_timeNow);
+
+    final String date = DateFormat.yMMMd('en_US').add_jm().format(data.date);
 
     return ChangeNotifierProvider<NoteDetailProvider>(
       create: (_) => NoteDetailProvider(),
       child: WillPopScope(
         onWillPop: () {
-          return _saveNote(context);
+          return _saveNote(context, data);
         },
         child: Scaffold(
           appBar: AppBar(
@@ -60,17 +62,17 @@ class NoteDetailUpdate extends StatelessWidget {
             elevation: 0.0,
             centerTitle: true,
           ),
-          bottomNavigationBar: _bottomAppBar(timeOfDay: formattedTimeOfDay),
+          bottomNavigationBar: _bottomAppBar(date: date),
           body: ListView(
             physics: ClampingScrollPhysics(),
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(18, 0, 16, 16),
-                child: _titleField(),
+                child: _titleField(data: data),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(18, 16, 16, 16),
-                child: _detailField(),
+                child: _detailField(data),
               ),
             ],
           ),
@@ -79,7 +81,7 @@ class NoteDetailUpdate extends StatelessWidget {
     );
   }
 
-  Future<bool> _saveNote(BuildContext context) async {
+  Future<bool> _saveNote(BuildContext context, Note data) async {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
     final String title = _local.getTitle;
@@ -88,23 +90,20 @@ class NoteDetailUpdate extends StatelessWidget {
     debugPrintSynchronously("Title: $title");
     debugPrintSynchronously("Detail: $detail");
 
-    if (!title.isNullEmptyOrWhitespace && !detail.isNullEmptyOrWhitespace) {
-      database.noteDao.insertNote(NotesCompanion(
-          title: Value(title),
-          detail: Value(detail),
-          date: Value(DateTime.now())));
-    } else if (!title.isNullEmptyOrWhitespace) {
-      database.noteDao.insertNote(
-          NotesCompanion(title: Value(title), date: Value(DateTime.now())));
-    } else if (!detail.isNullEmptyOrWhitespace) {
-      database.noteDao.insertNote(
-          NotesCompanion(detail: Value(detail), date: Value(DateTime.now())));
+    if (data.title != title || data.detail != detail) {
+      if (!title.isNullEmptyOrWhitespace || !detail.isNullEmptyOrWhitespace) {
+        database.noteDao.updateNote(
+            data.copyWith(title: title, detail: detail, date: DateTime.now()));
+      } else if (title.isNullEmptyOrWhitespace &&
+          detail.isNullEmptyOrWhitespace) {
+        database.noteDao.deleteNote(data);
+      }
     }
 
     return true;
   }
 
-  Widget _bottomAppBar({String timeOfDay}) {
+  Widget _bottomAppBar({String date}) {
     return BottomAppBar(
       elevation: 0.0,
       child: Row(
@@ -120,9 +119,10 @@ class NoteDetailUpdate extends StatelessWidget {
           ),
           Selector<NoteDetailProvider, bool>(
               selector: (context, detailProvider) => detailProvider.isTextTyped,
-              builder: (context, data, child) {
+              builder: (context, isTyped, child) {
                 debugPrintSynchronously("Undo Redo Rebuild");
-                return _textOrUndoRedo(context, data, timeOfDay);
+                return _textOrUndoRedo(
+                    context: context, isTyped: isTyped, date: date);
               }),
           IconButton(
             icon: Icon(
@@ -136,68 +136,74 @@ class NoteDetailUpdate extends StatelessWidget {
     );
   }
 
-  Widget _titleField() {
+  Widget _titleField({Note data}) {
     return Provider<TextControllerProvider>(
       create: (context) => TextControllerProvider(),
       dispose: (context, provider) => provider.controller.dispose(),
       child: Selector<TextControllerProvider, TextEditingController>(
-        selector: (context, provider) => provider.controller,
-        builder: (context, controller, child) => TextField(
-          controller: controller,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.subtitle2,
-          maxLines: null,
-          keyboardType: TextInputType.multiline,
-          onChanged: (value) {
-            if (Provider.of<NoteDetailProvider>(context, listen: false)
-                    .isTextTyped ==
-                false) {
-              Provider.of<NoteDetailProvider>(context, listen: false)
-                  .setTextState = true;
-            }
+          selector: (context, provider) => provider.controller,
+          builder: (context, controller, child) {
+            controller.text = data.title;
+            return TextField(
+              controller: controller,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.subtitle2,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+              onChanged: (value) {
+                if (Provider.of<NoteDetailProvider>(context, listen: false)
+                        .isTextTyped ==
+                    false) {
+                  Provider.of<NoteDetailProvider>(context, listen: false)
+                      .setTextState = true;
+                }
 
-            _local.setTitle = value;
-          },
-          decoration: InputDecoration.collapsed(
-            hintText: 'Title',
-          ),
-        ),
-      ),
+                _local.setTitle = value;
+              },
+              decoration: InputDecoration.collapsed(
+                hintText: 'Title',
+              ),
+            );
+          }),
     );
   }
 
-  Widget _detailField() {
+  Widget _detailField(Note data) {
     return Provider<TextControllerProvider>(
       create: (context) => TextControllerProvider(),
       dispose: (context, provider) => provider.controller.dispose(),
       child: Selector<TextControllerProvider, TextEditingController>(
-        selector: (context, provider) => provider.controller,
-        builder: (context, controller, child) => TextField(
-          controller: controller,
-          style: Theme.of(context).textTheme.bodyText1,
-          maxLines: null,
-          keyboardType: TextInputType.multiline,
-          onChanged: (value) {
-            if (Provider.of<NoteDetailProvider>(context, listen: false)
-                    .isTextTyped ==
-                false) {
-              Provider.of<NoteDetailProvider>(context, listen: false)
-                  .setTextState = true;
-            }
+          selector: (context, provider) => provider.controller,
+          builder: (context, controller, child) {
+            controller.text = data.detail;
+            return TextField(
+              controller: controller,
+              style: Theme.of(context).textTheme.bodyText1,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+              onChanged: (value) {
+                if (Provider.of<NoteDetailProvider>(context, listen: false)
+                        .isTextTyped ==
+                    false) {
+                  Provider.of<NoteDetailProvider>(context, listen: false)
+                      .setTextState = true;
+                }
 
-            _local.setDetail = value;
-          },
-          decoration: InputDecoration.collapsed(
-            hintText: 'Write your note here...',
-          ),
-        ),
-      ),
+                _local.setDetail = value;
+              },
+              decoration: InputDecoration.collapsed(
+                hintText: 'Write your note here...',
+              ),
+            );
+          }),
     );
   }
 
   Widget _textOrUndoRedo(
-      BuildContext context, bool textTyped, String formattedTimeOfDay) {
-    if (textTyped) {
+      {@required BuildContext context,
+      @required bool isTyped,
+      @required String date}) {
+    if (isTyped) {
       return Row(
         children: <Widget>[
           IconButton(
@@ -215,7 +221,7 @@ class NoteDetailUpdate extends StatelessWidget {
       );
     } else {
       return Text(
-        "Editted $formattedTimeOfDay",
+        "$date",
         style: Theme.of(context).textTheme.bodyText2,
       );
     }

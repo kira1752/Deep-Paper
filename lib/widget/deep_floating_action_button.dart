@@ -96,7 +96,7 @@ class _DeepState extends State<Deep> with TickerProviderStateMixin {
   }
 
   Widget _buildChild(int index) {
-    Color backgroundColor = Colors.blue;
+    Color backgroundColor = Color(0xff5EA3DE);
     return Container(
       height: 70.0,
       width: 56.0,
@@ -122,7 +122,7 @@ class _DeepState extends State<Deep> with TickerProviderStateMixin {
   Widget _buildFab() {
     return FloatingActionButton(
       heroTag: null,
-      backgroundColor: Colors.blue,
+      backgroundColor: Color(0xff5EA3DE),
       onPressed: toggle,
       child: AnimatedBuilder(
           animation: _controller,
