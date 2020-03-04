@@ -1,4 +1,6 @@
+import 'package:deep_paper/provider/deep_bottom_provider.dart';
 import 'package:deep_paper/provider/note_drawer_provider.dart';
+import 'package:deep_paper/provider/selection_provider.dart';
 import 'package:deep_paper/widget/deep_floating_action_button.dart';
 import 'package:deep_paper/widget/folder_list_view.dart';
 import 'package:deep_paper/widget/trash_list_view.dart';
@@ -16,39 +18,38 @@ class NotePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     debugPrintSynchronously("Build Rebuild");
-    return ChangeNotifierProvider<NoteDrawerProvider>(
-      create: (_) => NoteDrawerProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<NoteDrawerProvider>(
+          create: (context) => NoteDrawerProvider(),
+        ),
+        ChangeNotifierProvider<SelectionProvider>(
+          create: (context) => SelectionProvider(),
+        )
+      ],
       child: Scaffold(
           drawer: _noteDrawer(context: context),
-          appBar: AppBar(
-            actions: <Widget>[
-              IconButton(
-                  icon: Icon(
-                    MyIcon.search,
-                    color: Colors.white.withOpacity(0.87),
-                  ),
-                  onPressed: () {}),
-            ],
-            elevation: 0.0,
-            centerTitle: true,
-            title: Selector<NoteDrawerProvider, String>(
-              builder: (context, title, child) {
-                debugPrintSynchronously("Text Title rebuilt");
-                return Text('$title',
-                    style: Theme.of(context).textTheme.headline6);
-              },
-              selector: (context, noteDrawerProvider) =>
-                  noteDrawerProvider.getTitleFragment,
-            ),
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(kToolbarHeight),
+            child: Selector<SelectionProvider, bool>(
+                selector: (context, provider) => provider.getSelection,
+                builder: (context, selection, child) {
+                  if (selection)
+                    return _normalSelectionAppBar(context: context);
+                  else
+                    return _defaultAppBar();
+                }),
           ),
-          floatingActionButton: Selector<NoteDrawerProvider, int>(
-              selector: (context, drawerProvider) =>
+          floatingActionButton: Selector2<NoteDrawerProvider, SelectionProvider,
+                  Tuple2<int, bool>>(
+              selector: (context, drawerProvider, selectionProvider) => Tuple2(
                   drawerProvider.getIndexDrawerItem,
+                  selectionProvider.getSelection),
               builder: (context, data, child) {
                 debugPrintSynchronously("Floating Action Button rebuild");
 
                 return Visibility(
-                  visible: data != 1 ? true : false,
+                  visible: data.item1 != 1 && !data.item2 ? true : false,
                   child: _buildFloatingActionButton(context: context),
                 );
               }),
@@ -65,6 +66,61 @@ class NotePage extends StatelessWidget {
                 return _showNote(index: data.item1);
             },
           )),
+    );
+  }
+
+  Widget _defaultAppBar() {
+    return AppBar(
+      actions: <Widget>[
+        IconButton(
+            icon: Icon(
+              MyIcon.search,
+              color: Colors.white.withOpacity(0.87),
+            ),
+            onPressed: () {}),
+      ],
+      elevation: 0.0,
+      centerTitle: true,
+      title: Selector<NoteDrawerProvider, String>(
+        builder: (context, title, child) {
+          debugPrintSynchronously("Text Title rebuilt");
+          return Text('$title', style: Theme.of(context).textTheme.headline6);
+        },
+        selector: (context, noteDrawerProvider) =>
+            noteDrawerProvider.getTitleFragment,
+      ),
+    );
+  }
+
+  Widget _normalSelectionAppBar({@required BuildContext context}) {
+    return AppBar(
+      leading: IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () {
+            Provider.of<DeepBottomProvider>(context, listen: false).setSelection = false;
+            Provider.of<SelectionProvider>(context, listen: false)
+                .setSelection = false;
+            Provider.of<SelectionProvider>(context, listen: false)
+                .getSelected
+                .clear();
+          }),
+      actions: <Widget>[
+        PopupMenuButton(
+            itemBuilder: (context) => [
+                  PopupMenuItem(child: Text("Delete")),
+                  PopupMenuItem(child: Text("Move To"))
+                ]),
+      ],
+      elevation: 0.0,
+      centerTitle: true,
+      title: Selector<SelectionProvider, int>(
+        builder: (context, count, child) {
+          debugPrintSynchronously("Text Title rebuilt");
+          return Text('$count selected',
+              style: Theme.of(context).textTheme.headline6);
+        },
+        selector: (context, provider) => provider.getSelected.length,
+      ),
     );
   }
 
@@ -199,69 +255,69 @@ class NotePage extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   debugPrintSynchronously("Folder $index rebuild");
                   return Selector<NoteDrawerProvider, int>(
-                    selector: (context, drawerProvider) =>
-                        drawerProvider.getIndexFolderItem,
-                    builder: (context, folderIndex, child) { 
-                      debugPrintSynchronously("Folder $index rebuild");
-                      return Material(
-                      clipBehavior: Clip.hardEdge,
-                      color: folderIndex == index
-                          ? Colors.blue[400].withOpacity(0.3)
-                          : Colors.transparent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(50),
-                              bottomRight: Radius.circular(50))),
-                      child: ListTile(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                            if (folderIndex != index &&
-                                Provider.of<NoteDrawerProvider>(context,
-                                            listen: false)
-                                        .getIndexDrawerItem !=
-                                    null) {
-                              Provider.of<NoteDrawerProvider>(context,
-                                      listen: false)
-                                  .setFolderState = true;
-                              Provider.of<NoteDrawerProvider>(context,
-                                      listen: false)
-                                  .setIndexFolderItem = index;
-                              Provider.of<NoteDrawerProvider>(context,
-                                      listen: false)
-                                  .setIndexDrawerItem = null;
-                              Provider.of<NoteDrawerProvider>(context,
-                                      listen: false)
-                                  .setTitleFragment = "Folders $index";
-                            } else if (folderIndex != index) {
-                              Provider.of<NoteDrawerProvider>(context,
-                                      listen: false)
-                                  .setIndexFolderItem = index;
-                              Provider.of<NoteDrawerProvider>(context,
-                                      listen: false)
-                                  .setTitleFragment = "Folders $index";
-                            }
-                          },
-                          leading: Icon(Icons.folder_open,
-                              color: folderIndex == index
-                                  ? Colors.white
-                                  : Colors.white70),
-                          trailing: Icon(Icons.more_vert,
-                              color: folderIndex == index
-                                  ? Colors.white
-                                  : Colors.white70),
-                          title: Text(
-                            "Folders $index",
-                            style: folderIndex == index
-                                ? Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    .copyWith(color: Colors.white)
-                                : Theme.of(context).textTheme.bodyText1,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                    );}
-                  );
+                      selector: (context, drawerProvider) =>
+                          drawerProvider.getIndexFolderItem,
+                      builder: (context, folderIndex, child) {
+                        debugPrintSynchronously("Folder $index rebuild");
+                        return Material(
+                          clipBehavior: Clip.hardEdge,
+                          color: folderIndex == index
+                              ? Colors.blue[400].withOpacity(0.3)
+                              : Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(50),
+                                  bottomRight: Radius.circular(50))),
+                          child: ListTile(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                if (folderIndex != index &&
+                                    Provider.of<NoteDrawerProvider>(context,
+                                                listen: false)
+                                            .getIndexDrawerItem !=
+                                        null) {
+                                  Provider.of<NoteDrawerProvider>(context,
+                                          listen: false)
+                                      .setFolderState = true;
+                                  Provider.of<NoteDrawerProvider>(context,
+                                          listen: false)
+                                      .setIndexFolderItem = index;
+                                  Provider.of<NoteDrawerProvider>(context,
+                                          listen: false)
+                                      .setIndexDrawerItem = null;
+                                  Provider.of<NoteDrawerProvider>(context,
+                                          listen: false)
+                                      .setTitleFragment = "Folders $index";
+                                } else if (folderIndex != index) {
+                                  Provider.of<NoteDrawerProvider>(context,
+                                          listen: false)
+                                      .setIndexFolderItem = index;
+                                  Provider.of<NoteDrawerProvider>(context,
+                                          listen: false)
+                                      .setTitleFragment = "Folders $index";
+                                }
+                              },
+                              leading: Icon(Icons.folder_open,
+                                  color: folderIndex == index
+                                      ? Colors.white
+                                      : Colors.white70),
+                              trailing: Icon(Icons.more_vert,
+                                  color: folderIndex == index
+                                      ? Colors.white
+                                      : Colors.white70),
+                              title: Text(
+                                "Folders $index",
+                                style: folderIndex == index
+                                    ? Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .copyWith(color: Colors.white)
+                                    : Theme.of(context).textTheme.bodyText1,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                        );
+                      });
                 });
           }),
     );

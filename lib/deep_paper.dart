@@ -34,44 +34,52 @@ class DeepPaper extends StatelessWidget {
                 ],
               );
             }),
-        bottomNavigationBar: Consumer<DeepBottomProvider>(
-            builder: (context, deepProvider, child) {
-          debugPrintSynchronously("Bottom Bar Rebuild");
-          return BottomNavigationBar(
-            elevation: 0.0,
-            type: BottomNavigationBarType.fixed,
-            selectedFontSize: 14,
-            unselectedFontSize: 14,
-            selectedItemColor: Colors.blue[400],
-            unselectedItemColor: Colors.white70,
-            showUnselectedLabels: true,
-            currentIndex: deepProvider.currentIndex,// use this to remove appBar's elevation
-            onTap: (index) {
-              deepProvider.setCurrentIndex = index;
-              deepProvider.controller.jumpToPage(index);
-            },
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(MyIcon.library_books_outline),
-                activeIcon: Icon(Icons.library_books),
-                title: Text('Note'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(MyIcon.event_note_outline),
-                activeIcon: Icon(Icons.event_note),
-                title: Text('Plan'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(MyIcon.chart_line),
-                title: Text('Finance'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.more_horiz),
-                title: Text('More'),
-              ),
-            ],
-          );
-        }),
+        bottomNavigationBar: Selector<DeepBottomProvider, bool>(
+            selector: (context, provider) => provider.getSelection,
+            builder: (context, selection, child) {
+              return Visibility(
+                visible: selection ? false : true,
+                child: Consumer<DeepBottomProvider>(
+                    builder: (context, deepProvider, child) {
+                  debugPrintSynchronously("Bottom Bar Rebuild");
+                  return BottomNavigationBar(
+                    elevation: 0.0,
+                    type: BottomNavigationBarType.fixed,
+                    selectedFontSize: 14,
+                    unselectedFontSize: 14,
+                    selectedItemColor: Colors.blue[400],
+                    unselectedItemColor: Colors.white70,
+                    showUnselectedLabels: true,
+                    currentIndex: deepProvider
+                        .currentIndex, // use this to remove appBar's elevation
+                    onTap: (index) {
+                      deepProvider.setCurrentIndex = index;
+                      deepProvider.controller.jumpToPage(index);
+                    },
+                    items: [
+                      BottomNavigationBarItem(
+                        icon: Icon(MyIcon.library_books_outline),
+                        activeIcon: Icon(Icons.library_books),
+                        title: Text('Note'),
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(MyIcon.event_note_outline),
+                        activeIcon: Icon(Icons.event_note),
+                        title: Text('Plan'),
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(MyIcon.chart_line),
+                        title: Text('Finance'),
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.more_horiz),
+                        title: Text('More'),
+                      ),
+                    ],
+                  );
+                }),
+              );
+            }),
       ),
     );
   }
