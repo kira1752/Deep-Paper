@@ -12,18 +12,21 @@ class Note extends DataClass implements Insertable<Note> {
   final int folderID;
   final String title;
   final String detail;
+  final bool isDeleted;
   final DateTime date;
   Note(
       {@required this.id,
       this.folderID,
       this.title,
       this.detail,
+      @required this.isDeleted,
       @required this.date});
   factory Note.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return Note(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
@@ -33,6 +36,8 @@ class Note extends DataClass implements Insertable<Note> {
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}title']),
       detail:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}detail']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       date:
           dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}date']),
     );
@@ -45,6 +50,7 @@ class Note extends DataClass implements Insertable<Note> {
       folderID: serializer.fromJson<int>(json['folderID']),
       title: serializer.fromJson<String>(json['title']),
       detail: serializer.fromJson<String>(json['detail']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       date: serializer.fromJson<DateTime>(json['date']),
     );
   }
@@ -56,6 +62,7 @@ class Note extends DataClass implements Insertable<Note> {
       'folderID': serializer.toJson<int>(folderID),
       'title': serializer.toJson<String>(title),
       'detail': serializer.toJson<String>(detail),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
       'date': serializer.toJson<DateTime>(date),
     };
   }
@@ -71,17 +78,26 @@ class Note extends DataClass implements Insertable<Note> {
           title == null && nullToAbsent ? const Value.absent() : Value(title),
       detail:
           detail == null && nullToAbsent ? const Value.absent() : Value(detail),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
       date: date == null && nullToAbsent ? const Value.absent() : Value(date),
     );
   }
 
   Note copyWith(
-          {int id, int folderID, String title, String detail, DateTime date}) =>
+          {int id,
+          int folderID,
+          String title,
+          String detail,
+          bool isDeleted,
+          DateTime date}) =>
       Note(
         id: id ?? this.id,
         folderID: folderID ?? this.folderID,
         title: title ?? this.title,
         detail: detail ?? this.detail,
+        isDeleted: isDeleted ?? this.isDeleted,
         date: date ?? this.date,
       );
   @override
@@ -91,6 +107,7 @@ class Note extends DataClass implements Insertable<Note> {
           ..write('folderID: $folderID, ')
           ..write('title: $title, ')
           ..write('detail: $detail, ')
+          ..write('isDeleted: $isDeleted, ')
           ..write('date: $date')
           ..write(')'))
         .toString();
@@ -99,8 +116,12 @@ class Note extends DataClass implements Insertable<Note> {
   @override
   int get hashCode => $mrjf($mrjc(
       id.hashCode,
-      $mrjc(folderID.hashCode,
-          $mrjc(title.hashCode, $mrjc(detail.hashCode, date.hashCode)))));
+      $mrjc(
+          folderID.hashCode,
+          $mrjc(
+              title.hashCode,
+              $mrjc(detail.hashCode,
+                  $mrjc(isDeleted.hashCode, date.hashCode))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -109,6 +130,7 @@ class Note extends DataClass implements Insertable<Note> {
           other.folderID == this.folderID &&
           other.title == this.title &&
           other.detail == this.detail &&
+          other.isDeleted == this.isDeleted &&
           other.date == this.date);
 }
 
@@ -117,12 +139,14 @@ class NotesCompanion extends UpdateCompanion<Note> {
   final Value<int> folderID;
   final Value<String> title;
   final Value<String> detail;
+  final Value<bool> isDeleted;
   final Value<DateTime> date;
   const NotesCompanion({
     this.id = const Value.absent(),
     this.folderID = const Value.absent(),
     this.title = const Value.absent(),
     this.detail = const Value.absent(),
+    this.isDeleted = const Value.absent(),
     this.date = const Value.absent(),
   });
   NotesCompanion.insert({
@@ -130,6 +154,7 @@ class NotesCompanion extends UpdateCompanion<Note> {
     this.folderID = const Value.absent(),
     this.title = const Value.absent(),
     this.detail = const Value.absent(),
+    this.isDeleted = const Value.absent(),
     @required DateTime date,
   }) : date = Value(date);
   NotesCompanion copyWith(
@@ -137,12 +162,14 @@ class NotesCompanion extends UpdateCompanion<Note> {
       Value<int> folderID,
       Value<String> title,
       Value<String> detail,
+      Value<bool> isDeleted,
       Value<DateTime> date}) {
     return NotesCompanion(
       id: id ?? this.id,
       folderID: folderID ?? this.folderID,
       title: title ?? this.title,
       detail: detail ?? this.detail,
+      isDeleted: isDeleted ?? this.isDeleted,
       date: date ?? this.date,
     );
   }
@@ -197,6 +224,15 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     );
   }
 
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: const Constant(false));
+  }
+
   final VerificationMeta _dateMeta = const VerificationMeta('date');
   GeneratedDateTimeColumn _date;
   @override
@@ -210,7 +246,8 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   }
 
   @override
-  List<GeneratedColumn> get $columns => [id, folderID, title, detail, date];
+  List<GeneratedColumn> get $columns =>
+      [id, folderID, title, detail, isDeleted, date];
   @override
   $NotesTable get asDslTable => this;
   @override
@@ -235,6 +272,10 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     if (d.detail.present) {
       context.handle(
           _detailMeta, detail.isAcceptableValue(d.detail.value, _detailMeta));
+    }
+    if (d.isDeleted.present) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableValue(d.isDeleted.value, _isDeletedMeta));
     }
     if (d.date.present) {
       context.handle(
@@ -267,6 +308,9 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     }
     if (d.detail.present) {
       map['detail'] = Variable<String, StringType>(d.detail.value);
+    }
+    if (d.isDeleted.present) {
+      map['is_deleted'] = Variable<bool, BoolType>(d.isDeleted.value);
     }
     if (d.date.present) {
       map['date'] = Variable<DateTime, DateTimeType>(d.date.value);

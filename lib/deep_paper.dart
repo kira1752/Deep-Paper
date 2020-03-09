@@ -1,4 +1,6 @@
 import 'package:deep_paper/icons/my_icon.dart';
+import 'package:deep_paper/provider/note_drawer_provider.dart';
+import 'package:deep_paper/provider/selection_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +29,18 @@ class DeepPaper extends StatelessWidget {
                       .setCurrentIndex = index;
                 },
                 children: <Widget>[
-                  KeepAlive(child: NotePage()),
+                  KeepAlive(
+                      child: MultiProvider(
+                    providers: [
+                      ChangeNotifierProvider<NoteDrawerProvider>(
+                        create: (context) => NoteDrawerProvider(),
+                      ),
+                      ChangeNotifierProvider<SelectionProvider>(
+                        create: (context) => SelectionProvider(),
+                      )
+                    ],
+                    child: NotePage(),
+                  )),
                   KeepAlive(child: PlanPage()),
                   KeepAlive(child: MoneyPage()),
                   KeepAlive(child: MorePage())
@@ -47,8 +60,8 @@ class DeepPaper extends StatelessWidget {
                     type: BottomNavigationBarType.fixed,
                     selectedFontSize: 14,
                     unselectedFontSize: 14,
-                    selectedItemColor: Colors.blue[400],
-                    unselectedItemColor: Colors.white70,
+                    selectedItemColor: Color(0xff5EA3DE),
+                    unselectedItemColor: Colors.white60,
                     showUnselectedLabels: true,
                     currentIndex: deepProvider
                         .currentIndex, // use this to remove appBar's elevation
@@ -68,7 +81,8 @@ class DeepPaper extends StatelessWidget {
                         title: Text('Plan'),
                       ),
                       BottomNavigationBarItem(
-                        icon: Icon(MyIcon.chart_line),
+                        icon: Icon(MyIcon.chart_outline),
+                        activeIcon: Icon(MyIcon.chart),
                         title: Text('Finance'),
                       ),
                       BottomNavigationBarItem(

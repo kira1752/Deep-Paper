@@ -18,55 +18,70 @@ class NotePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     debugPrintSynchronously("Build Rebuild");
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<NoteDrawerProvider>(
-          create: (context) => NoteDrawerProvider(),
-        ),
-        ChangeNotifierProvider<SelectionProvider>(
-          create: (context) => SelectionProvider(),
-        )
-      ],
-      child: Scaffold(
-          drawer: _noteDrawer(context: context),
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(kToolbarHeight),
-            child: Selector<SelectionProvider, bool>(
-                selector: (context, provider) => provider.getSelection,
-                builder: (context, selection, child) {
-                  if (selection)
-                    return _normalSelectionAppBar(context: context);
-                  else
-                    return _defaultAppBar();
-                }),
-          ),
-          floatingActionButton: Selector2<NoteDrawerProvider, SelectionProvider,
-                  Tuple2<int, bool>>(
-              selector: (context, drawerProvider, selectionProvider) => Tuple2(
-                  drawerProvider.getIndexDrawerItem,
-                  selectionProvider.getSelection),
-              builder: (context, data, child) {
-                debugPrintSynchronously("Floating Action Button rebuild");
+    return WillPopScope(
+      onWillPop: () {
+        return deselectSelectionOrExit(context);
+      },
+      child: Selector<SelectionProvider, bool>(
+        selector: (context, provider) => provider.getSelection,
+        builder: (context, selection, child) => Scaffold(
+            drawerEdgeDragWidth: selection ? 0 : 20.0,
+            drawer: _noteDrawer(context: context),
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(kToolbarHeight),
+              child: Selector<SelectionProvider, bool>(
+                  selector: (context, provider) => provider.getSelection,
+                  builder: (context, selection, child) {
+                    if (selection)
+                      return _normalSelectionAppBar(context: context);
+                    else
+                      return _defaultAppBar();
+                  }),
+            ),
+            floatingActionButton: Selector2<NoteDrawerProvider,
+                    SelectionProvider, Tuple2<int, bool>>(
+                selector: (context, drawerProvider, selectionProvider) =>
+                    Tuple2(drawerProvider.getIndexDrawerItem,
+                        selectionProvider.getSelection),
+                builder: (context, data, child) {
+                  debugPrintSynchronously("Floating Action Button rebuild");
 
-                return Visibility(
-                  visible: data.item1 != 1 && !data.item2 ? true : false,
-                  child: _buildFloatingActionButton(context: context),
-                );
-              }),
-          body: Selector<NoteDrawerProvider, Tuple3<int, int, bool>>(
-            selector: (context, drawerProvider) => Tuple3(
-                drawerProvider.getIndexDrawerItem,
-                drawerProvider.getIndexFolderItem,
-                drawerProvider.isFolder),
-            builder: (context, data, child) {
-              debugPrintSynchronously("Grid view rebuilt");
-              if (data.item3 == true)
-                return FolderListView();
-              else
-                return _showNote(index: data.item1);
-            },
-          )),
+                  return Visibility(
+                    visible: data.item1 != 1 && !data.item2 ? true : false,
+                    child: _buildFloatingActionButton(context: context),
+                  );
+                }),
+            body: Selector<NoteDrawerProvider, Tuple3<int, int, bool>>(
+              selector: (context, drawerProvider) => Tuple3(
+                  drawerProvider.getIndexDrawerItem,
+                  drawerProvider.getIndexFolderItem,
+                  drawerProvider.isFolder),
+              builder: (context, data, child) {
+                debugPrintSynchronously("Grid view rebuilt");
+                if (data.item3 == true)
+                  return FolderListView();
+                else
+                  return _showNote(index: data.item1);
+              },
+            )),
+      ),
     );
+  }
+
+  Future<bool> deselectSelectionOrExit(BuildContext context) async {
+    final providerSelection =
+        Provider.of<SelectionProvider>(context, listen: false);
+    final providerDeepBottom =
+        Provider.of<DeepBottomProvider>(context, listen: false);
+    final selection = providerSelection.getSelection;
+
+    if (selection) {
+      providerSelection.setSelection = false;
+      providerDeepBottom.setSelection = false;
+      providerSelection.getSelected.clear();
+      return false;
+    } else
+      return true;
   }
 
   Widget _defaultAppBar() {
@@ -97,7 +112,8 @@ class NotePage extends StatelessWidget {
       leading: IconButton(
           icon: Icon(Icons.close),
           onPressed: () {
-            Provider.of<DeepBottomProvider>(context, listen: false).setSelection = false;
+            Provider.of<DeepBottomProvider>(context, listen: false)
+                .setSelection = false;
             Provider.of<SelectionProvider>(context, listen: false)
                 .setSelection = false;
             Provider.of<SelectionProvider>(context, listen: false)
@@ -171,13 +187,14 @@ class NotePage extends StatelessWidget {
 
   Widget _drawerItem(
       {final String title, final int setIndex, final IconData icon}) {
-    return Selector<NoteDrawerProvider, int>(
-        selector: (context, drawerProvier) => drawerProvier.getIndexDrawerItem,
-        builder: (context, data, child) {
+    return Selector<NoteDrawerProvider, bool>(
+        selector: (context, drawerProvier) =>
+            drawerProvier.getIndexDrawerItem == setIndex,
+        builder: (context, selected, child) {
           debugPrintSynchronously("Drawer Item $title rebuilt");
           return Material(
             clipBehavior: Clip.hardEdge,
-            color: data == setIndex
+            color: selected
                 ? Colors.blue[400].withOpacity(0.3)
                 : Colors.transparent,
             shape: RoundedRectangleBorder(
@@ -187,7 +204,7 @@ class NotePage extends StatelessWidget {
             child: ListTile(
                 onTap: () {
                   Navigator.of(context).pop();
-                  if (data != setIndex &&
+                  if (!selected &&
                       Provider.of<NoteDrawerProvider>(context, listen: false)
                               .getIndexFolderItem !=
                           null &&
@@ -200,12 +217,12 @@ class NotePage extends StatelessWidget {
                         .setIndexDrawerItem = setIndex;
                     Provider.of<NoteDrawerProvider>(context, listen: false)
                         .setTitleFragment = title;
-                  } else if (data != setIndex && setIndex != 0) {
+                  } else if (!selected && setIndex != 0) {
                     Provider.of<NoteDrawerProvider>(context, listen: false)
                         .setIndexDrawerItem = setIndex;
                     Provider.of<NoteDrawerProvider>(context, listen: false)
                         .setTitleFragment = title;
-                  } else if (data != setIndex &&
+                  } else if (!selected &&
                       Provider.of<NoteDrawerProvider>(context, listen: false)
                               .getIndexFolderItem !=
                           null &&
@@ -218,18 +235,18 @@ class NotePage extends StatelessWidget {
                         .setIndexDrawerItem = setIndex;
                     Provider.of<NoteDrawerProvider>(context, listen: false)
                         .setTitleFragment = "NOTE";
-                  } else if (data != setIndex && setIndex == 0) {
+                  } else if (!selected && setIndex == 0) {
                     Provider.of<NoteDrawerProvider>(context, listen: false)
                         .setIndexDrawerItem = setIndex;
                     Provider.of<NoteDrawerProvider>(context, listen: false)
                         .setTitleFragment = "NOTE";
                   }
                 },
-                leading: Icon(icon,
-                    color: data == setIndex ? Colors.white : Colors.white70),
+                leading:
+                    Icon(icon, color: selected ? Colors.white : Colors.white70),
                 title: Text(
                   title,
-                  style: data == setIndex
+                  style: selected
                       ? Theme.of(context)
                           .textTheme
                           .bodyText1
@@ -253,15 +270,14 @@ class NotePage extends StatelessWidget {
                 physics: ClampingScrollPhysics(),
                 itemCount: count,
                 itemBuilder: (BuildContext context, int index) {
-                  debugPrintSynchronously("Folder $index rebuild");
-                  return Selector<NoteDrawerProvider, int>(
+                  return Selector<NoteDrawerProvider, bool>(
                       selector: (context, drawerProvider) =>
-                          drawerProvider.getIndexFolderItem,
-                      builder: (context, folderIndex, child) {
+                          drawerProvider.getIndexFolderItem == index,
+                      builder: (context, selected, child) {
                         debugPrintSynchronously("Folder $index rebuild");
                         return Material(
                           clipBehavior: Clip.hardEdge,
-                          color: folderIndex == index
+                          color: selected
                               ? Colors.blue[400].withOpacity(0.3)
                               : Colors.transparent,
                           shape: RoundedRectangleBorder(
@@ -271,7 +287,7 @@ class NotePage extends StatelessWidget {
                           child: ListTile(
                               onTap: () {
                                 Navigator.of(context).pop();
-                                if (folderIndex != index &&
+                                if (!selected &&
                                     Provider.of<NoteDrawerProvider>(context,
                                                 listen: false)
                                             .getIndexDrawerItem !=
@@ -288,7 +304,7 @@ class NotePage extends StatelessWidget {
                                   Provider.of<NoteDrawerProvider>(context,
                                           listen: false)
                                       .setTitleFragment = "Folders $index";
-                                } else if (folderIndex != index) {
+                                } else if (!selected) {
                                   Provider.of<NoteDrawerProvider>(context,
                                           listen: false)
                                       .setIndexFolderItem = index;
@@ -298,16 +314,14 @@ class NotePage extends StatelessWidget {
                                 }
                               },
                               leading: Icon(Icons.folder_open,
-                                  color: folderIndex == index
-                                      ? Colors.white
-                                      : Colors.white70),
+                                  color:
+                                      selected ? Colors.white : Colors.white70),
                               trailing: Icon(Icons.more_vert,
-                                  color: folderIndex == index
-                                      ? Colors.white
-                                      : Colors.white70),
+                                  color:
+                                      selected ? Colors.white : Colors.white70),
                               title: Text(
                                 "Folders $index",
-                                style: folderIndex == index
+                                style: selected
                                     ? Theme.of(context)
                                         .textTheme
                                         .bodyText1

@@ -6,7 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:deep_paper/utility/extension.dart' show TextUtilsStringExtension;
+import 'package:deep_paper/utility/extension.dart'
+    show TextUtilsStringExtension;
 
 class _LocalStore {
   String _title;
@@ -38,43 +39,50 @@ class NoteDetailUpdate extends StatelessWidget {
         onWillPop: () {
           return _saveNote(context, data);
         },
-        child: Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.white70,
-              ),
-              onPressed: () {
-                Navigator.of(context).maybePop();
-              },
-            ),
-            actions: <Widget>[
-              IconButton(
+        child: GestureDetector(
+          onTap: () {
+            FocusScopeNode currentFocus = FocusScope.of(context);
+
+            if (!currentFocus.hasPrimaryFocus) currentFocus.unfocus();
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
                 icon: Icon(
-                  Icons.color_lens,
+                  Icons.arrow_back,
                   color: Colors.white70,
                 ),
-                tooltip: "Change note color",
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).maybePop();
+                },
               ),
-            ],
-            elevation: 0.0,
-            centerTitle: true,
-          ),
-          bottomNavigationBar: _bottomAppBar(date: date),
-          body: ListView(
-            physics: ClampingScrollPhysics(),
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.fromLTRB(18, 0, 16, 16),
-                child: _titleField(data: data),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(18, 16, 16, 16),
-                child: _detailField(data),
-              ),
-            ],
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(
+                    Icons.color_lens,
+                    color: Colors.white70,
+                  ),
+                  tooltip: "Change note color",
+                  onPressed: () {},
+                ),
+              ],
+              elevation: 0.0,
+              centerTitle: true,
+            ),
+            bottomNavigationBar: _bottomAppBar(date: date),
+            body: ListView(
+              physics: ClampingScrollPhysics(),
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(18, 0, 16, 16),
+                  child: _titleField(data: data),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(18, 16, 16, 16),
+                  child: _detailField(data),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -147,7 +155,10 @@ class NoteDetailUpdate extends StatelessWidget {
             return TextField(
               controller: controller,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.subtitle2,
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle2
+                  .copyWith(color: Colors.white70),
               maxLines: null,
               keyboardType: TextInputType.multiline,
               onChanged: (value) {
@@ -178,7 +189,10 @@ class NoteDetailUpdate extends StatelessWidget {
             controller.text = data.detail;
             return TextField(
               controller: controller,
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(color: Colors.white70),
               maxLines: null,
               keyboardType: TextInputType.multiline,
               onChanged: (value) {

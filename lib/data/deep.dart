@@ -13,6 +13,7 @@ class Notes extends Table {
   IntColumn get folderID => integer().nullable()();
   TextColumn get title => text().nullable()();
   TextColumn get detail => text().nullable()();
+  BoolColumn get isDeleted => boolean().withDefault(const Constant(false))();
   DateTimeColumn get date => dateTime()();
 }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class TrashListView extends StatefulWidget {
   @override
@@ -9,9 +8,9 @@ class TrashListView extends StatefulWidget {
 class _TrashListViewState extends State<TrashListView> {
   @override
   Widget build(BuildContext context) {
-    return StaggeredGridView.countBuilder(
+    return ListView.builder(
         physics: ClampingScrollPhysics(),
-        crossAxisCount: 4,
+    
         itemCount: 5,
         itemBuilder: (BuildContext context, int index) => Material(
           clipBehavior: Clip.hardEdge,
@@ -34,10 +33,6 @@ class _TrashListViewState extends State<TrashListView> {
             ),
           ),
         ),
-        staggeredTileBuilder: (int index) =>
-            StaggeredTile.count(2, index.isEven ? 2 : 1),
-        mainAxisSpacing: 20.0,
-        crossAxisSpacing: 20.0,
       );
   }
 }

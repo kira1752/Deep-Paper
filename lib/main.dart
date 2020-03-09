@@ -19,7 +19,34 @@ class DeepPaperApp extends StatelessWidget {
       create: (_) => DeepPaperDatabase(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData.from(
+        theme: ThemeData.dark().copyWith(
+            primaryColor: Colors.black,
+            backgroundColor: Colors.black,
+            bottomAppBarColor: Colors.black,
+            toggleableActiveColor: Colors.blue,
+            scaffoldBackgroundColor: Colors.black,
+            textSelectionColor: Color(0xff5EA3DE),
+            textSelectionHandleColor: Colors.blue,
+            canvasColor: Colors.black,
+            accentColor: Colors.blue[400],
+            textTheme: TextTheme(
+                headline6: TextStyle(
+                    fontFamily: "Noto Sans",
+                    color: Colors.white.withOpacity(0.87),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 24),
+                subtitle2: TextStyle(
+                    color: Colors.white.withOpacity(0.80), fontSize: 22.0),
+                bodyText1: TextStyle(
+                  color: Colors.white.withOpacity(0.80),
+                  fontSize: 16.0,
+                ),
+                bodyText2: TextStyle(
+                  fontFamily: "Noto Sans",
+                  color: Colors.white.withOpacity(0.87),
+                ))),
+
+        /*ThemeData.from(
             colorScheme: ColorScheme(
               primary: const Color(0xffbb86fc),
               primaryVariant: const Color(0xff3700B3),
@@ -54,7 +81,7 @@ class DeepPaperApp extends StatelessWidget {
                 bodyText2: TextStyle(
                     fontFamily: "Open Sans",
                     color: Colors.white70,
-                    fontWeight: FontWeight.w600))),
+                    fontWeight: FontWeight.w600))),*/
         title: 'Deep Paper',
         initialRoute: '/',
         onGenerateRoute: (settings) {
