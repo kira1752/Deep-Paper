@@ -52,7 +52,8 @@ class DeepScrollbar extends StatefulWidget {
   _DeepScrollbarState createState() => _DeepScrollbarState();
 }
 
-class _DeepScrollbarState extends State<DeepScrollbar> with TickerProviderStateMixin {
+class _DeepScrollbarState extends State<DeepScrollbar>
+    with TickerProviderStateMixin {
   ScrollbarPainter _materialPainter;
   TextDirection _textDirection;
   Color _themeColor;
@@ -85,7 +86,7 @@ class _DeepScrollbarState extends State<DeepScrollbar> with TickerProviderStateM
     switch (theme.platform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
-        // On iOS, stop all local animations. CupertinoDeepScrollbar has its own
+        // On iOS, stop all local animations. CupertinoScrollbar has its own
         // animations.
         _fadeoutTimer?.cancel();
         _fadeoutTimer = null;
@@ -94,6 +95,8 @@ class _DeepScrollbarState extends State<DeepScrollbar> with TickerProviderStateM
         break;
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
         _themeColor = theme.highlightColor.withOpacity(1.0);
         _textDirection = Directionality.of(context);
         _materialPainter = _buildMaterialDeepScrollbarPainter();
@@ -122,12 +125,14 @@ class _DeepScrollbarState extends State<DeepScrollbar> with TickerProviderStateM
     // iOS sub-delegates to the CupertinoDeepScrollbar instead and doesn't handle
     // scroll notifications here.
     if (!_useCupertinoDeepScrollbar &&
-        (notification is ScrollUpdateNotification || notification is OverscrollNotification)) {
+        (notification is ScrollUpdateNotification ||
+            notification is OverscrollNotification)) {
       if (_fadeoutAnimationController.status != AnimationStatus.forward) {
         _fadeoutAnimationController.forward();
       }
 
-      _materialPainter.update(notification.metrics, notification.metrics.axisDirection);
+      _materialPainter.update(
+          notification.metrics, notification.metrics.axisDirection);
       _fadeoutTimer?.cancel();
       _fadeoutTimer = Timer(_kDeepScrollbarTimeToFade, () {
         _fadeoutAnimationController.reverse();

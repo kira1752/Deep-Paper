@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:deep_paper/data/folder_dao.dart';
-import 'package:deep_paper/data/note_dao.dart';
+import 'package:deep_paper/note/data/folder_note_dao.dart';
+import 'package:deep_paper/note/data/note_dao.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path_provider/path_provider.dart';
@@ -17,7 +17,19 @@ class Notes extends Table {
   DateTimeColumn get date => dateTime()();
 }
 
-class Folders extends Table {
+class AudioNote extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get noteID => integer()();
+  TextColumn get name => text()();
+}
+
+class ImageNote extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get noteID => integer()();
+  TextColumn get name => text()();
+}
+
+class FolderNote extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
 }
@@ -33,7 +45,7 @@ LazyDatabase _openConnection() {
   });
 }
 
-@UseMoor(tables: [Notes, Folders], daos: [NoteDao, FolderDao])
+@UseMoor(tables: [Notes, FolderNote, AudioNote, ImageNote], daos: [NoteDao, FolderNoteDao])
 class DeepPaperDatabase extends _$DeepPaperDatabase {
   DeepPaperDatabase() : super(_openConnection());
 

@@ -1,18 +1,18 @@
-import 'package:deep_paper/provider/deep_bottom_provider.dart';
-import 'package:deep_paper/provider/note_drawer_provider.dart';
-import 'package:deep_paper/provider/selection_provider.dart';
-import 'package:deep_paper/widget/deep_floating_action_button.dart';
-import 'package:deep_paper/widget/folder_list_view.dart';
-import 'package:deep_paper/widget/trash_list_view.dart';
+import 'package:deep_paper/note/provider/deep_bottom_provider.dart';
+import 'package:deep_paper/note/provider/note_drawer_provider.dart';
+import 'package:deep_paper/note/provider/selection_provider.dart';
+import 'package:deep_paper/note/widgets/deep_floating_action_button.dart';
+import 'package:deep_paper/note/widgets/folder_list_view.dart';
+import 'package:deep_paper/note/widgets/note_list_view.dart';
+import 'package:deep_paper/note/widgets/trash_list_view.dart';
+import 'package:deep_paper/widgets/deep_scrollbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:deep_paper/widget/note_list_view.dart';
-import 'package:deep_paper/widget/deep_scrollbar.dart';
-import 'package:flutter_widgets/flutter_widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:tuple/tuple.dart';
-
-import '../icons/my_icon.dart';
+import 'package:deep_paper/utility/detect_text_direction.dart';
+import 'package:deep_paper/icons/my_icon.dart';
 
 class NotePage extends StatelessWidget {
   @override
@@ -87,19 +87,69 @@ class NotePage extends StatelessWidget {
   Widget _defaultAppBar() {
     return AppBar(
       actions: <Widget>[
-        IconButton(
-            icon: Icon(
-              MyIcon.search,
-              color: Colors.white.withOpacity(0.87),
-            ),
-            onPressed: () {}),
+        Selector<NoteDrawerProvider, bool>(
+            selector: (context, provider) => provider.getIndexDrawerItem != 1,
+            builder: (context, showSearch, child) {
+              debugPrintSynchronously("Search rebuild");
+              return Visibility(
+                visible: showSearch,
+                child: IconButton(
+                    icon: Icon(
+                      MyIcon.search,
+                      color: Colors.white.withOpacity(0.87),
+                    ),
+                    onPressed: () {}),
+              );
+            }),
+        Selector<NoteDrawerProvider, bool>(
+          selector: (context, provider) =>
+              provider.getIndexFolderItem != null &&
+              provider.getIndexDrawerItem == null,
+          builder: (context, showMenu, child) {
+            debugPrintSynchronously("Folder Menu rebuild");
+            return Visibility(
+              visible: showMenu,
+              child: PopupMenuButton(
+                  tooltip: "Open Folder Menu",
+                  padding: EdgeInsets.all(18),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0)),
+                  itemBuilder: (context) => [
+                        PopupMenuItem(
+                            child: ListTile(
+                          leading: Icon(
+                            MyIcon.edit_outline,
+                            color: Colors.white.withOpacity(0.60),
+                          ),
+                          title: Text(
+                            "Rename Folder",
+                          ),
+                        )),
+                        PopupMenuItem(
+                            child: ListTile(
+                          leading: Icon(MyIcon.trash_empty,
+                              color: Colors.white.withOpacity(0.60)),
+                          title: Text(
+                            "Delete Folder",
+                          ),
+                        )),
+                      ]),
+            );
+          },
+        ),
       ],
       elevation: 0.0,
       centerTitle: true,
       title: Selector<NoteDrawerProvider, String>(
         builder: (context, title, child) {
           debugPrintSynchronously("Text Title rebuilt");
-          return Text('$title', style: Theme.of(context).textTheme.headline6);
+          return Text('$title',
+              style: title == "NOTE"
+                  ? Theme.of(context).textTheme.headline6
+                  : Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(fontFamily: "Noto Sans"));
         },
         selector: (context, noteDrawerProvider) =>
             noteDrawerProvider.getTitleFragment,
@@ -122,9 +172,29 @@ class NotePage extends StatelessWidget {
           }),
       actions: <Widget>[
         PopupMenuButton(
+            tooltip: "Open Selection Menu",
+            padding: EdgeInsets.all(18),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0)),
             itemBuilder: (context) => [
-                  PopupMenuItem(child: Text("Delete")),
-                  PopupMenuItem(child: Text("Move To"))
+                  PopupMenuItem(
+                      child: ListTile(
+                    leading: Icon(MyIcon.trash_empty,
+                        color: Colors.white.withOpacity(0.60)),
+                    title: Text(
+                      "Delete",
+                    ),
+                  )),
+                  PopupMenuItem(
+                      child: ListTile(
+                    leading: Icon(
+                      MyIcon.move_to,
+                      color: Colors.white.withOpacity(0.60),
+                    ),
+                    title: Text(
+                      "Move To",
+                    ),
+                  ))
                 ]),
       ],
       elevation: 0.0,
@@ -133,7 +203,10 @@ class NotePage extends StatelessWidget {
         builder: (context, count, child) {
           debugPrintSynchronously("Text Title rebuilt");
           return Text('$count selected',
-              style: Theme.of(context).textTheme.headline6);
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  .copyWith(fontFamily: "Noto Sans"));
         },
         selector: (context, provider) => provider.getSelected.length,
       ),
@@ -161,8 +234,15 @@ class NotePage extends StatelessWidget {
             child: Text("NOTE", style: Theme.of(context).textTheme.headline6),
           ),
           _drawerItem(
-              title: "All Notes", setIndex: 0, icon: Icons.library_books),
-          _drawerItem(title: "Trash", setIndex: 1, icon: Icons.delete_outline),
+              title: "All Notes",
+              setIndex: 0,
+              icon: MyIcon.library_books_outline,
+              activeIcon: Icons.library_books),
+          _drawerItem(
+              title: "Trash",
+              setIndex: 1,
+              icon: MyIcon.trash_empty,
+              activeIcon: MyIcon.trash),
           ListTile(
               title: Text("FOLDERS",
                   style: Theme.of(context)
@@ -171,7 +251,7 @@ class NotePage extends StatelessWidget {
                       .copyWith(color: Colors.white.withOpacity(0.87))),
               trailing: FlatButton(
                   shape: StadiumBorder(
-                      side: BorderSide(color: Colors.blue[400], width: 2.0)),
+                      side: BorderSide(color: Color(0xff5EA3DE), width: 2.0)),
                   onPressed: () {},
                   child: Text(
                     "ADD",
@@ -186,7 +266,10 @@ class NotePage extends StatelessWidget {
   }
 
   Widget _drawerItem(
-      {final String title, final int setIndex, final IconData icon}) {
+      {@required String title,
+      @required int setIndex,
+      @required IconData icon,
+      @required IconData activeIcon}) {
     return Selector<NoteDrawerProvider, bool>(
         selector: (context, drawerProvier) =>
             drawerProvier.getIndexDrawerItem == setIndex,
@@ -195,7 +278,7 @@ class NotePage extends StatelessWidget {
           return Material(
             clipBehavior: Clip.hardEdge,
             color: selected
-                ? Colors.blue[400].withOpacity(0.3)
+                ? Color(0xff5EA3DE).withOpacity(0.3)
                 : Colors.transparent,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
@@ -242,16 +325,20 @@ class NotePage extends StatelessWidget {
                         .setTitleFragment = "NOTE";
                   }
                 },
-                leading:
-                    Icon(icon, color: selected ? Colors.white : Colors.white70),
+                leading: selected
+                    ? Icon(activeIcon, color: Colors.white.withOpacity(0.87))
+                    : Icon(icon, color: Colors.white70),
                 title: Text(
                   title,
                   style: selected
                       ? Theme.of(context)
                           .textTheme
                           .bodyText1
-                          .copyWith(color: Colors.white)
-                      : Theme.of(context).textTheme.bodyText1,
+                          .copyWith(color: Colors.white.withOpacity(0.87))
+                      : Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(color: Colors.white70),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 )),
@@ -271,6 +358,7 @@ class NotePage extends StatelessWidget {
                 itemCount: count,
                 itemBuilder: (BuildContext context, int index) {
                   return Selector<NoteDrawerProvider, bool>(
+                      key: ValueKey<int>(index),
                       selector: (context, drawerProvider) =>
                           drawerProvider.getIndexFolderItem == index,
                       builder: (context, selected, child) {
@@ -278,7 +366,7 @@ class NotePage extends StatelessWidget {
                         return Material(
                           clipBehavior: Clip.hardEdge,
                           color: selected
-                              ? Colors.blue[400].withOpacity(0.3)
+                              ? Color(0xff5EA3DE).withOpacity(0.3)
                               : Colors.transparent,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
@@ -313,20 +401,25 @@ class NotePage extends StatelessWidget {
                                       .setTitleFragment = "Folders $index";
                                 }
                               },
-                              leading: Icon(Icons.folder_open,
-                                  color:
-                                      selected ? Colors.white : Colors.white70),
-                              trailing: Icon(Icons.more_vert,
-                                  color:
-                                      selected ? Colors.white : Colors.white70),
+                              leading: selected
+                                  ? Icon(Icons.folder,
+                                      color: Colors.white.withOpacity(0.87))
+                                  : Icon(
+                                      Icons.folder_open,
+                                      color: Colors.white70,
+                                    ),
                               title: Text(
                                 "Folders $index",
+                                textDirection: DetectTextDirection.isRTL(
+                                        text: "Folders $index")
+                                    ? TextDirection.rtl
+                                    : TextDirection.ltr,
                                 style: selected
-                                    ? Theme.of(context)
+                                    ? Theme.of(context).textTheme.bodyText1
+                                    : Theme.of(context)
                                         .textTheme
                                         .bodyText1
-                                        .copyWith(color: Colors.white)
-                                    : Theme.of(context).textTheme.bodyText1,
+                                        .copyWith(color: Colors.white70),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               )),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Fade extends PageRouteBuilder {
-  
   Fade({Widget page, RouteSettings settings})
       : super(
+          opaque: false,
+          maintainState: true,
           settings: settings,
           pageBuilder: (
             BuildContext context,

@@ -1,4 +1,4 @@
-import 'package:deep_paper/data/deep.dart';
+import 'package:deep_paper/note/data/deep.dart';
 import 'package:moor/moor.dart';
 
 part 'note_dao.g.dart';
@@ -14,12 +14,12 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
         ..orderBy([(n) => OrderingTerm.desc(n.date)]))
       .watch();
 
-  Future<List<Note>> allDeletedNotesTemp() => (select(notes)
+  Stream<List<Note>> allDeletedNotesTemp() => (select(notes)
         ..where((n) => n.isDeleted.equals(true))
         ..orderBy([(n) => OrderingTerm.desc(n.date)]))
-      .get();
+      .watch();
 
-  Stream watchNoteInsideFolder(Folder folder) => (select(notes)
+  Stream watchNoteInsideFolder(FolderNoteData folder) => (select(notes)
         ..where((n) => n.folderID.equals(folder.id))
         ..where((n) => n.isDeleted.equals(false))
         ..orderBy([(n) => OrderingTerm.desc(n.date)]))

@@ -1,10 +1,10 @@
 import 'dart:math';
 
-import 'package:deep_paper/widget/deep_fab_controller.dart';
 import 'package:flutter/material.dart';
 
-class DeepFloatingActionButton extends StatelessWidget {
+import 'deep_fab_controller.dart';
 
+class DeepFloatingActionButton extends StatelessWidget {
   DeepFloatingActionButton({
     @required this.actions,
     this.onAction,
@@ -31,7 +31,7 @@ class DeepFloatingActionButton extends StatelessWidget {
   }
 }
 
-class DeepAction{
+class DeepAction {
   DeepAction({this.icon, this.tooltip});
   final Widget icon;
   final String tooltip;

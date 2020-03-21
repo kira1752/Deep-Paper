@@ -1,4 +1,4 @@
-import 'package:deep_paper/data/deep.dart';
+import 'package:deep_paper/note/data/deep.dart';
 import 'package:flutter/foundation.dart';
 
 class SelectionProvider with ChangeNotifier {

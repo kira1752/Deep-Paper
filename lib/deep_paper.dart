@@ -1,14 +1,14 @@
 import 'package:deep_paper/icons/my_icon.dart';
-import 'package:deep_paper/provider/note_drawer_provider.dart';
-import 'package:deep_paper/provider/selection_provider.dart';
+import 'package:deep_paper/note/provider/note_drawer_provider.dart';
+import 'package:deep_paper/note/provider/selection_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'screen/note_page.dart';
+import 'note/note_page.dart';
 import 'screen/plan_page.dart';
 import 'screen/money_page.dart';
 import 'screen/more_page.dart';
-import 'package:deep_paper/provider/deep_bottom_provider.dart';
+import 'package:deep_paper/note/provider/deep_bottom_provider.dart';
 
 class DeepPaper extends StatelessWidget {
   @override

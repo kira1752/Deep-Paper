@@ -1,12 +1,12 @@
-import 'package:deep_paper/data/deep.dart';
-import 'package:deep_paper/detailScreen/note_detail_update.dart';
-import 'package:deep_paper/screen/note_page.dart';
+import 'package:deep_paper/note/data/deep.dart';
+import 'package:deep_paper/note/note_page.dart';
 import 'package:deep_paper/transition/fade.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'detailScreen/note_detail.dart';
 import 'deep_paper.dart';
+import 'note/detailScreen/note_detail.dart';
+import 'note/detailScreen/note_detail_update.dart';
 
 Future<void> main() async {
   runApp(DeepPaperApp());
@@ -20,19 +20,23 @@ class DeepPaperApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData.dark().copyWith(
+            popupMenuTheme: PopupMenuThemeData(color: Color(0xff222222)),
+            bottomSheetTheme:
+                BottomSheetThemeData(modalBackgroundColor: Color(0xff222222)),
+            cardColor: Color(0xff212121),
             primaryColor: Colors.black,
             backgroundColor: Colors.black,
             bottomAppBarColor: Colors.black,
             toggleableActiveColor: Colors.blue,
             scaffoldBackgroundColor: Colors.black,
-            textSelectionColor: Color(0xff5EA3DE),
-            textSelectionHandleColor: Colors.blue,
+            textSelectionColor: Colors.blue[900],
+            textSelectionHandleColor: Colors.blue[900],
             canvasColor: Colors.black,
             accentColor: Colors.blue[400],
             textTheme: TextTheme(
                 headline6: TextStyle(
-                    fontFamily: "Noto Sans",
-                    color: Colors.white.withOpacity(0.87),
+                    fontFamily: "PT Serif",
+                    color: Colors.white.withOpacity(0.80),
                     fontWeight: FontWeight.w600,
                     fontSize: 24),
                 subtitle2: TextStyle(
@@ -45,43 +49,6 @@ class DeepPaperApp extends StatelessWidget {
                   fontFamily: "Noto Sans",
                   color: Colors.white.withOpacity(0.87),
                 ))),
-
-        /*ThemeData.from(
-            colorScheme: ColorScheme(
-              primary: const Color(0xffbb86fc),
-              primaryVariant: const Color(0xff3700B3),
-              secondary: Colors.blue,
-              secondaryVariant: Colors.black,
-              surface: Colors.black,
-              background: Colors.black,
-              error: const Color(0xffcf6679),
-              onPrimary: Colors.black,
-              onSecondary: Colors.black,
-              onSurface: Colors.white,
-              onBackground: Colors.white,
-              onError: Colors.black,
-              brightness: Brightness.dark,
-            ),
-            textTheme: TextTheme(
-                headline6: TextStyle(
-                    fontFamily: "Open Sans",
-                    color: Colors.white.withOpacity(0.87),
-                    fontWeight: FontWeight.w700,
-                    fontSize: 24),
-                subtitle2: TextStyle(
-                    fontFamily: "Open Sans",
-                    color: Colors.white.withOpacity(0.80),
-                    fontWeight: FontWeight.w600,
-                    fontSize: 22.0),
-                bodyText1: TextStyle(
-                    fontFamily: "Open Sans",
-                    color: Colors.white.withOpacity(0.80),
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600),
-                bodyText2: TextStyle(
-                    fontFamily: "Open Sans",
-                    color: Colors.white70,
-                    fontWeight: FontWeight.w600))),*/
         title: 'Deep Paper',
         initialRoute: '/',
         onGenerateRoute: (settings) {

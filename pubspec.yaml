@@ -20,14 +20,13 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^4.0.4
-  flutter_widgets: ^0.1.11
+  scrollable_positioned_list: ^0.1.2
   moor: ^2.3.0
   moor_ffi: ^0.4.0
   path: ^1.6.4
   path_provider: ^1.6.0
   tuple: ^1.0.3
   intl: ^0.16.1
-
 
 dev_dependencies:
   flutter_test:
@@ -49,10 +48,12 @@ flutter:
     - family: MyIcon
       fonts:
         - asset: icons/MyIcon.ttf
-
     - family: Noto Sans
       fonts:
         - asset: fonts/NotoSans-Regular.ttf
+    - family: PT Serif
+      fonts:
+        - asset: fonts/PTSerif-Bold.ttf
 
 
   # To add assets to your application, add an assets section, like this:
