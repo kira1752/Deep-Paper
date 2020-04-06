@@ -8,8 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:moor/moor.dart';
 import 'package:provider/provider.dart';
-import 'package:deep_paper/utility/extension.dart'
-    show TextUtilsStringExtension;
+import 'package:deep_paper/utility/extension.dart';
 
 class _LocalStore {
   String _title = "";
@@ -28,7 +27,7 @@ class _LocalStore {
 class NoteDetail extends StatelessWidget {
   final _LocalStore _local = _LocalStore();
 
-  final String date = DateFormat.jm('en_US').format(DateTime.now());
+  final String _date = DateFormat.jm('en_US').format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +37,7 @@ class NoteDetail extends StatelessWidget {
       create: (_) => NoteDetailProvider(),
       child: WillPopScope(
         onWillPop: () {
-          return _saveNote(context);
+          return _saveNote(context: context);
         },
         child: Scaffold(
           appBar: AppBar(
@@ -54,7 +53,7 @@ class NoteDetail extends StatelessWidget {
             elevation: 0.0,
             centerTitle: true,
           ),
-          bottomNavigationBar: BottomMenu(date: date, newNote: true),
+          bottomNavigationBar: BottomMenu(date: _date, newNote: true),
           body: ListView(
             physics: ClampingScrollPhysics(),
             children: <Widget>[
@@ -73,26 +72,34 @@ class NoteDetail extends StatelessWidget {
     );
   }
 
-  Future<bool> _saveNote(BuildContext context) async {
+  Future<bool> _saveNote({@required BuildContext context}) async {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
     final String title = _local.getTitle;
     final String detail = _local.getDetail;
+    final FolderNoteData folder = ModalRoute.of(context).settings.arguments;
+    final int folderId = folder.isNotNull ? folder.id : null;
 
     debugPrintSynchronously("Title: $title");
     debugPrintSynchronously("Detail: $detail");
+    debugPrintSynchronously("Folder ID: $folderId");
 
     if (!title.isNullEmptyOrWhitespace && !detail.isNullEmptyOrWhitespace) {
       await database.noteDao.insertNote(NotesCompanion(
           title: Value(title),
           detail: Value(detail),
+          folderID: Value(folderId),
           date: Value(DateTime.now())));
     } else if (!title.isNullEmptyOrWhitespace) {
-      await database.noteDao.insertNote(
-          NotesCompanion(title: Value(title), date: Value(DateTime.now())));
+      await database.noteDao.insertNote(NotesCompanion(
+          title: Value(title),
+          folderID: Value(folderId),
+          date: Value(DateTime.now())));
     } else if (!detail.isNullEmptyOrWhitespace) {
-      await database.noteDao.insertNote(
-          NotesCompanion(detail: Value(detail), date: Value(DateTime.now())));
+      await database.noteDao.insertNote(NotesCompanion(
+          detail: Value(detail),
+          folderID: Value(folderId),
+          date: Value(DateTime.now())));
     }
 
     return true;
@@ -122,7 +129,7 @@ class NoteDetail extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .subtitle2
-                    .copyWith(color: Colors.white70),
+                    .copyWith(color: Colors.white70, fontSize: 22.0),
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
                 onChanged: (value) {
@@ -159,19 +166,18 @@ class NoteDetail extends StatelessWidget {
       ],
       child: Consumer<TextControllerProvider>(
           builder: (context, textControllerProvider, child) {
-        debugPrintSynchronously("Detail Field rebuild");
         return Selector<DetectTextDirectionProvider, TextDirection>(
             selector: (context, provider) =>
                 provider.getDirection ? TextDirection.rtl : TextDirection.ltr,
             builder: (context, direction, child) {
-              debugPrintSynchronously("Title Field rebuild");
+              debugPrintSynchronously("Detail Field rebuild");
               return TextField(
                 controller: textControllerProvider.controller,
                 textDirection: direction,
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1
-                    .copyWith(color: Colors.white70),
+                    .copyWith(color: Colors.white70, fontSize: 18.0),
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
                 onChanged: (value) {

@@ -13,6 +13,8 @@ class Note extends DataClass implements Insertable<Note> {
   final String title;
   final String detail;
   final bool isDeleted;
+  final bool containAudio;
+  final bool containImage;
   final DateTime date;
   Note(
       {@required this.id,
@@ -20,6 +22,8 @@ class Note extends DataClass implements Insertable<Note> {
       this.title,
       this.detail,
       @required this.isDeleted,
+      @required this.containAudio,
+      @required this.containImage,
       @required this.date});
   factory Note.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -38,6 +42,10 @@ class Note extends DataClass implements Insertable<Note> {
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}detail']),
       isDeleted: boolType
           .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      containAudio: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}contain_audio']),
+      containImage: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}contain_image']),
       date:
           dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}date']),
     );
@@ -51,6 +59,8 @@ class Note extends DataClass implements Insertable<Note> {
       title: serializer.fromJson<String>(json['title']),
       detail: serializer.fromJson<String>(json['detail']),
       isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      containAudio: serializer.fromJson<bool>(json['containAudio']),
+      containImage: serializer.fromJson<bool>(json['containImage']),
       date: serializer.fromJson<DateTime>(json['date']),
     );
   }
@@ -63,6 +73,8 @@ class Note extends DataClass implements Insertable<Note> {
       'title': serializer.toJson<String>(title),
       'detail': serializer.toJson<String>(detail),
       'isDeleted': serializer.toJson<bool>(isDeleted),
+      'containAudio': serializer.toJson<bool>(containAudio),
+      'containImage': serializer.toJson<bool>(containImage),
       'date': serializer.toJson<DateTime>(date),
     };
   }
@@ -81,6 +93,12 @@ class Note extends DataClass implements Insertable<Note> {
       isDeleted: isDeleted == null && nullToAbsent
           ? const Value.absent()
           : Value(isDeleted),
+      containAudio: containAudio == null && nullToAbsent
+          ? const Value.absent()
+          : Value(containAudio),
+      containImage: containImage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(containImage),
       date: date == null && nullToAbsent ? const Value.absent() : Value(date),
     );
   }
@@ -91,6 +109,8 @@ class Note extends DataClass implements Insertable<Note> {
           String title,
           String detail,
           bool isDeleted,
+          bool containAudio,
+          bool containImage,
           DateTime date}) =>
       Note(
         id: id ?? this.id,
@@ -98,6 +118,8 @@ class Note extends DataClass implements Insertable<Note> {
         title: title ?? this.title,
         detail: detail ?? this.detail,
         isDeleted: isDeleted ?? this.isDeleted,
+        containAudio: containAudio ?? this.containAudio,
+        containImage: containImage ?? this.containImage,
         date: date ?? this.date,
       );
   @override
@@ -108,6 +130,8 @@ class Note extends DataClass implements Insertable<Note> {
           ..write('title: $title, ')
           ..write('detail: $detail, ')
           ..write('isDeleted: $isDeleted, ')
+          ..write('containAudio: $containAudio, ')
+          ..write('containImage: $containImage, ')
           ..write('date: $date')
           ..write(')'))
         .toString();
@@ -120,8 +144,12 @@ class Note extends DataClass implements Insertable<Note> {
           folderID.hashCode,
           $mrjc(
               title.hashCode,
-              $mrjc(detail.hashCode,
-                  $mrjc(isDeleted.hashCode, date.hashCode))))));
+              $mrjc(
+                  detail.hashCode,
+                  $mrjc(
+                      isDeleted.hashCode,
+                      $mrjc(containAudio.hashCode,
+                          $mrjc(containImage.hashCode, date.hashCode))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -131,6 +159,8 @@ class Note extends DataClass implements Insertable<Note> {
           other.title == this.title &&
           other.detail == this.detail &&
           other.isDeleted == this.isDeleted &&
+          other.containAudio == this.containAudio &&
+          other.containImage == this.containImage &&
           other.date == this.date);
 }
 
@@ -140,6 +170,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
   final Value<String> title;
   final Value<String> detail;
   final Value<bool> isDeleted;
+  final Value<bool> containAudio;
+  final Value<bool> containImage;
   final Value<DateTime> date;
   const NotesCompanion({
     this.id = const Value.absent(),
@@ -147,6 +179,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
     this.title = const Value.absent(),
     this.detail = const Value.absent(),
     this.isDeleted = const Value.absent(),
+    this.containAudio = const Value.absent(),
+    this.containImage = const Value.absent(),
     this.date = const Value.absent(),
   });
   NotesCompanion.insert({
@@ -155,6 +189,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
     this.title = const Value.absent(),
     this.detail = const Value.absent(),
     this.isDeleted = const Value.absent(),
+    this.containAudio = const Value.absent(),
+    this.containImage = const Value.absent(),
     @required DateTime date,
   }) : date = Value(date);
   NotesCompanion copyWith(
@@ -163,6 +199,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
       Value<String> title,
       Value<String> detail,
       Value<bool> isDeleted,
+      Value<bool> containAudio,
+      Value<bool> containImage,
       Value<DateTime> date}) {
     return NotesCompanion(
       id: id ?? this.id,
@@ -170,6 +208,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
       title: title ?? this.title,
       detail: detail ?? this.detail,
       isDeleted: isDeleted ?? this.isDeleted,
+      containAudio: containAudio ?? this.containAudio,
+      containImage: containImage ?? this.containImage,
       date: date ?? this.date,
     );
   }
@@ -233,6 +273,28 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
         defaultValue: const Constant(false));
   }
 
+  final VerificationMeta _containAudioMeta =
+      const VerificationMeta('containAudio');
+  GeneratedBoolColumn _containAudio;
+  @override
+  GeneratedBoolColumn get containAudio =>
+      _containAudio ??= _constructContainAudio();
+  GeneratedBoolColumn _constructContainAudio() {
+    return GeneratedBoolColumn('contain_audio', $tableName, false,
+        defaultValue: const Constant(false));
+  }
+
+  final VerificationMeta _containImageMeta =
+      const VerificationMeta('containImage');
+  GeneratedBoolColumn _containImage;
+  @override
+  GeneratedBoolColumn get containImage =>
+      _containImage ??= _constructContainImage();
+  GeneratedBoolColumn _constructContainImage() {
+    return GeneratedBoolColumn('contain_image', $tableName, false,
+        defaultValue: const Constant(false));
+  }
+
   final VerificationMeta _dateMeta = const VerificationMeta('date');
   GeneratedDateTimeColumn _date;
   @override
@@ -246,8 +308,16 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   }
 
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, folderID, title, detail, isDeleted, date];
+  List<GeneratedColumn> get $columns => [
+        id,
+        folderID,
+        title,
+        detail,
+        isDeleted,
+        containAudio,
+        containImage,
+        date
+      ];
   @override
   $NotesTable get asDslTable => this;
   @override
@@ -276,6 +346,18 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     if (d.isDeleted.present) {
       context.handle(_isDeletedMeta,
           isDeleted.isAcceptableValue(d.isDeleted.value, _isDeletedMeta));
+    }
+    if (d.containAudio.present) {
+      context.handle(
+          _containAudioMeta,
+          containAudio.isAcceptableValue(
+              d.containAudio.value, _containAudioMeta));
+    }
+    if (d.containImage.present) {
+      context.handle(
+          _containImageMeta,
+          containImage.isAcceptableValue(
+              d.containImage.value, _containImageMeta));
     }
     if (d.date.present) {
       context.handle(
@@ -311,6 +393,12 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     }
     if (d.isDeleted.present) {
       map['is_deleted'] = Variable<bool, BoolType>(d.isDeleted.value);
+    }
+    if (d.containAudio.present) {
+      map['contain_audio'] = Variable<bool, BoolType>(d.containAudio.value);
+    }
+    if (d.containImage.present) {
+      map['contain_image'] = Variable<bool, BoolType>(d.containImage.value);
     }
     if (d.date.present) {
       map['date'] = Variable<DateTime, DateTimeType>(d.date.value);

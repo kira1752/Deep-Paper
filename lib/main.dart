@@ -1,6 +1,6 @@
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/note_page.dart';
-import 'package:deep_paper/transition/fade.dart';
+import 'package:deep_paper/transition/slide.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,10 +20,17 @@ class DeepPaperApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData.dark().copyWith(
-            popupMenuTheme: PopupMenuThemeData(color: Color(0xff222222)),
-            bottomSheetTheme:
-                BottomSheetThemeData(modalBackgroundColor: Color(0xff222222)),
-            cardColor: Color(0xff212121),
+            popupMenuTheme: PopupMenuThemeData(
+                color: Color(0xff222222),
+                textStyle: TextStyle(
+                    fontFamily: "Noto Sans",
+                    color: Colors.white.withOpacity(0.80))),
+            bottomSheetTheme: BottomSheetThemeData(
+              modalBackgroundColor: Color(0xff222222),
+            ),
+            cardColor: Color(0x212121).withOpacity(0.90),
+            highlightColor: Color(0x424242),
+            accentColor: Color(0xff5EA3DE),
             primaryColor: Colors.black,
             backgroundColor: Colors.black,
             bottomAppBarColor: Colors.black,
@@ -32,18 +39,22 @@ class DeepPaperApp extends StatelessWidget {
             textSelectionColor: Colors.blue[900],
             textSelectionHandleColor: Colors.blue[900],
             canvasColor: Colors.black,
-            accentColor: Colors.blue[400],
             textTheme: TextTheme(
                 headline6: TextStyle(
                     fontFamily: "PT Serif",
+                    fontFamilyFallback: ["Noto Color Emoji"],
                     color: Colors.white.withOpacity(0.80),
                     fontWeight: FontWeight.w600,
                     fontSize: 24),
                 subtitle2: TextStyle(
-                    color: Colors.white.withOpacity(0.80), fontSize: 22.0),
-                bodyText1: TextStyle(
+                  wordSpacing: 1.0,
+                  height: 1.5,
                   color: Colors.white.withOpacity(0.80),
-                  fontSize: 16.0,
+                ),
+                bodyText1: TextStyle(
+                  wordSpacing: 1.0,
+                  height: 1.5,
+                  color: Colors.white.withOpacity(0.80),
                 ),
                 bodyText2: TextStyle(
                   fontFamily: "Noto Sans",
@@ -54,22 +65,21 @@ class DeepPaperApp extends StatelessWidget {
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
-              return Fade(
+              return Slide(
                 page: DeepPaper(),
                 settings: settings,
               );
-              break;
             case '/NoteDetail':
-              return Fade(page: NoteDetail(), settings: settings);
+              return Slide(page: NoteDetail(), settings: settings);
               break;
             case '/NoteDetailUpdate':
-              return Fade(page: NoteDetailUpdate(), settings: settings);
+              return Slide(page: NoteDetailUpdate(), settings: settings);
               break;
             case '/NotePage':
-              return Fade(page: NotePage(), settings: settings);
+              return Slide(page: NotePage(), settings: settings);
               break;
             default:
-              return Fade(page: DeepPaper(), settings: settings);
+              return Slide(page: DeepPaper(), settings: settings);
           }
         },
       ),

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'deep_fab_controller.dart';
@@ -96,7 +97,7 @@ class _DeepState extends State<Deep> with TickerProviderStateMixin {
   }
 
   Widget _buildChild(int index) {
-    Color backgroundColor = Color(0xff5EA3DE);
+    Color backgroundColor = Theme.of(context).accentColor;
     return Container(
       height: 70.0,
       width: 56.0,
@@ -110,7 +111,6 @@ class _DeepState extends State<Deep> with TickerProviderStateMixin {
         child: FloatingActionButton(
           heroTag: null,
           backgroundColor: backgroundColor,
-          mini: true,
           tooltip: widget.actions[index].tooltip,
           child: widget.actions[index].icon,
           onPressed: () => _onAction(index),
@@ -122,7 +122,7 @@ class _DeepState extends State<Deep> with TickerProviderStateMixin {
   Widget _buildFab() {
     return FloatingActionButton(
       heroTag: null,
-      backgroundColor: Color(0xff5EA3DE),
+      backgroundColor: Theme.of(context).accentColor,
       onPressed: toggle,
       child: AnimatedBuilder(
           animation: _controller,
@@ -139,9 +139,9 @@ class _DeepState extends State<Deep> with TickerProviderStateMixin {
 
   void toggle() {
     if (_controller.isDismissed) {
-      _controller.forward();
+      _controller.forward().then((value) => setState(() {}));
     } else {
-      _controller.reverse();
+      _controller.reverse().then((value) => setState(() {}));
     }
   }
 

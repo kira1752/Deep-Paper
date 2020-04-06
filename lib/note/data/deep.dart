@@ -14,6 +14,8 @@ class Notes extends Table {
   TextColumn get title => text().nullable()();
   TextColumn get detail => text().nullable()();
   BoolColumn get isDeleted => boolean().withDefault(const Constant(false))();
+  BoolColumn get containAudio => boolean().withDefault(const Constant(false))();
+  BoolColumn get containImage => boolean().withDefault(const Constant(false))();
   DateTimeColumn get date => dateTime()();
 }
 

@@ -7,7 +7,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-const double _kDeepScrollbarThickness = 3.0;
+const double _kDeepScrollbarThickness = 5.0;
 const Duration _kDeepScrollbarFadeDuration = Duration(milliseconds: 300);
 const Duration _kDeepScrollbarTimeToFade = Duration(milliseconds: 600);
 

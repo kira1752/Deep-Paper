@@ -14,18 +14,63 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
         ..orderBy([(n) => OrderingTerm.desc(n.date)]))
       .watch();
 
-  Stream<List<Note>> allDeletedNotesTemp() => (select(notes)
+  Future<List<Note>> getAllNotes() => (select(notes)).get();
+
+  Stream<List<Note>> watchAllDeletedNotes() => (select(notes)
         ..where((n) => n.isDeleted.equals(true))
         ..orderBy([(n) => OrderingTerm.desc(n.date)]))
       .watch();
 
-  Stream watchNoteInsideFolder(FolderNoteData folder) => (select(notes)
-        ..where((n) => n.folderID.equals(folder.id))
-        ..where((n) => n.isDeleted.equals(false))
-        ..orderBy([(n) => OrderingTerm.desc(n.date)]))
-      .watch();
+  Stream<List<Note>> watchNoteInsideFolder(FolderNoteData folder) =>
+      (select(notes)
+            ..where((n) => n.folderID.equals(folder.id))
+            ..where((n) => n.isDeleted.equals(false))
+            ..orderBy([(n) => OrderingTerm.desc(n.date)]))
+          .watch();
 
-  Future insertNote(NotesCompanion entry) => into(notes).insert(entry);
-  Future updateNote(Note entry) => update(notes).replace(entry);
-  Future deleteNote(Note entry) => delete(notes).delete(entry);
+  Future<void> insertNote(NotesCompanion entry) => into(notes).insert(entry);
+  Future<void> updateNote(Note entry) => update(notes).replace(entry);
+
+  Future<void> moveToTrash(Map<int, Note> selectedNote) async {
+    await batch((b) {
+      selectedNote.forEach((key, note) {
+        b.replace(notes, note.copyWith(isDeleted: true));
+      });
+    });
+  }
+
+  Future<void> restoreFromTrash(Map<int, Note> selectedNote) async {
+    await batch((b) {
+      selectedNote.forEach((key, note) {
+        b.replace(notes, note.copyWith(isDeleted: false));
+      });
+    });
+  }
+
+  Future<void> deleteForever(Map<int, Note> selectedNote) async {
+    selectedNote.forEach((key, note) {
+      delete(notes).delete(note);
+    });
+  }
+
+  Future<void> emptyTrashBin() async {
+    delete(notes)
+      ..where((n) => n.isDeleted.equals(true))
+      ..go();
+  }
+
+  Future<void> deleteNotesInsideFolderForever(FolderNoteData folder) async {
+    delete(notes)
+      ..where((n) => n.folderID.equals(folder.id))
+      ..go();
+  }
+
+  Future deleteFolderRelationWhenNoteInTrash(FolderNoteData folder) async {
+    (update(notes)
+          ..where((n) => n.folderID.equals(folder.id))
+          ..where((n) => n.isDeleted.equals(true)))
+        .write(NotesCompanion(folderID: Value(null)));
+  }
+
+  Future<void> deleteNote(Note entry) => delete(notes).delete(entry);
 }

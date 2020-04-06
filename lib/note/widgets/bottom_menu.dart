@@ -81,7 +81,7 @@ class BottomMenu extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        .copyWith(color: Colors.white70),
+                        .copyWith(color: Colors.white70, fontSize: 18.0),
                   ),
                 ),
               ),
@@ -99,7 +99,7 @@ class BottomMenu extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        .copyWith(color: Colors.white70),
+                        .copyWith(color: Colors.white70, fontSize: 18.0),
                   ),
                 ),
               ),
@@ -117,7 +117,25 @@ class BottomMenu extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        .copyWith(color: Colors.white70),
+                        .copyWith(color: Colors.white70, fontSize: 18.0),
+                  ),
+                ),
+              ),
+              Material(
+                color: Colors.transparent,
+                clipBehavior: Clip.hardEdge,
+                shape: StadiumBorder(),
+                child: ListTile(
+                  leading: Icon(
+                    MyIcon.audiotrack_outline,
+                    color: Colors.white70,
+                  ),
+                  title: Text(
+                    "Choose audio",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(color: Colors.white70, fontSize: 18.0),
                   ),
                 ),
               )
@@ -154,7 +172,8 @@ class BottomMenu extends StatelessWidget {
                   title: Text(
                     "Delete",
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: newNote ? Colors.white30 : Colors.white70),
+                        color: newNote ? Colors.white30 : Colors.white70,
+                        fontSize: 18.0),
                   ),
                 ),
               ),
@@ -172,7 +191,8 @@ class BottomMenu extends StatelessWidget {
                   title: Text(
                     "Make a copy",
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: newNote ? Colors.white30 : Colors.white70),
+                        color: newNote ? Colors.white30 : Colors.white70,
+                        fontSize: 18.0),
                   ),
                 ),
               ),
@@ -190,7 +210,7 @@ class BottomMenu extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        .copyWith(color: Colors.white70),
+                        .copyWith(color: Colors.white70, fontSize: 18.0),
                   ),
                 ),
               ),

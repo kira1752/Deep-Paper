@@ -5,6 +5,7 @@ import 'package:deep_paper/note/provider/text_controller_provider.dart';
 import 'package:deep_paper/note/widgets/bottom_menu.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:moor/moor.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,7 @@ import 'package:deep_paper/utility/extension.dart'
 class _LocalStore {
   String _title = "";
   String _detail = "";
-  bool _isDeleted;
+  bool _isDeleted = false;
 
   String get getTitle => _title;
   String get getDetail => _detail;
@@ -33,6 +34,7 @@ class NoteDetailUpdate extends StatelessWidget {
     Note data = ModalRoute.of(context).settings.arguments;
     _local.setTitle = data.title ?? "";
     _local.setDetail = data.detail ?? "";
+    _local.setDeleted = data.isDeleted;
 
     debugPrintSynchronously("Note Detail Rebuild");
 
@@ -67,16 +69,6 @@ class NoteDetailUpdate extends StatelessWidget {
                 Navigator.of(context).maybePop();
               },
             ),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.color_lens,
-                  color: Colors.white70,
-                ),
-                tooltip: "Change note color",
-                onPressed: () {},
-              ),
-            ],
             elevation: 0.0,
             centerTitle: true,
           ),
@@ -87,11 +79,27 @@ class NoteDetailUpdate extends StatelessWidget {
               _local.setDeleted = true;
               Navigator.of(context).pop();
               Navigator.of(context).maybePop();
+
+              Fluttertoast.showToast(
+                  msg: "Note moved to Trash Bin",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  textColor: Colors.white.withOpacity(0.87),
+                  fontSize: 16,
+                  backgroundColor: Color(0xff222222));
             },
             onCopy: () {
               _makeCopy(context: context);
               Navigator.of(context).pop();
               Navigator.of(context).maybePop();
+
+              Fluttertoast.showToast(
+                  msg: "Note copied successfully",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  textColor: Colors.white.withOpacity(0.87),
+                  fontSize: 16,
+                  backgroundColor: Color(0xff222222));
             },
           ),
           body: ListView(
@@ -121,10 +129,10 @@ class NoteDetailUpdate extends StatelessWidget {
 
     debugPrintSynchronously("Title: $title");
     debugPrintSynchronously("Detail: $detail");
+    
 
     if (data.title != title ||
-        data.detail != detail ||
-        data.isDeleted != isDeleted) {
+        data.detail != detail && data.isDeleted != isDeleted) {
       debugPrintSynchronously("run");
       if (!title.isNullEmptyOrWhitespace || !detail.isNullEmptyOrWhitespace) {
         await database.noteDao.updateNote(data.copyWith(
@@ -136,6 +144,19 @@ class NoteDetailUpdate extends StatelessWidget {
           detail.isNullEmptyOrWhitespace) {
         await database.noteDao.deleteNote(data);
       }
+    } else if (data.title != title || data.detail != detail) {
+      debugPrintSynchronously("run");
+      if (!title.isNullEmptyOrWhitespace || !detail.isNullEmptyOrWhitespace) {
+        await database.noteDao.updateNote(
+            data.copyWith(title: title, detail: detail, date: DateTime.now()));
+      } else if (title.isNullEmptyOrWhitespace &&
+          detail.isNullEmptyOrWhitespace) {
+        await database.noteDao.deleteNote(data);
+      }
+    } else if (data.isDeleted != isDeleted) {
+      await database.noteDao.updateNote(data.copyWith(
+        isDeleted: isDeleted,
+      ));
     }
 
     return true;
@@ -193,7 +214,7 @@ class NoteDetailUpdate extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .subtitle2
-                    .copyWith(color: Colors.white70),
+                    .copyWith(color: Colors.white70, fontSize: 22.0),
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
                 onChanged: (value) {
@@ -246,7 +267,7 @@ class NoteDetailUpdate extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1
-                    .copyWith(color: Colors.white70),
+                    .copyWith(color: Colors.white70, fontSize: 18.0),
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
                 onChanged: (value) {

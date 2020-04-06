@@ -17,6 +17,7 @@ class DeepPaper extends StatelessWidget {
     return ChangeNotifierProvider<DeepBottomProvider>(
       create: (_) => DeepBottomProvider(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Selector<DeepBottomProvider, PageController>(
             selector: (context, deepProvider) => deepProvider.controller,
             builder: (context, controller, child) {
@@ -60,8 +61,8 @@ class DeepPaper extends StatelessWidget {
                     type: BottomNavigationBarType.fixed,
                     selectedFontSize: 14,
                     unselectedFontSize: 14,
-                    selectedItemColor: Color(0xff5EA3DE),
-                    unselectedItemColor: Colors.white60,
+                    selectedItemColor: Theme.of(context).accentColor,
+                    unselectedItemColor: Colors.white70,
                     showUnselectedLabels: true,
                     currentIndex: deepProvider
                         .currentIndex, // use this to remove appBar's elevation
@@ -73,21 +74,33 @@ class DeepPaper extends StatelessWidget {
                       BottomNavigationBarItem(
                         icon: Icon(MyIcon.library_books_outline),
                         activeIcon: Icon(Icons.library_books),
-                        title: Text('Note'),
+                        title: Text(
+                          'Note',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
                       ),
                       BottomNavigationBarItem(
                         icon: Icon(MyIcon.event_note_outline),
                         activeIcon: Icon(Icons.event_note),
-                        title: Text('Plan'),
+                        title: Text(
+                          'Plan',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
                       ),
                       BottomNavigationBarItem(
                         icon: Icon(MyIcon.chart_outline),
                         activeIcon: Icon(MyIcon.chart),
-                        title: Text('Finance'),
+                        title: Text(
+                          'Finance',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
                       ),
                       BottomNavigationBarItem(
                         icon: Icon(Icons.more_horiz),
-                        title: Text('More'),
+                        title: Text(
+                          'More',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
                       ),
                     ],
                   );
