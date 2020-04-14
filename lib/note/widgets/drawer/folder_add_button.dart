@@ -5,6 +5,7 @@ import 'package:deep_paper/note/provider/text_controller_provider.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 import 'package:moor/moor.dart' hide Column;
 import 'package:provider/provider.dart';
 
@@ -113,6 +114,10 @@ class FolderAddButton extends StatelessWidget {
                                           listen: false)
                                       .setIsNameTyped =
                                   !_local.getFolderName.isNullEmptyOrWhitespace;
+
+                              Provider.of<DetectTextDirectionProvider>(context,
+                                      listen: false)
+                                  .checkDirection = _local.getFolderName;
                             },
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
@@ -183,8 +188,13 @@ class FolderAddButton extends StatelessWidget {
   Future<void> _addFolder({@required BuildContext context}) async {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
-    await database.folderNoteDao
-        .insertFolder(FolderNoteCompanion(name: Value(_local.getFolderName)));
+    final name = _local.getFolderName;
+    final nameDirection = Bidi.detectRtlDirectionality(name)
+        ? TextDirection.rtl
+        : TextDirection.ltr;
+
+    await database.folderNoteDao.insertFolder(FolderNoteCompanion(
+        name: Value(name), nameDirection: Value(nameDirection)));
 
     Navigator.of(context).pop();
   }

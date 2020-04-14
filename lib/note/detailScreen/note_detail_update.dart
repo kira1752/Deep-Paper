@@ -207,8 +207,7 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
     final TextDirection detailDirection = Bidi.detectRtlDirectionality(detail)
         ? TextDirection.rtl
         : TextDirection.ltr;
-    final FolderNoteData folder = ModalRoute.of(context).settings.arguments;
-    final int folderId = folder.isNotNull ? folder.id : null;
+    final int folderId = widget.data.id.isNotNull ? widget.data.id : null;
 
     debugPrintSynchronously("Title: $title");
     debugPrintSynchronously("Detail: $detail");

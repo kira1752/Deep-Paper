@@ -8,6 +8,7 @@ import 'package:deep_paper/note/widgets/deep_toast.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 import 'package:deep_paper/utility/extension.dart';
 
@@ -169,9 +170,13 @@ class FolderMenu extends StatelessWidget {
                               Provider.of<FolderDialogProvider>(context,
                                       listen: false)
                                   .setIsNameTyped = !_local
-                                      .getFolderName.isNullEmptyOrWhitespace ||
-                                  _local.getFolderName ==
+                                      .getFolderName.isNullEmptyOrWhitespace &&
+                                  _local.getFolderName !=
                                       drawerProvider.getFolder.name;
+
+                              Provider.of<DetectTextDirectionProvider>(context,
+                                      listen: false)
+                                  .checkDirection = _local.getFolderName;
                             },
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
@@ -252,12 +257,17 @@ class FolderMenu extends StatelessWidget {
       @required NoteDrawerProvider drawerProvider}) async {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
-    await database.folderNoteDao.updateFolder(
-        drawerProvider.getFolder.copyWith(name: _local.getFolderName));
+    final name = _local.getFolderName;
+    final nameDirection = Bidi.detectRtlDirectionality(name)
+        ? TextDirection.rtl
+        : TextDirection.ltr;
 
-    drawerProvider.setTitleFragment = "${_local.getFolderName}";
-    drawerProvider.setFolder =
-        drawerProvider.getFolder.copyWith(name: _local.getFolderName);
+    await database.folderNoteDao.updateFolder(drawerProvider.getFolder
+        .copyWith(name: name, nameDirection: nameDirection));
+
+    drawerProvider.setTitleFragment = "$name";
+    drawerProvider.setFolder = drawerProvider.getFolder
+        .copyWith(name: name, nameDirection: nameDirection);
 
     Navigator.of(context).pop();
   }
@@ -325,7 +335,7 @@ class FolderMenu extends StatelessWidget {
                 FlatButton(
                     shape: StadiumBorder(),
                     color: Colors.grey[600].withOpacity(0.2),
-                    textColor: Colors.blueAccent,
+                    textColor: Theme.of(context).accentColor,
                     padding: EdgeInsets.only(
                         top: SizeHelper.setHeight(size: 16.0),
                         bottom: SizeHelper.setHeight(size: 16.0),

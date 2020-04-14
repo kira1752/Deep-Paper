@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
 part 'deep.g.dart';
+
 class TextDirectionConverter extends TypeConverter<TextDirection, String> {
   const TextDirectionConverter();
   @override
@@ -16,7 +17,9 @@ class TextDirectionConverter extends TypeConverter<TextDirection, String> {
       return null;
     }
 
-    return fromDb as TextDirection;
+    return fromDb == "TextDirection.ltr"
+        ? TextDirection.ltr
+        : TextDirection.rtl;
   }
 
   @override

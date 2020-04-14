@@ -5,6 +5,7 @@ import 'package:deep_paper/note/widgets/search_note_button.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 
 class DefaultAppBar extends StatelessWidget {
@@ -24,7 +25,9 @@ class DefaultAppBar extends StatelessWidget {
         builder: (context, title, child) {
           debugPrintSynchronously("Text Title rebuilt");
           return Text('$title',
-              textScaleFactor: MediaQuery.textScaleFactorOf(context),
+              textDirection: Bidi.detectRtlDirectionality(title)
+                  ? TextDirection.rtl
+                  : TextDirection.ltr,
               style: title == "NOTE"
                   ? Theme.of(context)
                       .textTheme
