@@ -1,9 +1,10 @@
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/icons/my_icon.dart';
+import 'package:deep_paper/note/widgets/deep_toast.dart';
 import 'package:deep_paper/note/widgets/note_card.dart';
+import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:deep_paper/utility/extension.dart';
 
@@ -26,7 +27,7 @@ class TrashListView extends StatelessWidget {
                         children: <Widget>[
                           Icon(
                             MyIcon.trash_empty,
-                            size: 120,
+                            size: SizeHelper.setIconSize(size: 120.0),
                             color: Colors.white70,
                           ),
                           Padding(
@@ -35,9 +36,10 @@ class TrashListView extends StatelessWidget {
                               "No notes in Trash Bin",
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle2
+                                  .headline6
                                   .copyWith(
-                                      color: Colors.white70, fontSize: 22.0),
+                                      color: Colors.white70,
+                                      fontSize: SizeHelper.getTitle),
                             ),
                           )
                         ],
@@ -70,7 +72,7 @@ class TrashListView extends StatelessWidget {
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0))),
       builder: (context) => Padding(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(26.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -78,7 +80,7 @@ class TrashListView extends StatelessWidget {
               "Restore note",
               style: TextStyle(
                   fontFamily: "Roboto",
-                  fontSize: 18.0,
+                  fontSize: SizeHelper.getHeadline6,
                   fontWeight: FontWeight.w600,
                   color: Colors.white.withOpacity(0.87)),
             ),
@@ -88,7 +90,7 @@ class TrashListView extends StatelessWidget {
                 "Couldn't open this note. Restore this note to edit the content.",
                 style: TextStyle(
                     fontFamily: "Roboto",
-                    fontSize: 17.0,
+                    fontSize: SizeHelper.getModalDescription,
                     color: Colors.white70),
               ),
             ),
@@ -108,7 +110,7 @@ class TrashListView extends StatelessWidget {
                       "Cancel",
                       style: TextStyle(
                         fontFamily: "Roboto",
-                        fontSize: 18.0,
+                        fontSize: SizeHelper.getModalButton,
                       ),
                     )),
                 FlatButton(
@@ -123,19 +125,14 @@ class TrashListView extends StatelessWidget {
 
                       Navigator.of(context).pop();
 
-                      Fluttertoast.showToast(
-                          msg: "Note restored successfully",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.CENTER,
-                          textColor: Colors.white.withOpacity(0.87),
-                          fontSize: 16,
-                          backgroundColor: Color(0xff222222));
+                      DeepToast.showToast(
+                          description: "Note restored successfully");
                     },
                     child: Text(
                       "Restore",
                       style: TextStyle(
                         fontFamily: "Roboto",
-                        fontSize: 18.0,
+                        fontSize: SizeHelper.getModalButton,
                       ),
                     )),
               ],

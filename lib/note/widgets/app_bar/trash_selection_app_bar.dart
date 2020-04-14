@@ -2,9 +2,10 @@ import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/provider/deep_bottom_provider.dart';
 import 'package:deep_paper/note/provider/selection_provider.dart';
+import 'package:deep_paper/note/widgets/deep_toast.dart';
+import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class TrashSelectionAppBar extends StatelessWidget {
@@ -25,7 +26,7 @@ class TrashSelectionAppBar extends StatelessWidget {
       actions: <Widget>[
         PopupMenuButton(
             tooltip: "Open Selection Menu",
-            padding: EdgeInsets.all(18),
+            padding: EdgeInsets.all(18.0),
             onSelected: (choice) {
               _menuTrashSelected(context: context, choice: choice);
             },
@@ -39,6 +40,7 @@ class TrashSelectionAppBar extends StatelessWidget {
                             color: Colors.white.withOpacity(0.60)),
                         title: Text(
                           "Restore",
+                          style: TextStyle(fontSize: SizeHelper.getBodyText1),
                         ),
                       )),
                   PopupMenuItem(
@@ -50,6 +52,7 @@ class TrashSelectionAppBar extends StatelessWidget {
                         ),
                         title: Text(
                           "Delete forever",
+                          style: TextStyle(fontSize: SizeHelper.getBodyText1),
                         ),
                       ))
                 ]),
@@ -60,10 +63,8 @@ class TrashSelectionAppBar extends StatelessWidget {
         builder: (context, count, child) {
           debugPrintSynchronously("Text Title rebuilt");
           return Text('$count selected',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6
-                  .copyWith(fontFamily: "Noto Sans"));
+              style: Theme.of(context).textTheme.headline5.copyWith(
+                  fontFamily: "Noto Sans", fontSize: SizeHelper.getHeadline5));
         },
         selector: (context, provider) => provider.getSelected.length,
       ),
@@ -117,13 +118,7 @@ class TrashSelectionAppBar extends StatelessWidget {
 
     await database.noteDao.restoreFromTrash(selectedNote);
 
-    Fluttertoast.showToast(
-        msg: "Note restored successfully",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        textColor: Colors.white.withOpacity(0.87),
-        fontSize: 16,
-        backgroundColor: Color(0xff222222));
+    DeepToast.showToast(description: "Note restored successfully");
   }
 
   Future<void> _onDeletedForever({@required BuildContext context}) async {
@@ -134,12 +129,6 @@ class TrashSelectionAppBar extends StatelessWidget {
 
     await database.noteDao.deleteForever(selectedNote);
 
-    Fluttertoast.showToast(
-        msg: "Note deleted successfully",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        textColor: Colors.white.withOpacity(0.87),
-        fontSize: 16,
-        backgroundColor: Color(0xff222222));
+    DeepToast.showToast(description: "Note deleted successfully");
   }
 }

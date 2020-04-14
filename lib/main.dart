@@ -21,32 +21,32 @@ class DeepPaperApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData.dark().copyWith(
             popupMenuTheme: PopupMenuThemeData(
-                color: Color(0xff222222),
+                color: Color(0xff212121),
                 textStyle: TextStyle(
                     fontFamily: "Noto Sans",
                     color: Colors.white.withOpacity(0.80))),
             bottomSheetTheme: BottomSheetThemeData(
-              modalBackgroundColor: Color(0xff222222),
+              modalBackgroundColor: Color(0xff212121),
             ),
             cardColor: Color(0x212121).withOpacity(0.90),
             highlightColor: Color(0x424242),
-            accentColor: Color(0xff5EA3DE),
+            accentColor: Colors.orange[400], //Color(0xff5EA3DE),
             primaryColor: Colors.black,
             backgroundColor: Colors.black,
             bottomAppBarColor: Colors.black,
-            toggleableActiveColor: Colors.blue,
+            cursorColor: Colors.orange[900],
             scaffoldBackgroundColor: Colors.black,
-            textSelectionColor: Colors.blue[900],
-            textSelectionHandleColor: Colors.blue[900],
-            canvasColor: Colors.black,
+            textSelectionColor: Colors.orange[900],
+            textSelectionHandleColor: Colors.orange[900],
+            canvasColor: Color(0xff121212),
             textTheme: TextTheme(
+                headline5: TextStyle(
+                  fontFamily: "PT Serif",
+                  fontFamilyFallback: ["Noto Color Emoji"],
+                  color: Colors.white.withOpacity(0.80),
+                  fontWeight: FontWeight.w600,
+                ),
                 headline6: TextStyle(
-                    fontFamily: "PT Serif",
-                    fontFamilyFallback: ["Noto Color Emoji"],
-                    color: Colors.white.withOpacity(0.80),
-                    fontWeight: FontWeight.w600,
-                    fontSize: 24),
-                subtitle2: TextStyle(
                   wordSpacing: 1.0,
                   height: 1.5,
                   color: Colors.white.withOpacity(0.80),
@@ -73,7 +73,9 @@ class DeepPaperApp extends StatelessWidget {
               return Slide(page: NoteDetail(), settings: settings);
               break;
             case '/NoteDetailUpdate':
-              return Slide(page: NoteDetailUpdate(), settings: settings);
+              return Slide(
+                page: NoteDetailUpdate(settings.arguments),
+              );
               break;
             case '/NotePage':
               return Slide(page: NotePage(), settings: settings);

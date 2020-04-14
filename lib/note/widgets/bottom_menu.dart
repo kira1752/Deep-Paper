@@ -18,38 +18,48 @@ class BottomMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-      elevation: 0.0,
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          IconButton(
-            icon: Icon(
-              MyIcon.plus_square,
-              color: Colors.white70,
+    return Padding(
+      padding: MediaQuery.of(context).viewInsets,
+      child: BottomAppBar(
+        elevation: 0.0,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(
+                MyIcon.plus_square,
+                color: Colors.white70,
+              ),
+              onPressed: () async {
+                if (FocusScope.of(context).hasFocus) {
+                  FocusScope.of(context).unfocus();
+                }
+                await _addMenu(context: context);
+              },
             ),
-            onPressed: () {
-              _addMenu(context: context);
-            },
-          ),
-          Selector<NoteDetailProvider, bool>(
-              selector: (context, detailProvider) => detailProvider.isTextTyped,
-              builder: (context, isTyped, child) {
-                debugPrintSynchronously("Undo Redo Rebuild");
-                return _textOrUndoRedo(
-                    context: context, isTyped: isTyped, date: date);
-              }),
-          IconButton(
-            icon: Icon(
-              Icons.more_vert,
-              color: Colors.white70,
-            ),
-            onPressed: () {
-              _optionsMenu(context: context, newNote: newNote);
-            },
-          )
-        ],
+            Selector<NoteDetailProvider, bool>(
+                selector: (context, detailProvider) =>
+                    detailProvider.isTextTyped,
+                builder: (context, isTyped, child) {
+                  debugPrintSynchronously("Undo Redo Rebuild");
+                  return _textOrUndoRedo(
+                      context: context, isTyped: isTyped, date: date);
+                }),
+            IconButton(
+              icon: Icon(
+                Icons.more_vert,
+                color: Colors.white70,
+              ),
+              onPressed: () async {
+                if (FocusScope.of(context).hasFocus) {
+                  FocusScope.of(context).unfocus();
+                }
+                await _optionsMenu(context: context, newNote: newNote);
+              },
+            )
+          ],
+        ),
       ),
     );
   }

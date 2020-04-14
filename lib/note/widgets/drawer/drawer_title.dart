@@ -1,3 +1,4 @@
+import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 
 class DrawerTitle extends StatelessWidget {
@@ -8,8 +9,12 @@ class DrawerTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(18, 18, 18, 18),
-      child: Text(title, style: Theme.of(context).textTheme.headline6),
+      margin: EdgeInsets.all(18.0),
+      child: Text(title,
+          style: Theme.of(context)
+              .textTheme
+              .headline5
+              .copyWith(fontSize: SizeHelper.getHeadline5)),
     );
   }
 }

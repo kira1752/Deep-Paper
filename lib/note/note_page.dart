@@ -6,13 +6,13 @@ import 'package:deep_paper/note/widgets/app_bar/normal_selection_app_bar.dart';
 import 'package:deep_paper/note/widgets/app_bar/trash_selection_app_bar.dart';
 import 'package:deep_paper/note/widgets/build_body.dart';
 import 'package:deep_paper/note/widgets/app_bar/default_app_bar.dart';
-import 'package:deep_paper/note/widgets/drawer/drawer_content.dart';
+import 'package:deep_paper/note/widgets/drawer/deep_drawer.dart';
 import 'package:deep_paper/note/widgets/deep_floating_action_button.dart';
+import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
-import 'package:deep_paper/icons/my_icon.dart';
 
 class NotePage extends StatelessWidget {
   @override
@@ -22,47 +22,42 @@ class NotePage extends StatelessWidget {
       onWillPop: () {
         return exitSelectionOrExitApp(context);
       },
-      child: Selector<SelectionProvider, bool>(
-        selector: (context, provider) => provider.getSelection,
-        builder: (context, selection, child) => Scaffold(
-            drawerEdgeDragWidth: selection ? 0 : 20.0,
-            resizeToAvoidBottomInset: false,
-            drawer: Drawer(child: DrawerContent()),
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(kToolbarHeight),
-              child: Selector<SelectionProvider, bool>(
-                  selector: (context, provider) => provider.getSelection,
-                  builder: (context, selection, child) {
-                    if (selection) {
-                      final drawerProvider = Provider.of<NoteDrawerProvider>(
-                          context,
-                          listen: false);
+      child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          drawer: DeepDrawer(key: Key("Note Drawer")),
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(SizeHelper.setHeight(size: 56)),
+            child: Selector<SelectionProvider, bool>(
+                selector: (context, provider) => provider.getSelection,
+                builder: (context, selection, child) {
+                  if (selection) {
+                    final drawerProvider =
+                        Provider.of<NoteDrawerProvider>(context, listen: false);
 
-                      final selectionAppBar =
-                          drawerProvider.getIndexDrawerItem == 1
-                              ? TrashSelectionAppBar()
-                              : NormalSelectionAppBar();
+                    final selectionAppBar =
+                        drawerProvider.getIndexDrawerItem == 1
+                            ? TrashSelectionAppBar()
+                            : NormalSelectionAppBar();
 
-                      return selectionAppBar;
-                    } else
-                      return DefaultAppBar();
-                  }),
-            ),
-            floatingActionButton: Selector2<NoteDrawerProvider,
-                    SelectionProvider, Tuple2<int, bool>>(
-                selector: (context, drawerProvider, selectionProvider) =>
-                    Tuple2(drawerProvider.getIndexDrawerItem,
-                        selectionProvider.getSelection),
-                builder: (context, data, child) {
-                  debugPrintSynchronously("Floating Action Button rebuild");
-
-                  return Visibility(
-                    visible: data.item1 != 1 && !data.item2 ? true : false,
-                    child: _buildFloatingActionButton(context: context),
-                  );
+                    return selectionAppBar;
+                  } else
+                    return DefaultAppBar();
                 }),
-            body: BuildBody()),
-      ),
+          ),
+          floatingActionButton: Selector2<NoteDrawerProvider, SelectionProvider,
+                  Tuple2<int, bool>>(
+              selector: (context, drawerProvider, selectionProvider) => Tuple2(
+                  drawerProvider.getIndexDrawerItem,
+                  selectionProvider.getSelection),
+              builder: (context, data, child) {
+                debugPrintSynchronously("Floating Action Button rebuild");
+
+                return Visibility(
+                  visible: data.item1 != 1 && !data.item2 ? true : false,
+                  child: _buildFloatingActionButton(context: context),
+                );
+              }),
+          body: BuildBody()),
     );
   }
 
@@ -85,20 +80,27 @@ class NotePage extends StatelessWidget {
   Widget _buildFloatingActionButton({BuildContext context}) {
     final icons = [
       DeepAction(
+          tooltip: "Write note",
           icon: Icon(
-        Icons.edit,
-        color: Colors.white,
-      )),
+            Icons.edit,
+            color: Colors.white,
+          )),
       DeepAction(
+          tooltip: "Audio note",
           icon: Icon(
-        Icons.mic_none,
-        color: Colors.white,
-      )),
+            Icons.mic_none,
+            color: Colors.white,
+          )),
     ];
 
     return DeepFloatingActionButton(
       actions: icons,
-      icon: Icon(MyIcon.plus, color: Colors.white),
+      tooltip: "Open create note menu",
+      icon: Icon(
+        Icons.add,
+        color: Colors.white,
+        size: 32,
+      ),
       onAction: (int choice) {
         if (choice == 0) {
           final drawerProvider =

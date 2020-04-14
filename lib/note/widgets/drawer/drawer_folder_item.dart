@@ -1,5 +1,5 @@
 import 'package:deep_paper/note/provider/note_drawer_provider.dart';
-import 'package:deep_paper/utility/detect_text_direction.dart';
+import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:deep_paper/note/data/deep.dart';
@@ -61,24 +61,23 @@ class DrawerFolderItem extends StatelessWidget {
                 trailing: total == null
                     ? SizedBox()
                     : Padding(
-                        padding: EdgeInsets.only(right: 8),
+                        padding: EdgeInsets.only(right: 16.0, left: 16.0),
                         child: Text(
                           "$total",
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(
+                              fontSize: SizeHelper.getBodyText1,
+                              fontWeight: FontWeight.w600),
                         )),
                 title: Text(
                   "${folder.name}",
-                  textDirection:
-                      DetectTextDirection.isRTL(text: "${folder.name}")
-                          ? TextDirection.rtl
-                          : TextDirection.ltr,
+                  textDirection: folder.nameDirection,
                   style: selected
                       ? Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: Colors.white.withOpacity(0.87), fontSize: 16.0)
-                      : Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(color: Colors.white70, fontSize: 16.0),
+                          color: Colors.white.withOpacity(0.87),
+                          fontSize: SizeHelper.getDrawerMenuText)
+                      : Theme.of(context).textTheme.bodyText1.copyWith(
+                          color: Colors.white70,
+                          fontSize: SizeHelper.getDrawerMenuText),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 )),

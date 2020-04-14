@@ -4,9 +4,10 @@ import 'package:deep_paper/note/provider/detect_text_direction_provider.dart';
 import 'package:deep_paper/note/provider/folder_dialog_provider.dart';
 import 'package:deep_paper/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/note/provider/text_controller_provider.dart';
+import 'package:deep_paper/note/widgets/deep_toast.dart';
+import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:deep_paper/utility/extension.dart';
 
@@ -36,7 +37,11 @@ class FolderMenu extends StatelessWidget {
                 _onFolderMenuSelected(context: context, choice: choice);
               },
               tooltip: "Open Folder Menu",
-              padding: EdgeInsets.all(18),
+              padding: EdgeInsets.fromLTRB(
+                  SizeHelper.setWidth(size: 18),
+                  SizeHelper.setHeight(size: 18),
+                  SizeHelper.setWidth(size: 18),
+                  SizeHelper.setHeight(size: 18)),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0)),
               itemBuilder: (context) => [
@@ -49,6 +54,7 @@ class FolderMenu extends StatelessWidget {
                           ),
                           title: Text(
                             "Rename Folder",
+                            style: TextStyle(fontSize: SizeHelper.getBodyText1),
                           ),
                         )),
                     PopupMenuItem(
@@ -58,6 +64,7 @@ class FolderMenu extends StatelessWidget {
                               color: Colors.white.withOpacity(0.60)),
                           title: Text(
                             "Delete Folder",
+                            style: TextStyle(fontSize: SizeHelper.getBodyText1),
                           ),
                         )),
                   ]),
@@ -107,7 +114,11 @@ class FolderMenu extends StatelessWidget {
           padding: MediaQuery.of(context).viewInsets,
           duration: Duration(milliseconds: 300),
           child: Padding(
-            padding: EdgeInsets.all(24),
+            padding: EdgeInsets.fromLTRB(
+                SizeHelper.setWidth(size: 26),
+                SizeHelper.setHeight(size: 26),
+                SizeHelper.setWidth(size: 26),
+                SizeHelper.setHeight(size: 26)),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -115,12 +126,14 @@ class FolderMenu extends StatelessWidget {
                   "Rename folder",
                   style: TextStyle(
                       fontFamily: "Roboto",
-                      fontSize: 18.0,
+                      fontSize: SizeHelper.getHeadline6,
                       fontWeight: FontWeight.w600,
                       color: Colors.white.withOpacity(0.87)),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
+                  padding: EdgeInsets.only(
+                      top: SizeHelper.setHeight(size: 26),
+                      bottom: SizeHelper.setHeight(size: 26)),
                   child: Consumer<TextControllerProvider>(
                       builder: (context, textControllerProvider, child) {
                     textControllerProvider.controller.text =
@@ -147,7 +160,8 @@ class FolderMenu extends StatelessWidget {
                                 .textTheme
                                 .bodyText1
                                 .copyWith(
-                                    color: Colors.white70, fontSize: 16.0),
+                                    color: Colors.white70,
+                                    fontSize: SizeHelper.getModalTextField),
                             maxLines: 1,
                             keyboardType: TextInputType.text,
                             onChanged: (value) {
@@ -160,10 +174,16 @@ class FolderMenu extends StatelessWidget {
                                       drawerProvider.getFolder.name;
                             },
                             decoration: InputDecoration(
-                              focusColor: Theme.of(context).accentColor,
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                  borderSide: BorderSide(
+                                      width: 2.0,
+                                      color: Theme.of(context).accentColor)),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16.0),
-                                  borderSide: BorderSide(width: 2.0)),
+                                  borderSide: BorderSide(
+                                      width: 2.0,
+                                      color: Theme.of(context).accentColor)),
                               hintText: 'Folder Name',
                             ),
                           );
@@ -178,7 +198,10 @@ class FolderMenu extends StatelessWidget {
                         color: Colors.grey[600].withOpacity(0.2),
                         textColor: Colors.white.withOpacity(0.87),
                         padding: EdgeInsets.only(
-                            top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
+                            top: SizeHelper.setHeight(size: 16.0),
+                            bottom: SizeHelper.setHeight(size: 16.0),
+                            right: SizeHelper.setWidth(size: 48.0),
+                            left: SizeHelper.setWidth(size: 48.0)),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -186,7 +209,7 @@ class FolderMenu extends StatelessWidget {
                           "Cancel",
                           style: TextStyle(
                             fontFamily: "Roboto",
-                            fontSize: 18.0,
+                            fontSize: SizeHelper.getModalButton,
                           ),
                         )),
                     Consumer<FolderDialogProvider>(
@@ -195,9 +218,12 @@ class FolderMenu extends StatelessWidget {
                       return FlatButton(
                           shape: StadiumBorder(),
                           color: Colors.grey[600].withOpacity(0.2),
-                          textColor: Colors.blueAccent,
+                          textColor: Theme.of(context).accentColor,
                           padding: EdgeInsets.only(
-                              top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
+                              top: SizeHelper.setHeight(size: 16.0),
+                              bottom: SizeHelper.setHeight(size: 16.0),
+                              right: SizeHelper.setWidth(size: 48.0),
+                              left: SizeHelper.setWidth(size: 48.0)),
                           onPressed: provider.isNameTyped
                               ? () => _renameFolder(
                                   context: context,
@@ -207,7 +233,7 @@ class FolderMenu extends StatelessWidget {
                             "Rename",
                             style: TextStyle(
                               fontFamily: "Roboto",
-                              fontSize: 18.0,
+                              fontSize: SizeHelper.getModalButton,
                             ),
                           ));
                     }),
@@ -248,7 +274,11 @@ class FolderMenu extends StatelessWidget {
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0))),
       builder: (context) => Padding(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.fromLTRB(
+            SizeHelper.setWidth(size: 26),
+            SizeHelper.setHeight(size: 26),
+            SizeHelper.setWidth(size: 26),
+            SizeHelper.setHeight(size: 26)),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -256,7 +286,7 @@ class FolderMenu extends StatelessWidget {
               "Delete folder",
               style: TextStyle(
                   fontFamily: "Roboto",
-                  fontSize: 18.0,
+                  fontSize: SizeHelper.getHeadline6,
                   fontWeight: FontWeight.w600,
                   color: Colors.white.withOpacity(0.87)),
             ),
@@ -266,7 +296,7 @@ class FolderMenu extends StatelessWidget {
                 "Delete this folder and all notes inside this folder forever.",
                 style: TextStyle(
                     fontFamily: "Roboto",
-                    fontSize: 17.0,
+                    fontSize: SizeHelper.getModalDescription,
                     color: Colors.white70),
               ),
             ),
@@ -278,7 +308,10 @@ class FolderMenu extends StatelessWidget {
                     color: Colors.grey[600].withOpacity(0.2),
                     textColor: Colors.white.withOpacity(0.87),
                     padding: EdgeInsets.only(
-                        top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
+                        top: SizeHelper.setHeight(size: 16.0),
+                        bottom: SizeHelper.setHeight(size: 16.0),
+                        right: SizeHelper.setWidth(size: 48.0),
+                        left: SizeHelper.setWidth(size: 48.0)),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -286,7 +319,7 @@ class FolderMenu extends StatelessWidget {
                       "Cancel",
                       style: TextStyle(
                         fontFamily: "Roboto",
-                        fontSize: 18.0,
+                        fontSize: SizeHelper.getModalButton,
                       ),
                     )),
                 FlatButton(
@@ -294,15 +327,19 @@ class FolderMenu extends StatelessWidget {
                     color: Colors.grey[600].withOpacity(0.2),
                     textColor: Colors.blueAccent,
                     padding: EdgeInsets.only(
-                        top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
+                        top: SizeHelper.setHeight(size: 16.0),
+                        bottom: SizeHelper.setHeight(size: 16.0),
+                        right: SizeHelper.setWidth(size: 48.0),
+                        left: SizeHelper.setWidth(size: 48.0)),
                     onPressed: () async {
-                      database.noteDao.deleteFolderRelationWhenNoteInTrash(
+                      await database.noteDao
+                          .deleteFolderRelationWhenNoteInTrash(
+                              drawerProvider.getFolder);
+
+                      await database.noteDao.deleteNotesInsideFolderForever(
                           drawerProvider.getFolder);
 
-                      database.noteDao.deleteNotesInsideFolderForever(
-                          drawerProvider.getFolder);
-
-                      database.folderNoteDao
+                      await database.folderNoteDao
                           .deleteFolder(drawerProvider.getFolder);
 
                       drawerProvider.setFolderState = false;
@@ -313,19 +350,14 @@ class FolderMenu extends StatelessWidget {
 
                       Navigator.of(context).pop();
 
-                      Fluttertoast.showToast(
-                          msg: "Folder deleted successfully",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.CENTER,
-                          textColor: Colors.white.withOpacity(0.87),
-                          fontSize: 16,
-                          backgroundColor: Color(0xff222222));
+                      DeepToast.showToast(
+                          description: "Folder deleted successfully");
                     },
                     child: Text(
                       "Delete",
                       style: TextStyle(
                         fontFamily: "Roboto",
-                        fontSize: 18.0,
+                        fontSize: SizeHelper.getModalButton,
                       ),
                     )),
               ],

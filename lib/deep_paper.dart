@@ -1,6 +1,7 @@
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/note/provider/selection_provider.dart';
+import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,7 @@ class DeepPaper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     debugPrintSynchronously("Deep Paper Rebuild");
+
     return ChangeNotifierProvider<DeepBottomProvider>(
       create: (_) => DeepBottomProvider(),
       child: Scaffold(
@@ -58,12 +60,12 @@ class DeepPaper extends StatelessWidget {
                   debugPrintSynchronously("Bottom Bar Rebuild");
                   return BottomNavigationBar(
                     elevation: 0.0,
+                    backgroundColor: Theme.of(context).canvasColor,
                     type: BottomNavigationBarType.fixed,
-                    selectedFontSize: 14,
-                    unselectedFontSize: 14,
+                    selectedFontSize: SizeHelper.getButton,
+                    unselectedFontSize: SizeHelper.getButton,
                     selectedItemColor: Theme.of(context).accentColor,
                     unselectedItemColor: Colors.white70,
-                    showUnselectedLabels: true,
                     currentIndex: deepProvider
                         .currentIndex, // use this to remove appBar's elevation
                     onTap: (index) {

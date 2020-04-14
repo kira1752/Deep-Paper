@@ -2,6 +2,7 @@ import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/provider/detect_text_direction_provider.dart';
 import 'package:deep_paper/note/provider/folder_dialog_provider.dart';
 import 'package:deep_paper/note/provider/text_controller_provider.dart';
+import 'package:deep_paper/utility/size_helper.dart';
 import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart' hide Column;
@@ -25,10 +26,10 @@ class FolderAddButton extends StatelessWidget {
     return ListTile(
         title: Text(
           "FOLDERS",
-          style: Theme.of(context)
-              .textTheme
-              .bodyText1
-              .copyWith(color: Colors.white.withOpacity(0.70), fontSize: 16.0),
+          textScaleFactor: MediaQuery.textScaleFactorOf(context),
+          style: Theme.of(context).textTheme.bodyText1.copyWith(
+              color: Colors.white.withOpacity(0.70),
+              fontSize: SizeHelper.getBodyText1),
         ),
         trailing: FlatButton(
             shape: StadiumBorder(
@@ -39,9 +40,10 @@ class FolderAddButton extends StatelessWidget {
             },
             child: Text(
               "ADD",
+              textScaleFactor: MediaQuery.textScaleFactorOf(context),
               style: TextStyle(
-                color: Colors.white.withOpacity(0.87),
-              ),
+                  color: Colors.white.withOpacity(0.87),
+                  fontSize: SizeHelper.getButton),
             )));
   }
 
@@ -66,9 +68,9 @@ class FolderAddButton extends StatelessWidget {
         ],
         child: AnimatedPadding(
           padding: MediaQuery.of(context).viewInsets,
-          duration: Duration(milliseconds: 300),
+          duration: Duration(milliseconds: 250),
           child: Padding(
-            padding: EdgeInsets.all(24),
+            padding: EdgeInsets.all(26.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -76,12 +78,12 @@ class FolderAddButton extends StatelessWidget {
                   "Create folder",
                   style: TextStyle(
                       fontFamily: "Roboto",
-                      fontSize: 18.0,
+                      fontSize: SizeHelper.getHeadline6,
                       fontWeight: FontWeight.w600,
                       color: Colors.white.withOpacity(0.87)),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
+                  padding: EdgeInsets.only(top: 26.0, bottom: 26.0),
                   child: Consumer<TextControllerProvider>(
                       builder: (context, textControllerProvider, child) {
                     Provider.of<DetectTextDirectionProvider>(context,
@@ -101,7 +103,8 @@ class FolderAddButton extends StatelessWidget {
                                 .textTheme
                                 .bodyText1
                                 .copyWith(
-                                    color: Colors.white70, fontSize: 16.0),
+                                    color: Colors.white70,
+                                    fontSize: SizeHelper.getModalTextField),
                             maxLines: 1,
                             keyboardType: TextInputType.text,
                             onChanged: (value) {
@@ -112,10 +115,16 @@ class FolderAddButton extends StatelessWidget {
                                   !_local.getFolderName.isNullEmptyOrWhitespace;
                             },
                             decoration: InputDecoration(
-                              focusColor: Theme.of(context).accentColor,
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                  borderSide: BorderSide(
+                                      width: 2.0,
+                                      color: Theme.of(context).accentColor)),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16.0),
-                                  borderSide: BorderSide(width: 2.0)),
+                                  borderSide: BorderSide(
+                                      width: 2.0,
+                                      color: Theme.of(context).accentColor)),
                               hintText: 'Folder Name',
                             ),
                           );
@@ -138,7 +147,7 @@ class FolderAddButton extends StatelessWidget {
                           "Cancel",
                           style: TextStyle(
                             fontFamily: "Roboto",
-                            fontSize: 18.0,
+                            fontSize: SizeHelper.getModalButton,
                           ),
                         )),
                     Consumer<FolderDialogProvider>(
@@ -147,7 +156,7 @@ class FolderAddButton extends StatelessWidget {
                       return FlatButton(
                           shape: StadiumBorder(),
                           color: Colors.grey[600].withOpacity(0.2),
-                          textColor: Colors.blueAccent,
+                          textColor: Theme.of(context).accentColor,
                           padding: EdgeInsets.only(
                               top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
                           onPressed: provider.isNameTyped
@@ -157,7 +166,7 @@ class FolderAddButton extends StatelessWidget {
                             "Create",
                             style: TextStyle(
                               fontFamily: "Roboto",
-                              fontSize: 18.0,
+                              fontSize: SizeHelper.getModalButton,
                             ),
                           ));
                     }),

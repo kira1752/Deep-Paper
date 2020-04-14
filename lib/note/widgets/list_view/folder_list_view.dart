@@ -1,6 +1,7 @@
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/widgets/note_card.dart';
+import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,21 +33,21 @@ class FolderListView extends StatelessWidget {
                           Stack(children: <Widget>[
                             Icon(
                               MyIcon.library_books_outline,
-                              size: 120,
+                              size: SizeHelper.setIconSize(size: 120.0),
                               color: Colors.white70,
                             ),
                             Positioned(
                               bottom: 0,
-                              left: 68,
+                              left: SizeHelper.setWidth(size: 68.0),
                               child: Material(
                                 shape: CircleBorder(
                                     side: BorderSide(
                                         width: 6.0, color: Colors.white70)),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(10),
+                                  padding: EdgeInsets.all(10.0),
                                   child: Icon(
                                     MyIcon.plus,
-                                    size: 30,
+                                    size: SizeHelper.setIconSize(size: 30.0),
                                     color: Colors.white70,
                                   ),
                                 ),
@@ -59,9 +60,10 @@ class FolderListView extends StatelessWidget {
                               "Create a new note",
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle2
+                                  .headline6
                                   .copyWith(
-                                      color: Colors.white70, fontSize: 22.0),
+                                      color: Colors.white70,
+                                      fontSize: SizeHelper.getTitle),
                             ),
                           )
                         ],

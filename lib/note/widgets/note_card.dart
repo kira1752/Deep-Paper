@@ -1,7 +1,7 @@
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/note/provider/deep_bottom_provider.dart';
 import 'package:deep_paper/note/provider/selection_provider.dart';
-import 'package:deep_paper/utility/detect_text_direction.dart';
+import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,8 +29,7 @@ class NoteCard extends StatelessWidget {
         builder: (context, selected, child) {
           debugPrintSynchronously("note $index rebuild");
           return Padding(
-            padding:
-                const EdgeInsets.only(left: 16, right: 16, bottom: 10, top: 10),
+            padding: EdgeInsets.only(left: 16, right: 16, bottom: 10, top: 10),
             child: Material(
               color: Theme.of(context).cardColor,
               shape: RoundedRectangleBorder(
@@ -84,13 +83,10 @@ class NoteCard extends StatelessWidget {
                         padding: EdgeInsets.only(bottom: 12),
                         child: Text(
                           "${note.title}",
-                          textDirection:
-                              DetectTextDirection.isRTL(text: "${note.title}")
-                                  ? TextDirection.rtl
-                                  : TextDirection.ltr,
-                          style: Theme.of(context).textTheme.subtitle2.copyWith(
+                          textDirection: note.titleDirection,
+                          style: Theme.of(context).textTheme.headline6.copyWith(
                               color: Colors.white.withOpacity(0.80),
-                              fontSize: 22.0),
+                              fontSize: SizeHelper.getTitle),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -98,20 +94,16 @@ class NoteCard extends StatelessWidget {
                     if (!note.detail.isNullEmptyOrWhitespace)
                       Text(
                         "${note.detail}",
-                        textDirection:
-                            DetectTextDirection.isRTL(text: "${note.detail}")
-                                ? TextDirection.rtl
-                                : TextDirection.ltr,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            .copyWith(color: Colors.white70, fontSize: 18.0),
+                        textDirection: note.detailDirection,
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            color: Colors.white70,
+                            fontSize: SizeHelper.getDescription),
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                       ),
                     if (note.containAudio || note.containImage)
                       Padding(
-                          padding: EdgeInsets.only(top: 24),
+                          padding: EdgeInsets.only(top: 24.0),
                           child: _dateAndIcons(context: context, data: note)),
                   ]),
                 ),
@@ -127,17 +119,17 @@ class NoteCard extends StatelessWidget {
       children: <Widget>[
         if (data.containImage)
           Padding(
-              padding: EdgeInsets.only(right: 8),
+              padding: EdgeInsets.only(right: 8.0),
               child: Icon(
                 MyIcon.photo_outline,
                 color: Colors.white60,
-                size: 18,
+                size: SizeHelper.getDescription,
               )),
         if (data.containAudio)
           Icon(
             Icons.mic_none,
             color: Colors.white60,
-            size: 18,
+            size: SizeHelper.getDescription,
           )
       ],
     );

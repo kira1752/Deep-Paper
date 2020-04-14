@@ -2,9 +2,10 @@ import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/provider/deep_bottom_provider.dart';
 import 'package:deep_paper/note/provider/selection_provider.dart';
+import 'package:deep_paper/note/widgets/deep_toast.dart';
+import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class NormalSelectionAppBar extends StatelessWidget {
@@ -39,6 +40,7 @@ class NormalSelectionAppBar extends StatelessWidget {
                             color: Colors.white.withOpacity(0.60)),
                         title: Text(
                           "Delete",
+                          style: TextStyle(fontSize: SizeHelper.getBodyText1),
                         ),
                       )),
                   PopupMenuItem(
@@ -50,6 +52,7 @@ class NormalSelectionAppBar extends StatelessWidget {
                         ),
                         title: Text(
                           "Move to",
+                          style: TextStyle(fontSize: SizeHelper.getBodyText1),
                         ),
                       ))
                 ]),
@@ -60,10 +63,8 @@ class NormalSelectionAppBar extends StatelessWidget {
         builder: (context, count, child) {
           debugPrintSynchronously("Text Title rebuilt");
           return Text('$count selected',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6
-                  .copyWith(fontFamily: "Noto Sans"));
+              style: Theme.of(context).textTheme.headline5.copyWith(
+                  fontFamily: "Noto Sans", fontSize: SizeHelper.getHeadline5));
         },
         selector: (context, provider) => provider.getSelected.length,
       ),
@@ -97,12 +98,6 @@ class NormalSelectionAppBar extends StatelessWidget {
 
     await database.noteDao.moveToTrash(selectedNote);
 
-    Fluttertoast.showToast(
-        msg: "Note moved to Trash Bin",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        textColor: Colors.white.withOpacity(0.87),
-        fontSize: 16,
-        backgroundColor: Color(0xff222222));
+    DeepToast.showToast(description: "Note moved to Trash Bin");
   }
 }

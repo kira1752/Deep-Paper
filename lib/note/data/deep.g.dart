@@ -12,6 +12,8 @@ class Note extends DataClass implements Insertable<Note> {
   final int folderID;
   final String title;
   final String detail;
+  final TextDirection titleDirection;
+  final TextDirection detailDirection;
   final bool isDeleted;
   final bool containAudio;
   final bool containImage;
@@ -21,6 +23,8 @@ class Note extends DataClass implements Insertable<Note> {
       this.folderID,
       this.title,
       this.detail,
+      this.titleDirection,
+      this.detailDirection,
       @required this.isDeleted,
       @required this.containAudio,
       @required this.containImage,
@@ -40,6 +44,10 @@ class Note extends DataClass implements Insertable<Note> {
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}title']),
       detail:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}detail']),
+      titleDirection: $NotesTable.$converter0.mapToDart(stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}title_direction'])),
+      detailDirection: $NotesTable.$converter1.mapToDart(stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}detail_direction'])),
       isDeleted: boolType
           .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       containAudio: boolType
@@ -58,6 +66,10 @@ class Note extends DataClass implements Insertable<Note> {
       folderID: serializer.fromJson<int>(json['folderID']),
       title: serializer.fromJson<String>(json['title']),
       detail: serializer.fromJson<String>(json['detail']),
+      titleDirection:
+          serializer.fromJson<TextDirection>(json['titleDirection']),
+      detailDirection:
+          serializer.fromJson<TextDirection>(json['detailDirection']),
       isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       containAudio: serializer.fromJson<bool>(json['containAudio']),
       containImage: serializer.fromJson<bool>(json['containImage']),
@@ -72,6 +84,8 @@ class Note extends DataClass implements Insertable<Note> {
       'folderID': serializer.toJson<int>(folderID),
       'title': serializer.toJson<String>(title),
       'detail': serializer.toJson<String>(detail),
+      'titleDirection': serializer.toJson<TextDirection>(titleDirection),
+      'detailDirection': serializer.toJson<TextDirection>(detailDirection),
       'isDeleted': serializer.toJson<bool>(isDeleted),
       'containAudio': serializer.toJson<bool>(containAudio),
       'containImage': serializer.toJson<bool>(containImage),
@@ -90,6 +104,12 @@ class Note extends DataClass implements Insertable<Note> {
           title == null && nullToAbsent ? const Value.absent() : Value(title),
       detail:
           detail == null && nullToAbsent ? const Value.absent() : Value(detail),
+      titleDirection: titleDirection == null && nullToAbsent
+          ? const Value.absent()
+          : Value(titleDirection),
+      detailDirection: detailDirection == null && nullToAbsent
+          ? const Value.absent()
+          : Value(detailDirection),
       isDeleted: isDeleted == null && nullToAbsent
           ? const Value.absent()
           : Value(isDeleted),
@@ -108,6 +128,8 @@ class Note extends DataClass implements Insertable<Note> {
           int folderID,
           String title,
           String detail,
+          TextDirection titleDirection,
+          TextDirection detailDirection,
           bool isDeleted,
           bool containAudio,
           bool containImage,
@@ -117,6 +139,8 @@ class Note extends DataClass implements Insertable<Note> {
         folderID: folderID ?? this.folderID,
         title: title ?? this.title,
         detail: detail ?? this.detail,
+        titleDirection: titleDirection ?? this.titleDirection,
+        detailDirection: detailDirection ?? this.detailDirection,
         isDeleted: isDeleted ?? this.isDeleted,
         containAudio: containAudio ?? this.containAudio,
         containImage: containImage ?? this.containImage,
@@ -129,6 +153,8 @@ class Note extends DataClass implements Insertable<Note> {
           ..write('folderID: $folderID, ')
           ..write('title: $title, ')
           ..write('detail: $detail, ')
+          ..write('titleDirection: $titleDirection, ')
+          ..write('detailDirection: $detailDirection, ')
           ..write('isDeleted: $isDeleted, ')
           ..write('containAudio: $containAudio, ')
           ..write('containImage: $containImage, ')
@@ -147,9 +173,15 @@ class Note extends DataClass implements Insertable<Note> {
               $mrjc(
                   detail.hashCode,
                   $mrjc(
-                      isDeleted.hashCode,
-                      $mrjc(containAudio.hashCode,
-                          $mrjc(containImage.hashCode, date.hashCode))))))));
+                      titleDirection.hashCode,
+                      $mrjc(
+                          detailDirection.hashCode,
+                          $mrjc(
+                              isDeleted.hashCode,
+                              $mrjc(
+                                  containAudio.hashCode,
+                                  $mrjc(containImage.hashCode,
+                                      date.hashCode))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -158,6 +190,8 @@ class Note extends DataClass implements Insertable<Note> {
           other.folderID == this.folderID &&
           other.title == this.title &&
           other.detail == this.detail &&
+          other.titleDirection == this.titleDirection &&
+          other.detailDirection == this.detailDirection &&
           other.isDeleted == this.isDeleted &&
           other.containAudio == this.containAudio &&
           other.containImage == this.containImage &&
@@ -169,6 +203,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
   final Value<int> folderID;
   final Value<String> title;
   final Value<String> detail;
+  final Value<TextDirection> titleDirection;
+  final Value<TextDirection> detailDirection;
   final Value<bool> isDeleted;
   final Value<bool> containAudio;
   final Value<bool> containImage;
@@ -178,6 +214,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
     this.folderID = const Value.absent(),
     this.title = const Value.absent(),
     this.detail = const Value.absent(),
+    this.titleDirection = const Value.absent(),
+    this.detailDirection = const Value.absent(),
     this.isDeleted = const Value.absent(),
     this.containAudio = const Value.absent(),
     this.containImage = const Value.absent(),
@@ -188,6 +226,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
     this.folderID = const Value.absent(),
     this.title = const Value.absent(),
     this.detail = const Value.absent(),
+    this.titleDirection = const Value.absent(),
+    this.detailDirection = const Value.absent(),
     this.isDeleted = const Value.absent(),
     this.containAudio = const Value.absent(),
     this.containImage = const Value.absent(),
@@ -198,6 +238,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
       Value<int> folderID,
       Value<String> title,
       Value<String> detail,
+      Value<TextDirection> titleDirection,
+      Value<TextDirection> detailDirection,
       Value<bool> isDeleted,
       Value<bool> containAudio,
       Value<bool> containImage,
@@ -207,6 +249,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
       folderID: folderID ?? this.folderID,
       title: title ?? this.title,
       detail: detail ?? this.detail,
+      titleDirection: titleDirection ?? this.titleDirection,
+      detailDirection: detailDirection ?? this.detailDirection,
       isDeleted: isDeleted ?? this.isDeleted,
       containAudio: containAudio ?? this.containAudio,
       containImage: containImage ?? this.containImage,
@@ -264,6 +308,34 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     );
   }
 
+  final VerificationMeta _titleDirectionMeta =
+      const VerificationMeta('titleDirection');
+  GeneratedTextColumn _titleDirection;
+  @override
+  GeneratedTextColumn get titleDirection =>
+      _titleDirection ??= _constructTitleDirection();
+  GeneratedTextColumn _constructTitleDirection() {
+    return GeneratedTextColumn(
+      'title_direction',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _detailDirectionMeta =
+      const VerificationMeta('detailDirection');
+  GeneratedTextColumn _detailDirection;
+  @override
+  GeneratedTextColumn get detailDirection =>
+      _detailDirection ??= _constructDetailDirection();
+  GeneratedTextColumn _constructDetailDirection() {
+    return GeneratedTextColumn(
+      'detail_direction',
+      $tableName,
+      true,
+    );
+  }
+
   final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
   GeneratedBoolColumn _isDeleted;
   @override
@@ -313,6 +385,8 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
         folderID,
         title,
         detail,
+        titleDirection,
+        detailDirection,
         isDeleted,
         containAudio,
         containImage,
@@ -343,6 +417,8 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
       context.handle(
           _detailMeta, detail.isAcceptableValue(d.detail.value, _detailMeta));
     }
+    context.handle(_titleDirectionMeta, const VerificationResult.success());
+    context.handle(_detailDirectionMeta, const VerificationResult.success());
     if (d.isDeleted.present) {
       context.handle(_isDeletedMeta,
           isDeleted.isAcceptableValue(d.isDeleted.value, _isDeletedMeta));
@@ -391,6 +467,16 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     if (d.detail.present) {
       map['detail'] = Variable<String, StringType>(d.detail.value);
     }
+    if (d.titleDirection.present) {
+      final converter = $NotesTable.$converter0;
+      map['title_direction'] = Variable<String, StringType>(
+          converter.mapToSql(d.titleDirection.value));
+    }
+    if (d.detailDirection.present) {
+      final converter = $NotesTable.$converter1;
+      map['detail_direction'] = Variable<String, StringType>(
+          converter.mapToSql(d.detailDirection.value));
+    }
     if (d.isDeleted.present) {
       map['is_deleted'] = Variable<bool, BoolType>(d.isDeleted.value);
     }
@@ -410,12 +496,18 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   $NotesTable createAlias(String alias) {
     return $NotesTable(_db, alias);
   }
+
+  static TypeConverter<TextDirection, String> $converter0 =
+      const TextDirectionConverter();
+  static TypeConverter<TextDirection, String> $converter1 =
+      const TextDirectionConverter();
 }
 
 class FolderNoteData extends DataClass implements Insertable<FolderNoteData> {
   final int id;
   final String name;
-  FolderNoteData({@required this.id, @required this.name});
+  final TextDirection nameDirection;
+  FolderNoteData({@required this.id, @required this.name, this.nameDirection});
   factory FolderNoteData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -425,6 +517,8 @@ class FolderNoteData extends DataClass implements Insertable<FolderNoteData> {
     return FolderNoteData(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
+      nameDirection: $FolderNoteTable.$converter0.mapToDart(stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}name_direction'])),
     );
   }
   factory FolderNoteData.fromJson(Map<String, dynamic> json,
@@ -433,6 +527,7 @@ class FolderNoteData extends DataClass implements Insertable<FolderNoteData> {
     return FolderNoteData(
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
+      nameDirection: serializer.fromJson<TextDirection>(json['nameDirection']),
     );
   }
   @override
@@ -441,6 +536,7 @@ class FolderNoteData extends DataClass implements Insertable<FolderNoteData> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
+      'nameDirection': serializer.toJson<TextDirection>(nameDirection),
     };
   }
 
@@ -449,47 +545,60 @@ class FolderNoteData extends DataClass implements Insertable<FolderNoteData> {
     return FolderNoteCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+      nameDirection: nameDirection == null && nullToAbsent
+          ? const Value.absent()
+          : Value(nameDirection),
     );
   }
 
-  FolderNoteData copyWith({int id, String name}) => FolderNoteData(
+  FolderNoteData copyWith({int id, String name, TextDirection nameDirection}) =>
+      FolderNoteData(
         id: id ?? this.id,
         name: name ?? this.name,
+        nameDirection: nameDirection ?? this.nameDirection,
       );
   @override
   String toString() {
     return (StringBuffer('FolderNoteData(')
           ..write('id: $id, ')
-          ..write('name: $name')
+          ..write('name: $name, ')
+          ..write('nameDirection: $nameDirection')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(id.hashCode, name.hashCode));
+  int get hashCode =>
+      $mrjf($mrjc(id.hashCode, $mrjc(name.hashCode, nameDirection.hashCode)));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is FolderNoteData &&
           other.id == this.id &&
-          other.name == this.name);
+          other.name == this.name &&
+          other.nameDirection == this.nameDirection);
 }
 
 class FolderNoteCompanion extends UpdateCompanion<FolderNoteData> {
   final Value<int> id;
   final Value<String> name;
+  final Value<TextDirection> nameDirection;
   const FolderNoteCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
+    this.nameDirection = const Value.absent(),
   });
   FolderNoteCompanion.insert({
     this.id = const Value.absent(),
     @required String name,
+    this.nameDirection = const Value.absent(),
   }) : name = Value(name);
-  FolderNoteCompanion copyWith({Value<int> id, Value<String> name}) {
+  FolderNoteCompanion copyWith(
+      {Value<int> id, Value<String> name, Value<TextDirection> nameDirection}) {
     return FolderNoteCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
+      nameDirection: nameDirection ?? this.nameDirection,
     );
   }
 }
@@ -520,8 +629,22 @@ class $FolderNoteTable extends FolderNote
     );
   }
 
+  final VerificationMeta _nameDirectionMeta =
+      const VerificationMeta('nameDirection');
+  GeneratedTextColumn _nameDirection;
   @override
-  List<GeneratedColumn> get $columns => [id, name];
+  GeneratedTextColumn get nameDirection =>
+      _nameDirection ??= _constructNameDirection();
+  GeneratedTextColumn _constructNameDirection() {
+    return GeneratedTextColumn(
+      'name_direction',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [id, name, nameDirection];
   @override
   $FolderNoteTable get asDslTable => this;
   @override
@@ -541,6 +664,7 @@ class $FolderNoteTable extends FolderNote
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
+    context.handle(_nameDirectionMeta, const VerificationResult.success());
     return context;
   }
 
@@ -561,6 +685,11 @@ class $FolderNoteTable extends FolderNote
     if (d.name.present) {
       map['name'] = Variable<String, StringType>(d.name.value);
     }
+    if (d.nameDirection.present) {
+      final converter = $FolderNoteTable.$converter0;
+      map['name_direction'] = Variable<String, StringType>(
+          converter.mapToSql(d.nameDirection.value));
+    }
     return map;
   }
 
@@ -568,6 +697,9 @@ class $FolderNoteTable extends FolderNote
   $FolderNoteTable createAlias(String alias) {
     return $FolderNoteTable(_db, alias);
   }
+
+  static TypeConverter<TextDirection, String> $converter0 =
+      const TextDirectionConverter();
 }
 
 class AudioNoteData extends DataClass implements Insertable<AudioNoteData> {

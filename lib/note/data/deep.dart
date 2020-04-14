@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:deep_paper/note/data/folder_note_dao.dart';
 import 'package:deep_paper/note/data/note_dao.dart';
 import 'package:moor/moor.dart';
@@ -7,12 +8,35 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
 part 'deep.g.dart';
+class TextDirectionConverter extends TypeConverter<TextDirection, String> {
+  const TextDirectionConverter();
+  @override
+  TextDirection mapToDart(String fromDb) {
+    if (fromDb == null) {
+      return null;
+    }
+
+    return fromDb as TextDirection;
+  }
+
+  @override
+  String mapToSql(TextDirection value) {
+    if (value == null) {
+      return null;
+    }
+    return "$value";
+  }
+}
 
 class Notes extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get folderID => integer().nullable()();
   TextColumn get title => text().nullable()();
   TextColumn get detail => text().nullable()();
+  TextColumn get titleDirection =>
+      text().map(const TextDirectionConverter()).nullable()();
+  TextColumn get detailDirection =>
+      text().map(const TextDirectionConverter()).nullable()();
   BoolColumn get isDeleted => boolean().withDefault(const Constant(false))();
   BoolColumn get containAudio => boolean().withDefault(const Constant(false))();
   BoolColumn get containImage => boolean().withDefault(const Constant(false))();
@@ -34,6 +58,8 @@ class ImageNote extends Table {
 class FolderNote extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
+  TextColumn get nameDirection =>
+      text().map(const TextDirectionConverter()).nullable()();
 }
 
 LazyDatabase _openConnection() {
@@ -47,7 +73,9 @@ LazyDatabase _openConnection() {
   });
 }
 
-@UseMoor(tables: [Notes, FolderNote, AudioNote, ImageNote], daos: [NoteDao, FolderNoteDao])
+@UseMoor(
+    tables: [Notes, FolderNote, AudioNote, ImageNote],
+    daos: [NoteDao, FolderNoteDao])
 class DeepPaperDatabase extends _$DeepPaperDatabase {
   DeepPaperDatabase() : super(_openConnection());
 

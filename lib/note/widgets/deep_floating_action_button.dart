@@ -9,6 +9,7 @@ class DeepFloatingActionButton extends StatelessWidget {
   DeepFloatingActionButton({
     @required this.actions,
     this.onAction,
+    this.tooltip,
     @required this.icon,
     this.animationDuration = 250,
     this.controller,
@@ -16,6 +17,7 @@ class DeepFloatingActionButton extends StatelessWidget {
 
   final List<DeepAction> actions;
   final ValueChanged<int> onAction;
+  final String tooltip;
   final Widget icon;
   final int animationDuration;
   final DeepController controller;
@@ -25,6 +27,7 @@ class DeepFloatingActionButton extends StatelessWidget {
     return Deep(
       controller: controller,
       actions: actions,
+      tooltip: tooltip,
       onAction: onAction,
       icon: icon,
       animationDuration: animationDuration,
@@ -42,6 +45,7 @@ class Deep extends StatefulWidget {
   Deep({
     @required this.actions,
     this.onAction,
+    this.tooltip,
     @required this.icon,
     this.animationDuration,
     this.controller,
@@ -50,6 +54,7 @@ class Deep extends StatefulWidget {
   final DeepController controller;
   final List<DeepAction> actions;
   final ValueChanged<int> onAction;
+  final String tooltip;
   final Widget icon;
   final int animationDuration;
 
@@ -123,6 +128,7 @@ class _DeepState extends State<Deep> with TickerProviderStateMixin {
     return FloatingActionButton(
       heroTag: null,
       backgroundColor: Theme.of(context).accentColor,
+      tooltip: widget.tooltip,
       onPressed: toggle,
       child: AnimatedBuilder(
           animation: _controller,
