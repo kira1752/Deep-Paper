@@ -116,7 +116,7 @@ class TrashListView extends StatelessWidget {
                 FlatButton(
                     shape: StadiumBorder(),
                     color: Colors.grey[600].withOpacity(0.2),
-                    textColor: Colors.blueAccent,
+                    textColor: Theme.of(context).accentColor,
                     padding: EdgeInsets.only(
                         top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
                     onPressed: () async {
