@@ -13,21 +13,21 @@ import 'package:deep_paper/utility/extension.dart';
 import 'package:deep_paper/utility/extension.dart'
     show TextUtilsStringExtension;
 
-class LocalStore {
+class _LocalStore {
   String title = "";
   String detail = "";
   bool isDeleted = false;
 
-  LocalStore(
+  _LocalStore(
       {@required this.title, @required this.detail, @required this.isDeleted});
 
   String get getTitle => title;
   String get getDetail => detail;
   bool get getIsDeleted => isDeleted;
 
-  set setTitle(String title) => title = title;
-  set setDetail(String detail) => detail = detail;
-  set setDeleted(bool isDeleted) => isDeleted = isDeleted;
+  set setTitle(String title) => this.title = title;
+  set setDetail(String detail) => this.detail = detail;
+  set setDeleted(bool isDeleted) => this.isDeleted = isDeleted;
 }
 
 class NoteDetailUpdate extends StatefulWidget {
@@ -40,14 +40,14 @@ class NoteDetailUpdate extends StatefulWidget {
 }
 
 class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
-  LocalStore _local;
+  _LocalStore _local;
   TextEditingController _titleController;
   TextEditingController _detailController;
 
   @override
   void initState() {
     super.initState();
-    _local = LocalStore(
+    _local = _LocalStore(
         title: widget.data.title ?? "",
         detail: widget.data.detail ?? "",
         isDeleted: widget.data.isDeleted);
@@ -311,6 +311,7 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
                   }
 
                   _local.setDetail = value;
+
                   Provider.of<DetectTextDirectionProvider>(context,
                           listen: false)
                       .checkDirection = _local.getDetail;
