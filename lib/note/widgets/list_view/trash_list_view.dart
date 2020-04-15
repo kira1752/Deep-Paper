@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:deep_paper/utility/extension.dart';
+import 'package:responsive_widgets/responsive_widgets.dart';
 
 class TrashListView extends StatelessWidget {
   @override
@@ -17,7 +18,7 @@ class TrashListView extends StatelessWidget {
       create: (context) => database.noteDao.watchAllDeletedNotes(),
       child: Consumer<List<Note>>(builder: (context, data, child) {
         return AnimatedSwitcher(
-          duration: Duration(milliseconds: 450),
+          duration: const Duration(milliseconds: 450),
           child: data.isNull
               ? Container()
               : data.isEmpty
@@ -27,11 +28,11 @@ class TrashListView extends StatelessWidget {
                         children: <Widget>[
                           Icon(
                             MyIcon.trash_empty,
-                            size: SizeHelper.setIconSize(size: 120.0),
+                            size: 120.0,
                             color: Colors.white70,
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 14.0),
+                            padding: EdgeInsetsResponsive.only(top: 14.0),
                             child: Text(
                               "No notes in Trash Bin",
                               style: Theme.of(context)
@@ -46,7 +47,7 @@ class TrashListView extends StatelessWidget {
                       ),
                     )
                   : ListView.builder(
-                      physics: ClampingScrollPhysics(),
+                      physics: const ClampingScrollPhysics(),
                       itemCount: data.length,
                       itemBuilder: (BuildContext context, int index) {
                         return NoteCard(
@@ -72,7 +73,7 @@ class TrashListView extends StatelessWidget {
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0))),
       builder: (context) => Padding(
-        padding: EdgeInsets.all(26.0),
+        padding: EdgeInsetsResponsive.all(26.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -85,7 +86,7 @@ class TrashListView extends StatelessWidget {
                   color: Colors.white.withOpacity(0.87)),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
+              padding: EdgeInsetsResponsive.only(top: 24.0, bottom: 24.0),
               child: Text(
                 "Couldn't open this note. Restore this note to edit the content.",
                 style: TextStyle(
@@ -101,7 +102,7 @@ class TrashListView extends StatelessWidget {
                     shape: StadiumBorder(),
                     color: Colors.grey[600].withOpacity(0.2),
                     textColor: Colors.white.withOpacity(0.87),
-                    padding: EdgeInsets.only(
+                    padding: EdgeInsetsResponsive.only(
                         top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -117,7 +118,7 @@ class TrashListView extends StatelessWidget {
                     shape: StadiumBorder(),
                     color: Colors.grey[600].withOpacity(0.2),
                     textColor: Theme.of(context).accentColor,
-                    padding: EdgeInsets.only(
+                    padding: EdgeInsetsResponsive.only(
                         top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
                     onPressed: () async {
                       await database.noteDao

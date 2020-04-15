@@ -6,6 +6,7 @@ import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_widgets/responsive_widgets.dart';
 
 class TrashMenu extends StatelessWidget {
   @override
@@ -26,11 +27,7 @@ class TrashMenu extends StatelessWidget {
                 onSelected: (choice) {
                   if (choice == 0) _onEmptyTrashBin(context: context);
                 },
-                padding: EdgeInsets.fromLTRB(
-                    SizeHelper.setWidth(size: 18),
-                    SizeHelper.setHeight(size: 18),
-                    SizeHelper.setWidth(size: 18),
-                    SizeHelper.setHeight(size: 18)),
+                padding: EdgeInsetsResponsive.all(18.0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0)),
                 itemBuilder: (context) {

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:moor/moor.dart' hide Column;
 import 'package:provider/provider.dart';
+import 'package:responsive_widgets/responsive_widgets.dart';
 
 class _LocalStore {
   String _folderName = "";
@@ -69,9 +70,9 @@ class FolderAddButton extends StatelessWidget {
         ],
         child: AnimatedPadding(
           padding: MediaQuery.of(context).viewInsets,
-          duration: Duration(milliseconds: 250),
+          duration: const Duration(milliseconds: 250),
           child: Padding(
-            padding: EdgeInsets.all(26.0),
+            padding: EdgeInsetsResponsive.all(26.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -84,13 +85,9 @@ class FolderAddButton extends StatelessWidget {
                       color: Colors.white.withOpacity(0.87)),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 26.0, bottom: 26.0),
+                  padding: EdgeInsetsResponsive.only(top: 26.0, bottom: 26.0),
                   child: Consumer<TextControllerProvider>(
                       builder: (context, textControllerProvider, child) {
-                    Provider.of<DetectTextDirectionProvider>(context,
-                            listen: false)
-                        .checkDirection = _local.getFolderName;
-
                     return Selector<DetectTextDirectionProvider, TextDirection>(
                         selector: (context, provider) => provider.getDirection
                             ? TextDirection.rtl
@@ -143,7 +140,7 @@ class FolderAddButton extends StatelessWidget {
                         shape: StadiumBorder(),
                         color: Colors.grey[600].withOpacity(0.2),
                         textColor: Colors.white.withOpacity(0.87),
-                        padding: EdgeInsets.only(
+                        padding: EdgeInsetsResponsive.only(
                             top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
                         onPressed: () {
                           Navigator.of(context).pop();
@@ -162,7 +159,7 @@ class FolderAddButton extends StatelessWidget {
                           shape: StadiumBorder(),
                           color: Colors.grey[600].withOpacity(0.2),
                           textColor: Theme.of(context).accentColor,
-                          padding: EdgeInsets.only(
+                          padding: EdgeInsetsResponsive.only(
                               top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
                           onPressed: provider.isNameTyped
                               ? () => _addFolder(context: context)

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/utility/extension.dart';
+import 'package:responsive_widgets/responsive_widgets.dart';
 
 typedef void _OnTap();
 
@@ -29,7 +30,8 @@ class NoteCard extends StatelessWidget {
         builder: (context, selected, child) {
           debugPrintSynchronously("note $index rebuild");
           return Padding(
-            padding: EdgeInsets.only(left: 16, right: 16, bottom: 10, top: 10),
+            padding: EdgeInsetsResponsive.only(
+                left: 16, right: 16, bottom: 10, top: 10),
             child: Material(
               color: Theme.of(context).cardColor,
               shape: RoundedRectangleBorder(
@@ -76,11 +78,11 @@ class NoteCard extends StatelessWidget {
                   }
                 },
                 child: Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsetsResponsive.all(20),
                   child: ListBody(children: <Widget>[
                     if (!note.title.isNullEmptyOrWhitespace)
                       Padding(
-                        padding: EdgeInsets.only(bottom: 12),
+                        padding: EdgeInsetsResponsive.only(bottom: 12),
                         child: Text(
                           "${note.title}",
                           textDirection: note.titleDirection,
@@ -103,7 +105,7 @@ class NoteCard extends StatelessWidget {
                       ),
                     if (note.containAudio || note.containImage)
                       Padding(
-                          padding: EdgeInsets.only(top: 24.0),
+                          padding: EdgeInsetsResponsive.only(top: 24.0),
                           child: _dateAndIcons(context: context, data: note)),
                   ]),
                 ),
@@ -119,7 +121,7 @@ class NoteCard extends StatelessWidget {
       children: <Widget>[
         if (data.containImage)
           Padding(
-              padding: EdgeInsets.only(right: 8.0),
+              padding: EdgeInsetsResponsive.only(right: 8.0),
               child: Icon(
                 MyIcon.photo_outline,
                 color: Colors.white60,

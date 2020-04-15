@@ -34,12 +34,11 @@ class TextDirectionConverter extends TypeConverter<TextDirection, String> {
 class Notes extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get folderID => integer().nullable()();
-  TextColumn get title => text().nullable()();
-  TextColumn get detail => text().nullable()();
-  TextColumn get titleDirection =>
-      text().map(const TextDirectionConverter()).nullable()();
+  TextColumn get title => text()();
+  TextColumn get detail => text()();
+  TextColumn get titleDirection => text().map(const TextDirectionConverter())();
   TextColumn get detailDirection =>
-      text().map(const TextDirectionConverter()).nullable()();
+      text().map(const TextDirectionConverter())();
   BoolColumn get isDeleted => boolean().withDefault(const Constant(false))();
   BoolColumn get containAudio => boolean().withDefault(const Constant(false))();
   BoolColumn get containImage => boolean().withDefault(const Constant(false))();
@@ -61,8 +60,7 @@ class ImageNote extends Table {
 class FolderNote extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
-  TextColumn get nameDirection =>
-      text().map(const TextDirectionConverter()).nullable()();
+  TextColumn get nameDirection => text().map(const TextDirectionConverter())();
 }
 
 LazyDatabase _openConnection() {

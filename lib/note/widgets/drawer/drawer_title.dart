@@ -1,5 +1,6 @@
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_widgets/responsive_widgets.dart';
 
 class DrawerTitle extends StatelessWidget {
   final String title;
@@ -9,7 +10,7 @@ class DrawerTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(18.0),
+      margin: EdgeInsetsResponsive.all(18.0),
       child: Text(title,
           style: Theme.of(context)
               .textTheme

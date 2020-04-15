@@ -28,6 +28,8 @@ dependencies:
   tuple: ^1.0.3
   intl: ^0.16.1
   fluttertoast: ^4.0.1
+  auto_size_text: ^2.1.0
+  responsive_widgets: ^2.0.1
   flutter_keyboard_visibility: ^0.8.0
 
 dev_dependencies:

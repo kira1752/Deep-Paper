@@ -3,6 +3,7 @@ import 'package:deep_paper/note/provider/detect_text_direction_provider.dart';
 import 'package:deep_paper/note/provider/note_detail_provider.dart';
 import 'package:deep_paper/note/widgets/bottom_menu.dart';
 import 'package:deep_paper/note/widgets/deep_toast.dart';
+import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -10,8 +11,7 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:moor/moor.dart';
 import 'package:provider/provider.dart';
 import 'package:deep_paper/utility/extension.dart';
-import 'package:deep_paper/utility/extension.dart'
-    show TextUtilsStringExtension;
+import 'package:responsive_widgets/responsive_widgets.dart';
 
 class _LocalStore {
   String title = "";
@@ -129,11 +129,11 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
             physics: ClampingScrollPhysics(),
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.fromLTRB(18, 0, 16, 16),
+                padding: EdgeInsetsResponsive.fromLTRB(18, 0, 16, 16),
                 child: _titleField(data: widget.data),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(18, 16, 16, 16),
+                padding: EdgeInsetsResponsive.fromLTRB(18, 16, 16, 16),
                 child: _detailField(widget.data),
               ),
             ],
@@ -156,13 +156,10 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
         : TextDirection.ltr;
     final bool isDeleted = _local.isDeleted;
 
-    debugPrintSynchronously("Title: $title");
-    debugPrintSynchronously("Detail: $detail");
-
     if (data.title != title ||
         data.detail != detail && data.isDeleted != isDeleted) {
-      debugPrintSynchronously("run");
       if (!title.isNullEmptyOrWhitespace || !detail.isNullEmptyOrWhitespace) {
+        debugPrintSynchronously("run full");
         await database.noteDao.updateNote(data.copyWith(
             title: title,
             detail: detail,
@@ -175,7 +172,7 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
         await database.noteDao.deleteNote(data);
       }
     } else if (data.title != title || data.detail != detail) {
-      debugPrintSynchronously("run");
+      debugPrintSynchronously("run partial");
       if (!title.isNullEmptyOrWhitespace || !detail.isNullEmptyOrWhitespace) {
         await database.noteDao.updateNote(data.copyWith(
             title: title,
@@ -255,7 +252,7 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
               style: Theme.of(context)
                   .textTheme
                   .subtitle2
-                  .copyWith(color: Colors.white70, fontSize: 22.0),
+                  .copyWith(color: Colors.white70, fontSize: SizeHelper.getTitle),
               maxLines: null,
               keyboardType: TextInputType.multiline,
               onChanged: (value) {
@@ -299,7 +296,7 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1
-                    .copyWith(color: Colors.white70, fontSize: 18.0),
+                    .copyWith(color: Colors.white70, fontSize: SizeHelper.getDescription),
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
                 onChanged: (value) {

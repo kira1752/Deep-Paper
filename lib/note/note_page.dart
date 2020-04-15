@@ -83,12 +83,14 @@ class NotePage extends StatelessWidget {
           tooltip: "Write note",
           icon: Icon(
             Icons.edit,
+            size: 24.0,
             color: Colors.white,
           )),
       DeepAction(
           tooltip: "Audio note",
           icon: Icon(
             Icons.mic_none,
+            size: 24.0,
             color: Colors.white,
           )),
     ];
@@ -99,7 +101,7 @@ class NotePage extends StatelessWidget {
       icon: Icon(
         Icons.add,
         color: Colors.white,
-        size: 32,
+        size: 32.0,
       ),
       onAction: (int choice) {
         if (choice == 0) {

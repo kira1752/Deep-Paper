@@ -7,6 +7,7 @@ import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_widgets/responsive_widgets.dart';
 
 class TrashSelectionAppBar extends StatelessWidget {
   @override
@@ -26,7 +27,7 @@ class TrashSelectionAppBar extends StatelessWidget {
       actions: <Widget>[
         PopupMenuButton(
             tooltip: "Open Selection Menu",
-            padding: EdgeInsets.all(18.0),
+            padding: EdgeInsetsResponsive.all(18.0),
             onSelected: (choice) {
               _menuTrashSelected(context: context, choice: choice);
             },

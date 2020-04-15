@@ -63,7 +63,7 @@ class _DeepDrawerState extends State<DeepDrawer> {
             return Consumer<List<FolderNoteData>>(
                 builder: (context, folderList, widget) {
               return AnimatedSwitcher(
-                duration: Duration(milliseconds: 450),
+                duration: const Duration(milliseconds: 450),
                 child: folderList.isNull
                     ? Container()
                     : DeepScrollbar(

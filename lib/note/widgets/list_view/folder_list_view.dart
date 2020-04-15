@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:deep_paper/utility/extension.dart';
+import 'package:responsive_widgets/responsive_widgets.dart';
 
 class FolderListView extends StatelessWidget {
   final FolderNoteData folder;
@@ -22,7 +23,7 @@ class FolderListView extends StatelessWidget {
       create: (context) => database.noteDao.watchNoteInsideFolder(folder),
       child: Consumer<List<Note>>(builder: (context, data, child) {
         return AnimatedSwitcher(
-          duration: Duration(milliseconds: 450),
+          duration: const Duration(milliseconds: 450),
           child: data.isNull
               ? Container()
               : data.isEmpty
@@ -33,21 +34,21 @@ class FolderListView extends StatelessWidget {
                           Stack(children: <Widget>[
                             Icon(
                               MyIcon.library_books_outline,
-                              size: SizeHelper.setIconSize(size: 120.0),
+                              size: 120.0,
                               color: Colors.white70,
                             ),
                             Positioned(
                               bottom: 0,
-                              left: SizeHelper.setWidth(size: 68.0),
+                              left: 66.0,
                               child: Material(
                                 shape: CircleBorder(
                                     side: BorderSide(
                                         width: 6.0, color: Colors.white70)),
                                 child: Padding(
-                                  padding: EdgeInsets.all(10.0),
+                                  padding: EdgeInsetsResponsive.all(10.0),
                                   child: Icon(
                                     MyIcon.plus,
-                                    size: SizeHelper.setIconSize(size: 30.0),
+                                    size: 30.0,
                                     color: Colors.white70,
                                   ),
                                 ),
@@ -55,7 +56,7 @@ class FolderListView extends StatelessWidget {
                             )
                           ]),
                           Padding(
-                            padding: EdgeInsets.only(top: 24.0),
+                            padding: EdgeInsetsResponsive.only(top: 24.0),
                             child: Text(
                               "Create a new note",
                               style: Theme.of(context)
@@ -70,7 +71,7 @@ class FolderListView extends StatelessWidget {
                       ),
                     )
                   : ListView.builder(
-                      physics: ClampingScrollPhysics(),
+                      physics: const ClampingScrollPhysics(),
                       itemCount: data.length,
                       itemBuilder: (BuildContext context, int index) {
                         return NoteCard(

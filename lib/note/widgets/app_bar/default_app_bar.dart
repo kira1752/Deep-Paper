@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
+import 'package:deep_paper/utility/extension.dart';
 
 class DefaultAppBar extends StatelessWidget {
   @override
@@ -24,6 +25,10 @@ class DefaultAppBar extends StatelessWidget {
             noteDrawerProvider.getTitleFragment,
         builder: (context, title, child) {
           debugPrintSynchronously("Text Title rebuilt");
+
+          final drawerProvider =
+              Provider.of<NoteDrawerProvider>(context, listen: false);
+
           return Text('$title',
               textDirection: Bidi.detectRtlDirectionality(title)
                   ? TextDirection.rtl
@@ -33,9 +38,11 @@ class DefaultAppBar extends StatelessWidget {
                       .textTheme
                       .headline5
                       .copyWith(fontSize: SizeHelper.getHeadline5)
-                  : Theme.of(context).textTheme.headline5.copyWith(
-                      fontFamily: "Noto Sans",
-                      fontSize: SizeHelper.getHeadline5));
+                  : drawerProvider.getFolder.isNotNull
+                      ? Theme.of(context).textTheme.bodyText1.copyWith(fontWeight: FontWeight.w400,fontSize: SizeHelper.getTitle)
+                      : Theme.of(context).textTheme.headline5.copyWith(
+                          fontFamily: "Noto Sans",
+                          fontSize: SizeHelper.getHeadline5));
         },
       ),
     );

@@ -1,18 +1,19 @@
 import 'package:flutter/foundation.dart';
+import 'package:responsive_widgets/responsive_widgets.dart';
 
 class SizeHelper {
-  static double _headline5 = 24;
-  static double _headline6 = 20;
-  static double _title = 22;
-  static double _description = 18;
-  static double _drawerMenuText = 17;
-  static double _modalDesciption = 17;
-  static double _modalTextField = 17;
-  static double _toastText = 17;
-  static double _bodyText1 = 16;
-  static double _bodyText2 = 14;
-  static double _modalButton = 18;
-  static double _button = 14;
+  static double _headline5 = 24.sp;
+  static double _headline6 = 20.sp;
+  static double _title = 22.sp;
+  static double _description = 18.sp;
+  static double _drawerMenuText = 17.sp;
+  static double _modalDesciption = 17.sp;
+  static double _modalTextField = 17.sp;
+  static double _toastText = 17.sp;
+  static double _bodyText1 = 16.sp;
+  static double _bodyText2 = 14.sp;
+  static double _modalButton = 18.sp;
+  static double _button = 14.sp;
 
   static double get getHeadline5 => _headline5;
   static double get getHeadline6 => _headline6;
@@ -27,8 +28,7 @@ class SizeHelper {
   static double get getModalButton => _modalButton;
   static double get getButton => _button;
 
-  static double setTextSize({@required double size}) => size;
-  static double setIconSize({@required double size}) => size;
-  static double setWidth({@required double size}) => size;
-  static double setHeight({@required double size}) => size;
+  static double setTextSize({@required double size}) => size.sp;
+  static double setWidth({@required double size}) => size.w;
+  static double setHeight({@required double size}) => size.h;
 }

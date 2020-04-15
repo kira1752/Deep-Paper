@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_widgets/responsive_widgets.dart';
 
 class DrawerFolderItem extends StatelessWidget {
   final FolderNoteData folder;
@@ -61,7 +62,7 @@ class DrawerFolderItem extends StatelessWidget {
                 trailing: total == null
                     ? SizedBox()
                     : Padding(
-                        padding: EdgeInsets.only(right: 16.0, left: 16.0),
+                        padding: EdgeInsetsResponsive.only(right: 16.0, left: 16.0),
                         child: Text(
                           "$total",
                           style: TextStyle(

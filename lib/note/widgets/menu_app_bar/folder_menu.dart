@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 import 'package:deep_paper/utility/extension.dart';
+import 'package:responsive_widgets/responsive_widgets.dart';
 
 class _LocalStore {
   String _folderName = "";
@@ -38,11 +39,7 @@ class FolderMenu extends StatelessWidget {
                 _onFolderMenuSelected(context: context, choice: choice);
               },
               tooltip: "Open Folder Menu",
-              padding: EdgeInsets.fromLTRB(
-                  SizeHelper.setWidth(size: 18),
-                  SizeHelper.setHeight(size: 18),
-                  SizeHelper.setWidth(size: 18),
-                  SizeHelper.setHeight(size: 18)),
+              padding: EdgeInsetsResponsive.all(18.0),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0)),
               itemBuilder: (context) => [
@@ -113,13 +110,9 @@ class FolderMenu extends StatelessWidget {
         ],
         child: AnimatedPadding(
           padding: MediaQuery.of(context).viewInsets,
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 250),
           child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                SizeHelper.setWidth(size: 26),
-                SizeHelper.setHeight(size: 26),
-                SizeHelper.setWidth(size: 26),
-                SizeHelper.setHeight(size: 26)),
+            padding: EdgeInsetsResponsive.all(26),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -132,9 +125,7 @@ class FolderMenu extends StatelessWidget {
                       color: Colors.white.withOpacity(0.87)),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
-                      top: SizeHelper.setHeight(size: 26),
-                      bottom: SizeHelper.setHeight(size: 26)),
+                  padding: EdgeInsetsResponsive.only(top: 26, bottom: 26),
                   child: Consumer<TextControllerProvider>(
                       builder: (context, textControllerProvider, child) {
                     textControllerProvider.controller.text =
@@ -202,11 +193,8 @@ class FolderMenu extends StatelessWidget {
                         shape: StadiumBorder(),
                         color: Colors.grey[600].withOpacity(0.2),
                         textColor: Colors.white.withOpacity(0.87),
-                        padding: EdgeInsets.only(
-                            top: SizeHelper.setHeight(size: 16.0),
-                            bottom: SizeHelper.setHeight(size: 16.0),
-                            right: SizeHelper.setWidth(size: 48.0),
-                            left: SizeHelper.setWidth(size: 48.0)),
+                        padding: EdgeInsetsResponsive.only(
+                            top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -224,11 +212,8 @@ class FolderMenu extends StatelessWidget {
                           shape: StadiumBorder(),
                           color: Colors.grey[600].withOpacity(0.2),
                           textColor: Theme.of(context).accentColor,
-                          padding: EdgeInsets.only(
-                              top: SizeHelper.setHeight(size: 16.0),
-                              bottom: SizeHelper.setHeight(size: 16.0),
-                              right: SizeHelper.setWidth(size: 48.0),
-                              left: SizeHelper.setWidth(size: 48.0)),
+                          padding: EdgeInsetsResponsive.only(
+                              top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
                           onPressed: provider.isNameTyped
                               ? () => _renameFolder(
                                   context: context,
@@ -284,11 +269,7 @@ class FolderMenu extends StatelessWidget {
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0))),
       builder: (context) => Padding(
-        padding: EdgeInsets.fromLTRB(
-            SizeHelper.setWidth(size: 26),
-            SizeHelper.setHeight(size: 26),
-            SizeHelper.setWidth(size: 26),
-            SizeHelper.setHeight(size: 26)),
+        padding: EdgeInsetsResponsive.all(26.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -301,7 +282,7 @@ class FolderMenu extends StatelessWidget {
                   color: Colors.white.withOpacity(0.87)),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
+              padding: EdgeInsetsResponsive.only(top: 24.0, bottom: 24.0),
               child: Text(
                 "Delete this folder and all notes inside this folder forever.",
                 style: TextStyle(
@@ -317,11 +298,8 @@ class FolderMenu extends StatelessWidget {
                     shape: StadiumBorder(),
                     color: Colors.grey[600].withOpacity(0.2),
                     textColor: Colors.white.withOpacity(0.87),
-                    padding: EdgeInsets.only(
-                        top: SizeHelper.setHeight(size: 16.0),
-                        bottom: SizeHelper.setHeight(size: 16.0),
-                        right: SizeHelper.setWidth(size: 48.0),
-                        left: SizeHelper.setWidth(size: 48.0)),
+                    padding: EdgeInsetsResponsive.only(
+                        top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -336,11 +314,8 @@ class FolderMenu extends StatelessWidget {
                     shape: StadiumBorder(),
                     color: Colors.grey[600].withOpacity(0.2),
                     textColor: Theme.of(context).accentColor,
-                    padding: EdgeInsets.only(
-                        top: SizeHelper.setHeight(size: 16.0),
-                        bottom: SizeHelper.setHeight(size: 16.0),
-                        right: SizeHelper.setWidth(size: 48.0),
-                        left: SizeHelper.setWidth(size: 48.0)),
+                    padding: EdgeInsetsResponsive.only(
+                        top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
                     onPressed: () async {
                       await database.noteDao
                           .deleteFolderRelationWhenNoteInTrash(

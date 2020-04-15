@@ -1,8 +1,10 @@
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/note/provider/note_detail_provider.dart';
+import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_widgets/responsive_widgets.dart';
 
 class BottomMenu extends StatelessWidget {
   final String date;
@@ -75,7 +77,7 @@ class BottomMenu extends StatelessWidget {
           return ListView(
             physics: ClampingScrollPhysics(),
             shrinkWrap: true,
-            padding: const EdgeInsets.all(18),
+            padding: EdgeInsetsResponsive.all(18),
             children: <Widget>[
               Material(
                 color: Colors.transparent,
@@ -91,7 +93,7 @@ class BottomMenu extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        .copyWith(color: Colors.white70, fontSize: 18.0),
+                        .copyWith(color: Colors.white70, fontSize: SizeHelper.getModalButton),
                   ),
                 ),
               ),
@@ -109,7 +111,7 @@ class BottomMenu extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        .copyWith(color: Colors.white70, fontSize: 18.0),
+                        .copyWith(color: Colors.white70, fontSize: SizeHelper.getModalButton),
                   ),
                 ),
               ),
@@ -127,7 +129,7 @@ class BottomMenu extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        .copyWith(color: Colors.white70, fontSize: 18.0),
+                        .copyWith(color: Colors.white70, fontSize: SizeHelper.getModalButton),
                   ),
                 ),
               ),
@@ -145,7 +147,7 @@ class BottomMenu extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        .copyWith(color: Colors.white70, fontSize: 18.0),
+                        .copyWith(color: Colors.white70, fontSize: SizeHelper.getModalButton),
                   ),
                 ),
               )
@@ -166,7 +168,7 @@ class BottomMenu extends StatelessWidget {
           return ListView(
             physics: ClampingScrollPhysics(),
             shrinkWrap: true,
-            padding: const EdgeInsets.all(18),
+            padding: EdgeInsetsResponsive.all(18),
             children: <Widget>[
               Material(
                 color: Colors.transparent,
@@ -183,7 +185,7 @@ class BottomMenu extends StatelessWidget {
                     "Delete",
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: newNote ? Colors.white30 : Colors.white70,
-                        fontSize: 18.0),
+                        fontSize: SizeHelper.getModalButton),
                   ),
                 ),
               ),
@@ -202,7 +204,7 @@ class BottomMenu extends StatelessWidget {
                     "Make a copy",
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: newNote ? Colors.white30 : Colors.white70,
-                        fontSize: 18.0),
+                        fontSize: SizeHelper.getModalButton),
                   ),
                 ),
               ),
@@ -220,7 +222,7 @@ class BottomMenu extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        .copyWith(color: Colors.white70, fontSize: 18.0),
+                        .copyWith(color: Colors.white70, fontSize: SizeHelper.getModalButton),
                   ),
                 ),
               ),

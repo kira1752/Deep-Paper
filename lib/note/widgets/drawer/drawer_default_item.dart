@@ -3,6 +3,7 @@ import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_widgets/responsive_widgets.dart';
 
 class DrawerDefaultItem extends StatelessWidget {
   final String title;
@@ -73,7 +74,7 @@ class DrawerDefaultItem extends StatelessWidget {
                 trailing: total == null
                     ? SizedBox()
                     : Padding(
-                        padding: EdgeInsets.only(right: 16, left: 16),
+                        padding: EdgeInsetsResponsive.only(right: 16, left: 16),
                         child: Text(
                           "$total",
                           style: TextStyle(

@@ -3,6 +3,7 @@ import 'package:deep_paper/note/provider/detect_text_direction_provider.dart';
 import 'package:deep_paper/note/provider/note_detail_provider.dart';
 import 'package:deep_paper/note/provider/text_controller_provider.dart';
 import 'package:deep_paper/note/widgets/bottom_menu.dart';
+import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -10,6 +11,7 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:moor/moor.dart';
 import 'package:provider/provider.dart';
 import 'package:deep_paper/utility/extension.dart';
+import 'package:responsive_widgets/responsive_widgets.dart';
 
 class _LocalStore {
   String _title = "";
@@ -75,11 +77,11 @@ class _NoteDetailState extends State<NoteDetail> {
             physics: ClampingScrollPhysics(),
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.fromLTRB(18, 0, 16, 16),
+                padding: EdgeInsetsResponsive.fromLTRB(18, 0, 16, 16),
                 child: _titleField(),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(18, 16, 16, 16),
+                padding: EdgeInsetsResponsive.fromLTRB(18, 16, 16, 16),
                 child: _detailField(),
               ),
             ],
@@ -107,23 +109,11 @@ class _NoteDetailState extends State<NoteDetail> {
     debugPrintSynchronously("Detail: $detail");
     debugPrintSynchronously("Folder ID: $folderId");
 
-    if (!title.isNullEmptyOrWhitespace && !detail.isNullEmptyOrWhitespace) {
+    if (!title.isNullEmptyOrWhitespace || !detail.isNullEmptyOrWhitespace) {
       await database.noteDao.insertNote(NotesCompanion(
           title: Value(title),
           detail: Value(detail),
           titleDirection: Value(titleDirection),
-          detailDirection: Value(detailDirection),
-          folderID: Value(folderId),
-          date: Value(DateTime.now())));
-    } else if (!title.isNullEmptyOrWhitespace) {
-      await database.noteDao.insertNote(NotesCompanion(
-          title: Value(title),
-          titleDirection: Value(titleDirection),
-          folderID: Value(folderId),
-          date: Value(DateTime.now())));
-    } else if (!detail.isNullEmptyOrWhitespace) {
-      await database.noteDao.insertNote(NotesCompanion(
-          detail: Value(detail),
           detailDirection: Value(detailDirection),
           folderID: Value(folderId),
           date: Value(DateTime.now())));
@@ -153,10 +143,8 @@ class _NoteDetailState extends State<NoteDetail> {
                 controller: textControllerProvider.controller,
                 textDirection: direction,
                 textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle2
-                    .copyWith(color: Colors.white70, fontSize: 22.0),
+                style: Theme.of(context).textTheme.subtitle2.copyWith(
+                    color: Colors.white70, fontSize: SizeHelper.getTitle),
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
                 onChanged: (value) {
@@ -207,10 +195,9 @@ class _NoteDetailState extends State<NoteDetail> {
                 child: TextField(
                   controller: textControllerProvider.controller,
                   textDirection: direction,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(color: Colors.white70, fontSize: 18.0),
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: Colors.white70,
+                      fontSize: SizeHelper.getDescription),
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
                   onChanged: (value) {

@@ -21,10 +21,10 @@ class Note extends DataClass implements Insertable<Note> {
   Note(
       {@required this.id,
       this.folderID,
-      this.title,
-      this.detail,
-      this.titleDirection,
-      this.detailDirection,
+      @required this.title,
+      @required this.detail,
+      @required this.titleDirection,
+      @required this.detailDirection,
       @required this.isDeleted,
       @required this.containAudio,
       @required this.containImage,
@@ -224,15 +224,19 @@ class NotesCompanion extends UpdateCompanion<Note> {
   NotesCompanion.insert({
     this.id = const Value.absent(),
     this.folderID = const Value.absent(),
-    this.title = const Value.absent(),
-    this.detail = const Value.absent(),
-    this.titleDirection = const Value.absent(),
-    this.detailDirection = const Value.absent(),
+    @required String title,
+    @required String detail,
+    @required TextDirection titleDirection,
+    @required TextDirection detailDirection,
     this.isDeleted = const Value.absent(),
     this.containAudio = const Value.absent(),
     this.containImage = const Value.absent(),
     @required DateTime date,
-  }) : date = Value(date);
+  })  : title = Value(title),
+        detail = Value(detail),
+        titleDirection = Value(titleDirection),
+        detailDirection = Value(detailDirection),
+        date = Value(date);
   NotesCompanion copyWith(
       {Value<int> id,
       Value<int> folderID,
@@ -292,7 +296,7 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     return GeneratedTextColumn(
       'title',
       $tableName,
-      true,
+      false,
     );
   }
 
@@ -304,7 +308,7 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     return GeneratedTextColumn(
       'detail',
       $tableName,
-      true,
+      false,
     );
   }
 
@@ -318,7 +322,7 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     return GeneratedTextColumn(
       'title_direction',
       $tableName,
-      true,
+      false,
     );
   }
 
@@ -332,7 +336,7 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     return GeneratedTextColumn(
       'detail_direction',
       $tableName,
-      true,
+      false,
     );
   }
 
@@ -412,10 +416,14 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     if (d.title.present) {
       context.handle(
           _titleMeta, title.isAcceptableValue(d.title.value, _titleMeta));
+    } else if (isInserting) {
+      context.missing(_titleMeta);
     }
     if (d.detail.present) {
       context.handle(
           _detailMeta, detail.isAcceptableValue(d.detail.value, _detailMeta));
+    } else if (isInserting) {
+      context.missing(_detailMeta);
     }
     context.handle(_titleDirectionMeta, const VerificationResult.success());
     context.handle(_detailDirectionMeta, const VerificationResult.success());
@@ -507,7 +515,8 @@ class FolderNoteData extends DataClass implements Insertable<FolderNoteData> {
   final int id;
   final String name;
   final TextDirection nameDirection;
-  FolderNoteData({@required this.id, @required this.name, this.nameDirection});
+  FolderNoteData(
+      {@required this.id, @required this.name, @required this.nameDirection});
   factory FolderNoteData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -591,8 +600,9 @@ class FolderNoteCompanion extends UpdateCompanion<FolderNoteData> {
   FolderNoteCompanion.insert({
     this.id = const Value.absent(),
     @required String name,
-    this.nameDirection = const Value.absent(),
-  }) : name = Value(name);
+    @required TextDirection nameDirection,
+  })  : name = Value(name),
+        nameDirection = Value(nameDirection);
   FolderNoteCompanion copyWith(
       {Value<int> id, Value<String> name, Value<TextDirection> nameDirection}) {
     return FolderNoteCompanion(
@@ -639,7 +649,7 @@ class $FolderNoteTable extends FolderNote
     return GeneratedTextColumn(
       'name_direction',
       $tableName,
-      true,
+      false,
     );
   }
 
