@@ -39,7 +39,7 @@ class FolderListView extends StatelessWidget {
                             ),
                             Positioned(
                               bottom: 0,
-                              left: 66.0,
+                              left: 68.0,
                               child: Material(
                                 shape: CircleBorder(
                                     side: BorderSide(

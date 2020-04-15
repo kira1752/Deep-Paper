@@ -31,7 +31,7 @@ class NoteCard extends StatelessWidget {
           debugPrintSynchronously("note $index rebuild");
           return Padding(
             padding: EdgeInsetsResponsive.only(
-                left: 16, right: 16, bottom: 10, top: 10),
+                left: 16, right: 16, bottom: 12, top: 12),
             child: Material(
               color: Theme.of(context).cardColor,
               shape: RoundedRectangleBorder(
@@ -125,13 +125,13 @@ class NoteCard extends StatelessWidget {
               child: Icon(
                 MyIcon.photo_outline,
                 color: Colors.white60,
-                size: SizeHelper.getDescription,
+                size: 18.0,
               )),
         if (data.containAudio)
           Icon(
             Icons.mic_none,
             color: Colors.white60,
-            size: SizeHelper.getDescription,
+            size: 18.0,
           )
       ],
     );
