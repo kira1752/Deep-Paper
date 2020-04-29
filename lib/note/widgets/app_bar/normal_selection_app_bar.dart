@@ -1,8 +1,7 @@
 import 'package:deep_paper/icons/my_icon.dart';
-import 'package:deep_paper/note/data/deep.dart';
+import 'package:deep_paper/note/bussiness_logic/note_creation.dart';
 import 'package:deep_paper/note/provider/deep_bottom_provider.dart';
 import 'package:deep_paper/note/provider/selection_provider.dart';
-import 'package:deep_paper/note/widgets/deep_toast.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -64,8 +63,10 @@ class NormalSelectionAppBar extends StatelessWidget {
         builder: (context, count, child) {
           debugPrintSynchronously("Text Title rebuilt");
           return Text('$count selected',
-              style: Theme.of(context).textTheme.headline5.copyWith(
-                  fontFamily: "Noto Sans", fontSize: SizeHelper.getHeadline5));
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(fontSize: SizeHelper.getHeadline5));
         },
         selector: (context, provider) => provider.getSelected.length,
       ),
@@ -77,7 +78,7 @@ class NormalSelectionAppBar extends StatelessWidget {
     debugPrintSynchronously("$choice");
     switch (choice) {
       case 0:
-        await _onTrashBin(context: context);
+        NoteCreation.moveToTrashBatch(context: context);
         Provider.of<DeepBottomProvider>(context, listen: false).setSelection =
             false;
         Provider.of<SelectionProvider>(context, listen: false).setSelection =
@@ -89,16 +90,5 @@ class NormalSelectionAppBar extends StatelessWidget {
         break;
       default:
     }
-  }
-
-  Future<void> _onTrashBin({@required BuildContext context}) async {
-    final selectedNote =
-        Provider.of<SelectionProvider>(context, listen: false).getSelected;
-
-    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
-
-    await database.noteDao.moveToTrash(selectedNote);
-
-    DeepToast.showToast(description: "Note moved to Trash Bin");
   }
 }

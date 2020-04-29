@@ -3,6 +3,7 @@ import 'package:deep_paper/note/note_page.dart';
 import 'package:deep_paper/transition/slide.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'deep_paper.dart';
 import 'note/detailScreen/note_detail.dart';
@@ -15,6 +16,9 @@ Future<void> main() async {
 class DeepPaperApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
     return Provider<DeepPaperDatabase>(
       create: (_) => DeepPaperDatabase(),
       child: MaterialApp(
@@ -22,9 +26,7 @@ class DeepPaperApp extends StatelessWidget {
         theme: ThemeData.dark().copyWith(
             popupMenuTheme: PopupMenuThemeData(
                 color: Color(0xff212121),
-                textStyle: TextStyle(
-                    fontFamily: "Noto Sans",
-                    color: Colors.white.withOpacity(0.80))),
+                textStyle: TextStyle(color: Colors.white.withOpacity(0.80))),
             bottomSheetTheme: BottomSheetThemeData(
               modalBackgroundColor: Color(0xff212121),
             ),
@@ -57,7 +59,6 @@ class DeepPaperApp extends StatelessWidget {
                   color: Colors.white.withOpacity(0.80),
                 ),
                 bodyText2: TextStyle(
-                  fontFamily: "Noto Sans",
                   color: Colors.white.withOpacity(0.87),
                 ))),
         title: 'Deep Paper',

@@ -16,7 +16,12 @@ class NoteCard extends StatelessWidget {
   final Note note;
   final _OnTap ontap;
 
-  NoteCard({@required this.index, @required this.note, @required this.ontap});
+  NoteCard(
+      {Key key,
+      @required this.index,
+      @required this.note,
+      @required this.ontap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +29,6 @@ class NoteCard extends StatelessWidget {
         Provider.of<SelectionProvider>(context, listen: false);
 
     return Selector<SelectionProvider, bool>(
-        key: ValueKey<int>(index),
         selector: (context, provider) =>
             provider.getSelected.containsKey(index),
         builder: (context, selected, child) {
@@ -117,6 +121,8 @@ class NoteCard extends StatelessWidget {
 
   Widget _dateAndIcons({@required BuildContext context, @required Note data}) {
     return Row(
+      textDirection:
+          data.detail.isEmpty ? data.titleDirection : data.detailDirection,
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         if (data.containImage)

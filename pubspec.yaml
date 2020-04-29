@@ -28,7 +28,6 @@ dependencies:
   tuple: ^1.0.3
   intl: ^0.16.1
   fluttertoast: ^4.0.1
-  auto_size_text: ^2.1.0
   responsive_widgets: ^2.0.1
   flutter_keyboard_visibility: ^0.8.0
 
@@ -52,9 +51,6 @@ flutter:
     - family: MyIcon
       fonts:
         - asset: icons/MyIcon.ttf
-    - family: Noto Sans
-      fonts:
-        - asset: fonts/NotoSans-Regular.ttf
     - family: PT Serif
       fonts:
         - asset: fonts/PTSerif-Bold.ttf

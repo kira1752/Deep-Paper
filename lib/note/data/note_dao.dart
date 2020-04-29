@@ -9,10 +9,12 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
 
   final DeepPaperDatabase db;
 
-  Stream<List<Note>> watchAllNotes() => (select(notes)
-        ..where((n) => n.isDeleted.equals(false))
-        ..orderBy([(n) => OrderingTerm.desc(n.date)]))
-      .watch();
+  Stream<List<Note>> watchAllNotes() {
+    return (select(notes)
+          ..where((n) => n.isDeleted.equals(false))
+          ..orderBy([(n) => OrderingTerm.desc(n.date)]))
+        .watch();
+  }
 
   Future<List<Note>> getAllNotes() => (select(notes)).get();
 

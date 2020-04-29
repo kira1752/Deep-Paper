@@ -3,7 +3,7 @@ import 'package:moor/moor.dart';
 
 part 'folder_note_dao.g.dart';
 
-@UseDao(tables: [Notes, FolderNote])
+@UseDao(tables: [FolderNote])
 class FolderNoteDao extends DatabaseAccessor<DeepPaperDatabase>
     with _$FolderNoteDaoMixin {
   FolderNoteDao(this.db) : super(db);

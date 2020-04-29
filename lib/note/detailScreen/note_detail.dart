@@ -1,31 +1,18 @@
+import 'package:deep_paper/note/bussiness_logic/note_creation.dart';
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/provider/detect_text_direction_provider.dart';
 import 'package:deep_paper/note/provider/note_detail_provider.dart';
 import 'package:deep_paper/note/provider/text_controller_provider.dart';
 import 'package:deep_paper/note/widgets/bottom_menu.dart';
+import 'package:deep_paper/utility/deep_keep_alive.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:intl/intl.dart' hide TextDirection;
-import 'package:moor/moor.dart';
 import 'package:provider/provider.dart';
-import 'package:deep_paper/utility/extension.dart';
 import 'package:responsive_widgets/responsive_widgets.dart';
-
-class _LocalStore {
-  String _title = "";
-  String _detail = "";
-  bool _isDeleted;
-
-  String get getTitle => _title;
-  String get getDetail => _detail;
-  bool get isDeleted => _isDeleted;
-
-  set setTitle(String title) => _title = title;
-  set setDetail(String detail) => _detail = detail;
-  set setDeleted(bool isDeleted) => _isDeleted = isDeleted;
-}
+import 'package:deep_paper/utility/extension.dart';
 
 class NoteDetail extends StatefulWidget {
   @override
@@ -33,7 +20,8 @@ class NoteDetail extends StatefulWidget {
 }
 
 class _NoteDetailState extends State<NoteDetail> {
-  final _LocalStore _local = _LocalStore();
+  String _title = "";
+  String _detail = "";
 
   final String _date = DateFormat.jm('en_US').format(DateTime.now());
 
@@ -51,12 +39,20 @@ class _NoteDetailState extends State<NoteDetail> {
   @override
   Widget build(BuildContext context) {
     debugPrintSynchronously("Note Detail Rebuild");
+    final FolderNoteData folder = ModalRoute.of(context).settings.arguments;
 
     return ChangeNotifierProvider<NoteDetailProvider>(
       create: (_) => NoteDetailProvider(),
       child: WillPopScope(
-        onWillPop: () {
-          return _saveNote(context: context);
+        onWillPop: () async {
+          NoteCreation.create(
+            context: context,
+            title: _title,
+            detail: _detail,
+            folderId: folder.isNotNull ? folder.id : null,
+          );
+
+          return true;
         },
         child: Scaffold(
           appBar: AppBar(
@@ -76,50 +72,23 @@ class _NoteDetailState extends State<NoteDetail> {
           body: ListView(
             physics: ClampingScrollPhysics(),
             children: <Widget>[
-              Padding(
-                padding: EdgeInsetsResponsive.fromLTRB(18, 0, 16, 16),
-                child: _titleField(),
+              DeepKeepAlive(
+                child: Padding(
+                  padding: EdgeInsetsResponsive.fromLTRB(18, 0, 16, 16),
+                  child: _titleField(),
+                ),
               ),
-              Padding(
-                padding: EdgeInsetsResponsive.fromLTRB(18, 16, 16, 16),
-                child: _detailField(),
+              DeepKeepAlive(
+                child: Padding(
+                  padding: EdgeInsetsResponsive.fromLTRB(18, 16, 16, 16),
+                  child: _detailField(),
+                ),
               ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  Future<bool> _saveNote({@required BuildContext context}) async {
-    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
-
-    final String title = _local.getTitle;
-    final String detail = _local.getDetail;
-    final TextDirection titleDirection = Bidi.detectRtlDirectionality(title)
-        ? TextDirection.rtl
-        : TextDirection.ltr;
-    final TextDirection detailDirection = Bidi.detectRtlDirectionality(detail)
-        ? TextDirection.rtl
-        : TextDirection.ltr;
-    final FolderNoteData folder = ModalRoute.of(context).settings.arguments;
-    final int folderId = folder.isNotNull ? folder.id : null;
-
-    debugPrintSynchronously("Title: $title");
-    debugPrintSynchronously("Detail: $detail");
-    debugPrintSynchronously("Folder ID: $folderId");
-
-    if (!title.isNullEmptyOrWhitespace || !detail.isNullEmptyOrWhitespace) {
-      await database.noteDao.insertNote(NotesCompanion(
-          title: Value(title),
-          detail: Value(detail),
-          titleDirection: Value(titleDirection),
-          detailDirection: Value(detailDirection),
-          folderID: Value(folderId),
-          date: Value(DateTime.now())));
-    }
-
-    return true;
   }
 
   Widget _titleField() {
@@ -143,11 +112,13 @@ class _NoteDetailState extends State<NoteDetail> {
                 controller: textControllerProvider.controller,
                 textDirection: direction,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.subtitle2.copyWith(
+                style: Theme.of(context).textTheme.headline6.copyWith(
                     color: Colors.white70, fontSize: SizeHelper.getTitle),
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
                 onChanged: (value) {
+                  _title = value;
+
                   if (Provider.of<NoteDetailProvider>(context, listen: false)
                           .isTextTyped ==
                       false) {
@@ -157,9 +128,7 @@ class _NoteDetailState extends State<NoteDetail> {
 
                   Provider.of<DetectTextDirectionProvider>(context,
                           listen: false)
-                      .checkDirection = _local.getTitle;
-
-                  _local.setTitle = value;
+                      .checkDirection = _title;
                 },
                 decoration: InputDecoration.collapsed(
                   hintText: 'Title',
@@ -187,35 +156,29 @@ class _NoteDetailState extends State<NoteDetail> {
                 provider.getDirection ? TextDirection.rtl : TextDirection.ltr,
             builder: (context, direction, child) {
               debugPrintSynchronously("Detail Field rebuild");
-              return SizedBox(
-                height:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? (MediaQuery.of(context).size.height) / 2
-                        : MediaQuery.of(context).size.height / 3,
-                child: TextField(
-                  controller: textControllerProvider.controller,
-                  textDirection: direction,
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: Colors.white70,
-                      fontSize: SizeHelper.getDescription),
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                  onChanged: (value) {
-                    if (Provider.of<NoteDetailProvider>(context, listen: false)
-                            .isTextTyped ==
-                        false) {
-                      Provider.of<NoteDetailProvider>(context, listen: false)
-                          .setTextState = true;
-                    }
+              return TextField(
+                controller: textControllerProvider.controller,
+                textDirection: direction,
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                    color: Colors.white70, fontSize: SizeHelper.getDescription),
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                onChanged: (value) {
+                  _detail = value;
 
-                    _local.setDetail = value;
-                    Provider.of<DetectTextDirectionProvider>(context,
-                            listen: false)
-                        .checkDirection = _local.getDetail;
-                  },
-                  decoration: InputDecoration.collapsed(
-                    hintText: 'Write your note here...',
-                  ),
+                  if (Provider.of<NoteDetailProvider>(context, listen: false)
+                          .isTextTyped ==
+                      false) {
+                    Provider.of<NoteDetailProvider>(context, listen: false)
+                        .setTextState = true;
+                  }
+
+                  Provider.of<DetectTextDirectionProvider>(context,
+                          listen: false)
+                      .checkDirection = _detail;
+                },
+                decoration: InputDecoration.collapsed(
+                  hintText: 'Write your note here...',
                 ),
               );
             });

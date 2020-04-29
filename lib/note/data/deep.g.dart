@@ -346,7 +346,7 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
   GeneratedBoolColumn _constructIsDeleted() {
     return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: const Constant(false));
+        defaultValue: Constant(false));
   }
 
   final VerificationMeta _containAudioMeta =
@@ -357,7 +357,7 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
       _containAudio ??= _constructContainAudio();
   GeneratedBoolColumn _constructContainAudio() {
     return GeneratedBoolColumn('contain_audio', $tableName, false,
-        defaultValue: const Constant(false));
+        defaultValue: Constant(false));
   }
 
   final VerificationMeta _containImageMeta =
@@ -368,7 +368,7 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
       _containImage ??= _constructContainImage();
   GeneratedBoolColumn _constructContainImage() {
     return GeneratedBoolColumn('contain_image', $tableName, false,
-        defaultValue: const Constant(false));
+        defaultValue: Constant(false));
   }
 
   final VerificationMeta _dateMeta = const VerificationMeta('date');

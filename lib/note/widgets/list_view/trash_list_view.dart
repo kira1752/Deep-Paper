@@ -1,7 +1,8 @@
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/icons/my_icon.dart';
-import 'package:deep_paper/note/widgets/deep_toast.dart';
+import 'package:deep_paper/note/widgets/bottom_modal.dart';
 import 'package:deep_paper/note/widgets/note_card.dart';
+import 'package:deep_paper/utility/deep_keep_alive.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class TrashListView extends StatelessWidget {
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 450),
           child: data.isNull
-              ? Container()
+              ? SizedBox()
               : data.isEmpty
                   ? Center(
                       child: Column(
@@ -50,97 +51,20 @@ class TrashListView extends StatelessWidget {
                       physics: const ClampingScrollPhysics(),
                       itemCount: data.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return NoteCard(
-                          index: index,
-                          note: data[index],
-                          ontap: () {
-                            _restoreDialog(context: context, data: data[index]);
-                          },
+                        return DeepKeepAlive(
+                          child: NoteCard(
+                            key: ValueKey<int>(index),
+                            index: index,
+                            note: data[index],
+                            ontap: () {
+                              BottomModal.restoreDialog(
+                                  context: context, data: data[index]);
+                            },
+                          ),
                         );
                       }),
         );
       }),
-    );
-  }
-
-  Future<void> _restoreDialog(
-      {@required BuildContext context, @required Note data}) {
-    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
-
-    return showModalBottomSheet(
-      context: context,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0))),
-      builder: (context) => Padding(
-        padding: EdgeInsetsResponsive.all(26.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              "Restore note",
-              style: TextStyle(
-                  fontFamily: "Roboto",
-                  fontSize: SizeHelper.getHeadline6,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white.withOpacity(0.87)),
-            ),
-            Padding(
-              padding: EdgeInsetsResponsive.only(top: 24.0, bottom: 24.0),
-              child: Text(
-                "Couldn't open this note. Restore this note to edit the content.",
-                style: TextStyle(
-                    fontFamily: "Roboto",
-                    fontSize: SizeHelper.getModalDescription,
-                    color: Colors.white70),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                FlatButton(
-                    shape: StadiumBorder(),
-                    color: Colors.grey[600].withOpacity(0.2),
-                    textColor: Colors.white.withOpacity(0.87),
-                    padding: EdgeInsetsResponsive.only(
-                        top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontSize: SizeHelper.getModalButton,
-                      ),
-                    )),
-                FlatButton(
-                    shape: StadiumBorder(),
-                    color: Colors.grey[600].withOpacity(0.2),
-                    textColor: Theme.of(context).accentColor,
-                    padding: EdgeInsetsResponsive.only(
-                        top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
-                    onPressed: () async {
-                      await database.noteDao
-                          .updateNote(data.copyWith(isDeleted: false));
-
-                      Navigator.of(context).pop();
-
-                      DeepToast.showToast(
-                          description: "Note restored successfully");
-                    },
-                    child: Text(
-                      "Restore",
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontSize: SizeHelper.getModalButton,
-                      ),
-                    )),
-              ],
-            )
-          ],
-        ),
-      ),
     );
   }
 }

@@ -1,8 +1,7 @@
 import 'package:deep_paper/icons/my_icon.dart';
-import 'package:deep_paper/note/data/deep.dart';
+import 'package:deep_paper/note/bussiness_logic/trash_management.dart';
 import 'package:deep_paper/note/provider/deep_bottom_provider.dart';
 import 'package:deep_paper/note/provider/selection_provider.dart';
-import 'package:deep_paper/note/widgets/deep_toast.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -64,20 +63,22 @@ class TrashSelectionAppBar extends StatelessWidget {
         builder: (context, count, child) {
           debugPrintSynchronously("Text Title rebuilt");
           return Text('$count selected',
-              style: Theme.of(context).textTheme.headline5.copyWith(
-                  fontFamily: "Noto Sans", fontSize: SizeHelper.getHeadline5));
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(fontSize: SizeHelper.getHeadline5));
         },
         selector: (context, provider) => provider.getSelected.length,
       ),
     );
   }
 
-  Future<void> _menuTrashSelected(
-      {@required BuildContext context, @required int choice}) async {
+  void _menuTrashSelected(
+      {@required BuildContext context, @required int choice}) {
     debugPrintSynchronously("$choice");
     switch (choice) {
       case 0:
-        await _onRestore(context: context);
+        TrashManagement.restoreBatch(context: context);
 
         Provider.of<DeepBottomProvider>(context, listen: false).setSelection =
             false;
@@ -92,7 +93,7 @@ class TrashSelectionAppBar extends StatelessWidget {
         break;
 
       case 1:
-        await _onDeletedForever(context: context);
+        TrashManagement.deleteBatch(context: context);
 
         Provider.of<DeepBottomProvider>(context, listen: false).setSelection =
             false;
@@ -109,27 +110,5 @@ class TrashSelectionAppBar extends StatelessWidget {
         debugPrintSynchronously("Error");
         break;
     }
-  }
-
-  Future<void> _onRestore({@required BuildContext context}) async {
-    final selectedNote =
-        Provider.of<SelectionProvider>(context, listen: false).getSelected;
-
-    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
-
-    await database.noteDao.restoreFromTrash(selectedNote);
-
-    DeepToast.showToast(description: "Note restored successfully");
-  }
-
-  Future<void> _onDeletedForever({@required BuildContext context}) async {
-    final selectedNote =
-        Provider.of<SelectionProvider>(context, listen: false).getSelected;
-
-    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
-
-    await database.noteDao.deleteForever(selectedNote);
-
-    DeepToast.showToast(description: "Note deleted successfully");
   }
 }

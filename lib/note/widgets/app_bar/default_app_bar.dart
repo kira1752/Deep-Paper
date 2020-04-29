@@ -39,10 +39,13 @@ class DefaultAppBar extends StatelessWidget {
                       .headline5
                       .copyWith(fontSize: SizeHelper.getHeadline5)
                   : drawerProvider.getFolder.isNotNull
-                      ? Theme.of(context).textTheme.bodyText1.copyWith(fontWeight: FontWeight.w400,fontSize: SizeHelper.getTitle)
-                      : Theme.of(context).textTheme.headline5.copyWith(
-                          fontFamily: "Noto Sans",
-                          fontSize: SizeHelper.getHeadline5));
+                      ? Theme.of(context).textTheme.bodyText1.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: SizeHelper.getTitle)
+                      : Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(fontSize: SizeHelper.getHeadline5));
         },
       ),
     );

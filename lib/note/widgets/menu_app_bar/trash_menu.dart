@@ -1,7 +1,7 @@
 import 'package:deep_paper/icons/my_icon.dart';
+import 'package:deep_paper/note/bussiness_logic/trash_management.dart';
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/provider/note_drawer_provider.dart';
-import 'package:deep_paper/note/widgets/deep_toast.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class TrashMenu extends StatelessWidget {
             child: PopupMenuButton(
                 tooltip: "Open Trash Bin menu",
                 onSelected: (choice) {
-                  if (choice == 0) _onEmptyTrashBin(context: context);
+                  if (choice == 0) TrashManagement.empty(context: context);
                 },
                 padding: EdgeInsetsResponsive.all(18.0),
                 shape: RoundedRectangleBorder(
@@ -50,13 +50,5 @@ class TrashMenu extends StatelessWidget {
         },
       ),
     );
-  }
-
-  Future<void> _onEmptyTrashBin({@required BuildContext context}) async {
-    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
-
-    await database.noteDao.emptyTrashBin();
-
-    DeepToast.showToast(description: "Trash emptied successfully");
   }
 }

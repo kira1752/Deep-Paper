@@ -39,9 +39,9 @@ class Notes extends Table {
   TextColumn get titleDirection => text().map(const TextDirectionConverter())();
   TextColumn get detailDirection =>
       text().map(const TextDirectionConverter())();
-  BoolColumn get isDeleted => boolean().withDefault(const Constant(false))();
-  BoolColumn get containAudio => boolean().withDefault(const Constant(false))();
-  BoolColumn get containImage => boolean().withDefault(const Constant(false))();
+  BoolColumn get isDeleted => boolean().withDefault(Constant(false))();
+  BoolColumn get containAudio => boolean().withDefault(Constant(false))();
+  BoolColumn get containImage => boolean().withDefault(Constant(false))();
   DateTimeColumn get date => dateTime()();
 }
 

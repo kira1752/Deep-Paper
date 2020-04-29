@@ -1,6 +1,7 @@
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/note/provider/selection_provider.dart';
+import 'package:deep_paper/utility/deep_keep_alive.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +17,6 @@ class DeepPaper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     debugPrintSynchronously("Deep Paper Rebuild");
-    debugPrintSynchronously(
-        "Screen Width: ${MediaQuery.of(context).size.width}");
-    debugPrintSynchronously(
-        "Screen Height: ${MediaQuery.of(context).size.height}");
 
     return ResponsiveWidgets.builder(
       width: 393,
@@ -34,14 +31,14 @@ class DeepPaper extends StatelessWidget {
               builder: (context, controller, child) {
                 debugPrintSynchronously("Deep Paper Main Menu Rebuild");
                 return PageView(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   controller: controller,
                   onPageChanged: (index) {
                     Provider.of<DeepBottomProvider>(context, listen: false)
                         .setCurrentIndex = index;
                   },
                   children: <Widget>[
-                    KeepAlive(
+                    DeepKeepAlive(
                         child: MultiProvider(
                       providers: [
                         ChangeNotifierProvider<NoteDrawerProvider>(
@@ -53,9 +50,9 @@ class DeepPaper extends StatelessWidget {
                       ],
                       child: NotePage(),
                     )),
-                    KeepAlive(child: PlanPage()),
-                    KeepAlive(child: MoneyPage()),
-                    KeepAlive(child: MorePage())
+                    DeepKeepAlive(child: PlanPage()),
+                    DeepKeepAlive(child: MoneyPage()),
+                    DeepKeepAlive(child: MorePage())
                   ],
                 );
               }),
@@ -122,25 +119,4 @@ class DeepPaper extends StatelessWidget {
       ),
     );
   }
-}
-
-class KeepAlive extends StatefulWidget {
-  final Widget child;
-
-  const KeepAlive({Key key, this.child}) : super(key: key);
-
-  @override
-  _KeepAliveState createState() => new _KeepAliveState();
-}
-
-class _KeepAliveState extends State<KeepAlive>
-    with AutomaticKeepAliveClientMixin<KeepAlive> {
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return widget.child;
-  }
-
-  @override
-  bool get wantKeepAlive => true;
 }

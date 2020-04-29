@@ -65,7 +65,7 @@ class _DeepDrawerState extends State<DeepDrawer> {
               return AnimatedSwitcher(
                 duration: const Duration(milliseconds: 450),
                 child: folderList.isNull
-                    ? Container()
+                    ? SizedBox()
                     : DeepScrollbar(
                         key: Key("Note Drawer Scrollbar"),
                         child: ScrollablePositionedList.builder(
@@ -75,10 +75,10 @@ class _DeepDrawerState extends State<DeepDrawer> {
                             itemBuilder: (BuildContext context, int index) {
                               if (index == 0) {
                                 return DrawerTitle(
-                                    key: Key("$index"), title: "NOTE");
+                                    key: ValueKey("$index"), title: "NOTE");
                               } else if (index == 1) {
                                 return DrawerDefaultItem(
-                                  key: Key("$index"),
+                                  key: ValueKey("$index"),
                                   title: "All Notes",
                                   setValue: 0,
                                   icon: MyIcon.library_books_outline,
@@ -91,7 +91,7 @@ class _DeepDrawerState extends State<DeepDrawer> {
                                 );
                               } else if (index == 2) {
                                 return DrawerDefaultItem(
-                                  key: Key("$index"),
+                                  key: ValueKey("$index"),
                                   title: "Trash",
                                   setValue: 1,
                                   icon: MyIcon.trash_empty,
@@ -104,11 +104,11 @@ class _DeepDrawerState extends State<DeepDrawer> {
                                 );
                               } else if (index == 3) {
                                 return FolderAddButton(
-                                  key: Key("$index"),
+                                  key: ValueKey("$index"),
                                 );
                               } else {
                                 return DrawerFolderItem(
-                                  key: Key("$index"),
+                                  key: ValueKey("$index"),
                                   index: index - defaultItemValue,
                                   folder: folderList[index - defaultItemValue],
                                   total: noteList == null
