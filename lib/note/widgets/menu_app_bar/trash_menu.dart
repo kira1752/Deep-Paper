@@ -1,5 +1,5 @@
 import 'package:deep_paper/icons/my_icon.dart';
-import 'package:deep_paper/note/bussiness_logic/trash_management.dart';
+import 'package:deep_paper/note/business_logic/trash_management.dart';
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/utility/size_helper.dart';

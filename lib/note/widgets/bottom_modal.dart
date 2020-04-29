@@ -1,6 +1,6 @@
 import 'package:deep_paper/icons/my_icon.dart';
-import 'package:deep_paper/note/bussiness_logic/folder_creation.dart';
-import 'package:deep_paper/note/bussiness_logic/trash_management.dart';
+import 'package:deep_paper/note/business_logic/folder_creation.dart';
+import 'package:deep_paper/note/business_logic/trash_management.dart';
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/provider/detect_text_direction_provider.dart';
 import 'package:deep_paper/note/provider/folder_dialog_provider.dart';

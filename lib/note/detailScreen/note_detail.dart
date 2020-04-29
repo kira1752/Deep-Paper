@@ -1,4 +1,4 @@
-import 'package:deep_paper/note/bussiness_logic/note_creation.dart';
+import 'package:deep_paper/note/business_logic/note_creation.dart';
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/provider/detect_text_direction_provider.dart';
 import 'package:deep_paper/note/provider/note_detail_provider.dart';
