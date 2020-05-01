@@ -38,19 +38,20 @@ class FolderListView extends StatelessWidget {
                               size: 120.0,
                               color: Colors.white70,
                             ),
-                            Positioned(
-                              bottom: 0,
-                              left: 68.0,
-                              child: Material(
-                                shape: CircleBorder(
-                                    side: BorderSide(
-                                        width: 6.0, color: Colors.white70)),
-                                child: Padding(
-                                  padding: EdgeInsetsResponsive.all(10.0),
-                                  child: Icon(
-                                    MyIcon.plus,
-                                    size: 30.0,
-                                    color: Colors.white70,
+                            Positioned.fill(
+                              child: Align(
+                                alignment: Alignment.bottomRight,
+                                child: Material(
+                                  shape: CircleBorder(
+                                      side: BorderSide(
+                                          width: 6.0, color: Colors.white70)),
+                                  child: Padding(
+                                    padding: EdgeInsetsResponsive.all(10.0),
+                                    child: Icon(
+                                      MyIcon.plus,
+                                      size: 30.0,
+                                      color: Colors.white70,
+                                    ),
                                   ),
                                 ),
                               ),

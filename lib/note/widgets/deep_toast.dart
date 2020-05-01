@@ -11,6 +11,6 @@ class DeepToast {
         gravity: ToastGravity.CENTER,
         textColor: Colors.white.withOpacity(0.87),
         fontSize: SizeHelper.getToastText,
-        backgroundColor: Color(0xff323232));
+        backgroundColor: Color(0xff424242));
   }
 }

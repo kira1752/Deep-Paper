@@ -31,6 +31,23 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
           .watch();
 
   Future<void> insertNote(NotesCompanion entry) => into(notes).insert(entry);
+
+  Future<void> insertNoteBatch(Map<int, Note> selectedNote) async {
+    await batch((b) {
+      selectedNote.forEach((key, note) {
+        b.insert(
+            notes,
+            NotesCompanion(
+                title: Value(note.title),
+                detail: Value(note.detail),
+                titleDirection: Value(note.titleDirection),
+                detailDirection: Value(note.detailDirection),
+                folderID: Value(note.folderID),
+                date: Value(DateTime.now())));
+      });
+    });
+  }
+
   Future<void> updateNote(Note entry) => update(notes).replace(entry);
 
   Future<void> moveToTrash(Map<int, Note> selectedNote) async {

@@ -1,6 +1,5 @@
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/provider/selection_provider.dart';
-import 'package:deep_paper/note/widgets/deep_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' hide TextDirection;
@@ -13,7 +12,7 @@ class NoteCreation {
       {@required BuildContext context,
       @required String title,
       @required String detail,
-      @required int folderId}) {
+      @required int folderID}) {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
     final titleDirection = Bidi.detectRtlDirectionality(title)
         ? TextDirection.rtl
@@ -28,9 +27,19 @@ class NoteCreation {
           detail: Value(detail),
           titleDirection: Value(titleDirection),
           detailDirection: Value(detailDirection),
-          folderID: Value(folderId),
+          folderID: Value(folderID),
           date: Value(DateTime.now())));
     }
+  }
+
+  static Future<void> copySelectedNotes(
+      {@required BuildContext context}) async {
+    final selectedNote =
+        Provider.of<SelectionProvider>(context, listen: false).getSelected;
+
+    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
+
+    await database.noteDao.insertNoteBatch(selectedNote);
   }
 
   static void update(
@@ -82,15 +91,12 @@ class NoteCreation {
     }
   }
 
-  static Future<void> moveToTrashBatch(
-      {@required BuildContext context}) async {
+  static Future<void> moveToTrashBatch({@required BuildContext context}) async {
     final selectedNote =
         Provider.of<SelectionProvider>(context, listen: false).getSelected;
 
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
     await database.noteDao.moveToTrash(selectedNote);
-
-    DeepToast.showToast(description: "Note moved to Trash Bin");
   }
 }

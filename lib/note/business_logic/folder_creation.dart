@@ -1,6 +1,5 @@
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/provider/note_drawer_provider.dart';
-import 'package:deep_paper/note/widgets/deep_toast.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:moor/moor.dart';
@@ -16,8 +15,6 @@ class FolderCreation {
 
     database.folderNoteDao.insertFolder(FolderNoteCompanion(
         name: Value(name), nameDirection: Value(nameDirection)));
-
-    Navigator.of(context).pop();
   }
 
   static void update(
@@ -36,8 +33,6 @@ class FolderCreation {
     drawerProvider.setTitleFragment = "$name";
     drawerProvider.setFolder = drawerProvider.getFolder
         .copyWith(name: name, nameDirection: nameDirection);
-
-    Navigator.of(context).pop();
   }
 
   static void delete({
@@ -59,9 +54,5 @@ class FolderCreation {
     drawerProvider.setFolder = null;
     drawerProvider.setIndexDrawerItem = 0;
     drawerProvider.setTitleFragment = "NOTE";
-
-    Navigator.of(context).pop();
-
-    DeepToast.showToast(description: "Folder deleted successfully");
   }
 }

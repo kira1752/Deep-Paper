@@ -49,7 +49,7 @@ class _NoteDetailState extends State<NoteDetail> {
             context: context,
             title: _title,
             detail: _detail,
-            folderId: folder.isNotNull ? folder.id : null,
+            folderID: folder.isNotNull ? folder.id : null,
           );
 
           return true;

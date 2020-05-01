@@ -2,6 +2,7 @@ import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/note/business_logic/note_creation.dart';
 import 'package:deep_paper/note/provider/deep_bottom_provider.dart';
 import 'package:deep_paper/note/provider/selection_provider.dart';
+import 'package:deep_paper/note/widgets/deep_toast.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,17 @@ class NormalSelectionAppBar extends StatelessWidget {
                           "Move to",
                           style: TextStyle(fontSize: SizeHelper.getBodyText1),
                         ),
-                      ))
+                      )),
+                  PopupMenuItem(
+                      value: 2,
+                      child: ListTile(
+                        leading: Icon(Icons.content_copy,
+                            color: Colors.white.withOpacity(0.60)),
+                        title: Text(
+                          "Make a copy",
+                          style: TextStyle(fontSize: SizeHelper.getBodyText1),
+                        ),
+                      )),
                 ]),
       ],
       elevation: 0.0,
@@ -79,8 +90,27 @@ class NormalSelectionAppBar extends StatelessWidget {
     switch (choice) {
       case 0:
         NoteCreation.moveToTrashBatch(context: context);
+
+        DeepToast.showToast(description: "Note moved to Trash Bin");
+
         Provider.of<DeepBottomProvider>(context, listen: false).setSelection =
             false;
+
+        Provider.of<SelectionProvider>(context, listen: false).setSelection =
+            false;
+
+        Provider.of<SelectionProvider>(context, listen: false)
+            .getSelected
+            .clear();
+        break;
+      case 2:
+        NoteCreation.copySelectedNotes(context: context);
+
+        DeepToast.showToast(description: "Note copied successfully");
+
+        Provider.of<DeepBottomProvider>(context, listen: false).setSelection =
+            false;
+
         Provider.of<SelectionProvider>(context, listen: false).setSelection =
             false;
 

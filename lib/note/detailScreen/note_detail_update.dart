@@ -114,7 +114,7 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
                 context: context,
                 title: _title,
                 detail: _detail,
-                folderId: widget.note.folderID,
+                folderID: widget.note.folderID,
               );
               Navigator.of(context).pop();
               Navigator.of(context).maybePop();

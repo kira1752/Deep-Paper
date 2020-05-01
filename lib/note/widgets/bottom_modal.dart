@@ -6,6 +6,7 @@ import 'package:deep_paper/note/provider/detect_text_direction_provider.dart';
 import 'package:deep_paper/note/provider/folder_dialog_provider.dart';
 import 'package:deep_paper/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/note/provider/text_controller_provider.dart';
+import 'package:deep_paper/note/widgets/deep_toast.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart' hide Column;
@@ -177,6 +178,84 @@ class BottomModal {
         });
   }
 
+  static Future<void> restoreDialog(
+      {@required BuildContext context, @required Note data}) {
+    return showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0))),
+      builder: (context) => Padding(
+        padding: EdgeInsetsResponsive.all(26.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(
+              "Restore note",
+              style: TextStyle(
+                  fontFamily: "Roboto",
+                  fontSize: SizeHelper.getHeadline6,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white.withOpacity(0.87)),
+            ),
+            Padding(
+              padding: EdgeInsetsResponsive.only(top: 24.0, bottom: 24.0),
+              child: Text(
+                "Couldn't open this note. Restore this note to edit the content.",
+                style: TextStyle(
+                    fontFamily: "Roboto",
+                    fontSize: SizeHelper.getModalDescription,
+                    color: Colors.white70),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                FlatButton(
+                    shape: StadiumBorder(),
+                    color: Colors.grey[600].withOpacity(0.2),
+                    textColor: Colors.white.withOpacity(0.87),
+                    padding: EdgeInsetsResponsive.only(
+                        top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                        fontFamily: "Roboto",
+                        fontSize: SizeHelper.getModalButton,
+                      ),
+                    )),
+                FlatButton(
+                    shape: StadiumBorder(),
+                    color: Colors.grey[600].withOpacity(0.2),
+                    textColor: Theme.of(context).accentColor,
+                    padding: EdgeInsetsResponsive.only(
+                        top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
+                    onPressed: () async {
+                      TrashManagement.restore(context: context, data: data);
+
+                      DeepToast.showToast(
+                          description: "Trash emptied successfully");
+
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      "Restore",
+                      style: TextStyle(
+                        fontFamily: "Roboto",
+                        fontSize: SizeHelper.getModalButton,
+                      ),
+                    )),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   static Future<void> createFolderDialog({
     @required BuildContext context,
   }) {
@@ -292,8 +371,12 @@ class BottomModal {
                           padding: EdgeInsetsResponsive.only(
                               top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
                           onPressed: provider.isNameTyped
-                              ? () => FolderCreation.create(
-                                  context: context, name: folderName)
+                              ? () {
+                                  FolderCreation.create(
+                                      context: context, name: folderName);
+
+                                  Navigator.of(context).pop();
+                                }
                               : null,
                           child: Text(
                             "Create",
@@ -308,80 +391,6 @@ class BottomModal {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  static Future<void> restoreDialog(
-      {@required BuildContext context, @required Note data}) {
-    return showModalBottomSheet(
-      context: context,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0))),
-      builder: (context) => Padding(
-        padding: EdgeInsetsResponsive.all(26.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              "Restore note",
-              style: TextStyle(
-                  fontFamily: "Roboto",
-                  fontSize: SizeHelper.getHeadline6,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white.withOpacity(0.87)),
-            ),
-            Padding(
-              padding: EdgeInsetsResponsive.only(top: 24.0, bottom: 24.0),
-              child: Text(
-                "Couldn't open this note. Restore this note to edit the content.",
-                style: TextStyle(
-                    fontFamily: "Roboto",
-                    fontSize: SizeHelper.getModalDescription,
-                    color: Colors.white70),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                FlatButton(
-                    shape: StadiumBorder(),
-                    color: Colors.grey[600].withOpacity(0.2),
-                    textColor: Colors.white.withOpacity(0.87),
-                    padding: EdgeInsetsResponsive.only(
-                        top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontSize: SizeHelper.getModalButton,
-                      ),
-                    )),
-                FlatButton(
-                    shape: StadiumBorder(),
-                    color: Colors.grey[600].withOpacity(0.2),
-                    textColor: Theme.of(context).accentColor,
-                    padding: EdgeInsetsResponsive.only(
-                        top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
-                    onPressed: () async {
-                      TrashManagement.restore(context: context, data: data);
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      "Restore",
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontSize: SizeHelper.getModalButton,
-                      ),
-                    )),
-              ],
-            )
-          ],
         ),
       ),
     );
@@ -515,10 +524,14 @@ class BottomModal {
                           padding: EdgeInsetsResponsive.only(
                               top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
                           onPressed: provider.isNameTyped
-                              ? () => FolderCreation.update(
-                                  context: context,
-                                  drawerProvider: drawerProvider,
-                                  name: folderName)
+                              ? () {
+                                  FolderCreation.update(
+                                      context: context,
+                                      drawerProvider: drawerProvider,
+                                      name: folderName);
+
+                                  Navigator.of(context).pop();
+                                }
                               : null,
                           child: Text(
                             "Rename",
@@ -595,9 +608,15 @@ class BottomModal {
                     textColor: Theme.of(context).accentColor,
                     padding: EdgeInsetsResponsive.only(
                         top: 16.0, bottom: 16.0, right: 48.0, left: 48.0),
-                    onPressed: () =>
+                    onPressed: () {
                       FolderCreation.delete(
-                          context: context, drawerProvider: drawerProvider),
+                          context: context, drawerProvider: drawerProvider);
+
+                      DeepToast.showToast(
+                          description: "Folder deleted successfully");
+
+                      Navigator.of(context).pop();
+                    },
                     child: Text(
                       "Delete",
                       style: TextStyle(

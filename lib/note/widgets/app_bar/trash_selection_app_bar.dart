@@ -2,6 +2,7 @@ import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/note/business_logic/trash_management.dart';
 import 'package:deep_paper/note/provider/deep_bottom_provider.dart';
 import 'package:deep_paper/note/provider/selection_provider.dart';
+import 'package:deep_paper/note/widgets/deep_toast.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -80,6 +81,8 @@ class TrashSelectionAppBar extends StatelessWidget {
       case 0:
         TrashManagement.restoreBatch(context: context);
 
+        DeepToast.showToast(description: "Note restored successfully");
+
         Provider.of<DeepBottomProvider>(context, listen: false).setSelection =
             false;
 
@@ -94,6 +97,8 @@ class TrashSelectionAppBar extends StatelessWidget {
 
       case 1:
         TrashManagement.deleteBatch(context: context);
+
+        DeepToast.showToast(description: "Note deleted successfully");
 
         Provider.of<DeepBottomProvider>(context, listen: false).setSelection =
             false;
