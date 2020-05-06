@@ -13,7 +13,7 @@ class SizeHelper {
   static double _bodyText1 = 16.sp;
   static double _bodyText2 = 14.sp;
   static double _modalButton = 18.sp;
-  static double _button = 14.sp;
+  static double _button = 12.sp;
   static double _folder = 14.sp;
 
   static double get getHeadline5 => _headline5;

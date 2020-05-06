@@ -48,7 +48,6 @@ class MyIcon {
   static const IconData event_note_outline = IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData camera_alt_outline = IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData audiotrack_outline = IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData home_outline = IconData(0xe80b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData move_to = IconData(0xe868, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData plus_square = IconData(0xf196, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData trash = IconData(0xf1f8, fontFamily: _kFontFam, fontPackage: _kFontPkg);

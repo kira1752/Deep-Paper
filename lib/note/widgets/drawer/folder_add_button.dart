@@ -23,6 +23,7 @@ class FolderAddButton extends StatelessWidget {
             },
             child: Text(
               "ADD",
+              maxLines: 1,
               style: TextStyle(
                   color: Colors.white.withOpacity(0.87),
                   fontSize: SizeHelper.getButton),
