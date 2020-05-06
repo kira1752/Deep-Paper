@@ -10,7 +10,6 @@ class FolderAddButton extends StatelessWidget {
     return ListTile(
         title: Text(
           "FOLDERS",
-          textScaleFactor: MediaQuery.textScaleFactorOf(context),
           style: Theme.of(context).textTheme.bodyText1.copyWith(
               color: Colors.white.withOpacity(0.70),
               fontSize: SizeHelper.getBodyText1),
@@ -20,11 +19,10 @@ class FolderAddButton extends StatelessWidget {
                 side: BorderSide(
                     color: Theme.of(context).accentColor, width: 2.0)),
             onPressed: () {
-              BottomModal.createFolderDialog(context: context);
+              BottomModal.openCreateFolderDialog(context: context);
             },
             child: Text(
               "ADD",
-              textScaleFactor: MediaQuery.textScaleFactorOf(context),
               style: TextStyle(
                   color: Colors.white.withOpacity(0.87),
                   fontSize: SizeHelper.getButton),

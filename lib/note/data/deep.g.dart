@@ -10,6 +10,8 @@ part of 'deep.dart';
 class Note extends DataClass implements Insertable<Note> {
   final int id;
   final int folderID;
+  final String folderName;
+  final TextDirection folderNameDirection;
   final String title;
   final String detail;
   final TextDirection titleDirection;
@@ -20,7 +22,9 @@ class Note extends DataClass implements Insertable<Note> {
   final DateTime date;
   Note(
       {@required this.id,
-      this.folderID,
+      @required this.folderID,
+      @required this.folderName,
+      @required this.folderNameDirection,
       @required this.title,
       @required this.detail,
       @required this.titleDirection,
@@ -40,13 +44,18 @@ class Note extends DataClass implements Insertable<Note> {
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       folderID:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}folder_i_d']),
+      folderName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}folder_name']),
+      folderNameDirection: $NotesTable.$converter0.mapToDart(
+          stringType.mapFromDatabaseResponse(
+              data['${effectivePrefix}folder_name_direction'])),
       title:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}title']),
       detail:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}detail']),
-      titleDirection: $NotesTable.$converter0.mapToDart(stringType
+      titleDirection: $NotesTable.$converter1.mapToDart(stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}title_direction'])),
-      detailDirection: $NotesTable.$converter1.mapToDart(stringType
+      detailDirection: $NotesTable.$converter2.mapToDart(stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}detail_direction'])),
       isDeleted: boolType
           .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
@@ -64,6 +73,9 @@ class Note extends DataClass implements Insertable<Note> {
     return Note(
       id: serializer.fromJson<int>(json['id']),
       folderID: serializer.fromJson<int>(json['folderID']),
+      folderName: serializer.fromJson<String>(json['folderName']),
+      folderNameDirection:
+          serializer.fromJson<TextDirection>(json['folderNameDirection']),
       title: serializer.fromJson<String>(json['title']),
       detail: serializer.fromJson<String>(json['detail']),
       titleDirection:
@@ -82,6 +94,9 @@ class Note extends DataClass implements Insertable<Note> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'folderID': serializer.toJson<int>(folderID),
+      'folderName': serializer.toJson<String>(folderName),
+      'folderNameDirection':
+          serializer.toJson<TextDirection>(folderNameDirection),
       'title': serializer.toJson<String>(title),
       'detail': serializer.toJson<String>(detail),
       'titleDirection': serializer.toJson<TextDirection>(titleDirection),
@@ -100,6 +115,12 @@ class Note extends DataClass implements Insertable<Note> {
       folderID: folderID == null && nullToAbsent
           ? const Value.absent()
           : Value(folderID),
+      folderName: folderName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(folderName),
+      folderNameDirection: folderNameDirection == null && nullToAbsent
+          ? const Value.absent()
+          : Value(folderNameDirection),
       title:
           title == null && nullToAbsent ? const Value.absent() : Value(title),
       detail:
@@ -126,6 +147,8 @@ class Note extends DataClass implements Insertable<Note> {
   Note copyWith(
           {int id,
           int folderID,
+          String folderName,
+          TextDirection folderNameDirection,
           String title,
           String detail,
           TextDirection titleDirection,
@@ -137,6 +160,8 @@ class Note extends DataClass implements Insertable<Note> {
       Note(
         id: id ?? this.id,
         folderID: folderID ?? this.folderID,
+        folderName: folderName ?? this.folderName,
+        folderNameDirection: folderNameDirection ?? this.folderNameDirection,
         title: title ?? this.title,
         detail: detail ?? this.detail,
         titleDirection: titleDirection ?? this.titleDirection,
@@ -151,6 +176,8 @@ class Note extends DataClass implements Insertable<Note> {
     return (StringBuffer('Note(')
           ..write('id: $id, ')
           ..write('folderID: $folderID, ')
+          ..write('folderName: $folderName, ')
+          ..write('folderNameDirection: $folderNameDirection, ')
           ..write('title: $title, ')
           ..write('detail: $detail, ')
           ..write('titleDirection: $titleDirection, ')
@@ -169,25 +196,31 @@ class Note extends DataClass implements Insertable<Note> {
       $mrjc(
           folderID.hashCode,
           $mrjc(
-              title.hashCode,
+              folderName.hashCode,
               $mrjc(
-                  detail.hashCode,
+                  folderNameDirection.hashCode,
                   $mrjc(
-                      titleDirection.hashCode,
+                      title.hashCode,
                       $mrjc(
-                          detailDirection.hashCode,
+                          detail.hashCode,
                           $mrjc(
-                              isDeleted.hashCode,
+                              titleDirection.hashCode,
                               $mrjc(
-                                  containAudio.hashCode,
-                                  $mrjc(containImage.hashCode,
-                                      date.hashCode))))))))));
+                                  detailDirection.hashCode,
+                                  $mrjc(
+                                      isDeleted.hashCode,
+                                      $mrjc(
+                                          containAudio.hashCode,
+                                          $mrjc(containImage.hashCode,
+                                              date.hashCode))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is Note &&
           other.id == this.id &&
           other.folderID == this.folderID &&
+          other.folderName == this.folderName &&
+          other.folderNameDirection == this.folderNameDirection &&
           other.title == this.title &&
           other.detail == this.detail &&
           other.titleDirection == this.titleDirection &&
@@ -201,6 +234,8 @@ class Note extends DataClass implements Insertable<Note> {
 class NotesCompanion extends UpdateCompanion<Note> {
   final Value<int> id;
   final Value<int> folderID;
+  final Value<String> folderName;
+  final Value<TextDirection> folderNameDirection;
   final Value<String> title;
   final Value<String> detail;
   final Value<TextDirection> titleDirection;
@@ -212,6 +247,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
   const NotesCompanion({
     this.id = const Value.absent(),
     this.folderID = const Value.absent(),
+    this.folderName = const Value.absent(),
+    this.folderNameDirection = const Value.absent(),
     this.title = const Value.absent(),
     this.detail = const Value.absent(),
     this.titleDirection = const Value.absent(),
@@ -224,6 +261,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
   NotesCompanion.insert({
     this.id = const Value.absent(),
     this.folderID = const Value.absent(),
+    @required String folderName,
+    @required TextDirection folderNameDirection,
     @required String title,
     @required String detail,
     @required TextDirection titleDirection,
@@ -232,7 +271,9 @@ class NotesCompanion extends UpdateCompanion<Note> {
     this.containAudio = const Value.absent(),
     this.containImage = const Value.absent(),
     @required DateTime date,
-  })  : title = Value(title),
+  })  : folderName = Value(folderName),
+        folderNameDirection = Value(folderNameDirection),
+        title = Value(title),
         detail = Value(detail),
         titleDirection = Value(titleDirection),
         detailDirection = Value(detailDirection),
@@ -240,6 +281,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
   NotesCompanion copyWith(
       {Value<int> id,
       Value<int> folderID,
+      Value<String> folderName,
+      Value<TextDirection> folderNameDirection,
       Value<String> title,
       Value<String> detail,
       Value<TextDirection> titleDirection,
@@ -251,6 +294,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
     return NotesCompanion(
       id: id ?? this.id,
       folderID: folderID ?? this.folderID,
+      folderName: folderName ?? this.folderName,
+      folderNameDirection: folderNameDirection ?? this.folderNameDirection,
       title: title ?? this.title,
       detail: detail ?? this.detail,
       titleDirection: titleDirection ?? this.titleDirection,
@@ -281,10 +326,33 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   @override
   GeneratedIntColumn get folderID => _folderID ??= _constructFolderID();
   GeneratedIntColumn _constructFolderID() {
-    return GeneratedIntColumn(
-      'folder_i_d',
+    return GeneratedIntColumn('folder_i_d', $tableName, false,
+        defaultValue: Constant(0));
+  }
+
+  final VerificationMeta _folderNameMeta = const VerificationMeta('folderName');
+  GeneratedTextColumn _folderName;
+  @override
+  GeneratedTextColumn get folderName => _folderName ??= _constructFolderName();
+  GeneratedTextColumn _constructFolderName() {
+    return GeneratedTextColumn(
+      'folder_name',
       $tableName,
-      true,
+      false,
+    );
+  }
+
+  final VerificationMeta _folderNameDirectionMeta =
+      const VerificationMeta('folderNameDirection');
+  GeneratedTextColumn _folderNameDirection;
+  @override
+  GeneratedTextColumn get folderNameDirection =>
+      _folderNameDirection ??= _constructFolderNameDirection();
+  GeneratedTextColumn _constructFolderNameDirection() {
+    return GeneratedTextColumn(
+      'folder_name_direction',
+      $tableName,
+      false,
     );
   }
 
@@ -387,6 +455,8 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   List<GeneratedColumn> get $columns => [
         id,
         folderID,
+        folderName,
+        folderNameDirection,
         title,
         detail,
         titleDirection,
@@ -413,6 +483,14 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
       context.handle(_folderIDMeta,
           folderID.isAcceptableValue(d.folderID.value, _folderIDMeta));
     }
+    if (d.folderName.present) {
+      context.handle(_folderNameMeta,
+          folderName.isAcceptableValue(d.folderName.value, _folderNameMeta));
+    } else if (isInserting) {
+      context.missing(_folderNameMeta);
+    }
+    context.handle(
+        _folderNameDirectionMeta, const VerificationResult.success());
     if (d.title.present) {
       context.handle(
           _titleMeta, title.isAcceptableValue(d.title.value, _titleMeta));
@@ -469,6 +547,14 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     if (d.folderID.present) {
       map['folder_i_d'] = Variable<int, IntType>(d.folderID.value);
     }
+    if (d.folderName.present) {
+      map['folder_name'] = Variable<String, StringType>(d.folderName.value);
+    }
+    if (d.folderNameDirection.present) {
+      final converter = $NotesTable.$converter0;
+      map['folder_name_direction'] = Variable<String, StringType>(
+          converter.mapToSql(d.folderNameDirection.value));
+    }
     if (d.title.present) {
       map['title'] = Variable<String, StringType>(d.title.value);
     }
@@ -476,12 +562,12 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
       map['detail'] = Variable<String, StringType>(d.detail.value);
     }
     if (d.titleDirection.present) {
-      final converter = $NotesTable.$converter0;
+      final converter = $NotesTable.$converter1;
       map['title_direction'] = Variable<String, StringType>(
           converter.mapToSql(d.titleDirection.value));
     }
     if (d.detailDirection.present) {
-      final converter = $NotesTable.$converter1;
+      final converter = $NotesTable.$converter2;
       map['detail_direction'] = Variable<String, StringType>(
           converter.mapToSql(d.detailDirection.value));
     }
@@ -508,6 +594,8 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   static TypeConverter<TextDirection, String> $converter0 =
       const TextDirectionConverter();
   static TypeConverter<TextDirection, String> $converter1 =
+      const TextDirectionConverter();
+  static TypeConverter<TextDirection, String> $converter2 =
       const TextDirectionConverter();
 }
 

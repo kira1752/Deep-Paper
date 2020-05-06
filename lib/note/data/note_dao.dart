@@ -1,5 +1,6 @@
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:moor/moor.dart';
+import 'package:deep_paper/utility/extension.dart';
 
 part 'note_dao.g.dart';
 
@@ -23,12 +24,14 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
         ..orderBy([(n) => OrderingTerm.desc(n.date)]))
       .watch();
 
-  Stream<List<Note>> watchNoteInsideFolder(FolderNoteData folder) =>
-      (select(notes)
-            ..where((n) => n.folderID.equals(folder.id))
-            ..where((n) => n.isDeleted.equals(false))
-            ..orderBy([(n) => OrderingTerm.desc(n.date)]))
-          .watch();
+  Stream<List<Note>> watchNoteInsideFolder(FolderNoteData folder) {
+    final folderID = folder.isNotNull ? folder.id : 0;
+    return (select(notes)
+          ..where((n) => n.folderID.equals(folderID))
+          ..where((n) => n.isDeleted.equals(false))
+          ..orderBy([(n) => OrderingTerm.desc(n.date)]))
+        .watch();
+  }
 
   Future<void> insertNote(NotesCompanion entry) => into(notes).insert(entry);
 
@@ -54,6 +57,16 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
     await batch((b) {
       selectedNote.forEach((key, note) {
         b.replace(notes, note.copyWith(isDeleted: true));
+      });
+    });
+  }
+
+  Future<void> moveToFolder(
+      Map<int, Note> selectedNote, int folderID, String folderName) async {
+    await batch((b) {
+      selectedNote.forEach((key, note) {
+        b.replace(
+            notes, note.copyWith(folderID: folderID, folderName: folderName));
       });
     });
   }

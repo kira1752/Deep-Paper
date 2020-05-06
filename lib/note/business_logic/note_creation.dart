@@ -12,12 +12,17 @@ class NoteCreation {
       {@required BuildContext context,
       @required String title,
       @required String detail,
-      @required int folderID}) {
+      @required int folderID,
+      @required String folderName}) {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
     final titleDirection = Bidi.detectRtlDirectionality(title)
         ? TextDirection.rtl
         : TextDirection.ltr;
     final detailDirection = Bidi.detectRtlDirectionality(detail)
+        ? TextDirection.rtl
+        : TextDirection.ltr;
+
+    final folderNameDirection = Bidi.detectRtlDirectionality(detail)
         ? TextDirection.rtl
         : TextDirection.ltr;
 
@@ -28,6 +33,8 @@ class NoteCreation {
           titleDirection: Value(titleDirection),
           detailDirection: Value(detailDirection),
           folderID: Value(folderID),
+          folderName: Value(folderName),
+          folderNameDirection: Value(folderNameDirection),
           date: Value(DateTime.now())));
     }
   }
@@ -98,5 +105,17 @@ class NoteCreation {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
     await database.noteDao.moveToTrash(selectedNote);
+  }
+
+  static Future<void> moveToFolderBatch(
+      {@required BuildContext context,
+      @required FolderNoteData folder,
+      @required SelectionProvider selectionProvider,
+      @required DeepPaperDatabase database}) async {
+    final selectedNote = selectionProvider.getSelected;
+    final folderID = folder.isNotNull ? folder.id : 0;
+    final folderName = folder.isNotNull ? folder.name : "Main folder";
+
+    await database.noteDao.moveToFolder(selectedNote, folderID, folderName);
   }
 }

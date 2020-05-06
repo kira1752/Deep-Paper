@@ -11,6 +11,8 @@ class FolderNoteDao extends DatabaseAccessor<DeepPaperDatabase>
   final DeepPaperDatabase db;
 
   Stream<List<FolderNoteData>> watchFolder() => select(folderNote).watch();
+
+  Future<List<FolderNoteData>> getFolder() => select(folderNote).get();
   Future insertFolder(FolderNoteCompanion entry) =>
       into(folderNote).insert(entry);
   Future updateFolder(FolderNoteData entry) =>

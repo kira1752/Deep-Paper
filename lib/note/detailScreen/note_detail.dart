@@ -49,7 +49,8 @@ class _NoteDetailState extends State<NoteDetail> {
             context: context,
             title: _title,
             detail: _detail,
-            folderID: folder.isNotNull ? folder.id : null,
+            folderID: folder.isNotNull ? folder.id : 0,
+            folderName: folder.isNotNull ? folder.name : "Main folder"
           );
 
           return true;

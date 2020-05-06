@@ -12,7 +12,7 @@ class FolderMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Selector<NoteDrawerProvider, bool>(
       selector: (context, provider) =>
-          provider.getIndexFolderItem != null &&
+          provider.getFolder != null &&
           provider.getIndexDrawerItem == null,
       builder: (context, showMenu, child) {
         debugPrintSynchronously("Folder Menu rebuild");
@@ -59,10 +59,10 @@ class FolderMenu extends StatelessWidget {
       {@required BuildContext context, @required int choice}) async {
     switch (choice) {
       case 0:
-        await BottomModal.renameFolderDialog(context: context);
+        await BottomModal.openRenameFolderDialog(context: context);
         break;
       case 1:
-        await BottomModal.deleteFolderDialog(context: context);
+        await BottomModal.openDeleteFolderDialog(context: context);
         break;
       default:
     }

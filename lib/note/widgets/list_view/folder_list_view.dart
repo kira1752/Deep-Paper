@@ -16,7 +16,6 @@ class FolderListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrintSynchronously("folder: ${folder.id}");
 
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
@@ -26,7 +25,7 @@ class FolderListView extends StatelessWidget {
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 450),
           child: data.isNull
-              ? SizedBox()
+              ? const SizedBox()
               : data.isEmpty
                   ? Center(
                       child: Column(

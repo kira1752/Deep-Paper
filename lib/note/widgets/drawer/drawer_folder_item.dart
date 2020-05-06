@@ -3,11 +3,15 @@ import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:deep_paper/note/data/deep.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 import 'package:responsive_widgets/responsive_widgets.dart';
+import 'package:deep_paper/utility/extension.dart';
 
 class DrawerFolderItem extends StatelessWidget {
   final FolderNoteData folder;
+  final IconData icon;
+  final IconData activeIcon;
   final int index;
   final int total;
 
@@ -15,7 +19,9 @@ class DrawerFolderItem extends StatelessWidget {
       {Key key,
       @required this.index,
       @required this.folder,
-      @required this.total})
+      @required this.total,
+      @required this.icon,
+      @required this.activeIcon})
       : super(key: key);
 
   @override
@@ -23,12 +29,19 @@ class DrawerFolderItem extends StatelessWidget {
     final drawerProvider =
         Provider.of<NoteDrawerProvider>(context, listen: false);
 
+    final folderName = folder.isNotNull ? folder.name : "Main folder";
+    final nameDirection = folder.isNotNull
+        ? folder.nameDirection
+        : (Bidi.detectRtlDirectionality(folderName)
+            ? TextDirection.rtl
+            : TextDirection.ltr);
+
     return Selector<NoteDrawerProvider, bool>(
         key: ValueKey<int>(index),
         selector: (context, drawerProvider) =>
             drawerProvider.getIndexFolderItem == index,
         builder: (context, selected, child) {
-          debugPrintSynchronously("Folder ${folder.name} rebuild");
+          debugPrintSynchronously("Folder $folderName rebuild");
           return Material(
             clipBehavior: Clip.hardEdge,
             color: selected
@@ -46,23 +59,24 @@ class DrawerFolderItem extends StatelessWidget {
                     drawerProvider.setIndexFolderItem = index;
                     drawerProvider.setIndexDrawerItem = null;
                     drawerProvider.setFolder = folder;
-                    drawerProvider.setTitleFragment = "${folder.name}";
+                    drawerProvider.setTitleFragment = "$folderName";
                   } else if (!selected) {
                     drawerProvider.setIndexFolderItem = index;
-                    drawerProvider.setTitleFragment = "${folder.name}";
+                    drawerProvider.setTitleFragment = "$folderName";
                     drawerProvider.setFolder = folder;
                   }
                 },
                 leading: selected
-                    ? Icon(Icons.folder, color: Colors.white.withOpacity(0.87))
+                    ? Icon(activeIcon, color: Colors.white.withOpacity(0.87))
                     : Icon(
-                        Icons.folder_open,
+                        icon,
                         color: Colors.white70,
                       ),
                 trailing: total == null
                     ? SizedBox()
                     : Padding(
-                        padding: EdgeInsetsResponsive.only(right: 16.0, left: 16.0),
+                        padding:
+                            EdgeInsetsResponsive.only(right: 16.0, left: 16.0),
                         child: Text(
                           "$total",
                           style: TextStyle(
@@ -70,8 +84,8 @@ class DrawerFolderItem extends StatelessWidget {
                               fontWeight: FontWeight.w600),
                         )),
                 title: Text(
-                  "${folder.name}",
-                  textDirection: folder.nameDirection,
+                  "$folderName",
+                  textDirection: nameDirection,
                   style: selected
                       ? Theme.of(context).textTheme.bodyText1.copyWith(
                           color: Colors.white.withOpacity(0.87),

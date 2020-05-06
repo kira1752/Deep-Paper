@@ -21,7 +21,7 @@ class TrashListView extends StatelessWidget {
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 450),
           child: data.isNull
-              ? SizedBox()
+              ? const SizedBox()
               : data.isEmpty
                   ? Center(
                       child: Column(
@@ -57,7 +57,7 @@ class TrashListView extends StatelessWidget {
                             index: index,
                             note: data[index],
                             ontap: () {
-                              BottomModal.restoreDialog(
+                              BottomModal.openRestoreDialog(
                                   context: context, data: data[index]);
                             },
                           ),

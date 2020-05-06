@@ -14,6 +14,7 @@ class SizeHelper {
   static double _bodyText2 = 14.sp;
   static double _modalButton = 18.sp;
   static double _button = 14.sp;
+  static double _folder = 14.sp;
 
   static double get getHeadline5 => _headline5;
   static double get getHeadline6 => _headline6;
@@ -27,8 +28,10 @@ class SizeHelper {
   static double get getBodyText2 => _bodyText2;
   static double get getModalButton => _modalButton;
   static double get getButton => _button;
+  static double get getFolder => _folder;
 
   static double setTextSize({@required double size}) => size.sp;
+  static double setIconSize({@required double size}) => size.sp;
   static double setWidth({@required double size}) => size.w;
   static double setHeight({@required double size}) => size.h;
 }

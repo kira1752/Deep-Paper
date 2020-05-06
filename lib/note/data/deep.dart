@@ -33,7 +33,10 @@ class TextDirectionConverter extends TypeConverter<TextDirection, String> {
 
 class Notes extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get folderID => integer().nullable()();
+  IntColumn get folderID => integer().withDefault(Constant(0))();
+  TextColumn get folderName => text()();
+  TextColumn get folderNameDirection =>
+      text().map(const TextDirectionConverter())();
   TextColumn get title => text()();
   TextColumn get detail => text()();
   TextColumn get titleDirection => text().map(const TextDirectionConverter())();

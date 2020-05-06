@@ -6,6 +6,7 @@ import 'package:deep_paper/note/widgets/list_view/trash_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
+import 'package:deep_paper/utility/extension.dart';
 
 class BuildBody extends StatelessWidget {
   @override
@@ -22,7 +23,7 @@ class BuildBody extends StatelessWidget {
                   selector: (context, provider) => provider.getFolder,
                   builder: (context, folder, widget) {
                     return FolderListView(
-                      key: Key("${folder.id}"),
+                      key: Key("${folder.isNotNull ? folder.id : 0}"),
                       folder: folder,
                     );
                   }));

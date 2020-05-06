@@ -111,11 +111,11 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
             },
             onCopy: () {
               NoteCreation.create(
-                context: context,
-                title: _title,
-                detail: _detail,
-                folderID: widget.note.folderID,
-              );
+                  context: context,
+                  title: _title,
+                  detail: _detail,
+                  folderID: widget.note.folderID,
+                  folderName: widget.note.folderName);
               Navigator.of(context).pop();
               Navigator.of(context).maybePop();
 

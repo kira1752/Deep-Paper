@@ -36,7 +36,7 @@ class BottomMenu extends StatelessWidget {
                 if (FocusScope.of(context).hasFocus) {
                   FocusScope.of(context).unfocus();
                 }
-                await BottomModal.addMenu(context: context);
+                await BottomModal.openAddMenu(context: context);
               },
             ),
             Selector<NoteDetailProvider, bool>(
@@ -56,7 +56,7 @@ class BottomMenu extends StatelessWidget {
                 if (FocusScope.of(context).hasFocus) {
                   FocusScope.of(context).unfocus();
                 }
-                await BottomModal.optionsMenu(
+                await BottomModal.openOptionsMenu(
                     context: context,
                     newNote: newNote,
                     onDelete: onDelete,

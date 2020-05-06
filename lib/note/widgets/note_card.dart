@@ -107,10 +107,9 @@ class NoteCard extends StatelessWidget {
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                       ),
-                    if (note.containAudio || note.containImage)
-                      Padding(
-                          padding: EdgeInsetsResponsive.only(top: 24.0),
-                          child: _dateAndIcons(context: context, data: note)),
+                    Padding(
+                        padding: EdgeInsetsResponsive.only(top: 24.0),
+                        child: _dateAndIcons(context: context, note: note)),
                   ]),
                 ),
               ),
@@ -119,25 +118,42 @@ class NoteCard extends StatelessWidget {
         });
   }
 
-  Widget _dateAndIcons({@required BuildContext context, @required Note data}) {
-    return Row(
+  Widget _dateAndIcons({@required BuildContext context, @required Note note}) {
+    return Wrap(
+      spacing: 8.0,
       textDirection:
-          data.detail.isEmpty ? data.titleDirection : data.detailDirection,
-      mainAxisAlignment: MainAxisAlignment.start,
+          note.detail.isEmpty ? note.titleDirection : note.detailDirection,
+      direction: Axis.horizontal,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: <Widget>[
-        if (data.containImage)
-          Padding(
-              padding: EdgeInsetsResponsive.only(right: 8.0),
-              child: Icon(
-                MyIcon.photo_outline,
-                color: Colors.white60,
-                size: 18.0,
-              )),
-        if (data.containAudio)
+        Container(
+          padding: EdgeInsetsResponsive.all(8.0),
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            border: Border.all(
+                width: 2.0,
+                color: Theme.of(context).accentColor.withOpacity(0.3)),
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          ),
+          child: Text(
+            "${note.folderName}",
+            textDirection: note.folderNameDirection,
+            style: Theme.of(context).textTheme.caption.copyWith(
+                color: Colors.white70, fontSize: SizeHelper.getFolder),
+            maxLines: 1,
+          ),
+        ),
+        if (note.containImage)
+          Icon(
+            MyIcon.photo_outline,
+            color: Colors.white60,
+            size: SizeHelper.setIconSize(size: 20.0),
+          ),
+        if (note.containAudio)
           Icon(
             Icons.mic_none,
             color: Colors.white60,
-            size: 18.0,
+            size: SizeHelper.setIconSize(size: 20.0),
           )
       ],
     );

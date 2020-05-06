@@ -5,7 +5,6 @@ class NoteDrawerProvider with ChangeNotifier {
   String _titleFragment = "NOTE";
   int _indexDrawerItem = 0;
   int _indexFolderItem;
-  int _defaultItemValue = 4;
   List<Note> _noteList;
   FolderNoteData _folder;
   bool _isTrashExist = false;
@@ -14,7 +13,6 @@ class NoteDrawerProvider with ChangeNotifier {
   String get getTitleFragment => _titleFragment;
   int get getIndexDrawerItem => _indexDrawerItem;
   int get getIndexFolderItem => _indexFolderItem;
-  int get getDefaultItemValue => _defaultItemValue;
   List<Note> get getNoteList => _noteList;
   FolderNoteData get getFolder => _folder;
   bool get isTrashExist => _isTrashExist;

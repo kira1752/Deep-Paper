@@ -1,8 +1,11 @@
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/note/business_logic/note_creation.dart';
+import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/provider/deep_bottom_provider.dart';
+import 'package:deep_paper/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/note/provider/selection_provider.dart';
 import 'package:deep_paper/note/widgets/deep_toast.dart';
+import 'package:deep_paper/note/widgets/move_to_folder.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -102,6 +105,25 @@ class NormalSelectionAppBar extends StatelessWidget {
         Provider.of<SelectionProvider>(context, listen: false)
             .getSelected
             .clear();
+        break;
+      case 1:
+        final currentFolder =
+            Provider.of<NoteDrawerProvider>(context, listen: false).getFolder;
+
+        final selectionProvider =
+            Provider.of<SelectionProvider>(context, listen: false);
+
+        final deepBottomProvider =
+            Provider.of<DeepBottomProvider>(context, listen: false);
+
+        final database = Provider.of<DeepPaperDatabase>(context, listen: false);
+
+        MoveToFolder.openMoveToDialog(
+            context: context,
+            currentFolder: currentFolder,
+            selectionProvider: selectionProvider,
+            deepBottomProvider: deepBottomProvider,
+            database: database);
         break;
       case 2:
         NoteCreation.copySelectedNotes(context: context);

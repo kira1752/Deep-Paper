@@ -22,7 +22,7 @@ class NoteListView extends StatelessWidget {
         return AnimatedSwitcher(
           duration: Duration(milliseconds: 450),
           child: data.isNull
-              ? SizedBox()
+              ? const SizedBox()
               : data.isEmpty
                   ? Center(
                       child: Column(

@@ -1,7 +1,6 @@
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/provider/deep_bottom_provider.dart';
-import 'package:deep_paper/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/note/provider/selection_provider.dart';
 import 'package:deep_paper/note/widgets/drawer/drawer_default_item.dart';
 import 'package:deep_paper/note/widgets/drawer/drawer_folder_item.dart';
@@ -42,11 +41,7 @@ class _DeepDrawerState extends State<DeepDrawer> {
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
-
-    final drawerProvider =
-        Provider.of<NoteDrawerProvider>(context, listen: false);
-
-    final defaultItemValue = drawerProvider.getDefaultItemValue;
+    const int defaultItemValue = 5;
 
     return Drawer(
       child: Container(
@@ -65,7 +60,7 @@ class _DeepDrawerState extends State<DeepDrawer> {
               return AnimatedSwitcher(
                 duration: const Duration(milliseconds: 450),
                 child: folderList.isNull
-                    ? SizedBox()
+                    ? const SizedBox()
                     : DeepScrollbar(
                         key: Key("Note Drawer Scrollbar"),
                         child: ScrollablePositionedList.builder(
@@ -83,7 +78,7 @@ class _DeepDrawerState extends State<DeepDrawer> {
                                   setValue: 0,
                                   icon: MyIcon.library_books_outline,
                                   activeIcon: Icons.library_books,
-                                  total: noteList == null
+                                  total: noteList.isNull
                                       ? null
                                       : noteList
                                           .where((n) => n.isDeleted == false)
@@ -96,7 +91,7 @@ class _DeepDrawerState extends State<DeepDrawer> {
                                   setValue: 1,
                                   icon: MyIcon.trash_empty,
                                   activeIcon: MyIcon.trash,
-                                  total: noteList == null
+                                  total: noteList.isNull
                                       ? null
                                       : noteList
                                           .where((n) => n.isDeleted == true)
@@ -106,12 +101,29 @@ class _DeepDrawerState extends State<DeepDrawer> {
                                 return FolderAddButton(
                                   key: ValueKey("$index"),
                                 );
+                              } else if (index == 4) {
+                                return DrawerFolderItem(
+                                  key: ValueKey("$index"),
+                                  icon: MyIcon.home_outline,
+                                  activeIcon: Icons.home,
+                                  index: 0,
+                                  folder: null,
+                                  total: noteList.isNull
+                                      ? null
+                                      : noteList
+                                          .where((n) => n.folderID == 0)
+                                          .where((n) => n.isDeleted == false)
+                                          .length,
+                                );
                               } else {
                                 return DrawerFolderItem(
                                   key: ValueKey("$index"),
-                                  index: index - defaultItemValue,
+                                  icon: Icons.folder_open,
+                                  activeIcon: Icons.folder,
+                                  index:
+                                      folderList[index - defaultItemValue].id,
                                   folder: folderList[index - defaultItemValue],
-                                  total: noteList == null
+                                  total: noteList.isNull
                                       ? null
                                       : noteList
                                           .where((n) =>
