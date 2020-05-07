@@ -27,7 +27,7 @@ class FolderAddButton extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   color: Colors.white.withOpacity(0.87),
-                  fontSize: SizeHelper.getButton),
+                  fontSize: SizeHelper.getAddButton),
             )));
   }
 }

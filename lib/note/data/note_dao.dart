@@ -46,6 +46,8 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
                 titleDirection: Value(note.titleDirection),
                 detailDirection: Value(note.detailDirection),
                 folderID: Value(note.folderID),
+                folderName: Value(note.folderName),
+                folderNameDirection: Value(note.folderNameDirection),
                 date: Value(DateTime.now())));
       });
     });

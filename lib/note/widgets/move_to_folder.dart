@@ -6,6 +6,7 @@ import 'package:deep_paper/note/provider/selection_provider.dart';
 import 'package:deep_paper/note/widgets/bottom_modal.dart';
 import 'package:deep_paper/note/widgets/deep_toast.dart';
 import 'package:deep_paper/utility/size_helper.dart';
+import 'package:deep_paper/widgets/deep_scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_widgets/responsive_widgets.dart';
@@ -42,47 +43,96 @@ class MoveToFolder {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            Text(
-                              "Select folder",
-                              style: TextStyle(
-                                  fontFamily: "Roboto",
-                                  fontSize: SizeHelper.getHeadline6,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white.withOpacity(0.87)),
+                            Padding(
+                              padding: EdgeInsetsResponsive.only(bottom: 26.0),
+                              child: Text(
+                                "Select folder",
+                                style: TextStyle(
+                                    fontFamily: "Roboto",
+                                    fontSize: SizeHelper.getHeadline6,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white.withOpacity(0.87)),
+                              ),
                             ),
                             Flexible(
-                                child: ListView.builder(
-                                    physics: const ClampingScrollPhysics(),
-                                    itemCount:
-                                        folderList.length + defaultItemValue,
-                                    shrinkWrap: true,
-                                    padding: EdgeInsetsResponsive.all(18),
-                                    itemBuilder: (context, index) {
-                                      if (index == 0) {
+                                child: DeepScrollbar(
+                              child: ListView.builder(
+                                  physics: const ClampingScrollPhysics(),
+                                  itemCount:
+                                      folderList.length + defaultItemValue,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    if (index == 0) {
+                                      return Material(
+                                        color: Colors.transparent,
+                                        clipBehavior: Clip.hardEdge,
+                                        shape: StadiumBorder(),
+                                        child: ListTile(
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+
+                                            BottomModal
+                                                .openCreateFolderMoveToDialog(
+                                                    context: context,
+                                                    currentFolder:
+                                                        currentFolder,
+                                                    selectionProvider:
+                                                        selectionProvider,
+                                                    deepBottomProvider:
+                                                        deepBottomProvider);
+                                          },
+                                          leading: Icon(
+                                            MyIcon.plus,
+                                            color: Colors.white70,
+                                          ),
+                                          title: Text(
+                                            "New folder",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                .copyWith(
+                                                    color: Colors.white70,
+                                                    fontSize: SizeHelper
+                                                        .getModalButton),
+                                          ),
+                                        ),
+                                      );
+                                    } else if (currentFolder.isNotNull) {
+                                      if (index == 1) {
                                         return Material(
                                           color: Colors.transparent,
                                           clipBehavior: Clip.hardEdge,
                                           shape: StadiumBorder(),
                                           child: ListTile(
                                             onTap: () {
+                                              NoteCreation.moveToFolderBatch(
+                                                  context: context,
+                                                  folder: null,
+                                                  selectionProvider:
+                                                      selectionProvider,
+                                                  database: database);
+
                                               Navigator.of(context).pop();
 
-                                              BottomModal
-                                                  .openCreateFolderMoveToDialog(
-                                                      context: context,
-                                                      currentFolder:
-                                                          currentFolder,
-                                                      selectionProvider:
-                                                          selectionProvider,
-                                                      deepBottomProvider:
-                                                          deepBottomProvider);
+                                              DeepToast.showToast(
+                                                  description:
+                                                      "Note moved successfully");
+
+                                              deepBottomProvider.setSelection =
+                                                  false;
+
+                                              selectionProvider.setSelection =
+                                                  false;
+
+                                              selectionProvider.getSelected
+                                                  .clear();
                                             },
                                             leading: Icon(
-                                              MyIcon.plus,
+                                              Icons.home,
                                               color: Colors.white70,
                                             ),
                                             title: Text(
-                                              "New folder",
+                                              "Main folder",
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyText1
@@ -93,105 +143,9 @@ class MoveToFolder {
                                             ),
                                           ),
                                         );
-                                      } else if (currentFolder.isNotNull) {
-                                        if (index == 1) {
-                                          return Material(
-                                            color: Colors.transparent,
-                                            clipBehavior: Clip.hardEdge,
-                                            shape: StadiumBorder(),
-                                            child: ListTile(
-                                              onTap: () {
-                                                NoteCreation.moveToFolderBatch(
-                                                    context: context,
-                                                    folder: null,
-                                                    selectionProvider:
-                                                        selectionProvider,
-                                                    database: database);
-
-                                                Navigator.of(context).pop();
-
-                                                DeepToast.showToast(
-                                                    description:
-                                                        "Note moved successfully");
-
-                                                deepBottomProvider
-                                                    .setSelection = false;
-
-                                                selectionProvider.setSelection =
-                                                    false;
-
-                                                selectionProvider.getSelected
-                                                    .clear();
-                                              },
-                                              leading: Icon(
-                                                Icons.home,
-                                                color: Colors.white70,
-                                              ),
-                                              title: Text(
-                                                "Main folder",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1
-                                                    .copyWith(
-                                                        color: Colors.white70,
-                                                        fontSize: SizeHelper
-                                                            .getModalButton),
-                                              ),
-                                            ),
-                                          );
-                                        } else if (currentFolder.id !=
-                                            folderList[index - defaultItemValue]
-                                                .id) {
-                                          final folder = folderList[
-                                              index - defaultItemValue];
-
-                                          return Material(
-                                            color: Colors.transparent,
-                                            clipBehavior: Clip.hardEdge,
-                                            shape: StadiumBorder(),
-                                            child: ListTile(
-                                              onTap: () {
-                                                NoteCreation.moveToFolderBatch(
-                                                    context: context,
-                                                    folder: folder,
-                                                    selectionProvider:
-                                                        selectionProvider,
-                                                    database: database);
-
-                                                Navigator.of(context).pop();
-
-                                                DeepToast.showToast(
-                                                    description:
-                                                        "Note moved successfully");
-
-                                                deepBottomProvider
-                                                    .setSelection = false;
-
-                                                selectionProvider.setSelection =
-                                                    false;
-
-                                                selectionProvider.getSelected
-                                                    .clear();
-                                              },
-                                              leading: Icon(
-                                                Icons.folder,
-                                                color: Colors.white70,
-                                              ),
-                                              title: Text(
-                                                "${folder.name}",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1
-                                                    .copyWith(
-                                                        color: Colors.white70,
-                                                        fontSize: SizeHelper
-                                                            .getModalButton),
-                                              ),
-                                            ),
-                                          );
-                                        } else
-                                          return const SizedBox();
-                                      } else {
+                                      } else if (currentFolder.id !=
+                                          folderList[index - defaultItemValue]
+                                              .id) {
                                         final folder = folderList[
                                             index - defaultItemValue];
 
@@ -239,8 +193,59 @@ class MoveToFolder {
                                             ),
                                           ),
                                         );
-                                      }
-                                    }))
+                                      } else
+                                        return const SizedBox();
+                                    } else {
+                                      final folder =
+                                          folderList[index - defaultItemValue];
+
+                                      return Material(
+                                        color: Colors.transparent,
+                                        clipBehavior: Clip.hardEdge,
+                                        shape: StadiumBorder(),
+                                        child: ListTile(
+                                          onTap: () {
+                                            NoteCreation.moveToFolderBatch(
+                                                context: context,
+                                                folder: folder,
+                                                selectionProvider:
+                                                    selectionProvider,
+                                                database: database);
+
+                                            Navigator.of(context).pop();
+
+                                            DeepToast.showToast(
+                                                description:
+                                                    "Note moved successfully");
+
+                                            deepBottomProvider.setSelection =
+                                                false;
+
+                                            selectionProvider.setSelection =
+                                                false;
+
+                                            selectionProvider.getSelected
+                                                .clear();
+                                          },
+                                          leading: Icon(
+                                            Icons.folder,
+                                            color: Colors.white70,
+                                          ),
+                                          title: Text(
+                                            "${folder.name}",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                .copyWith(
+                                                    color: Colors.white70,
+                                                    fontSize: SizeHelper
+                                                        .getModalButton),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  }),
+                            ))
                           ],
                         ),
                       ),
