@@ -38,8 +38,7 @@ class MoveToFolder {
                 child: folderList.isNull
                     ? const SizedBox()
                     : Padding(
-                        padding:
-                            EdgeInsetsResponsive.only(top: 26.0, bottom: 26.0),
+                        padding: EdgeInsetsResponsive.only(top: 26.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
@@ -62,7 +61,7 @@ class MoveToFolder {
                                       folderList.length + defaultItemValue,
                                   shrinkWrap: true,
                                   padding: EdgeInsetsResponsive.only(
-                                      left: 18.0, right: 18.0),
+                                      left: 18.0, right: 18.0, bottom: 26.0),
                                   itemBuilder: (context, index) {
                                     if (index == 0) {
                                       return Material(

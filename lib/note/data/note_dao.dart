@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:moor/moor.dart';
 import 'package:deep_paper/utility/extension.dart';
@@ -63,12 +65,16 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
     });
   }
 
-  Future<void> moveToFolder(
-      Map<int, Note> selectedNote, int folderID, String folderName) async {
+  Future<void> moveToFolder(Map<int, Note> selectedNote, int folderID,
+      String folderName, TextDirection folderNameDirection) async {
     await batch((b) {
       selectedNote.forEach((key, note) {
         b.replace(
-            notes, note.copyWith(folderID: folderID, folderName: folderName));
+            notes,
+            note.copyWith(
+                folderID: folderID,
+                folderName: folderName,
+                folderNameDirection: folderNameDirection));
       });
     });
   }
@@ -99,11 +105,15 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
       ..go();
   }
 
-  Future deleteFolderRelationWhenNoteInTrash(FolderNoteData folder) async {
+  Future deleteFolderRelationWhenNoteInTrash(FolderNoteData folder,
+      String mainFolder, TextDirection folderNameDirection) async {
     (update(notes)
           ..where((n) => n.folderID.equals(folder.id))
           ..where((n) => n.isDeleted.equals(true)))
-        .write(NotesCompanion(folderID: Value(0)));
+        .write(NotesCompanion(
+            folderID: Value(0),
+            folderName: Value(mainFolder),
+            folderNameDirection: Value(folderNameDirection)));
   }
 
   Future<void> deleteNote(Note entry) => delete(notes).delete(entry);

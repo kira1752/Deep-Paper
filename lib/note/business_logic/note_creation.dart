@@ -115,7 +115,11 @@ class NoteCreation {
     final selectedNote = selectionProvider.getSelected;
     final folderID = folder.isNotNull ? folder.id : 0;
     final folderName = folder.isNotNull ? folder.name : "Main folder";
+    final folderNameDirection = Bidi.detectRtlDirectionality(folderName)
+        ? TextDirection.rtl
+        : TextDirection.ltr;
 
-    await database.noteDao.moveToFolder(selectedNote, folderID, folderName);
+    await database.noteDao
+        .moveToFolder(selectedNote, folderID, folderName, folderNameDirection);
   }
 }

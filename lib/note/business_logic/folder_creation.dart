@@ -41,8 +41,13 @@ class FolderCreation {
   }) async {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
+    final mainFolder = "Main folder";
+    final folderNameDirection = Bidi.detectRtlDirectionality(mainFolder)
+        ? TextDirection.rtl
+        : TextDirection.ltr;
+
     await database.noteDao
-        .deleteFolderRelationWhenNoteInTrash(drawerProvider.getFolder);
+        .deleteFolderRelationWhenNoteInTrash(drawerProvider.getFolder, mainFolder, folderNameDirection);
 
     await database.noteDao
         .deleteNotesInsideFolderForever(drawerProvider.getFolder);
