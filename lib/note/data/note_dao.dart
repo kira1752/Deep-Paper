@@ -103,7 +103,7 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
     (update(notes)
           ..where((n) => n.folderID.equals(folder.id))
           ..where((n) => n.isDeleted.equals(true)))
-        .write(NotesCompanion(folderID: Value(null)));
+        .write(NotesCompanion(folderID: Value(0)));
   }
 
   Future<void> deleteNote(Note entry) => delete(notes).delete(entry);
