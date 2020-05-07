@@ -130,7 +130,7 @@ class MoveToFolder {
                                                   .clear();
                                             },
                                             leading: Icon(
-                                              Icons.home,
+                                              Icons.folder_shared,
                                               color: Colors.white70,
                                             ),
                                             title: Text(
@@ -180,7 +180,7 @@ class MoveToFolder {
                                                   .clear();
                                             },
                                             leading: Icon(
-                                              Icons.folder,
+                                              Icons.folder_open,
                                               color: Colors.white70,
                                             ),
                                             title: Text(
@@ -230,7 +230,7 @@ class MoveToFolder {
                                                 .clear();
                                           },
                                           leading: Icon(
-                                            Icons.folder,
+                                            Icons.folder_open,
                                             color: Colors.white70,
                                           ),
                                           title: Text(

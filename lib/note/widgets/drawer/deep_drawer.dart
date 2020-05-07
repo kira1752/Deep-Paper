@@ -104,8 +104,8 @@ class _DeepDrawerState extends State<DeepDrawer> {
                               } else if (index == 4) {
                                 return DrawerFolderItem(
                                   key: ValueKey("$index"),
-                                  icon: Icons.home,
-                                  activeIcon: Icons.home,
+                                  icon: Icons.folder_shared,
+                                  activeIcon: Icons.folder_shared,
                                   index: 0,
                                   folder: null,
                                   total: noteList.isNull
