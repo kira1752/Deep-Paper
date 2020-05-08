@@ -41,7 +41,6 @@ class DrawerFolderItem extends StatelessWidget {
         selector: (context, drawerProvider) =>
             drawerProvider.getIndexFolderItem == index,
         builder: (context, selected, child) {
-          debugPrintSynchronously("Folder $folderName rebuild");
           return Material(
             clipBehavior: Clip.hardEdge,
             color: selected

@@ -17,7 +17,6 @@ import 'package:tuple/tuple.dart';
 class NotePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    debugPrintSynchronously("Build Rebuild");
     return WillPopScope(
       onWillPop: () {
         return exitSelectionOrExitApp(context);
@@ -50,8 +49,6 @@ class NotePage extends StatelessWidget {
                   drawerProvider.getIndexDrawerItem,
                   selectionProvider.getSelection),
               builder: (context, data, child) {
-                debugPrintSynchronously("Floating Action Button rebuild");
-
                 return Visibility(
                   visible: data.item1 != 1 && !data.item2 ? true : false,
                   child: _buildFloatingActionButton(context: context),

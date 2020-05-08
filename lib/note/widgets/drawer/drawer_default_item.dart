@@ -27,8 +27,6 @@ class DrawerDefaultItem extends StatelessWidget {
         selector: (context, drawerProvier) =>
             drawerProvier.getIndexDrawerItem == setValue,
         builder: (context, selected, child) {
-          debugPrintSynchronously("Drawer Item $title rebuilt");
-
           final drawerProvider =
               Provider.of<NoteDrawerProvider>(context, listen: false);
 

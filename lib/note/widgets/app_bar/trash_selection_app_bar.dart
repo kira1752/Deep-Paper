@@ -62,7 +62,6 @@ class TrashSelectionAppBar extends StatelessWidget {
       centerTitle: true,
       title: Selector<SelectionProvider, int>(
         builder: (context, count, child) {
-          debugPrintSynchronously("Text Title rebuilt");
           return Text('$count selected',
               style: Theme.of(context)
                   .textTheme
@@ -76,7 +75,6 @@ class TrashSelectionAppBar extends StatelessWidget {
 
   void _menuTrashSelected(
       {@required BuildContext context, @required int choice}) {
-    debugPrintSynchronously("$choice");
     switch (choice) {
       case 0:
         TrashManagement.restoreBatch(context: context);
@@ -112,7 +110,6 @@ class TrashSelectionAppBar extends StatelessWidget {
         break;
 
       default:
-        debugPrintSynchronously("Error");
         break;
     }
   }

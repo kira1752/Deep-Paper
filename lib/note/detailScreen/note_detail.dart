@@ -6,7 +6,6 @@ import 'package:deep_paper/note/provider/text_controller_provider.dart';
 import 'package:deep_paper/note/widgets/bottom_menu.dart';
 import 'package:deep_paper/utility/deep_keep_alive.dart';
 import 'package:deep_paper/utility/size_helper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:intl/intl.dart' hide TextDirection;
@@ -38,7 +37,6 @@ class _NoteDetailState extends State<NoteDetail> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrintSynchronously("Note Detail Rebuild");
     final FolderNoteData folder = ModalRoute.of(context).settings.arguments;
 
     return ChangeNotifierProvider<NoteDetailProvider>(
@@ -46,12 +44,11 @@ class _NoteDetailState extends State<NoteDetail> {
       child: WillPopScope(
         onWillPop: () async {
           NoteCreation.create(
-            context: context,
-            title: _title,
-            detail: _detail,
-            folderID: folder.isNotNull ? folder.id : 0,
-            folderName: folder.isNotNull ? folder.name : "Main folder"
-          );
+              context: context,
+              title: _title,
+              detail: _detail,
+              folderID: folder.isNotNull ? folder.id : 0,
+              folderName: folder.isNotNull ? folder.name : "Main folder");
 
           return true;
         },
@@ -108,7 +105,6 @@ class _NoteDetailState extends State<NoteDetail> {
             selector: (context, provider) =>
                 provider.getDirection ? TextDirection.rtl : TextDirection.ltr,
             builder: (context, direction, child) {
-              debugPrintSynchronously("Title Field rebuild");
               return TextField(
                 controller: textControllerProvider.controller,
                 textDirection: direction,
@@ -156,7 +152,6 @@ class _NoteDetailState extends State<NoteDetail> {
             selector: (context, provider) =>
                 provider.getDirection ? TextDirection.rtl : TextDirection.ltr,
             builder: (context, direction, child) {
-              debugPrintSynchronously("Detail Field rebuild");
               return TextField(
                 controller: textControllerProvider.controller,
                 textDirection: direction,

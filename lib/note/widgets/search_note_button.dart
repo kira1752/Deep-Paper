@@ -1,6 +1,5 @@
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/note/provider/note_drawer_provider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +9,6 @@ class SearchNoteButton extends StatelessWidget {
     return Selector<NoteDrawerProvider, bool>(
         selector: (context, provider) => provider.getIndexDrawerItem != 1,
         builder: (context, showSearch, child) {
-          debugPrintSynchronously("Search rebuild");
           return Visibility(
             visible: showSearch,
             child: IconButton(

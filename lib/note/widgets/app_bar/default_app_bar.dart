@@ -3,7 +3,6 @@ import 'package:deep_paper/note/widgets/menu_app_bar/folder_menu.dart';
 import 'package:deep_paper/note/widgets/menu_app_bar/trash_menu.dart';
 import 'package:deep_paper/note/widgets/search_note_button.dart';
 import 'package:deep_paper/utility/size_helper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
@@ -24,8 +23,6 @@ class DefaultAppBar extends StatelessWidget {
         selector: (context, noteDrawerProvider) =>
             noteDrawerProvider.getTitleFragment,
         builder: (context, title, child) {
-          debugPrintSynchronously("Text Title rebuilt");
-
           final drawerProvider =
               Provider.of<NoteDrawerProvider>(context, listen: false);
 

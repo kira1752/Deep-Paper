@@ -75,7 +75,6 @@ class NormalSelectionAppBar extends StatelessWidget {
       centerTitle: true,
       title: Selector<SelectionProvider, int>(
         builder: (context, count, child) {
-          debugPrintSynchronously("Text Title rebuilt");
           return Text('$count selected',
               style: Theme.of(context)
                   .textTheme
@@ -89,7 +88,6 @@ class NormalSelectionAppBar extends StatelessWidget {
 
   Future<void> _onNormalSelected(
       {@required BuildContext context, @required int choice}) async {
-    debugPrintSynchronously("$choice");
     switch (choice) {
       case 0:
         NoteCreation.moveToTrashBatch(context: context);
@@ -110,6 +108,10 @@ class NormalSelectionAppBar extends StatelessWidget {
         final currentFolder =
             Provider.of<NoteDrawerProvider>(context, listen: false).getFolder;
 
+        final drawerIndex =
+            Provider.of<NoteDrawerProvider>(context, listen: false)
+                .getIndexDrawerItem;
+
         final selectionProvider =
             Provider.of<SelectionProvider>(context, listen: false);
 
@@ -121,6 +123,7 @@ class NormalSelectionAppBar extends StatelessWidget {
         MoveToFolder.openMoveToDialog(
             context: context,
             currentFolder: currentFolder,
+            drawerIndex: drawerIndex,
             selectionProvider: selectionProvider,
             deepBottomProvider: deepBottomProvider,
             database: database);

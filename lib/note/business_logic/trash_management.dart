@@ -7,6 +7,8 @@ class TrashManagement {
   static Future<void> empty({@required BuildContext context}) async {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
+    
+
     await database.noteDao.emptyTrashBin();
   }
 

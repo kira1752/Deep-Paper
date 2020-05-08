@@ -6,7 +6,6 @@ import 'package:deep_paper/note/widgets/bottom_menu.dart';
 import 'package:deep_paper/note/widgets/deep_toast.dart';
 import 'package:deep_paper/utility/deep_keep_alive.dart';
 import 'package:deep_paper/utility/size_helper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:intl/intl.dart' hide TextDirection;
@@ -70,8 +69,6 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrintSynchronously("Note Detail Rebuild");
-
     return ChangeNotifierProvider<NoteDetailProvider>(
       create: (_) => NoteDetailProvider(),
       child: WillPopScope(
@@ -151,8 +148,6 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
           selector: (context, provider) =>
               provider.getDirection ? TextDirection.rtl : TextDirection.ltr,
           builder: (context, direction, child) {
-            debugPrintSynchronously("Title Field rebuild");
-
             Provider.of<DetectTextDirectionProvider>(context, listen: false)
                 .checkDirection = _title;
 

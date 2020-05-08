@@ -66,7 +66,6 @@ class NoteCreation {
     if (note.title != title ||
         note.detail != detail && note.isDeleted != isDeleted) {
       if (!title.isNullEmptyOrWhitespace || !detail.isNullEmptyOrWhitespace) {
-        debugPrintSynchronously("run full");
         database.noteDao.updateNote(note.copyWith(
             title: title,
             detail: detail,
@@ -79,7 +78,6 @@ class NoteCreation {
         database.noteDao.deleteNote(note);
       }
     } else if (note.title != title || note.detail != detail) {
-      debugPrintSynchronously("run partial");
       if (!title.isNullEmptyOrWhitespace || !detail.isNullEmptyOrWhitespace) {
         database.noteDao.updateNote(note.copyWith(
             title: title,

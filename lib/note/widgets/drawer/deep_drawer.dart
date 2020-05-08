@@ -118,7 +118,7 @@ class _DeepDrawerState extends State<DeepDrawer> {
                               } else {
                                 return DrawerFolderItem(
                                   key: ValueKey("$index"),
-                                  icon: Icons.folder_open,
+                                  icon: Icons.folder,
                                   activeIcon: Icons.folder,
                                   index:
                                       folderList[index - defaultItemValue].id,

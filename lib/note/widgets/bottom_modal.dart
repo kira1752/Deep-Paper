@@ -403,6 +403,7 @@ class BottomModal {
   static Future<void> openCreateFolderMoveToDialog(
       {@required BuildContext context,
       @required FolderNoteData currentFolder,
+      @required int drawerIndex,
       @required SelectionProvider selectionProvider,
       @required DeepBottomProvider deepBottomProvider,
       DeepPaperDatabase database}) {
@@ -422,6 +423,7 @@ class BottomModal {
           MoveToFolder.openMoveToDialog(
               context: context,
               currentFolder: currentFolder,
+              drawerIndex: drawerIndex,
               selectionProvider: selectionProvider,
               deepBottomProvider: deepBottomProvider,
               database: database);

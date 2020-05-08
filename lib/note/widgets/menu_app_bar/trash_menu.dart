@@ -3,7 +3,6 @@ import 'package:deep_paper/note/business_logic/trash_management.dart';
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/utility/size_helper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_widgets/responsive_widgets.dart';
@@ -19,7 +18,6 @@ class TrashMenu extends StatelessWidget {
         selector: (context, provider, data) =>
             provider.getIndexDrawerItem == 1 && data != null && data.isNotEmpty,
         builder: (context, showMenu, child) {
-          debugPrintSynchronously("Trash Menu rebuild");
           return Visibility(
             visible: showMenu,
             child: PopupMenuButton(

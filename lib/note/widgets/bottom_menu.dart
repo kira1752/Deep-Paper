@@ -43,7 +43,6 @@ class BottomMenu extends StatelessWidget {
                 selector: (context, detailProvider) =>
                     detailProvider.isTextTyped,
                 builder: (context, isTyped, child) {
-                  debugPrintSynchronously("Undo Redo Rebuild");
                   return _textOrUndoRedo(
                       context: context, isTyped: isTyped, date: date);
                 }),

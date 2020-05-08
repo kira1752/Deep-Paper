@@ -32,7 +32,6 @@ class NoteCard extends StatelessWidget {
         selector: (context, provider) =>
             provider.getSelected.containsKey(index),
         builder: (context, selected, child) {
-          debugPrintSynchronously("note $index rebuild");
           return Padding(
             padding: EdgeInsetsResponsive.only(
                 left: 16, right: 16, bottom: 12, top: 12),
@@ -47,7 +46,6 @@ class NoteCard extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(12.0),
                 onTap: () {
-                  debugPrint("Note $index Tapped");
                   if (!selected && selectionProvider.getSelection) {
                     selectionProvider.setSelected(key: index, note: note);
                   } else if (selected && selectionProvider.getSelection) {

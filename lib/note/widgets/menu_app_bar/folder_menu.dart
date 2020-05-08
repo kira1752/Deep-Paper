@@ -2,7 +2,6 @@ import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/note/widgets/bottom_modal.dart';
 import 'package:deep_paper/utility/size_helper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_widgets/responsive_widgets.dart';
@@ -12,10 +11,8 @@ class FolderMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Selector<NoteDrawerProvider, bool>(
       selector: (context, provider) =>
-          provider.getFolder != null &&
-          provider.getIndexDrawerItem == null,
+          provider.getFolder != null && provider.getIndexDrawerItem == null,
       builder: (context, showMenu, child) {
-        debugPrintSynchronously("Folder Menu rebuild");
         return Visibility(
           visible: showMenu,
           child: PopupMenuButton(

@@ -3,7 +3,6 @@ import 'package:deep_paper/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/note/provider/selection_provider.dart';
 import 'package:deep_paper/utility/deep_keep_alive.dart';
 import 'package:deep_paper/utility/size_helper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_widgets/responsive_widgets.dart';
@@ -16,8 +15,6 @@ import 'package:deep_paper/note/provider/deep_bottom_provider.dart';
 class DeepPaper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    debugPrintSynchronously("Deep Paper Rebuild");
-
     return ResponsiveWidgets.builder(
       width: 393,
       height: 804,
@@ -29,7 +26,6 @@ class DeepPaper extends StatelessWidget {
           body: Selector<DeepBottomProvider, PageController>(
               selector: (context, deepProvider) => deepProvider.controller,
               builder: (context, controller, child) {
-                debugPrintSynchronously("Deep Paper Main Menu Rebuild");
                 return PageView(
                   physics: const NeverScrollableScrollPhysics(),
                   controller: controller,
@@ -63,7 +59,6 @@ class DeepPaper extends StatelessWidget {
                   visible: selection ? false : true,
                   child: Consumer<DeepBottomProvider>(
                       builder: (context, deepProvider, child) {
-                    debugPrintSynchronously("Bottom Bar Rebuild");
                     return BottomNavigationBar(
                       elevation: 0.0,
                       backgroundColor: Theme.of(context).canvasColor,

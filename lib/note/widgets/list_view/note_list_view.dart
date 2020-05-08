@@ -12,8 +12,6 @@ import 'package:responsive_widgets/responsive_widgets.dart';
 class NoteListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    debugPrintSynchronously("Note ListView Rebuild");
-
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
     return StreamProvider<List<Note>>(
