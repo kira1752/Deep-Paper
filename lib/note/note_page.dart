@@ -49,8 +49,9 @@ class NotePage extends StatelessWidget {
                   drawerProvider.getIndexDrawerItem,
                   selectionProvider.getSelection),
               builder: (context, data, child) {
-                return Visibility(
-                  visible: data.item1 != 1 && !data.item2 ? true : false,
+                return AnimatedOpacity(
+                  duration: Duration(milliseconds: 150),
+                  opacity: data.item1 != 1 && !data.item2 ? 1 : 0,
                   child: _buildFloatingActionButton(context: context),
                 );
               }),
