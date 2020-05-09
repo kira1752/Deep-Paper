@@ -1,24 +1,30 @@
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/note_page.dart';
 import 'package:deep_paper/transition/slide.dart';
+import 'package:deep_paper/utility/illustration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'deep_paper.dart';
 import 'note/detailScreen/note_detail.dart';
 import 'note/detailScreen/note_detail_update.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  await precachePicture(ExactAssetPicture(SvgPicture.svgStringDecoder, Illustration.getNote), null);
+  await precachePicture(ExactAssetPicture(SvgPicture.svgStringDecoder, Illustration.getTrash), null);
+  
   runApp(DeepPaperApp());
 }
 
 class DeepPaperApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
     return Provider<DeepPaperDatabase>(
       create: (_) => DeepPaperDatabase(),
       child: MaterialApp(

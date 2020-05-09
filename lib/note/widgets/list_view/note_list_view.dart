@@ -1,10 +1,11 @@
 import 'package:deep_paper/note/data/deep.dart';
-import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/note/widgets/note_card.dart';
 import 'package:deep_paper/utility/deep_keep_alive.dart';
+import 'package:deep_paper/utility/illustration.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:deep_paper/utility/extension.dart';
 import 'package:responsive_widgets/responsive_widgets.dart';
@@ -26,41 +27,39 @@ class NoteListView extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Stack(children: <Widget>[
-                            Icon(
-                              MyIcon.library_books_outline,
-                              size: 120.0,
-                              color: Colors.white70,
-                            ),
-                            Positioned.fill(
-                              child: Align(
-                                alignment: Alignment.bottomRight,
-                                child: Material(
-                                  shape: CircleBorder(
-                                      side: BorderSide(
-                                          width: 6.0, color: Colors.white70)),
-                                  child: Padding(
-                                    padding: EdgeInsetsResponsive.all(10.0),
-                                    child: Icon(
-                                      MyIcon.plus,
-                                      size: 30.0,
-                                      color: Colors.white70,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ]),
+                          SvgPicture.asset(
+                            Illustration.getNote,
+                            semanticsLabel: "Write note",
+                            
+                            width: SizeHelper.setWidth(size: 200.0),
+                            height: SizeHelper.setHeight(size: 200.0),
+                          ),
                           Padding(
                             padding: EdgeInsetsResponsive.only(top: 24.0),
-                            child: Text(
-                              "Create a new note",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline6
-                                  .copyWith(
-                                      color: Colors.white70,
-                                      fontSize: SizeHelper.getTitle),
+                            child: RichText(
+                              text: TextSpan(children: <TextSpan>[
+                                TextSpan(
+                                  text: "Never forget anything\n",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline6
+                                      .copyWith(
+                                          color: Colors.white70,
+                                          fontSize: SizeHelper.getHeadline5,
+                                          fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(
+                                  text: "Write all your important things",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                          color: Colors.white70,
+                                          fontSize: SizeHelper.getBodyText1,
+                                          fontWeight: FontWeight.w400),
+                                )
+                              ]),
+                              textAlign: TextAlign.center,
                             ),
                           )
                         ],

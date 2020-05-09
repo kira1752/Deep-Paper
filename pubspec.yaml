@@ -24,6 +24,7 @@ dependencies:
   moor: ^2.3.0
   moor_ffi: ^0.4.0
   path: ^1.6.4
+  flutter_svg: ^0.17.4
   path_provider: ^1.6.0
   tuple: ^1.0.3
   intl: ^0.16.1
@@ -47,6 +48,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/empty/
   fonts:
     - family: MyIcon
       fonts:
