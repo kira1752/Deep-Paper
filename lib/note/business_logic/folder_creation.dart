@@ -33,6 +33,8 @@ class FolderCreation {
     drawerProvider.setTitleFragment = "$name";
     drawerProvider.setFolder = drawerProvider.getFolder
         .copyWith(name: name, nameDirection: nameDirection);
+    
+    database.noteDao.renameFolderAssociation(drawerProvider.getFolder);
   }
 
   static void delete({
@@ -46,8 +48,8 @@ class FolderCreation {
         ? TextDirection.rtl
         : TextDirection.ltr;
 
-    await database.noteDao
-        .deleteFolderRelationWhenNoteInTrash(drawerProvider.getFolder, mainFolder, folderNameDirection);
+    await database.noteDao.deleteFolderRelationWhenNoteInTrash(
+        drawerProvider.getFolder, mainFolder, folderNameDirection);
 
     await database.noteDao
         .deleteNotesInsideFolderForever(drawerProvider.getFolder);

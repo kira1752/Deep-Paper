@@ -79,6 +79,17 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
     });
   }
 
+  Future<void> renameFolderAssociation(FolderNoteData folder) async {
+    update(notes)
+      ..where((n) => n.folderID.equals(folder.id))
+      ..write(NotesCompanion(
+          title: Value.absent(),
+          detail: Value.absent(),
+          date: Value.absent(),
+          folderName: Value(folder.name),
+          folderNameDirection: Value(folder.nameDirection)));
+  }
+
   Future<void> restoreFromTrash(Map<int, Note> selectedNote) async {
     await batch((b) {
       selectedNote.forEach((key, note) {
