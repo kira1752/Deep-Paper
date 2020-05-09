@@ -24,7 +24,6 @@ dependencies:
   moor: ^2.3.0
   moor_ffi: ^0.4.0
   path: ^1.6.4
-  flutter_svg: ^0.17.4
   path_provider: ^1.6.0
   tuple: ^1.0.3
   intl: ^0.16.1
