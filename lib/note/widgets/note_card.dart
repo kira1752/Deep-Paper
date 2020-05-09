@@ -107,7 +107,8 @@ class NoteCard extends StatelessWidget {
                       ),
                     Padding(
                         padding: EdgeInsetsResponsive.only(top: 24.0),
-                        child: _dateAndIcons(context: context, note: note)),
+                        child:
+                            _labelDateAndIcons(context: context, note: note)),
                   ]),
                 ),
               ),
@@ -116,9 +117,11 @@ class NoteCard extends StatelessWidget {
         });
   }
 
-  Widget _dateAndIcons({@required BuildContext context, @required Note note}) {
+  Widget _labelDateAndIcons(
+      {@required BuildContext context, @required Note note}) {
     return Wrap(
-      spacing: 8.0,
+      spacing: SizeHelper.setWidth(size: 14.0),
+      runSpacing: SizeHelper.setHeight(size: 14.0),
       textDirection:
           note.detail.isEmpty ? note.titleDirection : note.detailDirection,
       direction: Axis.horizontal,
@@ -138,20 +141,30 @@ class NoteCard extends StatelessWidget {
             textDirection: note.folderNameDirection,
             style: Theme.of(context).textTheme.caption.copyWith(
                 color: Colors.white70, fontSize: SizeHelper.getFolder),
+            overflow: TextOverflow.ellipsis,
             maxLines: 1,
           ),
         ),
-        if (note.containImage)
-          Icon(
-            MyIcon.photo_outline,
-            color: Colors.white60,
-            size: SizeHelper.setIconSize(size: 20.0),
-          ),
-        if (note.containAudio)
-          Icon(
-            Icons.mic_none,
-            color: Colors.white60,
-            size: SizeHelper.setIconSize(size: 20.0),
+        if (note.containImage || note.containAudio)
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              if (note.containImage)
+                Padding(
+                  padding: EdgeInsetsResponsive.only(right: 8.0),
+                  child: Icon(
+                    MyIcon.photo_outline,
+                    color: Colors.white70,
+                    size: SizeHelper.setIconSize(size: 20.0),
+                  ),
+                ),
+              if (note.containAudio)
+                Icon(
+                  Icons.mic_none,
+                  color: Colors.white70,
+                  size: SizeHelper.setIconSize(size: 20.0),
+                )
+            ],
           )
       ],
     );
