@@ -36,4 +36,6 @@ class SizeHelper {
   static double setIconSize({@required double size}) => size.sp;
   static double setWidth({@required double size}) => size.w;
   static double setHeight({@required double size}) => size.h;
+  static int setWidthCache({@required int size}) => size.w.round();
+  static int setHeightCache({@required int size}) => size.h.round();
 }

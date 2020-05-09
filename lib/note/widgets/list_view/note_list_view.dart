@@ -5,7 +5,6 @@ import 'package:deep_paper/utility/illustration.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:deep_paper/utility/extension.dart';
 import 'package:responsive_widgets/responsive_widgets.dart';
@@ -27,10 +26,8 @@ class NoteListView extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          SvgPicture.asset(
+                          Image.asset(
                             Illustration.getNote,
-                            semanticsLabel: "Write note",
-                            
                             width: SizeHelper.setWidth(size: 200.0),
                             height: SizeHelper.setHeight(size: 200.0),
                           ),
