@@ -104,8 +104,10 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
             newNote: false,
             onDelete: () {
               _isDeleted = true;
-              Navigator.of(context).pop();
-              Navigator.of(context).maybePop();
+              
+              Navigator.of(context)
+                    .maybePop()
+                    .then((value) => Navigator.maybePop(context));
 
               DeepToast.showToast(description: "Note moved to Trash Bin");
             },
@@ -116,8 +118,10 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
                 DeepToast.showToast(description: "Cannot copy empty note");
               } else {
                 _copy = true;
-                Navigator.of(context).pop();
-                Navigator.of(context).maybePop();
+
+                Navigator.of(context)
+                    .maybePop()
+                    .then((value) => Navigator.maybePop(context));
 
                 DeepToast.showToast(description: "Note copied successfully");
               }
