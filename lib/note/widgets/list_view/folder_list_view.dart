@@ -32,8 +32,8 @@ class FolderListView extends StatelessWidget {
                         children: <Widget>[
                           Image.asset(
                             Illustration.getNote,
-                            width: SizeHelper.setWidth(size: 200.0),
-                            height: SizeHelper.setHeight(size: 200.0),
+                            width: SizeHelper.setWidth(size: 220.0),
+                            height: SizeHelper.setHeight(size: 220.0),
                           ),
                           Padding(
                             padding: EdgeInsetsResponsive.only(top: 24.0),

@@ -29,11 +29,11 @@ class TrashListView extends StatelessWidget {
                         children: <Widget>[
                           Image.asset(
                             Illustration.getTrash,
-                            width: SizeHelper.setWidth(size: 200.0),
-                            height: SizeHelper.setHeight(size: 200.0),
+                            width: SizeHelper.setWidth(size: 220.0),
+                            height: SizeHelper.setHeight(size: 220.0),
                           ),
                           Padding(
-                            padding: EdgeInsetsResponsive.only(top: 24.0),
+                            padding: EdgeInsetsResponsive.only(top: 16.0),
                             child: Text(
                               "Your trash bin is clean",
                               textAlign: TextAlign.center,

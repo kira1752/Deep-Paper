@@ -55,9 +55,8 @@ class DeepPaper extends StatelessWidget {
           bottomNavigationBar: Selector<DeepBottomProvider, bool>(
               selector: (context, provider) => provider.getSelection,
               builder: (context, selection, child) {
-                return AnimatedOpacity(
-                  duration: Duration(milliseconds: 150),
-                  opacity: selection ? 0 : 1,
+                return Visibility(
+                  visible: selection ? false : true,
                   child: Consumer<DeepBottomProvider>(
                       builder: (context, deepProvider, child) {
                     return BottomNavigationBar(

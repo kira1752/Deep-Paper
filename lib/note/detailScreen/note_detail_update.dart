@@ -11,6 +11,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 import 'package:responsive_widgets/responsive_widgets.dart';
+import 'package:deep_paper/utility/extension.dart';
 
 class NoteDetailUpdate extends StatefulWidget {
   final Note note;
@@ -25,6 +26,7 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
   String _title;
   String _detail;
   bool _isDeleted;
+  bool _copy;
   String _date;
   TextEditingController _titleController;
   TextEditingController _detailController;
@@ -78,7 +80,8 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
               note: widget.note,
               title: _title,
               detail: _detail,
-              isDeleted: _isDeleted);
+              isDeleted: _isDeleted,
+              copy: _copy);
 
           return true;
         },
@@ -107,16 +110,17 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
               DeepToast.showToast(description: "Note moved to Trash Bin");
             },
             onCopy: () {
-              NoteCreation.create(
-                  context: context,
-                  title: _title,
-                  detail: _detail,
-                  folderID: widget.note.folderID,
-                  folderName: widget.note.folderName);
-              Navigator.of(context).pop();
-              Navigator.of(context).maybePop();
+              if (_title.isNullEmptyOrWhitespace &&
+                  _detail.isNullEmptyOrWhitespace) {
+                Navigator.of(context).pop();
+                DeepToast.showToast(description: "Cannot copy empty note");
+              } else {
+                _copy = true;
+                Navigator.of(context).pop();
+                Navigator.of(context).maybePop();
 
-              DeepToast.showToast(description: "Note copied successfully");
+                DeepToast.showToast(description: "Note copied successfully");
+              }
             },
           ),
           body: ListView(

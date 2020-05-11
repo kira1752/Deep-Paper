@@ -127,7 +127,8 @@ class NoteCard extends StatelessWidget {
       direction: Axis.horizontal,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: <Widget>[
-        Container(
+        AnimatedContainer(
+          duration: Duration(milliseconds: 300),
           padding: EdgeInsetsResponsive.all(8.0),
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,

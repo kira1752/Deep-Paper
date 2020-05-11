@@ -54,7 +54,8 @@ class NoteCreation {
       @required Note note,
       @required String title,
       @required String detail,
-      @required bool isDeleted}) {
+      @required bool isDeleted,
+      @required bool copy}) {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
     final titleDirection = Bidi.detectRtlDirectionality(title)
         ? TextDirection.rtl
@@ -73,6 +74,18 @@ class NoteCreation {
             detailDirection: detailDirection,
             isDeleted: isDeleted,
             date: DateTime.now()));
+
+        if (copy == true) {
+          database.noteDao.insertNote(NotesCompanion(
+              title: Value(title),
+              detail: Value(detail),
+              titleDirection: Value(titleDirection),
+              detailDirection: Value(detailDirection),
+              folderID: Value(note.folderID),
+              folderName: Value(note.folderName),
+              folderNameDirection: Value(note.folderNameDirection),
+              date: Value(DateTime.now())));
+        }
       } else if (title.isNullEmptyOrWhitespace &&
           detail.isNullEmptyOrWhitespace) {
         database.noteDao.deleteNote(note);
@@ -85,6 +98,18 @@ class NoteCreation {
             titleDirection: titleDirection,
             detailDirection: detailDirection,
             date: DateTime.now()));
+
+        if (copy == true) {
+          database.noteDao.insertNote(NotesCompanion(
+              title: Value(title),
+              detail: Value(detail),
+              titleDirection: Value(titleDirection),
+              detailDirection: Value(detailDirection),
+              folderID: Value(note.folderID),
+              folderName: Value(note.folderName),
+              folderNameDirection: Value(note.folderNameDirection),
+              date: Value(DateTime.now())));
+        }
       } else if (title.isNullEmptyOrWhitespace &&
           detail.isNullEmptyOrWhitespace) {
         database.noteDao.deleteNote(note);
@@ -93,6 +118,16 @@ class NoteCreation {
       database.noteDao.updateNote(note.copyWith(
         isDeleted: isDeleted,
       ));
+    } else if (copy == true) {
+          database.noteDao.insertNote(NotesCompanion(
+          title: Value(title),
+          detail: Value(detail),
+          titleDirection: Value(titleDirection),
+          detailDirection: Value(detailDirection),
+          folderID: Value(note.folderID),
+          folderName: Value(note.folderName),
+          folderNameDirection: Value(note.folderNameDirection),
+          date: Value(DateTime.now())));
     }
   }
 
