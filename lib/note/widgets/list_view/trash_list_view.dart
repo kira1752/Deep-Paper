@@ -33,7 +33,7 @@ class TrashListView extends StatelessWidget {
                             height: SizeHelper.setHeight(size: 220.0),
                           ),
                           Padding(
-                            padding: EdgeInsetsResponsive.only(top: 16.0),
+                            padding: EdgeInsetsResponsive.only(top: 6.0),
                             child: Text(
                               "Your trash bin is clean",
                               textAlign: TextAlign.center,
