@@ -4,7 +4,7 @@ class Slide extends PageRouteBuilder {
   Slide({Widget page, RouteSettings settings})
       : super(
           opaque: false,
-          maintainState: true,
+          maintainState: false,
           transitionDuration: Duration(milliseconds: 600),
           settings: settings,
           pageBuilder: (
@@ -26,9 +26,9 @@ class Slide extends PageRouteBuilder {
               reverseCurve: Curves.easeInToLinear,
             ).drive(Tween<Offset>(
               begin: Offset.zero,
-              end: const Offset(-1.0 / 3.0, 0.0),
+              end: const Offset(-1.0, 0.0),
             )),
-            transformHitTests: false,
+            transformHitTests: true,
             child: SlideTransition(
               position: CurvedAnimation(
                 // The curves below have been rigorously derived from plots of native

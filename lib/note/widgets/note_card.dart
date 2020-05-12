@@ -11,7 +11,7 @@ import 'package:responsive_widgets/responsive_widgets.dart';
 
 typedef void _OnTap();
 
-class NoteCard extends StatelessWidget {
+class NoteCard extends StatefulWidget {
   final int index;
   final Note note;
   final _OnTap ontap;
@@ -24,13 +24,18 @@ class NoteCard extends StatelessWidget {
       : super(key: key);
 
   @override
+  _NoteCardState createState() => _NoteCardState();
+}
+
+class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
+  @override
   Widget build(BuildContext context) {
     final selectionProvider =
         Provider.of<SelectionProvider>(context, listen: false);
 
     return Selector<SelectionProvider, bool>(
         selector: (context, provider) =>
-            provider.getSelected.containsKey(index),
+            provider.getSelected.containsKey(widget.index),
         builder: (context, selected, child) {
           return Padding(
             padding: EdgeInsetsResponsive.only(
@@ -47,9 +52,10 @@ class NoteCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12.0),
                 onTap: () {
                   if (!selected && selectionProvider.getSelection) {
-                    selectionProvider.setSelected(key: index, note: note);
+                    selectionProvider.setSelected(
+                        key: widget.index, note: widget.note);
                   } else if (selected && selectionProvider.getSelection) {
-                    selectionProvider.remove(key: index);
+                    selectionProvider.remove(key: widget.index);
 
                     if (selectionProvider.getSelected.length == 0) {
                       Provider.of<DeepBottomProvider>(context, listen: false)
@@ -57,20 +63,22 @@ class NoteCard extends StatelessWidget {
                       selectionProvider.setSelection = false;
                     }
                   } else
-                    ontap();
+                    widget.ontap();
                 },
                 onLongPress: () {
                   if (!selectionProvider.getSelection) {
-                    selectionProvider.setSelected(key: index, note: note);
+                    selectionProvider.setSelected(
+                        key: widget.index, note: widget.note);
 
                     Provider.of<DeepBottomProvider>(context, listen: false)
                         .setSelection = true;
 
                     selectionProvider.setSelection = true;
                   } else if (!selected && selectionProvider.getSelection) {
-                    selectionProvider.setSelected(key: index, note: note);
+                    selectionProvider.setSelected(
+                        key: widget.index, note: widget.note);
                   } else if (selected && selectionProvider.getSelection) {
-                    selectionProvider.remove(key: index);
+                    selectionProvider.remove(key: widget.index);
 
                     if (selectionProvider.getSelected.length == 0) {
                       Provider.of<DeepBottomProvider>(context, listen: false)
@@ -82,12 +90,12 @@ class NoteCard extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsetsResponsive.all(20),
                   child: ListBody(children: <Widget>[
-                    if (!note.title.isNullEmptyOrWhitespace)
+                    if (!widget.note.title.isNullEmptyOrWhitespace)
                       Padding(
                         padding: EdgeInsetsResponsive.only(bottom: 12),
                         child: Text(
-                          "${note.title}",
-                          textDirection: note.titleDirection,
+                          "${widget.note.title}",
+                          textDirection: widget.note.titleDirection,
                           style: Theme.of(context).textTheme.headline6.copyWith(
                               color: Colors.white.withOpacity(0.80),
                               fontSize: SizeHelper.getTitle),
@@ -95,10 +103,10 @@ class NoteCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                    if (!note.detail.isNullEmptyOrWhitespace)
+                    if (!widget.note.detail.isNullEmptyOrWhitespace)
                       Text(
-                        "${note.detail}",
-                        textDirection: note.detailDirection,
+                        "${widget.note.detail}",
+                        textDirection: widget.note.detailDirection,
                         style: Theme.of(context).textTheme.bodyText1.copyWith(
                             color: Colors.white70,
                             fontSize: SizeHelper.getDescription),
@@ -107,8 +115,8 @@ class NoteCard extends StatelessWidget {
                       ),
                     Padding(
                         padding: EdgeInsetsResponsive.only(top: 24.0),
-                        child:
-                            _labelDateAndIcons(context: context, note: note)),
+                        child: _labelDateAndIcons(
+                            context: context, note: widget.note)),
                   ]),
                 ),
               ),
@@ -127,8 +135,7 @@ class NoteCard extends StatelessWidget {
       direction: Axis.horizontal,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: <Widget>[
-        AnimatedContainer(
-          duration: Duration(milliseconds: 300),
+        Container(
           padding: EdgeInsetsResponsive.all(8.0),
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
@@ -137,13 +144,18 @@ class NoteCard extends StatelessWidget {
                 color: Theme.of(context).accentColor.withOpacity(0.3)),
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
           ),
-          child: Text(
-            "${note.folderName}",
-            textDirection: note.folderNameDirection,
-            style: Theme.of(context).textTheme.caption.copyWith(
-                color: Colors.white70, fontSize: SizeHelper.getFolder),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
+          child: AnimatedSize(
+            duration: Duration(milliseconds: 250),
+            curve: Curves.decelerate,
+            vsync: this,
+            child: Text(
+              "${note.folderName}",
+              textDirection: note.folderNameDirection,
+              style: Theme.of(context).textTheme.caption.copyWith(
+                  color: Colors.white70, fontSize: SizeHelper.getFolder),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
         ),
         if (note.containImage || note.containAudio)
