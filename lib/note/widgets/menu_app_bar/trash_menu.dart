@@ -2,6 +2,7 @@ import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/note/business_logic/trash_management.dart';
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/provider/note_drawer_provider.dart';
+import 'package:deep_paper/note/widgets/deep_toast.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,9 @@ class TrashMenu extends StatelessWidget {
                 tooltip: "Open Trash Bin menu",
                 onSelected: (choice) {
                   if (choice == 0) TrashManagement.empty(context: context);
+
+                  DeepToast.showToast(
+                      description: "Trash emptied successfully");
                 },
                 padding: EdgeInsetsResponsive.all(18.0),
                 shape: RoundedRectangleBorder(

@@ -26,7 +26,7 @@ class Slide extends PageRouteBuilder {
               reverseCurve: Curves.easeInToLinear,
             ).drive(Tween<Offset>(
               begin: Offset.zero,
-              end: const Offset(-1.0, 0.0),
+              end: const Offset(-1.0 / 3.0, 0.0),
             )),
             transformHitTests: true,
             child: SlideTransition(

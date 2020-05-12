@@ -240,7 +240,7 @@ class BottomModal {
                       TrashManagement.restore(context: context, data: data);
 
                       DeepToast.showToast(
-                          description: "Trash emptied successfully");
+                          description: "Note restored successfully");
 
                       Navigator.of(context).pop();
                     },
