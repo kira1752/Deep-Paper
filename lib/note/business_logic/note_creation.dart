@@ -1,5 +1,6 @@
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/provider/selection_provider.dart';
+import 'package:deep_paper/note/widgets/deep_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' hide TextDirection;
@@ -54,8 +55,7 @@ class NoteCreation {
       @required Note note,
       @required String title,
       @required String detail,
-      @required bool isDeleted,
-      @required bool copy}) {
+      @required bool isDeleted}) {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
     final titleDirection = Bidi.detectRtlDirectionality(title)
         ? TextDirection.rtl
@@ -74,21 +74,11 @@ class NoteCreation {
             detailDirection: detailDirection,
             isDeleted: isDeleted,
             date: DateTime.now()));
-
-        if (copy == true) {
-          database.noteDao.insertNote(NotesCompanion(
-              title: Value(title),
-              detail: Value(detail),
-              titleDirection: Value(titleDirection),
-              detailDirection: Value(detailDirection),
-              folderID: Value(note.folderID),
-              folderName: Value(note.folderName),
-              folderNameDirection: Value(note.folderNameDirection),
-              date: Value(DateTime.now())));
-        }
       } else if (title.isNullEmptyOrWhitespace &&
           detail.isNullEmptyOrWhitespace) {
         database.noteDao.deleteNote(note);
+
+        DeepToast.showToast(description: "Empty note deleted");
       }
     } else if (note.title != title || note.detail != detail) {
       if (!title.isNullEmptyOrWhitespace || !detail.isNullEmptyOrWhitespace) {
@@ -98,36 +88,16 @@ class NoteCreation {
             titleDirection: titleDirection,
             detailDirection: detailDirection,
             date: DateTime.now()));
-
-        if (copy == true) {
-          database.noteDao.insertNote(NotesCompanion(
-              title: Value(title),
-              detail: Value(detail),
-              titleDirection: Value(titleDirection),
-              detailDirection: Value(detailDirection),
-              folderID: Value(note.folderID),
-              folderName: Value(note.folderName),
-              folderNameDirection: Value(note.folderNameDirection),
-              date: Value(DateTime.now())));
-        }
       } else if (title.isNullEmptyOrWhitespace &&
           detail.isNullEmptyOrWhitespace) {
         database.noteDao.deleteNote(note);
+
+        DeepToast.showToast(description: "Empty note deleted");
       }
     } else if (note.isDeleted != isDeleted) {
       database.noteDao.updateNote(note.copyWith(
         isDeleted: isDeleted,
       ));
-    } else if (copy == true) {
-          database.noteDao.insertNote(NotesCompanion(
-          title: Value(title),
-          detail: Value(detail),
-          titleDirection: Value(titleDirection),
-          detailDirection: Value(detailDirection),
-          folderID: Value(note.folderID),
-          folderName: Value(note.folderName),
-          folderNameDirection: Value(note.folderNameDirection),
-          date: Value(DateTime.now())));
     }
   }
 

@@ -26,7 +26,6 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
   String _title;
   String _detail;
   bool _isDeleted;
-  bool _copy;
   String _date;
   TextEditingController _titleController;
   TextEditingController _detailController;
@@ -80,8 +79,7 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
               note: widget.note,
               title: _title,
               detail: _detail,
-              isDeleted: _isDeleted,
-              copy: _copy);
+              isDeleted: _isDeleted);
 
           return true;
         },
@@ -104,10 +102,10 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
             newNote: false,
             onDelete: () {
               _isDeleted = true;
-              
+
               Navigator.of(context)
-                    .maybePop()
-                    .then((value) => Navigator.maybePop(context));
+                  .maybePop()
+                  .then((value) => Navigator.maybePop(context));
 
               DeepToast.showToast(description: "Note moved to Trash Bin");
             },
@@ -117,7 +115,12 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
                 Navigator.of(context).pop();
                 DeepToast.showToast(description: "Cannot copy empty note");
               } else {
-                _copy = true;
+                NoteCreation.create(
+                    context: context,
+                    title: _title,
+                    detail: _detail,
+                    folderID: widget.note.folderID,
+                    folderName: widget.note.folderName);
 
                 Navigator.of(context)
                     .maybePop()
