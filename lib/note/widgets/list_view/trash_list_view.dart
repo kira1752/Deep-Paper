@@ -30,7 +30,7 @@ class TrashListView extends StatelessWidget {
                           Image.asset(
                             Illustration.getTrash,
                             width: SizeHelper.setWidth(size: 220.0),
-                            height: SizeHelper.setHeight(size: 220.0),
+                            height: SizeHelper.setHeight(size: 200.0),
                           ),
                           Padding(
                             padding: EdgeInsetsResponsive.only(top: 24.0),

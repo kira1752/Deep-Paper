@@ -41,13 +41,14 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
             padding: EdgeInsetsResponsive.only(
                 left: 16, right: 16, bottom: 12, top: 12),
             child: Material(
-              color: Theme.of(context).cardColor,
+              color: Theme.of(context).primaryColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),
                   side: selectionProvider.getSelection && selected
                       ? BorderSide(
                           color: Theme.of(context).accentColor, width: 2.0)
-                      : BorderSide.none),
+                      : BorderSide(
+                          color: Colors.white38, width: 2.0)),
               child: InkWell(
                 borderRadius: BorderRadius.circular(12.0),
                 onTap: () {
@@ -96,9 +97,12 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
                         child: Text(
                           "${widget.note.title}",
                           textDirection: widget.note.titleDirection,
-                          style: Theme.of(context).textTheme.headline6.copyWith(
-                              color: Colors.white.withOpacity(0.80),
-                              fontSize: SizeHelper.getTitle),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              .copyWith(
+                                  color: Colors.white.withOpacity(0.80),
+                                  fontSize: SizeHelper.getTitle),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),

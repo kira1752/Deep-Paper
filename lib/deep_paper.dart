@@ -91,8 +91,8 @@ class DeepPaper extends StatelessWidget {
                           ),
                         ),
                         BottomNavigationBarItem(
-                          icon: Icon(MyIcon.chart_outline),
-                          activeIcon: Icon(MyIcon.chart),
+                          icon: Icon(Icons.pie_chart_outlined),
+                          activeIcon: Icon(Icons.pie_chart),
                           title: Text(
                             'Finance',
                             style: TextStyle(fontWeight: FontWeight.w600),

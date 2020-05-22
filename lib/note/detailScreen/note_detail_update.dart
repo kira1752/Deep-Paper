@@ -1,11 +1,12 @@
 import 'package:deep_paper/note/business_logic/note_creation.dart';
 import 'package:deep_paper/note/data/deep.dart';
-import 'package:deep_paper/note/provider/detect_text_direction_provider.dart';
 import 'package:deep_paper/note/provider/note_detail_provider.dart';
+import 'package:deep_paper/note/provider/undo_redo_provider.dart';
 import 'package:deep_paper/note/widgets/bottom_menu.dart';
 import 'package:deep_paper/note/widgets/deep_toast.dart';
 import 'package:deep_paper/utility/deep_keep_alive.dart';
 import 'package:deep_paper/utility/size_helper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:intl/intl.dart' hide TextDirection;
@@ -23,18 +24,20 @@ class NoteDetailUpdate extends StatefulWidget {
 }
 
 class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
-  String _title;
-  String _detail;
   bool _isDeleted;
   String _date;
+  int _count = 0;
   TextEditingController _titleController;
   TextEditingController _detailController;
 
   @override
   void initState() {
     super.initState();
-    _title = widget.note.title ?? "";
-    _detail = widget.note.detail ?? "";
+    final detailProvider =
+        Provider.of<NoteDetailProvider>(context, listen: false);
+
+    detailProvider.setTitle = widget.note.title ?? "";
+    detailProvider.setDetail = widget.note.detail ?? "";
     _isDeleted = widget.note.isDeleted;
 
     _titleController = TextEditingController(text: widget.note.title);
@@ -70,82 +73,105 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<NoteDetailProvider>(
-      create: (_) => NoteDetailProvider(),
-      child: WillPopScope(
-        onWillPop: () async {
-          NoteCreation.update(
-              context: context,
-              note: widget.note,
-              title: _title,
-              detail: _detail,
-              isDeleted: _isDeleted);
+    final detailProvider =
+        Provider.of<NoteDetailProvider>(context, listen: false);
 
-          return true;
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.white70,
-              ),
-              onPressed: () {
-                Navigator.of(context).maybePop();
-              },
-            ),
-            elevation: 0.0,
-            centerTitle: true,
+    return Theme(
+      data: ThemeData.dark().copyWith(
+        bottomSheetTheme: BottomSheetThemeData(
+          modalBackgroundColor: Theme.of(context).primaryColor,
+        ),
+        primaryColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).backgroundColor,
+        bottomAppBarColor: Theme.of(context).bottomAppBarColor,
+        scaffoldBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      ),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => UndoRedoProvider(),
           ),
-          bottomNavigationBar: BottomMenu(
-            date: _date,
-            newNote: false,
-            onDelete: () {
-              _isDeleted = true;
+          ChangeNotifierProvider(
+            create: (context) => NoteDetailProvider(),
+          ),
+        ],
+        child: WillPopScope(
+          onWillPop: () async {
+            NoteCreation.update(
+                context: context,
+                note: widget.note,
+                title: detailProvider.getTitle,
+                detail: detailProvider.getDetail,
+                isDeleted: _isDeleted);
 
-              Navigator.of(context)
-                  .maybePop()
-                  .then((value) => Navigator.maybePop(context));
-
-              DeepToast.showToast(description: "Note moved to Trash Bin");
-            },
-            onCopy: () {
-              if (_title.isNullEmptyOrWhitespace &&
-                  _detail.isNullEmptyOrWhitespace) {
-                Navigator.of(context).pop();
-                DeepToast.showToast(description: "Cannot copy empty note");
-              } else {
-                NoteCreation.create(
-                    context: context,
-                    title: _title,
-                    detail: _detail,
-                    folderID: widget.note.folderID,
-                    folderName: widget.note.folderName);
+            return true;
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white70,
+                ),
+                onPressed: () {
+                  Navigator.of(context).maybePop();
+                },
+              ),
+              elevation: 0.0,
+              centerTitle: true,
+            ),
+            bottomNavigationBar: BottomMenu(
+              date: _date,
+              newNote: false,
+              titleController: _titleController,
+              detailController: _detailController,
+              onDelete: () {
+                _isDeleted = true;
 
                 Navigator.of(context)
                     .maybePop()
                     .then((value) => Navigator.maybePop(context));
 
-                DeepToast.showToast(description: "Note copied successfully");
-              }
-            },
-          ),
-          body: ListView(
-            physics: ClampingScrollPhysics(),
-            children: <Widget>[
-              DeepKeepAlive(
-                child: Padding(
-                  padding: EdgeInsetsResponsive.fromLTRB(18, 0, 16, 16),
-                  child: _titleField(data: widget.note),
+                DeepToast.showToast(description: "Note moved to Trash Bin");
+              },
+              onCopy: () {
+                if (detailProvider.getTitle.isNullEmptyOrWhitespace &&
+                    detailProvider.getDetail.isNullEmptyOrWhitespace) {
+                  Navigator.of(context).pop();
+                  DeepToast.showToast(description: "Cannot copy empty note");
+                } else {
+                  NoteCreation.create(
+                      context: context,
+                      title: detailProvider.getTitle,
+                      detail: detailProvider.getDetail,
+                      folderID: widget.note.folderID,
+                      folderName: widget.note.folderName);
+
+                  Navigator.of(context)
+                      .maybePop()
+                      .then((value) => Navigator.maybePop(context));
+
+                  DeepToast.showToast(description: "Note copied successfully");
+                }
+              },
+            ),
+            body: ListView(
+              physics: ClampingScrollPhysics(),
+              children: <Widget>[
+                DeepKeepAlive(
+                  child: Padding(
+                    padding: EdgeInsetsResponsive.fromLTRB(18, 0, 16, 16),
+                    child: _titleField(data: widget.note),
+                  ),
                 ),
-              ),
-              DeepKeepAlive(
-                child: Padding(
-                  padding: EdgeInsetsResponsive.fromLTRB(18, 16, 16, 16),
-                  child: _detailField(widget.note),
+                DeepKeepAlive(
+                  child: Padding(
+                    padding: EdgeInsetsResponsive.fromLTRB(18, 16, 16, 16),
+                    child: _detailField(widget.note),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -153,79 +179,151 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
   }
 
   Widget _titleField({Note data}) {
-    return ChangeNotifierProvider(
-      create: (context) => DetectTextDirectionProvider(),
-      child: Selector<DetectTextDirectionProvider, TextDirection>(
-          selector: (context, provider) =>
-              provider.getDirection ? TextDirection.rtl : TextDirection.ltr,
-          builder: (context, direction, child) {
-            Provider.of<DetectTextDirectionProvider>(context, listen: false)
-                .checkDirection = _title;
+    final detailProvider =
+        Provider.of<NoteDetailProvider>(context, listen: false);
 
-            return TextField(
-              controller: _titleController,
-              textDirection: direction,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline6.copyWith(
-                  color: Colors.white70, fontSize: SizeHelper.getTitle),
-              maxLines: null,
-              keyboardType: TextInputType.multiline,
-              onChanged: (value) {
-                if (Provider.of<NoteDetailProvider>(context, listen: false)
-                        .isTextTyped ==
-                    false) {
-                  Provider.of<NoteDetailProvider>(context, listen: false)
-                      .setTextState = true;
+    final undoRedoProvider =
+        Provider.of<UndoRedoProvider>(context, listen: false);
+
+    detailProvider.checkTitleDirection = detailProvider.getTitle;
+
+    return Selector<NoteDetailProvider, TextDirection>(
+        selector: (context, provider) =>
+            provider.getTitleDirection ? TextDirection.rtl : TextDirection.ltr,
+        builder: (context, direction, child) {
+          return TextField(
+            controller: _titleController,
+            textDirection: direction,
+            textAlign: TextAlign.center,
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .copyWith(color: Colors.white70, fontSize: SizeHelper.getTitle),
+            maxLines: null,
+            keyboardType: TextInputType.multiline,
+            onChanged: (value) {
+              detailProvider.setTitle = value;
+
+              if (detailProvider.isTextTyped == false) {
+                detailProvider.setTextState = true;
+              }
+
+              detailProvider.checkTitleDirection = detailProvider.getTitle;
+
+              if (undoRedoProvider.getCurrentFocus.isEmpty) {
+                debugPrintSynchronously("this run");
+                undoRedoProvider.setCurrentFocus = "title";
+              } else if (undoRedoProvider.getCurrentFocus != "title") {
+                undoRedoProvider.addUndo();
+                undoRedoProvider.setCurrentFocus = "title";
+              }
+
+              if (undoRedoProvider.canUndo() == false &&
+                  !value.isNullEmptyOrWhitespace) {
+                debugPrintSynchronously('CAN UNDO');
+                undoRedoProvider.setCanUndo = true;
+              }
+
+              /// Check for Latin characters
+              if (value.contains("[\\s\\p{L}\\p{M}&&[^\\p{Alpha}]]+")) {
+                if (value.endsWith(" ") && !value.isNullEmptyOrWhitespace) {
+                  undoRedoProvider.addUndo();
+                  undoRedoProvider.setCurrentTyped = value;
+                } else {
+                  undoRedoProvider.setCurrentTyped = value;
                 }
+              } else {
+                if (_count == 4 && !value.isNullEmptyOrWhitespace) {
+                  undoRedoProvider.addUndo();
+                  undoRedoProvider.setCurrentTyped = value;
+                  _count = 0;
+                } else {
+                  _count++;
+                  debugPrintSynchronously("_count: $_count");
+                  undoRedoProvider.setCurrentTyped = value;
+                }
+              }
 
-                _title = value;
-
-                Provider.of<DetectTextDirectionProvider>(context, listen: false)
-                    .checkDirection = _title;
-              },
-              decoration: InputDecoration.collapsed(
-                hintText: 'Title',
-              ),
-            );
-          }),
-    );
+              if (undoRedoProvider.canRedo()) {
+                undoRedoProvider.clearRedo();
+              }
+            },
+            decoration: InputDecoration.collapsed(
+              hintText: 'Title',
+            ),
+          );
+        });
   }
 
   Widget _detailField(Note data) {
-    return ChangeNotifierProvider(
-      create: (context) => DetectTextDirectionProvider(),
-      child: Selector<DetectTextDirectionProvider, TextDirection>(
-          selector: (context, provider) =>
-              provider.getDirection ? TextDirection.rtl : TextDirection.ltr,
-          builder: (context, direction, child) {
-            Provider.of<DetectTextDirectionProvider>(context, listen: false)
-                .checkDirection = _detail;
+    final detailProvider =
+        Provider.of<NoteDetailProvider>(context, listen: false);
 
-            return TextField(
-              controller: _detailController,
-              textDirection: direction,
-              style: Theme.of(context).textTheme.bodyText1.copyWith(
-                  color: Colors.white70, fontSize: SizeHelper.getDescription),
-              maxLines: null,
-              keyboardType: TextInputType.multiline,
-              onChanged: (value) {
-                if (Provider.of<NoteDetailProvider>(context, listen: false)
-                        .isTextTyped ==
-                    false) {
-                  Provider.of<NoteDetailProvider>(context, listen: false)
-                      .setTextState = true;
+    final undoRedoProvider =
+        Provider.of<UndoRedoProvider>(context, listen: false);
+
+    detailProvider.checkDetailDirection = detailProvider.getDetail;
+
+    return Selector<NoteDetailProvider, TextDirection>(
+        selector: (context, provider) =>
+            provider.getDetailDirection ? TextDirection.rtl : TextDirection.ltr,
+        builder: (context, direction, child) {
+          return TextField(
+            controller: _detailController,
+            textDirection: direction,
+            style: Theme.of(context).textTheme.bodyText1.copyWith(
+                color: Colors.white70, fontSize: SizeHelper.getDescription),
+            maxLines: null,
+            keyboardType: TextInputType.multiline,
+            onChanged: (value) {
+              detailProvider.setDetail = value;
+
+              if (detailProvider.isTextTyped == false) {
+                detailProvider.setTextState = true;
+              }
+
+              detailProvider.checkDetailDirection = detailProvider.getDetail;
+
+              if (undoRedoProvider.getCurrentFocus.isEmpty) {
+                undoRedoProvider.setCurrentFocus = "detail";
+              } else if (undoRedoProvider.getCurrentFocus != "detail") {
+                undoRedoProvider.addUndo();
+                undoRedoProvider.setCurrentFocus = "detail";
+              }
+
+              if (undoRedoProvider.canUndo() == false &&
+                  !value.isNullEmptyOrWhitespace) {
+                undoRedoProvider.setCanUndo = true;
+              }
+
+              /// Check for Latin characters
+              if (value.contains("[\\s\\p{L}\\p{M}&&[^\\p{Alpha}]]+")) {
+                if (value.endsWith(" ") && !value.isNullEmptyOrWhitespace) {
+                  undoRedoProvider.addUndo();
+                  undoRedoProvider.setCurrentTyped = value;
+                } else {
+                  undoRedoProvider.setCurrentTyped = value;
                 }
+              } else {
+                if (_count == 4 && !value.isNullEmptyOrWhitespace) {
+                  undoRedoProvider.addUndo();
+                  undoRedoProvider.setCurrentTyped = value;
+                  _count = 1;
+                } else {
+                  _count++;
+                  debugPrintSynchronously("_count: $_count");
+                  undoRedoProvider.setCurrentTyped = value;
+                }
+              }
 
-                _detail = value;
-
-                Provider.of<DetectTextDirectionProvider>(context, listen: false)
-                    .checkDirection = _detail;
-              },
-              decoration: InputDecoration.collapsed(
-                hintText: 'Write your note here...',
-              ),
-            );
-          }),
-    );
+              if (undoRedoProvider.canRedo()) {
+                undoRedoProvider.clearRedo();
+              }
+            },
+            decoration: InputDecoration.collapsed(
+              hintText: 'Write your note here...',
+            ),
+          );
+        });
   }
 }

@@ -1,5 +1,7 @@
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/note_page.dart';
+import 'package:deep_paper/note/provider/note_detail_provider.dart';
+import 'package:deep_paper/note/provider/undo_redo_provider.dart';
 import 'package:deep_paper/transition/slide.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +15,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
   runApp(DeepPaperApp());
 }
 
@@ -27,22 +29,22 @@ class DeepPaperApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData.dark().copyWith(
             popupMenuTheme: PopupMenuThemeData(
-                color: Color(0xff212121),
+                color: Color(0xff202020),
                 textStyle: TextStyle(color: Colors.white.withOpacity(0.80))),
             bottomSheetTheme: BottomSheetThemeData(
-              modalBackgroundColor: Color(0xff212121),
+              modalBackgroundColor: Color(0xff202020),
             ),
-            cardColor: Color(0x202020).withOpacity(0.90),
+            cardColor: Color(0xff202020),
             highlightColor: Color(0x424242),
-            accentColor: Colors.orange[400],//#fdb368
-            primaryColor: Colors.black,
-            backgroundColor: Colors.black,
-            bottomAppBarColor: Colors.black,
+            accentColor: Colors.orange[400], //#fdb368
+            primaryColor: Color(0xff121212),
+            backgroundColor: Color(0xff121212),
+            bottomAppBarColor: Color(0xff121212),
             cursorColor: Colors.orange[900],
-            scaffoldBackgroundColor: Colors.black,
+            scaffoldBackgroundColor: Color(0xff121212),
             textSelectionColor: Colors.orange[900],
             textSelectionHandleColor: Colors.orange[900],
-            canvasColor: Color(0xff121212),
+            canvasColor: Color(0xff181818),
             textTheme: TextTheme(
                 headline5: TextStyle(
                   fontFamily: "PT Serif",
@@ -73,11 +75,27 @@ class DeepPaperApp extends StatelessWidget {
                 settings: settings,
               );
             case '/NoteDetail':
-              return Slide(page: NoteDetail(), settings: settings);
+              return Slide(
+                  page: MultiProvider(providers: [
+                    ChangeNotifierProvider(
+                      create: (context) => UndoRedoProvider(),
+                    ),
+                    ChangeNotifierProvider(
+                      create: (context) => NoteDetailProvider(),
+                    ),
+                  ], child: NoteDetail()),
+                  settings: settings);
               break;
             case '/NoteDetailUpdate':
               return Slide(
-                page: NoteDetailUpdate(settings.arguments),
+                page: MultiProvider(providers: [
+                  ChangeNotifierProvider(
+                    create: (context) => UndoRedoProvider(),
+                  ),
+                  ChangeNotifierProvider(
+                    create: (context) => NoteDetailProvider(),
+                  ),
+                ], child: NoteDetailUpdate(settings.arguments)),
               );
               break;
             case '/NotePage':

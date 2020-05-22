@@ -12,6 +12,7 @@ class SearchNoteButton extends StatelessWidget {
           return Visibility(
             visible: showSearch,
             child: IconButton(
+              tooltip: "Search button",
                 icon: Icon(
                   MyIcon.search,
                   color: Colors.white.withOpacity(0.87),

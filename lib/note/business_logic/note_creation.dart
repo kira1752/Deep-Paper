@@ -23,7 +23,7 @@ class NoteCreation {
         ? TextDirection.rtl
         : TextDirection.ltr;
 
-    final folderNameDirection = Bidi.detectRtlDirectionality(detail)
+    final folderNameDirection = Bidi.detectRtlDirectionality(folderName)
         ? TextDirection.rtl
         : TextDirection.ltr;
 
