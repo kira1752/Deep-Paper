@@ -69,7 +69,7 @@ class TextFieldLogic {
     }
 
     /// Check for Latin characters
-    if (value.contains(RegExp(r"[A-Za-zÀ-ÖØ-öø-ÿ]"))) {
+    if (value.contains(RegExp(r"[a-zA-Z\u00C0-\u024F\u1E00-\u1EFF]"))) {
       if (value.endsWith(" ") && !value.isNullEmptyOrWhitespace) {
         // if text typed by user ends with whitespace
         // add previous value before whitespace into "Undo queue"
@@ -180,7 +180,7 @@ class TextFieldLogic {
     }
 
     /// Check for Latin characters
-    if (value.contains(RegExp(r"[A-Za-zÀ-ÖØ-öø-ÿ]"))) {
+    if (value.contains(RegExp(r"[a-zA-Z\u00C0-\u024F\u1E00-\u1EFF]"))) {
       if (value.endsWith(" ") && !value.isNullEmptyOrWhitespace) {
         // if text typed by user ends with whitespace
         // add previous value before whitespace into "Undo queue"
