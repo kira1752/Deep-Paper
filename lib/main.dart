@@ -34,7 +34,7 @@ class DeepPaperApp extends StatelessWidget {
             bottomSheetTheme: BottomSheetThemeData(
               modalBackgroundColor: Color(0xff202020),
             ),
-            cardColor: Color(0xff202020),
+            cardColor: Color(0xff202020).withOpacity(0.90),
             highlightColor: Color(0x424242),
             accentColor: Colors.orange[400], //#fdb368
             primaryColor: Color(0xff121212),

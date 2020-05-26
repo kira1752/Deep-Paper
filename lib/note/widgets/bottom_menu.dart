@@ -12,6 +12,8 @@ class BottomMenu extends StatelessWidget {
   final bool newNote;
   final TextEditingController titleController;
   final TextEditingController detailController;
+  final FocusNode titleFocus;
+  final FocusNode detailFocus;
   final void Function() onDelete;
   final void Function() onCopy;
 
@@ -20,6 +22,8 @@ class BottomMenu extends StatelessWidget {
       @required this.newNote,
       @required this.titleController,
       @required this.detailController,
+      @required this.titleFocus,
+      @required this.detailFocus,
       this.onDelete,
       this.onCopy});
 
@@ -96,7 +100,9 @@ class BottomMenu extends StatelessWidget {
                       ? () => UndoRedo.undo(
                           context: context,
                           titleController: titleController,
-                          detailController: detailController)
+                          detailController: detailController,
+                          titleFocus: titleFocus,
+                          detailFocus: detailFocus)
                       : null,
                 );
               }),
@@ -115,7 +121,9 @@ class BottomMenu extends StatelessWidget {
                       ? () => UndoRedo.redo(
                           context: context,
                           titleController: titleController,
-                          detailController: detailController)
+                          detailController: detailController,
+                          titleFocus: titleFocus,
+                          detailFocus: detailFocus)
                       : null,
                 );
               })

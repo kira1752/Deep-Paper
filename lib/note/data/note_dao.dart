@@ -99,8 +99,10 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
   }
 
   Future<void> deleteForever(Map<int, Note> selectedNote) async {
-    selectedNote.forEach((key, note) {
-      delete(notes).delete(note);
+    await batch((b) {
+      selectedNote.forEach((key, note) {
+        b.delete(notes, note);
+      });
     });
   }
 

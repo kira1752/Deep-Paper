@@ -67,6 +67,89 @@ class Note extends DataClass implements Insertable<Note> {
           dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}date']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || folderID != null) {
+      map['folder_i_d'] = Variable<int>(folderID);
+    }
+    if (!nullToAbsent || folderName != null) {
+      map['folder_name'] = Variable<String>(folderName);
+    }
+    if (!nullToAbsent || folderNameDirection != null) {
+      final converter = $NotesTable.$converter0;
+      map['folder_name_direction'] =
+          Variable<String>(converter.mapToSql(folderNameDirection));
+    }
+    if (!nullToAbsent || title != null) {
+      map['title'] = Variable<String>(title);
+    }
+    if (!nullToAbsent || detail != null) {
+      map['detail'] = Variable<String>(detail);
+    }
+    if (!nullToAbsent || titleDirection != null) {
+      final converter = $NotesTable.$converter1;
+      map['title_direction'] =
+          Variable<String>(converter.mapToSql(titleDirection));
+    }
+    if (!nullToAbsent || detailDirection != null) {
+      final converter = $NotesTable.$converter2;
+      map['detail_direction'] =
+          Variable<String>(converter.mapToSql(detailDirection));
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || containAudio != null) {
+      map['contain_audio'] = Variable<bool>(containAudio);
+    }
+    if (!nullToAbsent || containImage != null) {
+      map['contain_image'] = Variable<bool>(containImage);
+    }
+    if (!nullToAbsent || date != null) {
+      map['date'] = Variable<DateTime>(date);
+    }
+    return map;
+  }
+
+  NotesCompanion toCompanion(bool nullToAbsent) {
+    return NotesCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      folderID: folderID == null && nullToAbsent
+          ? const Value.absent()
+          : Value(folderID),
+      folderName: folderName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(folderName),
+      folderNameDirection: folderNameDirection == null && nullToAbsent
+          ? const Value.absent()
+          : Value(folderNameDirection),
+      title:
+          title == null && nullToAbsent ? const Value.absent() : Value(title),
+      detail:
+          detail == null && nullToAbsent ? const Value.absent() : Value(detail),
+      titleDirection: titleDirection == null && nullToAbsent
+          ? const Value.absent()
+          : Value(titleDirection),
+      detailDirection: detailDirection == null && nullToAbsent
+          ? const Value.absent()
+          : Value(detailDirection),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      containAudio: containAudio == null && nullToAbsent
+          ? const Value.absent()
+          : Value(containAudio),
+      containImage: containImage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(containImage),
+      date: date == null && nullToAbsent ? const Value.absent() : Value(date),
+    );
+  }
+
   factory Note.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -106,42 +189,6 @@ class Note extends DataClass implements Insertable<Note> {
       'containImage': serializer.toJson<bool>(containImage),
       'date': serializer.toJson<DateTime>(date),
     };
-  }
-
-  @override
-  NotesCompanion createCompanion(bool nullToAbsent) {
-    return NotesCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      folderID: folderID == null && nullToAbsent
-          ? const Value.absent()
-          : Value(folderID),
-      folderName: folderName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(folderName),
-      folderNameDirection: folderNameDirection == null && nullToAbsent
-          ? const Value.absent()
-          : Value(folderNameDirection),
-      title:
-          title == null && nullToAbsent ? const Value.absent() : Value(title),
-      detail:
-          detail == null && nullToAbsent ? const Value.absent() : Value(detail),
-      titleDirection: titleDirection == null && nullToAbsent
-          ? const Value.absent()
-          : Value(titleDirection),
-      detailDirection: detailDirection == null && nullToAbsent
-          ? const Value.absent()
-          : Value(detailDirection),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
-      containAudio: containAudio == null && nullToAbsent
-          ? const Value.absent()
-          : Value(containAudio),
-      containImage: containImage == null && nullToAbsent
-          ? const Value.absent()
-          : Value(containImage),
-      date: date == null && nullToAbsent ? const Value.absent() : Value(date),
-    );
   }
 
   Note copyWith(
@@ -278,6 +325,37 @@ class NotesCompanion extends UpdateCompanion<Note> {
         titleDirection = Value(titleDirection),
         detailDirection = Value(detailDirection),
         date = Value(date);
+  static Insertable<Note> custom({
+    Expression<int> id,
+    Expression<int> folderID,
+    Expression<String> folderName,
+    Expression<String> folderNameDirection,
+    Expression<String> title,
+    Expression<String> detail,
+    Expression<String> titleDirection,
+    Expression<String> detailDirection,
+    Expression<bool> isDeleted,
+    Expression<bool> containAudio,
+    Expression<bool> containImage,
+    Expression<DateTime> date,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (folderID != null) 'folder_i_d': folderID,
+      if (folderName != null) 'folder_name': folderName,
+      if (folderNameDirection != null)
+        'folder_name_direction': folderNameDirection,
+      if (title != null) 'title': title,
+      if (detail != null) 'detail': detail,
+      if (titleDirection != null) 'title_direction': titleDirection,
+      if (detailDirection != null) 'detail_direction': detailDirection,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (containAudio != null) 'contain_audio': containAudio,
+      if (containImage != null) 'contain_image': containImage,
+      if (date != null) 'date': date,
+    });
+  }
+
   NotesCompanion copyWith(
       {Value<int> id,
       Value<int> folderID,
@@ -305,6 +383,54 @@ class NotesCompanion extends UpdateCompanion<Note> {
       containImage: containImage ?? this.containImage,
       date: date ?? this.date,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (folderID.present) {
+      map['folder_i_d'] = Variable<int>(folderID.value);
+    }
+    if (folderName.present) {
+      map['folder_name'] = Variable<String>(folderName.value);
+    }
+    if (folderNameDirection.present) {
+      final converter = $NotesTable.$converter0;
+      map['folder_name_direction'] =
+          Variable<String>(converter.mapToSql(folderNameDirection.value));
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (detail.present) {
+      map['detail'] = Variable<String>(detail.value);
+    }
+    if (titleDirection.present) {
+      final converter = $NotesTable.$converter1;
+      map['title_direction'] =
+          Variable<String>(converter.mapToSql(titleDirection.value));
+    }
+    if (detailDirection.present) {
+      final converter = $NotesTable.$converter2;
+      map['detail_direction'] =
+          Variable<String>(converter.mapToSql(detailDirection.value));
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (containAudio.present) {
+      map['contain_audio'] = Variable<bool>(containAudio.value);
+    }
+    if (containImage.present) {
+      map['contain_image'] = Variable<bool>(containImage.value);
+    }
+    if (date.present) {
+      map['date'] = Variable<DateTime>(date.value);
+    }
+    return map;
   }
 }
 
@@ -473,57 +599,60 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   @override
   final String actualTableName = 'notes';
   @override
-  VerificationContext validateIntegrity(NotesCompanion d,
+  VerificationContext validateIntegrity(Insertable<Note> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.folderID.present) {
+    if (data.containsKey('folder_i_d')) {
       context.handle(_folderIDMeta,
-          folderID.isAcceptableValue(d.folderID.value, _folderIDMeta));
+          folderID.isAcceptableOrUnknown(data['folder_i_d'], _folderIDMeta));
     }
-    if (d.folderName.present) {
-      context.handle(_folderNameMeta,
-          folderName.isAcceptableValue(d.folderName.value, _folderNameMeta));
+    if (data.containsKey('folder_name')) {
+      context.handle(
+          _folderNameMeta,
+          folderName.isAcceptableOrUnknown(
+              data['folder_name'], _folderNameMeta));
     } else if (isInserting) {
       context.missing(_folderNameMeta);
     }
     context.handle(
         _folderNameDirectionMeta, const VerificationResult.success());
-    if (d.title.present) {
+    if (data.containsKey('title')) {
       context.handle(
-          _titleMeta, title.isAcceptableValue(d.title.value, _titleMeta));
+          _titleMeta, title.isAcceptableOrUnknown(data['title'], _titleMeta));
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
-    if (d.detail.present) {
-      context.handle(
-          _detailMeta, detail.isAcceptableValue(d.detail.value, _detailMeta));
+    if (data.containsKey('detail')) {
+      context.handle(_detailMeta,
+          detail.isAcceptableOrUnknown(data['detail'], _detailMeta));
     } else if (isInserting) {
       context.missing(_detailMeta);
     }
     context.handle(_titleDirectionMeta, const VerificationResult.success());
     context.handle(_detailDirectionMeta, const VerificationResult.success());
-    if (d.isDeleted.present) {
+    if (data.containsKey('is_deleted')) {
       context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableValue(d.isDeleted.value, _isDeletedMeta));
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
-    if (d.containAudio.present) {
+    if (data.containsKey('contain_audio')) {
       context.handle(
           _containAudioMeta,
-          containAudio.isAcceptableValue(
-              d.containAudio.value, _containAudioMeta));
+          containAudio.isAcceptableOrUnknown(
+              data['contain_audio'], _containAudioMeta));
     }
-    if (d.containImage.present) {
+    if (data.containsKey('contain_image')) {
       context.handle(
           _containImageMeta,
-          containImage.isAcceptableValue(
-              d.containImage.value, _containImageMeta));
+          containImage.isAcceptableOrUnknown(
+              data['contain_image'], _containImageMeta));
     }
-    if (d.date.present) {
+    if (data.containsKey('date')) {
       context.handle(
-          _dateMeta, date.isAcceptableValue(d.date.value, _dateMeta));
+          _dateMeta, date.isAcceptableOrUnknown(data['date'], _dateMeta));
     } else if (isInserting) {
       context.missing(_dateMeta);
     }
@@ -536,54 +665,6 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   Note map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return Note.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(NotesCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.folderID.present) {
-      map['folder_i_d'] = Variable<int, IntType>(d.folderID.value);
-    }
-    if (d.folderName.present) {
-      map['folder_name'] = Variable<String, StringType>(d.folderName.value);
-    }
-    if (d.folderNameDirection.present) {
-      final converter = $NotesTable.$converter0;
-      map['folder_name_direction'] = Variable<String, StringType>(
-          converter.mapToSql(d.folderNameDirection.value));
-    }
-    if (d.title.present) {
-      map['title'] = Variable<String, StringType>(d.title.value);
-    }
-    if (d.detail.present) {
-      map['detail'] = Variable<String, StringType>(d.detail.value);
-    }
-    if (d.titleDirection.present) {
-      final converter = $NotesTable.$converter1;
-      map['title_direction'] = Variable<String, StringType>(
-          converter.mapToSql(d.titleDirection.value));
-    }
-    if (d.detailDirection.present) {
-      final converter = $NotesTable.$converter2;
-      map['detail_direction'] = Variable<String, StringType>(
-          converter.mapToSql(d.detailDirection.value));
-    }
-    if (d.isDeleted.present) {
-      map['is_deleted'] = Variable<bool, BoolType>(d.isDeleted.value);
-    }
-    if (d.containAudio.present) {
-      map['contain_audio'] = Variable<bool, BoolType>(d.containAudio.value);
-    }
-    if (d.containImage.present) {
-      map['contain_image'] = Variable<bool, BoolType>(d.containImage.value);
-    }
-    if (d.date.present) {
-      map['date'] = Variable<DateTime, DateTimeType>(d.date.value);
-    }
-    return map;
   }
 
   @override
@@ -618,6 +699,33 @@ class FolderNoteData extends DataClass implements Insertable<FolderNoteData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}name_direction'])),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String>(name);
+    }
+    if (!nullToAbsent || nameDirection != null) {
+      final converter = $FolderNoteTable.$converter0;
+      map['name_direction'] =
+          Variable<String>(converter.mapToSql(nameDirection));
+    }
+    return map;
+  }
+
+  FolderNoteCompanion toCompanion(bool nullToAbsent) {
+    return FolderNoteCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+      nameDirection: nameDirection == null && nullToAbsent
+          ? const Value.absent()
+          : Value(nameDirection),
+    );
+  }
+
   factory FolderNoteData.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -635,17 +743,6 @@ class FolderNoteData extends DataClass implements Insertable<FolderNoteData> {
       'name': serializer.toJson<String>(name),
       'nameDirection': serializer.toJson<TextDirection>(nameDirection),
     };
-  }
-
-  @override
-  FolderNoteCompanion createCompanion(bool nullToAbsent) {
-    return FolderNoteCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
-      nameDirection: nameDirection == null && nullToAbsent
-          ? const Value.absent()
-          : Value(nameDirection),
-    );
   }
 
   FolderNoteData copyWith({int id, String name, TextDirection nameDirection}) =>
@@ -691,6 +788,18 @@ class FolderNoteCompanion extends UpdateCompanion<FolderNoteData> {
     @required TextDirection nameDirection,
   })  : name = Value(name),
         nameDirection = Value(nameDirection);
+  static Insertable<FolderNoteData> custom({
+    Expression<int> id,
+    Expression<String> name,
+    Expression<String> nameDirection,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (nameDirection != null) 'name_direction': nameDirection,
+    });
+  }
+
   FolderNoteCompanion copyWith(
       {Value<int> id, Value<String> name, Value<TextDirection> nameDirection}) {
     return FolderNoteCompanion(
@@ -698,6 +807,23 @@ class FolderNoteCompanion extends UpdateCompanion<FolderNoteData> {
       name: name ?? this.name,
       nameDirection: nameDirection ?? this.nameDirection,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (nameDirection.present) {
+      final converter = $FolderNoteTable.$converter0;
+      map['name_direction'] =
+          Variable<String>(converter.mapToSql(nameDirection.value));
+    }
+    return map;
   }
 }
 
@@ -750,15 +876,16 @@ class $FolderNoteTable extends FolderNote
   @override
   final String actualTableName = 'folder_note';
   @override
-  VerificationContext validateIntegrity(FolderNoteCompanion d,
+  VerificationContext validateIntegrity(Insertable<FolderNoteData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.name.present) {
+    if (data.containsKey('name')) {
       context.handle(
-          _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
+          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
@@ -772,23 +899,6 @@ class $FolderNoteTable extends FolderNote
   FolderNoteData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return FolderNoteData.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(FolderNoteCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.name.present) {
-      map['name'] = Variable<String, StringType>(d.name.value);
-    }
-    if (d.nameDirection.present) {
-      final converter = $FolderNoteTable.$converter0;
-      map['name_direction'] = Variable<String, StringType>(
-          converter.mapToSql(d.nameDirection.value));
-    }
-    return map;
   }
 
   @override
@@ -819,6 +929,30 @@ class AudioNoteData extends DataClass implements Insertable<AudioNoteData> {
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || noteID != null) {
+      map['note_i_d'] = Variable<int>(noteID);
+    }
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String>(name);
+    }
+    return map;
+  }
+
+  AudioNoteCompanion toCompanion(bool nullToAbsent) {
+    return AudioNoteCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      noteID:
+          noteID == null && nullToAbsent ? const Value.absent() : Value(noteID),
+      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+    );
+  }
+
   factory AudioNoteData.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -836,16 +970,6 @@ class AudioNoteData extends DataClass implements Insertable<AudioNoteData> {
       'noteID': serializer.toJson<int>(noteID),
       'name': serializer.toJson<String>(name),
     };
-  }
-
-  @override
-  AudioNoteCompanion createCompanion(bool nullToAbsent) {
-    return AudioNoteCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      noteID:
-          noteID == null && nullToAbsent ? const Value.absent() : Value(noteID),
-      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
-    );
   }
 
   AudioNoteData copyWith({int id, int noteID, String name}) => AudioNoteData(
@@ -890,6 +1014,18 @@ class AudioNoteCompanion extends UpdateCompanion<AudioNoteData> {
     @required String name,
   })  : noteID = Value(noteID),
         name = Value(name);
+  static Insertable<AudioNoteData> custom({
+    Expression<int> id,
+    Expression<int> noteID,
+    Expression<String> name,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (noteID != null) 'note_i_d': noteID,
+      if (name != null) 'name': name,
+    });
+  }
+
   AudioNoteCompanion copyWith(
       {Value<int> id, Value<int> noteID, Value<String> name}) {
     return AudioNoteCompanion(
@@ -897,6 +1033,21 @@ class AudioNoteCompanion extends UpdateCompanion<AudioNoteData> {
       noteID: noteID ?? this.noteID,
       name: name ?? this.name,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (noteID.present) {
+      map['note_i_d'] = Variable<int>(noteID.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    return map;
   }
 }
 
@@ -947,21 +1098,22 @@ class $AudioNoteTable extends AudioNote
   @override
   final String actualTableName = 'audio_note';
   @override
-  VerificationContext validateIntegrity(AudioNoteCompanion d,
+  VerificationContext validateIntegrity(Insertable<AudioNoteData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.noteID.present) {
-      context.handle(
-          _noteIDMeta, noteID.isAcceptableValue(d.noteID.value, _noteIDMeta));
+    if (data.containsKey('note_i_d')) {
+      context.handle(_noteIDMeta,
+          noteID.isAcceptableOrUnknown(data['note_i_d'], _noteIDMeta));
     } else if (isInserting) {
       context.missing(_noteIDMeta);
     }
-    if (d.name.present) {
+    if (data.containsKey('name')) {
       context.handle(
-          _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
+          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
@@ -974,21 +1126,6 @@ class $AudioNoteTable extends AudioNote
   AudioNoteData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return AudioNoteData.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(AudioNoteCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.noteID.present) {
-      map['note_i_d'] = Variable<int, IntType>(d.noteID.value);
-    }
-    if (d.name.present) {
-      map['name'] = Variable<String, StringType>(d.name.value);
-    }
-    return map;
   }
 
   @override
@@ -1016,6 +1153,30 @@ class ImageNoteData extends DataClass implements Insertable<ImageNoteData> {
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || noteID != null) {
+      map['note_i_d'] = Variable<int>(noteID);
+    }
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String>(name);
+    }
+    return map;
+  }
+
+  ImageNoteCompanion toCompanion(bool nullToAbsent) {
+    return ImageNoteCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      noteID:
+          noteID == null && nullToAbsent ? const Value.absent() : Value(noteID),
+      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+    );
+  }
+
   factory ImageNoteData.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -1033,16 +1194,6 @@ class ImageNoteData extends DataClass implements Insertable<ImageNoteData> {
       'noteID': serializer.toJson<int>(noteID),
       'name': serializer.toJson<String>(name),
     };
-  }
-
-  @override
-  ImageNoteCompanion createCompanion(bool nullToAbsent) {
-    return ImageNoteCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      noteID:
-          noteID == null && nullToAbsent ? const Value.absent() : Value(noteID),
-      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
-    );
   }
 
   ImageNoteData copyWith({int id, int noteID, String name}) => ImageNoteData(
@@ -1087,6 +1238,18 @@ class ImageNoteCompanion extends UpdateCompanion<ImageNoteData> {
     @required String name,
   })  : noteID = Value(noteID),
         name = Value(name);
+  static Insertable<ImageNoteData> custom({
+    Expression<int> id,
+    Expression<int> noteID,
+    Expression<String> name,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (noteID != null) 'note_i_d': noteID,
+      if (name != null) 'name': name,
+    });
+  }
+
   ImageNoteCompanion copyWith(
       {Value<int> id, Value<int> noteID, Value<String> name}) {
     return ImageNoteCompanion(
@@ -1094,6 +1257,21 @@ class ImageNoteCompanion extends UpdateCompanion<ImageNoteData> {
       noteID: noteID ?? this.noteID,
       name: name ?? this.name,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (noteID.present) {
+      map['note_i_d'] = Variable<int>(noteID.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    return map;
   }
 }
 
@@ -1144,21 +1322,22 @@ class $ImageNoteTable extends ImageNote
   @override
   final String actualTableName = 'image_note';
   @override
-  VerificationContext validateIntegrity(ImageNoteCompanion d,
+  VerificationContext validateIntegrity(Insertable<ImageNoteData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.noteID.present) {
-      context.handle(
-          _noteIDMeta, noteID.isAcceptableValue(d.noteID.value, _noteIDMeta));
+    if (data.containsKey('note_i_d')) {
+      context.handle(_noteIDMeta,
+          noteID.isAcceptableOrUnknown(data['note_i_d'], _noteIDMeta));
     } else if (isInserting) {
       context.missing(_noteIDMeta);
     }
-    if (d.name.present) {
+    if (data.containsKey('name')) {
       context.handle(
-          _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
+          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
@@ -1171,21 +1350,6 @@ class $ImageNoteTable extends ImageNote
   ImageNoteData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return ImageNoteData.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(ImageNoteCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.noteID.present) {
-      map['note_i_d'] = Variable<int, IntType>(d.noteID.value);
-    }
-    if (d.name.present) {
-      map['name'] = Variable<String, StringType>(d.name.value);
-    }
-    return map;
   }
 
   @override

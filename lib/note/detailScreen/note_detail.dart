@@ -1,12 +1,13 @@
 import 'package:deep_paper/note/business_logic/note_creation.dart';
+import 'package:deep_paper/note/business_logic/text_field_logic.dart';
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/provider/note_detail_provider.dart';
 import 'package:deep_paper/note/provider/undo_redo_provider.dart';
 import 'package:deep_paper/note/widgets/bottom_menu.dart';
 import 'package:deep_paper/utility/deep_keep_alive.dart';
 import 'package:deep_paper/utility/size_helper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
@@ -19,9 +20,11 @@ class NoteDetail extends StatefulWidget {
 }
 
 class _NoteDetailState extends State<NoteDetail> {
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _detailController = TextEditingController();
-  int _count = 0;
+  TextEditingController _titleController;
+  TextEditingController _detailController;
+  FocusNode _titleFocus;
+  FocusNode _detailFocus;
+  bool _keyboardVisible = false;
 
   final String _date = DateFormat.jm('en_US').format(DateTime.now());
 
@@ -29,9 +32,25 @@ class _NoteDetailState extends State<NoteDetail> {
   void initState() {
     super.initState();
 
-    KeyboardVisibilityNotification().addNewListener(onHide: () {
-      if (FocusScope.of(context).hasFocus) {
-        FocusScope.of(context).unfocus();
+    _titleController = TextEditingController();
+    _detailController = TextEditingController();
+    _titleFocus = FocusNode();
+    _detailFocus = FocusNode();
+
+    final undoRedoProvider =
+        Provider.of<UndoRedoProvider>(context, listen: false);
+
+    undoRedoProvider.setInitialTitle = "";
+    undoRedoProvider.setInitialDetail = "";
+
+    KeyboardVisibility.onChange.listen((visible) {
+      _keyboardVisible = visible;
+      if (visible == false) {
+        if (_titleFocus.hasFocus) {
+          _titleFocus.unfocus();
+        } else if (_detailFocus.hasFocus) {
+          _detailFocus.unfocus();
+        }
       }
     });
   }
@@ -40,6 +59,8 @@ class _NoteDetailState extends State<NoteDetail> {
   void dispose() {
     _titleController.dispose();
     _detailController.dispose();
+    _titleFocus.dispose();
+    _detailFocus.dispose();
     super.dispose();
   }
 
@@ -50,9 +71,9 @@ class _NoteDetailState extends State<NoteDetail> {
         Provider.of<NoteDetailProvider>(context, listen: false);
 
     return Theme(
-      data: ThemeData.dark().copyWith(
+      data: Theme.of(context).copyWith(
         bottomSheetTheme: BottomSheetThemeData(
-          modalBackgroundColor: Theme.of(context).primaryColor,
+          modalBackgroundColor: Color(0xff202020),
         ),
         primaryColor: Theme.of(context).primaryColor,
         backgroundColor: Theme.of(context).backgroundColor,
@@ -89,6 +110,8 @@ class _NoteDetailState extends State<NoteDetail> {
             newNote: true,
             titleController: _titleController,
             detailController: _detailController,
+            titleFocus: _titleFocus,
+            detailFocus: _detailFocus,
           ),
           body: ListView(
             physics: ClampingScrollPhysics(),
@@ -125,6 +148,13 @@ class _NoteDetailState extends State<NoteDetail> {
         builder: (context, direction, child) {
           return TextField(
             controller: _titleController,
+            focusNode: _titleFocus,
+            readOnly: !_keyboardVisible,
+            onTap: () {
+              if (_keyboardVisible == false) {
+                SystemChannels.textInput.invokeMethod('TextInput.show');
+              }
+            },
             textDirection: direction,
             textAlign: TextAlign.center,
             style: Theme.of(context)
@@ -133,53 +163,10 @@ class _NoteDetailState extends State<NoteDetail> {
                 .copyWith(color: Colors.white70, fontSize: SizeHelper.getTitle),
             maxLines: null,
             keyboardType: TextInputType.multiline,
-            onChanged: (value) {
-              detailProvider.setTitle = value;
-
-              if (detailProvider.isTextTyped == false) {
-                detailProvider.setTextState = true;
-              }
-
-              detailProvider.checkTitleDirection = detailProvider.getTitle;
-
-              if (undoRedoProvider.getCurrentFocus.isEmpty) {
-                debugPrintSynchronously("this run");
-                undoRedoProvider.setCurrentFocus = "title";
-              } else if (undoRedoProvider.getCurrentFocus != "title") {
-                undoRedoProvider.addUndo();
-                undoRedoProvider.setCurrentFocus = "title";
-              }
-
-              if (undoRedoProvider.canUndo() == false &&
-                  !value.isNullEmptyOrWhitespace) {
-                debugPrintSynchronously('CAN UNDO');
-                undoRedoProvider.setCanUndo = true;
-              }
-
-              /// Check for Latin characters
-              if (value.contains("[\\s\\p{L}\\p{M}&&[^\\p{Alpha}]]+")) {
-                if (value.endsWith(" ") && !value.isNullEmptyOrWhitespace) {
-                  undoRedoProvider.addUndo();
-                  undoRedoProvider.setCurrentTyped = value;
-                } else {
-                  undoRedoProvider.setCurrentTyped = value;
-                }
-              } else {
-                if (_count == 4 && !value.isNullEmptyOrWhitespace) {
-                  undoRedoProvider.addUndo();
-                  undoRedoProvider.setCurrentTyped = value;
-                  _count = 0;
-                } else {
-                  _count++;
-                  debugPrintSynchronously("_count: $_count");
-                  undoRedoProvider.setCurrentTyped = value;
-                }
-              }
-
-              if (undoRedoProvider.canRedo()) {
-                undoRedoProvider.clearRedo();
-              }
-            },
+            onChanged: (value) => TextFieldLogic.title(
+                value: value,
+                detailProvider: detailProvider,
+                undoRedoProvider: undoRedoProvider),
             decoration: InputDecoration.collapsed(
               hintText: 'Title',
             ),
@@ -200,56 +187,22 @@ class _NoteDetailState extends State<NoteDetail> {
         builder: (context, direction, child) {
           return TextField(
             controller: _detailController,
+            focusNode: _detailFocus,
+            readOnly: !_keyboardVisible,
+            onTap: () {
+              if (_keyboardVisible == false) {
+                SystemChannels.textInput.invokeMethod('TextInput.show');
+              }
+            },
             textDirection: direction,
             style: Theme.of(context).textTheme.bodyText1.copyWith(
                 color: Colors.white70, fontSize: SizeHelper.getDescription),
             maxLines: null,
             keyboardType: TextInputType.multiline,
-            onChanged: (value) {
-              detailProvider.setDetail = value;
-
-              if (detailProvider.isTextTyped == false) {
-                detailProvider.setTextState = true;
-              }
-
-              detailProvider.checkDetailDirection = detailProvider.getDetail;
-
-              if (undoRedoProvider.getCurrentFocus.isEmpty) {
-                undoRedoProvider.setCurrentFocus = "detail";
-              } else if (undoRedoProvider.getCurrentFocus != "detail") {
-                undoRedoProvider.addUndo();
-                undoRedoProvider.setCurrentFocus = "detail";
-              }
-
-              if (undoRedoProvider.canUndo() == false &&
-                  !value.isNullEmptyOrWhitespace) {
-                undoRedoProvider.setCanUndo = true;
-              }
-
-              /// Check for Latin characters
-              if (value.contains("[\\s\\p{L}\\p{M}&&[^\\p{Alpha}]]+")) {
-                if (value.endsWith(" ") && !value.isNullEmptyOrWhitespace) {
-                  undoRedoProvider.addUndo();
-                  undoRedoProvider.setCurrentTyped = value;
-                } else {
-                  undoRedoProvider.setCurrentTyped = value;
-                }
-              } else {
-                if (_count == 4 && !value.isNullEmptyOrWhitespace) {
-                  undoRedoProvider.addUndo();
-                  undoRedoProvider.setCurrentTyped = value;
-                  _count = 1;
-                } else {
-                  _count++;
-                  debugPrintSynchronously("_count: $_count");
-                  undoRedoProvider.setCurrentTyped = value;
-                }
-              }
-
-              if (undoRedoProvider.canRedo()) {
-                undoRedoProvider.clearRedo();
-              }
-            },
+            onChanged: (value) => TextFieldLogic.detail(
+                value: value,
+                detailProvider: detailProvider,
+                undoRedoProvider: undoRedoProvider),
             decoration: InputDecoration.collapsed(
               hintText: 'Write your note here...',
             ),

@@ -41,14 +41,13 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
             padding: EdgeInsetsResponsive.only(
                 left: 16, right: 16, bottom: 12, top: 12),
             child: Material(
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).cardColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),
                   side: selectionProvider.getSelection && selected
                       ? BorderSide(
                           color: Theme.of(context).accentColor, width: 2.0)
-                      : BorderSide(
-                          color: Colors.white38, width: 2.0)),
+                      : BorderSide.none),
               child: InkWell(
                 borderRadius: BorderRadius.circular(12.0),
                 onTap: () {

@@ -21,20 +21,20 @@ dependencies:
     sdk: flutter
   provider: ^4.0.4
   scrollable_positioned_list: ^0.1.2
-  moor: ^2.3.0
-  moor_ffi: ^0.4.0
+  moor: ^3.1.0
+  moor_ffi: ^0.5.0
   path: ^1.6.4
   path_provider: ^1.6.0
   tuple: ^1.0.3
   intl: ^0.16.1
   fluttertoast: ^4.0.1
   responsive_widgets: ^2.0.1
-  flutter_keyboard_visibility: ^0.8.0
+  flutter_keyboard_visibility: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  moor_generator: ^2.3.1
+  moor_generator: ^3.1.0
   build_runner: ^1.7.4
 
 # For information on the generic Dart part of this file, see the

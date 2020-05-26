@@ -7,5 +7,5 @@ part of 'note_dao.dart';
 // **************************************************************************
 
 mixin _$NoteDaoMixin on DatabaseAccessor<DeepPaperDatabase> {
-  $NotesTable get notes => db.notes;
+  $NotesTable get notes => attachedDatabase.notes;
 }

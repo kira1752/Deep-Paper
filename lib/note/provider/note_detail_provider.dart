@@ -7,10 +7,9 @@ class NoteDetailProvider with ChangeNotifier {
   bool _isTitleRTL = false;
   bool _isDetailRTL = false;
   String _title = "";
-  String _detail = "";
+  String _detail = ""; 
 
   bool get isTextTyped => _isTextTyped;
-
   String get getTitle => _title;
   String get getDetail => _detail;
   bool get getTitleDirection => _isTitleRTL;
