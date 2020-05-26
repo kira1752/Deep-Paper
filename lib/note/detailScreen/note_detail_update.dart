@@ -37,7 +37,8 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
     final detailProvider =
         Provider.of<NoteDetailProvider>(context, listen: false);
 
-    final undoRedoProvider = Provider.of<UndoRedoProvider>(context,listen: false);
+    final undoRedoProvider =
+        Provider.of<UndoRedoProvider>(context, listen: false);
 
     detailProvider.setTitle = widget.note.title ?? "";
     detailProvider.setDetail = widget.note.detail ?? "";
@@ -135,9 +136,14 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
             onDelete: () {
               _isDeleted = true;
 
-              Navigator.of(context)
-                  .maybePop()
-                  .then((value) => Navigator.maybePop(context));
+              NoteCreation.update(
+                  context: context,
+                  note: widget.note,
+                  title: detailProvider.getTitle,
+                  detail: detailProvider.getDetail,
+                  isDeleted: _isDeleted);
+
+              Navigator.of(context).popUntil(ModalRoute.withName("/"));
 
               DeepToast.showToast(description: "Note moved to Trash Bin");
             },
@@ -154,9 +160,14 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
                     folderID: widget.note.folderID,
                     folderName: widget.note.folderName);
 
-                Navigator.of(context)
-                    .maybePop()
-                    .then((value) => Navigator.maybePop(context));
+                NoteCreation.update(
+                    context: context,
+                    note: widget.note,
+                    title: detailProvider.getTitle,
+                    detail: detailProvider.getDetail,
+                    isDeleted: _isDeleted);
+
+                Navigator.of(context).popUntil(ModalRoute.withName("/"));
 
                 DeepToast.showToast(description: "Note copied successfully");
               }
