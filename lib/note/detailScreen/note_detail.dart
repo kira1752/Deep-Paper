@@ -24,7 +24,6 @@ class _NoteDetailState extends State<NoteDetail> {
   TextEditingController _detailController;
   FocusNode _titleFocus;
   FocusNode _detailFocus;
-  bool _keyboardVisible = false;
 
   final String _date = DateFormat.jm('en_US').format(DateTime.now());
 
@@ -44,7 +43,6 @@ class _NoteDetailState extends State<NoteDetail> {
     undoRedoProvider.setInitialDetail = "";
 
     KeyboardVisibility.onChange.listen((visible) {
-      _keyboardVisible = visible;
       if (visible == false) {
         if (_titleFocus.hasFocus) {
           _titleFocus.unfocus();
@@ -149,12 +147,6 @@ class _NoteDetailState extends State<NoteDetail> {
           return TextField(
             controller: _titleController,
             focusNode: _titleFocus,
-            readOnly: !_keyboardVisible,
-            onTap: () {
-              if (_keyboardVisible == false) {
-                SystemChannels.textInput.invokeMethod('TextInput.show');
-              }
-            },
             textDirection: direction,
             textAlign: TextAlign.center,
             style: Theme.of(context)
@@ -188,12 +180,6 @@ class _NoteDetailState extends State<NoteDetail> {
           return TextField(
             controller: _detailController,
             focusNode: _detailFocus,
-            readOnly: !_keyboardVisible,
-            onTap: () {
-              if (_keyboardVisible == false) {
-                SystemChannels.textInput.invokeMethod('TextInput.show');
-              }
-            },
             textDirection: direction,
             style: Theme.of(context).textTheme.bodyText1.copyWith(
                 color: Colors.white70, fontSize: SizeHelper.getDescription),
