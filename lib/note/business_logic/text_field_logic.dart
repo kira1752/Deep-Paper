@@ -77,7 +77,6 @@ class TextFieldLogic {
         if (!undoRedoProvider.getInitialTitle.isNullEmptyOrWhitespace &&
             undoRedoProvider.getCurrentTyped.isNullEmptyOrWhitespace) {
           undoRedoProvider.setCurrentTyped = value;
-          undoRedoProvider.addUndo();
         } else {
           undoRedoProvider.addUndo();
           undoRedoProvider.setCurrentTyped = value;
@@ -188,7 +187,6 @@ class TextFieldLogic {
         if (!undoRedoProvider.getInitialDetail.isNullEmptyOrWhitespace &&
             undoRedoProvider.getCurrentTyped.isNullEmptyOrWhitespace) {
           undoRedoProvider.setCurrentTyped = value;
-          undoRedoProvider.addUndo();
         } else {
           undoRedoProvider.addUndo();
           undoRedoProvider.setCurrentTyped = value;

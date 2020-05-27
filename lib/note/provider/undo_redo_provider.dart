@@ -120,6 +120,12 @@ class UndoRedoProvider with ChangeNotifier {
     if (_canUndo == false) {
       _canUndo = true;
       notifyListeners();
+      
+      if (_redo.isEmpty) {
+        _canRedo = false;
+        notifyListeners();
+      }
+
       return _tempTyped;
     } else {
       _undo.add(_tempTyped);
