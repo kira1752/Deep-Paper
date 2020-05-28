@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:deep_paper/note/data/deep.dart';
-import 'package:deep_paper/utility/extension.dart';
 import 'package:responsive_widgets/responsive_widgets.dart';
 
 typedef void _OnTap();
@@ -90,32 +89,15 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
                 child: Padding(
                   padding: EdgeInsetsResponsive.all(20),
                   child: ListBody(children: <Widget>[
-                    if (!widget.note.title.isNullEmptyOrWhitespace)
-                      Padding(
-                        padding: EdgeInsetsResponsive.only(bottom: 12),
-                        child: Text(
-                          "${widget.note.title}",
-                          textDirection: widget.note.titleDirection,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6
-                              .copyWith(
-                                  color: Colors.white.withOpacity(0.80),
-                                  fontSize: SizeHelper.getTitle),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    if (!widget.note.detail.isNullEmptyOrWhitespace)
-                      Text(
-                        "${widget.note.detail}",
-                        textDirection: widget.note.detailDirection,
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Colors.white70,
-                            fontSize: SizeHelper.getDescription),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                    Text(
+                      "${widget.note.detail}",
+                      textDirection: widget.note.detailDirection,
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
+                          color: Colors.white70,
+                          fontSize: SizeHelper.getDescription),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     Padding(
                         padding: EdgeInsetsResponsive.only(top: 24.0),
                         child: _labelDateAndIcons(
@@ -133,8 +115,7 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
     return Wrap(
       spacing: SizeHelper.setWidth(size: 14.0),
       runSpacing: SizeHelper.setHeight(size: 14.0),
-      textDirection:
-          note.detail.isEmpty ? note.titleDirection : note.detailDirection,
+      textDirection: note.detailDirection,
       direction: Axis.horizontal,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: <Widget>[

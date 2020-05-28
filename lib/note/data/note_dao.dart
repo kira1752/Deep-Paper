@@ -43,9 +43,7 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
         b.insert(
             notes,
             NotesCompanion(
-                title: Value(note.title),
                 detail: Value(note.detail),
-                titleDirection: Value(note.titleDirection),
                 detailDirection: Value(note.detailDirection),
                 folderID: Value(note.folderID),
                 folderName: Value(note.folderName),
@@ -83,7 +81,6 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
     update(notes)
       ..where((n) => n.folderID.equals(folder.id))
       ..write(NotesCompanion(
-          title: Value.absent(),
           detail: Value.absent(),
           date: Value.absent(),
           folderName: Value(folder.name),
