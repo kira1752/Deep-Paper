@@ -5,10 +5,15 @@ import 'package:flutter/widgets.dart';
 
 class UndoRedoProvider with ChangeNotifier {
   Queue<String> _undo = Queue();
+  Queue<String> _undoFocus = Queue();
   Queue<String> _redo = Queue();
+  Queue<String> _redoFocus = Queue();
   bool _canUndo = false;
   bool _canRedo = false;
+  String _initialTitle;
   String _initialDetail;
+  bool _fieldChanged = false;
+  String _tempFocus = "";
   String _tempTyped = "";
   int _count = 0;
 
@@ -17,9 +22,15 @@ class UndoRedoProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  set setInitialTitle(String value) => _initialTitle = value;
+
   set setInitialDetail(String value) => _initialDetail = value;
 
   set setCurrentTyped(String value) => _tempTyped = value;
+
+  set setCurrentFocus(String value) => _tempFocus = value;
+
+  set setFieldChanged(bool value) => _fieldChanged = value;
 
   set setCount(int value) => _count = value;
 
@@ -27,10 +38,37 @@ class UndoRedoProvider with ChangeNotifier {
 
   int get getCount => _count;
 
+  String get getCurrentFocus => _tempFocus;
+
+  bool get getFieldChanged => _fieldChanged;
+
+  String get getInitialTitle => _initialTitle;
+
   String get getInitialDetail => _initialDetail;
 
   void addUndo() {
     _undo.add(_tempTyped);
+    _undoFocus.add(_tempFocus);
+  }
+
+  void addUndoForInitialTitle() {
+    _undo.add(_initialTitle);
+    _undoFocus.add(_tempFocus);
+  }
+
+  void addUndoForInitialDetail() {
+    _undo.add(_initialDetail);
+    _undoFocus.add(_tempFocus);
+  }
+
+  void skipCurrentUndo() {
+    _redo.add(_tempTyped);
+    _tempTyped = _undo.removeLast();
+  }
+
+  void skipCurrentRedo() {
+    _undo.add(_tempTyped);
+    _tempTyped = _redo.removeLast();
   }
 
   String getUndoValue() {
@@ -60,7 +98,21 @@ class UndoRedoProvider with ChangeNotifier {
       } else {
         notifyListeners();
       }
-      return _initialDetail;
+      return "";
+    }
+  }
+
+  String getUndoFocus() {
+    if (_undoFocus.isNotEmpty) {
+      _redoFocus.add(_tempFocus);
+      _tempFocus = _undoFocus.removeLast();
+
+      if (_tempFocus == "initialTitle" || _tempFocus == "initialDetail") {
+        _fieldChanged = false;
+      }
+      return _tempFocus;
+    } else {
+      return "";
     }
   }
 
@@ -68,7 +120,7 @@ class UndoRedoProvider with ChangeNotifier {
     if (_canUndo == false) {
       _canUndo = true;
       notifyListeners();
-
+      
       if (_redo.isEmpty) {
         _canRedo = false;
         notifyListeners();
@@ -88,8 +140,29 @@ class UndoRedoProvider with ChangeNotifier {
     }
   }
 
+  String getRedoFocus() {
+    if (_canUndo == false) {
+      debugPrintSynchronously("this redo focus run");
+      return _tempFocus;
+    } else {
+      _undoFocus.add(_tempFocus);
+      _tempFocus = _redoFocus.removeLast();
+
+      if (_tempFocus == "initialTitle" || _tempFocus == "initialDetail") {
+        _fieldChanged = true;
+      }
+
+      return _tempFocus;
+    }
+  }
+
+  String lastFocus() {
+    return _redoFocus.isEmpty ? _tempFocus : _redoFocus.last;
+  }
+
   void clearRedo() {
     _redo.clear();
+    _redoFocus.clear();
     _canRedo = false;
     notifyListeners();
   }

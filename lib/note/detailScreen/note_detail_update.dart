@@ -26,7 +26,9 @@ class NoteDetailUpdate extends StatefulWidget {
 class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
   bool _isDeleted;
   String _date;
+  TextEditingController _titleController;
   TextEditingController _detailController;
+  FocusNode _titleFocus;
   FocusNode _detailFocus;
 
   @override
@@ -38,10 +40,16 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
     final undoRedoProvider =
         Provider.of<UndoRedoProvider>(context, listen: false);
 
+    detailProvider.setTitle = widget.note.title ?? "";
     detailProvider.setDetail = widget.note.detail ?? "";
+    undoRedoProvider.setInitialTitle = widget.note.title ?? "";
     undoRedoProvider.setInitialDetail = widget.note.detail ?? "";
+
     _isDeleted = widget.note.isDeleted;
+
+    _titleController = TextEditingController(text: widget.note.title);
     _detailController = TextEditingController(text: widget.note.detail);
+    _titleFocus = FocusNode();
     _detailFocus = FocusNode();
 
     final DateTime now =
@@ -60,7 +68,9 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
 
     KeyboardVisibility.onChange.listen((visible) {
       if (visible == false) {
-        if (_detailFocus.hasFocus) {
+        if (_titleFocus.hasFocus) {
+          _titleFocus.unfocus();
+        } else if (_detailFocus.hasFocus) {
           _detailFocus.unfocus();
         }
       }
@@ -69,7 +79,9 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
 
   @override
   void dispose() {
+    _titleController.dispose();
     _detailController.dispose();
+    _titleFocus.dispose();
     _detailFocus.dispose();
     super.dispose();
   }
@@ -94,6 +106,7 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
           NoteCreation.update(
               context: context,
               note: widget.note,
+              title: detailProvider.getTitle,
               detail: detailProvider.getDetail,
               isDeleted: _isDeleted);
 
@@ -116,13 +129,17 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
           bottomNavigationBar: BottomMenu(
             date: _date,
             newNote: false,
+            titleController: _titleController,
             detailController: _detailController,
+            titleFocus: _titleFocus,
+            detailFocus: _detailFocus,
             onDelete: () {
               _isDeleted = true;
 
               NoteCreation.update(
                   context: context,
                   note: widget.note,
+                  title: detailProvider.getTitle,
                   detail: detailProvider.getDetail,
                   isDeleted: _isDeleted);
 
@@ -131,12 +148,14 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
               DeepToast.showToast(description: "Note moved to Trash Bin");
             },
             onCopy: () {
-              if (detailProvider.getDetail.isNullEmptyOrWhitespace) {
+              if (detailProvider.getTitle.isNullEmptyOrWhitespace &&
+                  detailProvider.getDetail.isNullEmptyOrWhitespace) {
                 Navigator.of(context).pop();
                 DeepToast.showToast(description: "Cannot copy empty note");
               } else {
                 NoteCreation.create(
                     context: context,
+                    title: detailProvider.getTitle,
                     detail: detailProvider.getDetail,
                     folderID: widget.note.folderID,
                     folderName: widget.note.folderName);
@@ -144,6 +163,7 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
                 NoteCreation.update(
                     context: context,
                     note: widget.note,
+                    title: detailProvider.getTitle,
                     detail: detailProvider.getDetail,
                     isDeleted: _isDeleted);
 
@@ -158,7 +178,13 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
             children: <Widget>[
               DeepKeepAlive(
                 child: Padding(
-                  padding: EdgeInsetsResponsive.fromLTRB(18, 24, 16, 16),
+                  padding: EdgeInsetsResponsive.fromLTRB(18, 0, 16, 16),
+                  child: _titleField(data: widget.note),
+                ),
+              ),
+              DeepKeepAlive(
+                child: Padding(
+                  padding: EdgeInsetsResponsive.fromLTRB(18, 16, 16, 16),
                   child: _detailField(widget.note),
                 ),
               ),
@@ -167,6 +193,40 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
         ),
       ),
     );
+  }
+
+  Widget _titleField({Note data}) {
+    final detailProvider =
+        Provider.of<NoteDetailProvider>(context, listen: false);
+
+    final undoRedoProvider =
+        Provider.of<UndoRedoProvider>(context, listen: false);
+
+    detailProvider.checkTitleDirection = detailProvider.getTitle;
+
+    return Selector<NoteDetailProvider, TextDirection>(
+        selector: (context, provider) =>
+            provider.getTitleDirection ? TextDirection.rtl : TextDirection.ltr,
+        builder: (context, direction, child) {
+          return TextField(
+            controller: _titleController,
+            focusNode: _titleFocus,
+            textDirection: direction,
+            textAlign: TextAlign.center,
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .copyWith(color: Colors.white70, fontSize: SizeHelper.getTitle),
+            maxLines: null,
+            onChanged: (value) => TextFieldLogic.title(
+                value: value,
+                detailProvider: detailProvider,
+                undoRedoProvider: undoRedoProvider),
+            decoration: InputDecoration.collapsed(
+              hintText: 'Title',
+            ),
+          );
+        });
   }
 
   Widget _detailField(Note data) {
@@ -185,7 +245,6 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
           return TextField(
             controller: _detailController,
             focusNode: _detailFocus,
-            autofocus: true,
             textDirection: direction,
             style: Theme.of(context).textTheme.bodyText1.copyWith(
                 color: Colors.white70, fontSize: SizeHelper.getDescription),

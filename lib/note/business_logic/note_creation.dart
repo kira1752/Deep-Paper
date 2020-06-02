@@ -11,10 +11,14 @@ import 'package:deep_paper/utility/extension.dart';
 class NoteCreation {
   static void create(
       {@required BuildContext context,
+      @required String title,
       @required String detail,
       @required int folderID,
       @required String folderName}) {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
+    final titleDirection = Bidi.detectRtlDirectionality(title)
+        ? TextDirection.rtl
+        : TextDirection.ltr;
     final detailDirection = Bidi.detectRtlDirectionality(detail)
         ? TextDirection.rtl
         : TextDirection.ltr;
@@ -23,9 +27,11 @@ class NoteCreation {
         ? TextDirection.rtl
         : TextDirection.ltr;
 
-    if (!detail.isNullEmptyOrWhitespace) {
+    if (!title.isNullEmptyOrWhitespace || !detail.isNullEmptyOrWhitespace) {
       database.noteDao.insertNote(NotesCompanion(
+          title: Value(title),
           detail: Value(detail),
+          titleDirection: Value(titleDirection),
           detailDirection: Value(detailDirection),
           folderID: Value(folderID),
           folderName: Value(folderName),
@@ -47,33 +53,43 @@ class NoteCreation {
   static void update(
       {@required BuildContext context,
       @required Note note,
+      @required String title,
       @required String detail,
       @required bool isDeleted}) {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
-
+    final titleDirection = Bidi.detectRtlDirectionality(title)
+        ? TextDirection.rtl
+        : TextDirection.ltr;
     final detailDirection = Bidi.detectRtlDirectionality(detail)
         ? TextDirection.rtl
         : TextDirection.ltr;
 
-    if (note.detail != detail && note.isDeleted != isDeleted) {
-      if (!detail.isNullEmptyOrWhitespace) {
+    if (note.title != title ||
+        note.detail != detail && note.isDeleted != isDeleted) {
+      if (!title.isNullEmptyOrWhitespace || !detail.isNullEmptyOrWhitespace) {
         database.noteDao.updateNote(note.copyWith(
+            title: title,
             detail: detail,
+            titleDirection: titleDirection,
             detailDirection: detailDirection,
             isDeleted: isDeleted,
             date: DateTime.now()));
-      } else if (detail.isNullEmptyOrWhitespace) {
+      } else if (title.isNullEmptyOrWhitespace &&
+          detail.isNullEmptyOrWhitespace) {
         database.noteDao.deleteNote(note);
 
         DeepToast.showToast(description: "Empty note deleted");
       }
-    } else if (note.detail != detail) {
-      if (!detail.isNullEmptyOrWhitespace) {
+    } else if (note.title != title || note.detail != detail) {
+      if (!title.isNullEmptyOrWhitespace || !detail.isNullEmptyOrWhitespace) {
         database.noteDao.updateNote(note.copyWith(
+            title: title,
             detail: detail,
+            titleDirection: titleDirection,
             detailDirection: detailDirection,
             date: DateTime.now()));
-      } else if (detail.isNullEmptyOrWhitespace) {
+      } else if (title.isNullEmptyOrWhitespace &&
+          detail.isNullEmptyOrWhitespace) {
         database.noteDao.deleteNote(note);
 
         DeepToast.showToast(description: "Empty note deleted");

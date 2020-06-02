@@ -10,14 +10,20 @@ import 'package:provider/provider.dart';
 class BottomMenu extends StatelessWidget {
   final String date;
   final bool newNote;
+  final TextEditingController titleController;
   final TextEditingController detailController;
+  final FocusNode titleFocus;
+  final FocusNode detailFocus;
   final void Function() onDelete;
   final void Function() onCopy;
 
   BottomMenu(
       {@required this.date,
       @required this.newNote,
+      @required this.titleController,
       @required this.detailController,
+      @required this.titleFocus,
+      @required this.detailFocus,
       this.onDelete,
       this.onCopy});
 
@@ -92,9 +98,11 @@ class BottomMenu extends StatelessWidget {
                   ),
                   onPressed: canUndo
                       ? () => UndoRedo.undo(
-                            context: context,
-                            detailController: detailController,
-                          )
+                          context: context,
+                          titleController: titleController,
+                          detailController: detailController,
+                          titleFocus: titleFocus,
+                          detailFocus: detailFocus)
                       : null,
                 );
               }),
@@ -111,9 +119,11 @@ class BottomMenu extends StatelessWidget {
                   ),
                   onPressed: canRedo
                       ? () => UndoRedo.redo(
-                            context: context,
-                            detailController: detailController,
-                          )
+                          context: context,
+                          titleController: titleController,
+                          detailController: detailController,
+                          titleFocus: titleFocus,
+                          detailFocus: detailFocus)
                       : null,
                 );
               })

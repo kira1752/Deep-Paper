@@ -37,7 +37,9 @@ class Notes extends Table {
   TextColumn get folderName => text()();
   TextColumn get folderNameDirection =>
       text().map(const TextDirectionConverter())();
+  TextColumn get title => text()();
   TextColumn get detail => text()();
+  TextColumn get titleDirection => text().map(const TextDirectionConverter())();
   TextColumn get detailDirection =>
       text().map(const TextDirectionConverter())();
   BoolColumn get isDeleted => boolean().withDefault(Constant(false))();

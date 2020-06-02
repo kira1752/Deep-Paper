@@ -20,7 +20,9 @@ class NoteDetail extends StatefulWidget {
 }
 
 class _NoteDetailState extends State<NoteDetail> {
+  TextEditingController _titleController;
   TextEditingController _detailController;
+  FocusNode _titleFocus;
   FocusNode _detailFocus;
 
   final String _date = DateFormat.jm('en_US').format(DateTime.now());
@@ -29,17 +31,22 @@ class _NoteDetailState extends State<NoteDetail> {
   void initState() {
     super.initState();
 
+    _titleController = TextEditingController();
     _detailController = TextEditingController();
+    _titleFocus = FocusNode();
     _detailFocus = FocusNode();
 
     final undoRedoProvider =
         Provider.of<UndoRedoProvider>(context, listen: false);
 
+    undoRedoProvider.setInitialTitle = "";
     undoRedoProvider.setInitialDetail = "";
 
     KeyboardVisibility.onChange.listen((visible) {
       if (visible == false) {
-        if (_detailFocus.hasFocus) {
+        if (_titleFocus.hasFocus) {
+          _titleFocus.unfocus();
+        } else if (_detailFocus.hasFocus) {
           _detailFocus.unfocus();
         }
       }
@@ -48,7 +55,9 @@ class _NoteDetailState extends State<NoteDetail> {
 
   @override
   void dispose() {
+    _titleController.dispose();
     _detailController.dispose();
+    _titleFocus.dispose();
     _detailFocus.dispose();
     super.dispose();
   }
@@ -73,6 +82,7 @@ class _NoteDetailState extends State<NoteDetail> {
         onWillPop: () async {
           NoteCreation.create(
               context: context,
+              title: detailProvider.getTitle,
               detail: detailProvider.getDetail,
               folderID: folder.isNotNull ? folder.id : 0,
               folderName: folder.isNotNull ? folder.name : "Main folder");
@@ -96,15 +106,23 @@ class _NoteDetailState extends State<NoteDetail> {
           bottomNavigationBar: BottomMenu(
             date: _date,
             newNote: true,
+            titleController: _titleController,
             detailController: _detailController,
+            titleFocus: _titleFocus,
+            detailFocus: _detailFocus,
           ),
           body: ListView(
             physics: ClampingScrollPhysics(),
-            shrinkWrap: true,
             children: <Widget>[
               DeepKeepAlive(
                 child: Padding(
-                  padding: EdgeInsetsResponsive.fromLTRB(18, 24, 16, 16),
+                  padding: EdgeInsetsResponsive.fromLTRB(18, 0, 16, 16),
+                  child: _titleField(),
+                ),
+              ),
+              DeepKeepAlive(
+                child: Padding(
+                  padding: EdgeInsetsResponsive.fromLTRB(18, 16, 16, 16),
                   child: _detailField(),
                 ),
               ),
@@ -113,6 +131,39 @@ class _NoteDetailState extends State<NoteDetail> {
         ),
       ),
     );
+  }
+
+  Widget _titleField() {
+    final detailProvider =
+        Provider.of<NoteDetailProvider>(context, listen: false);
+
+    final undoRedoProvider =
+        Provider.of<UndoRedoProvider>(context, listen: false);
+
+    return Selector<NoteDetailProvider, TextDirection>(
+        selector: (context, provider) =>
+            provider.getTitleDirection ? TextDirection.rtl : TextDirection.ltr,
+        builder: (context, direction, child) {
+          return TextField(
+            controller: _titleController,
+            focusNode: _titleFocus,
+            textDirection: direction,
+            textAlign: TextAlign.center,
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .copyWith(color: Colors.white70, fontSize: SizeHelper.getTitle),
+            maxLines: null,
+            keyboardType: TextInputType.multiline,
+            onChanged: (value) => TextFieldLogic.title(
+                value: value,
+                detailProvider: detailProvider,
+                undoRedoProvider: undoRedoProvider),
+            decoration: InputDecoration.collapsed(
+              hintText: 'Title',
+            ),
+          );
+        });
   }
 
   Widget _detailField() {
@@ -129,7 +180,6 @@ class _NoteDetailState extends State<NoteDetail> {
           return TextField(
             controller: _detailController,
             focusNode: _detailFocus,
-            autofocus: true,
             textDirection: direction,
             style: Theme.of(context).textTheme.bodyText1.copyWith(
                 color: Colors.white70, fontSize: SizeHelper.getDescription),
