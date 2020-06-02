@@ -185,7 +185,7 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
           return TextField(
             controller: _detailController,
             focusNode: _detailFocus,
-            autofocus: true,
+            showCursor: true,
             textDirection: direction,
             style: Theme.of(context).textTheme.bodyText1.copyWith(
                 color: Colors.white70, fontSize: SizeHelper.getDescription),

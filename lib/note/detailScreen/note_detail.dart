@@ -100,7 +100,6 @@ class _NoteDetailState extends State<NoteDetail> {
           ),
           body: ListView(
             physics: ClampingScrollPhysics(),
-            shrinkWrap: true,
             children: <Widget>[
               DeepKeepAlive(
                 child: Padding(
@@ -129,7 +128,6 @@ class _NoteDetailState extends State<NoteDetail> {
           return TextField(
             controller: _detailController,
             focusNode: _detailFocus,
-            autofocus: true,
             textDirection: direction,
             style: Theme.of(context).textTheme.bodyText1.copyWith(
                 color: Colors.white70, fontSize: SizeHelper.getDescription),

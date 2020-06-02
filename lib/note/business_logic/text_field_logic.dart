@@ -21,26 +21,25 @@ class TextFieldLogic {
 
     // Turn on Undo function when textfield typed for the first time
     // and not only contains whitespace
-    if (undoRedoProvider.canUndo() == false && !value.isNullEmptyOrWhitespace) {
+    if (undoRedoProvider.canUndo() == false) {
       undoRedoProvider.setCanUndo = true;
     }
 
     /// Check for Latin characters
     if (value.contains(RegExp(r"[a-zA-Z\u00C0-\u024F\u1E00-\u1EFF]"))) {
-      if (value.endsWith(" ") && !value.isNullEmptyOrWhitespace) {
-        // if text typed by user ends with whitespace
-        // add previous value before whitespace into "Undo queue"
-        // then, set current typed value to current text typed by user
-        if (!undoRedoProvider.getInitialDetail.isNullEmptyOrWhitespace &&
-            undoRedoProvider.getCurrentTyped.isNullEmptyOrWhitespace) {
-          undoRedoProvider.setCurrentTyped = value;
-        } else {
+      if (value.endsWith(" ")) {
+        if (undoRedoProvider.getContainSpace == false &&
+            !undoRedoProvider.getCurrentTyped.isNullEmptyOrWhitespace) {
+          debugPrintSynchronously("save after space detected");
           undoRedoProvider.addUndo();
+          undoRedoProvider.setCurrentTyped = value;
+          undoRedoProvider.setContainSpace = true;
+        } else {
+          undoRedoProvider.setContainSpace = true;
           undoRedoProvider.setCurrentTyped = value;
         }
       } else {
-        // else set current typed value to current text typed by user
-        // without adding text typed by user into "Undo queue"
+        undoRedoProvider.setContainSpace = false;
         undoRedoProvider.setCurrentTyped = value;
       }
     } else {
