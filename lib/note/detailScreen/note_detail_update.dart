@@ -8,6 +8,7 @@ import 'package:deep_paper/note/widgets/deep_toast.dart';
 import 'package:deep_paper/utility/deep_keep_alive.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
@@ -89,57 +90,40 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
         bottomAppBarColor: Theme.of(context).bottomAppBarColor,
         scaffoldBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
-      child: WillPopScope(
-        onWillPop: () async {
-          NoteCreation.update(
-              context: context,
-              note: widget.note,
-              detail: detailProvider.getDetail,
-              isDeleted: _isDeleted);
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.dark.copyWith(
+          systemNavigationBarColor: Theme.of(context).bottomAppBarColor,
+        ),
+        child: WillPopScope(
+          onWillPop: () async {
+            NoteCreation.update(
+                context: context,
+                note: widget.note,
+                detail: detailProvider.getDetail,
+                isDeleted: _isDeleted);
 
-          return true;
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.white70,
+            return true;
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white70,
+                ),
+                onPressed: () {
+                  Navigator.of(context).maybePop();
+                },
               ),
-              onPressed: () {
-                Navigator.of(context).maybePop();
-              },
+              elevation: 0.0,
+              centerTitle: true,
             ),
-            elevation: 0.0,
-            centerTitle: true,
-          ),
-          bottomNavigationBar: BottomMenu(
-            date: _date,
-            newNote: false,
-            detailController: _detailController,
-            onDelete: () {
-              _isDeleted = true;
-
-              NoteCreation.update(
-                  context: context,
-                  note: widget.note,
-                  detail: detailProvider.getDetail,
-                  isDeleted: _isDeleted);
-
-              Navigator.of(context).popUntil(ModalRoute.withName("/"));
-
-              DeepToast.showToast(description: "Note moved to Trash Bin");
-            },
-            onCopy: () {
-              if (detailProvider.getDetail.isNullEmptyOrWhitespace) {
-                Navigator.of(context).pop();
-                DeepToast.showToast(description: "Cannot copy empty note");
-              } else {
-                NoteCreation.create(
-                    context: context,
-                    detail: detailProvider.getDetail,
-                    folderID: widget.note.folderID,
-                    folderName: widget.note.folderName);
+            bottomNavigationBar: BottomMenu(
+              date: _date,
+              newNote: false,
+              detailController: _detailController,
+              onDelete: () {
+                _isDeleted = true;
 
                 NoteCreation.update(
                     context: context,
@@ -149,20 +133,42 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
 
                 Navigator.of(context).popUntil(ModalRoute.withName("/"));
 
-                DeepToast.showToast(description: "Note copied successfully");
-              }
-            },
-          ),
-          body: ListView(
-            physics: ClampingScrollPhysics(),
-            children: <Widget>[
-              DeepKeepAlive(
-                child: Padding(
-                  padding: EdgeInsetsResponsive.fromLTRB(18, 24, 16, 16),
-                  child: _detailField(widget.note),
+                DeepToast.showToast(description: "Note moved to Trash Bin");
+              },
+              onCopy: () {
+                if (detailProvider.getDetail.isNullEmptyOrWhitespace) {
+                  Navigator.of(context).pop();
+                  DeepToast.showToast(description: "Cannot copy empty note");
+                } else {
+                  NoteCreation.create(
+                      context: context,
+                      detail: detailProvider.getDetail,
+                      folderID: widget.note.folderID,
+                      folderName: widget.note.folderName);
+
+                  NoteCreation.update(
+                      context: context,
+                      note: widget.note,
+                      detail: detailProvider.getDetail,
+                      isDeleted: _isDeleted);
+
+                  Navigator.of(context).popUntil(ModalRoute.withName("/"));
+
+                  DeepToast.showToast(description: "Note copied successfully");
+                }
+              },
+            ),
+            body: ListView(
+              physics: ClampingScrollPhysics(),
+              children: <Widget>[
+                DeepKeepAlive(
+                  child: Padding(
+                    padding: EdgeInsetsResponsive.fromLTRB(18, 24, 16, 16),
+                    child: _detailField(widget.note),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

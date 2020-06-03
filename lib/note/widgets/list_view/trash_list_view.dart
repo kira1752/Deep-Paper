@@ -22,22 +22,28 @@ class TrashListView extends StatelessWidget {
               ? const SizedBox()
               : data.isEmpty
                   ? EmptyTrashIllustration()
-                  : ListView.builder(
-                      physics: const ClampingScrollPhysics(),
-                      itemCount: data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return DeepKeepAlive(
-                          child: NoteCard(
-                            key: ValueKey<int>(index),
-                            index: index,
-                            note: data[index],
-                            ontap: () {
-                              BottomModal.openRestoreDialog(
-                                  context: context, data: data[index]);
-                            },
-                          ),
-                        );
-                      }),
+                  : CustomScrollView(
+                      physics: BouncingScrollPhysics(),
+                      slivers: <Widget>[
+                        SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            return DeepKeepAlive(
+                              child: NoteCard(
+                                key: ValueKey<int>(index),
+                                index: index,
+                                note: data[index],
+                                ontap: () {
+                                  BottomModal.openRestoreDialog(
+                                      context: context, data: data[index]);
+                                },
+                              ),
+                            );
+                          },
+                          childCount: data.length,
+                        ))
+                      ],
+                    ),
         );
       }),
     );

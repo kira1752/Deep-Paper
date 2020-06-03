@@ -25,23 +25,29 @@ class FolderListView extends StatelessWidget {
               ? const SizedBox()
               : data.isEmpty
                   ? EmptyNoteIllustration()
-                  : ListView.builder(
-                      physics: const ClampingScrollPhysics(),
-                      itemCount: data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return DeepKeepAlive(
-                          child: NoteCard(
-                            key: ValueKey<int>(index),
-                            index: index,
-                            note: data[index],
-                            ontap: () {
-                              Navigator.of(context).pushNamed(
-                                  "/NoteDetailUpdate",
-                                  arguments: data[index]);
-                            },
-                          ),
-                        );
-                      }),
+                  : CustomScrollView(
+                      physics: BouncingScrollPhysics(),
+                      slivers: <Widget>[
+                        SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            return DeepKeepAlive(
+                              child: NoteCard(
+                                key: ValueKey<int>(index),
+                                index: index,
+                                note: data[index],
+                                ontap: () {
+                                  Navigator.of(context).pushNamed(
+                                      "/NoteDetailUpdate",
+                                      arguments: data[index]);
+                                },
+                              ),
+                            );
+                          },
+                          childCount: data.length,
+                        ))
+                      ],
+                    ),
         );
       }),
     );

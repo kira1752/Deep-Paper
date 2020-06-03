@@ -7,6 +7,7 @@ class SizeHelper {
   static double _title = 22.sp;
   static double _description = 18.sp;
   static double _drawerMenuText = 17.sp;
+  static double _searchText = 17.sp;
   static double _modalDesciption = 17.sp;
   static double _modalTextField = 17.sp;
   static double _toastText = 17.sp;
@@ -31,6 +32,7 @@ class SizeHelper {
   static double get getButton => _button;
   static double get getAddButton => _addButton;
   static double get getFolder => _folder;
+  static double get getSearchText => _searchText;
 
   static double setTextSize({@required double size}) => size.sp;
   static double setIconSize({@required double size}) => size.sp;

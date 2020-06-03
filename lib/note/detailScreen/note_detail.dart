@@ -69,45 +69,50 @@ class _NoteDetailState extends State<NoteDetail> {
         bottomAppBarColor: Theme.of(context).bottomAppBarColor,
         scaffoldBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
-      child: WillPopScope(
-        onWillPop: () async {
-          NoteCreation.create(
-              context: context,
-              detail: detailProvider.getDetail,
-              folderID: folder.isNotNull ? folder.id : 0,
-              folderName: folder.isNotNull ? folder.name : "Main folder");
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.dark.copyWith(
+          systemNavigationBarColor: Theme.of(context).bottomAppBarColor,
+        ),
+        child: WillPopScope(
+          onWillPop: () async {
+            NoteCreation.create(
+                context: context,
+                detail: detailProvider.getDetail,
+                folderID: folder.isNotNull ? folder.id : 0,
+                folderName: folder.isNotNull ? folder.name : "Main folder");
 
-          return true;
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.white70,
-              ),
-              onPressed: () {
-                Navigator.of(context).maybePop();
-              },
-            ),
-            elevation: 0.0,
-            centerTitle: true,
-          ),
-          bottomNavigationBar: BottomMenu(
-            date: _date,
-            newNote: true,
-            detailController: _detailController,
-          ),
-          body: ListView(
-            physics: ClampingScrollPhysics(),
-            children: <Widget>[
-              DeepKeepAlive(
-                child: Padding(
-                  padding: EdgeInsetsResponsive.fromLTRB(18, 24, 16, 16),
-                  child: _detailField(),
+            return true;
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white70,
                 ),
+                onPressed: () {
+                  Navigator.of(context).maybePop();
+                },
               ),
-            ],
+              elevation: 0.0,
+              centerTitle: true,
+            ),
+            bottomNavigationBar: BottomMenu(
+              date: _date,
+              newNote: true,
+              detailController: _detailController,
+            ),
+            body: ListView(
+              physics: ClampingScrollPhysics(),
+              children: <Widget>[
+                DeepKeepAlive(
+                  child: Padding(
+                    padding: EdgeInsetsResponsive.fromLTRB(18, 24, 16, 16),
+                    child: _detailField(),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
