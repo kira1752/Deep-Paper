@@ -10,7 +10,6 @@ import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_widgets/responsive_widgets.dart';
 
 class NormalSelectionAppBar extends StatelessWidget {
   @override
@@ -19,7 +18,10 @@ class NormalSelectionAppBar extends StatelessWidget {
       elevation: 0.0,
       centerTitle: true,
       leading: IconButton(
-          icon: Icon(Icons.close),
+          icon: Icon(
+            Icons.close,
+            color: Colors.white70,
+          ),
           onPressed: () {
             Provider.of<DeepBottomProvider>(context, listen: false)
                 .setSelection = false;
@@ -32,7 +34,10 @@ class NormalSelectionAppBar extends StatelessWidget {
       actions: <Widget>[
         PopupMenuButton(
             tooltip: "Open Selection Menu",
-            padding: EdgeInsetsResponsive.all(18),
+            icon: Icon(
+              Icons.more_vert,
+              color: Colors.white70,
+            ),
             onSelected: (choice) {
               _onNormalSelected(context: context, choice: choice);
             },
