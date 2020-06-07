@@ -16,6 +16,8 @@ class NormalSelectionAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      elevation: 0.0,
+      centerTitle: true,
       leading: IconButton(
           icon: Icon(Icons.close),
           onPressed: () {
@@ -71,8 +73,6 @@ class NormalSelectionAppBar extends StatelessWidget {
                       )),
                 ]),
       ],
-      elevation: 0.0,
-      centerTitle: true,
       title: Selector<SelectionProvider, int>(
         builder: (context, count, child) {
           return Text('$count selected',

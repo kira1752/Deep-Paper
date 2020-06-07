@@ -12,7 +12,7 @@
 ///       - asset: fonts/MyIcon.ttf
 ///
 /// 
-/// * Font Awesome, Copyright (C) 2016 by Dave Gandy
+/// * Font Awesome 4, Copyright (C) 2016 by Dave Gandy
 ///         Author:    Dave Gandy
 ///         License:   SIL ()
 ///         Homepage:  http://fortawesome.github.com/Font-Awesome/
@@ -36,7 +36,6 @@ class MyIcon {
   static const IconData edit_outline = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData trash_empty = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData plus = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData search = IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData library_books_outline = IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData photo_outline = IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData camera_alt_outline = IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);

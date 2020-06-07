@@ -12,13 +12,21 @@ class DefaultAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      elevation: 0.0,
+      centerTitle: true,
       actions: <Widget>[
         SearchNoteButton(),
         FolderMenu(),
         TrashMenu(),
       ],
-      elevation: 0.0,
-      centerTitle: true,
+      leading: IconButton(
+          icon: Icon(
+            Icons.menu,
+            color: Colors.white70,
+          ),
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          }),
       title: Selector<NoteDrawerProvider, String>(
         selector: (context, noteDrawerProvider) =>
             noteDrawerProvider.getTitleFragment,

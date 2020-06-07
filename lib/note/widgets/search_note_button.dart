@@ -1,4 +1,3 @@
-import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/note/provider/note_drawer_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,10 +11,11 @@ class SearchNoteButton extends StatelessWidget {
           return Visibility(
             visible: showSearch,
             child: IconButton(
+              padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 18.0, right: 8.0),
               tooltip: "Search button",
                 icon: Icon(
-                  MyIcon.search,
-                  color: Colors.white.withOpacity(0.87),
+                  Icons.search,
+                  color: Colors.white70,
                 ),
                 onPressed: () {}),
           );

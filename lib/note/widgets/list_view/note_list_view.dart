@@ -21,29 +21,23 @@ class NoteListView extends StatelessWidget {
               ? const SizedBox()
               : data.isEmpty
                   ? EmptyNoteIllustration()
-                  : CustomScrollView(
+                  : ListView.builder(
                       physics: ScrollPhysics(),
-                      slivers: <Widget>[
-                        SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            return DeepKeepAlive(
-                              child: NoteCard(
-                                key: ValueKey<int>(index),
-                                index: index,
-                                note: data[index],
-                                ontap: () {
-                                  Navigator.of(context).pushNamed(
-                                      "/NoteDetailUpdate",
-                                      arguments: data[index]);
-                                },
-                              ),
-                            );
-                          },
-                          childCount: data.length,
-                        ))
-                      ],
-                    ),
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        return DeepKeepAlive(
+                          child: NoteCard(
+                            key: ValueKey<int>(index),
+                            index: index,
+                            note: data[index],
+                            ontap: () {
+                              Navigator.of(context).pushNamed(
+                                  "/NoteDetailUpdate",
+                                  arguments: data[index]);
+                            },
+                          ),
+                        );
+                      }),
         );
       }),
     );

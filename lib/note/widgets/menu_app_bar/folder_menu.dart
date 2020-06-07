@@ -4,7 +4,6 @@ import 'package:deep_paper/note/widgets/bottom_modal.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_widgets/responsive_widgets.dart';
 
 class FolderMenu extends StatelessWidget {
   @override
@@ -16,11 +15,14 @@ class FolderMenu extends StatelessWidget {
         return Visibility(
           visible: showMenu,
           child: PopupMenuButton(
+              tooltip: "Open Folder Menu",
+              icon: Icon(
+                Icons.more_vert,
+                color: Colors.white70,
+              ),
               onSelected: (choice) {
                 _onFolderMenuSelected(context: context, choice: choice);
               },
-              tooltip: "Open Folder Menu",
-              padding: EdgeInsetsResponsive.all(18.0),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0)),
               itemBuilder: (context) => [

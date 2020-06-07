@@ -23,6 +23,10 @@ class TrashMenu extends StatelessWidget {
             visible: showMenu,
             child: PopupMenuButton(
                 tooltip: "Open Trash Bin menu",
+                icon: Icon(
+                  Icons.more_vert,
+                  color: Colors.white70,
+                ),
                 onSelected: (choice) {
                   if (choice == 0) TrashManagement.empty(context: context);
 
