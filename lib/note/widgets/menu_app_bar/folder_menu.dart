@@ -35,7 +35,9 @@ class FolderMenu extends StatelessWidget {
                           ),
                           title: Text(
                             "Rename Folder",
-                            style: TextStyle(fontSize: SizeHelper.getBodyText1),
+                            style: TextStyle(
+                                fontSize: SizeHelper.getBodyText1,
+                                color: Colors.white.withOpacity(0.87)),
                           ),
                         )),
                     PopupMenuItem(
@@ -45,7 +47,9 @@ class FolderMenu extends StatelessWidget {
                               color: Colors.white.withOpacity(0.60)),
                           title: Text(
                             "Delete Folder",
-                            style: TextStyle(fontSize: SizeHelper.getBodyText1),
+                            style: TextStyle(
+                                fontSize: SizeHelper.getBodyText1,
+                                color: Colors.white.withOpacity(0.87)),
                           ),
                         )),
                   ]),

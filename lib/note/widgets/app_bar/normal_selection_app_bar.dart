@@ -51,7 +51,9 @@ class NormalSelectionAppBar extends StatelessWidget {
                             color: Colors.white.withOpacity(0.60)),
                         title: Text(
                           "Delete",
-                          style: TextStyle(fontSize: SizeHelper.getBodyText1),
+                          style: TextStyle(
+                              fontSize: SizeHelper.getBodyText1,
+                              color: Colors.white.withOpacity(0.87)),
                         ),
                       )),
                   PopupMenuItem(
@@ -63,7 +65,9 @@ class NormalSelectionAppBar extends StatelessWidget {
                         ),
                         title: Text(
                           "Move to",
-                          style: TextStyle(fontSize: SizeHelper.getBodyText1),
+                          style: TextStyle(
+                              fontSize: SizeHelper.getBodyText1,
+                              color: Colors.white.withOpacity(0.87)),
                         ),
                       )),
                   PopupMenuItem(
@@ -73,7 +77,9 @@ class NormalSelectionAppBar extends StatelessWidget {
                             color: Colors.white.withOpacity(0.60)),
                         title: Text(
                           "Make a copy",
-                          style: TextStyle(fontSize: SizeHelper.getBodyText1),
+                          style: TextStyle(
+                              fontSize: SizeHelper.getBodyText1,
+                              color: Colors.white.withOpacity(0.87)),
                         ),
                       )),
                 ]),

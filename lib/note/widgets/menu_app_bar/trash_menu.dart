@@ -47,7 +47,9 @@ class TrashMenu extends StatelessWidget {
                           ),
                           title: Text(
                             "Empty Trash Bin",
-                            style: TextStyle(fontSize: SizeHelper.getBodyText1),
+                            style: TextStyle(
+                                fontSize: SizeHelper.getBodyText1,
+                                color: Colors.white.withOpacity(0.87)),
                           ),
                         ))
                   ];

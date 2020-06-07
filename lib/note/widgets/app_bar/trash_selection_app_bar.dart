@@ -48,7 +48,9 @@ class TrashSelectionAppBar extends StatelessWidget {
                             color: Colors.white.withOpacity(0.60)),
                         title: Text(
                           "Restore",
-                          style: TextStyle(fontSize: SizeHelper.getBodyText1),
+                          style: TextStyle(
+                              fontSize: SizeHelper.getBodyText1,
+                              color: Colors.white.withOpacity(0.87)),
                         ),
                       )),
                   PopupMenuItem(
@@ -60,7 +62,9 @@ class TrashSelectionAppBar extends StatelessWidget {
                         ),
                         title: Text(
                           "Delete forever",
-                          style: TextStyle(fontSize: SizeHelper.getBodyText1),
+                          style: TextStyle(
+                              fontSize: SizeHelper.getBodyText1,
+                              color: Colors.white.withOpacity(0.87)),
                         ),
                       ))
                 ]),
