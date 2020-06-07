@@ -36,73 +36,82 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
         selector: (context, provider) =>
             provider.getSelected.containsKey(widget.index),
         builder: (context, selected, child) {
-          return Padding(
-            padding: EdgeInsetsResponsive.only(
-                left: 16, right: 16, bottom: 12, top: 12),
-            child: Material(
-              color: Theme.of(context).cardColor,
-              shape: RoundedRectangleBorder(
+          return Hero(
+            tag: "${widget.note.id}",
+            child: Padding(
+              padding: EdgeInsetsResponsive.only(
+                  left: 16, right: 16, bottom: 12, top: 12),
+              child: Material(
+                color: Theme.of(context).cardColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    side: selectionProvider.getSelection && selected
+                        ? BorderSide(
+                            color: Theme.of(context).accentColor, width: 2.0)
+                        : BorderSide.none),
+                child: InkWell(
                   borderRadius: BorderRadius.circular(12.0),
-                  side: selectionProvider.getSelection && selected
-                      ? BorderSide(
-                          color: Theme.of(context).accentColor, width: 2.0)
-                      : BorderSide.none),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(12.0),
-                onTap: () {
-                  if (!selected && selectionProvider.getSelection) {
-                    selectionProvider.setSelected(
-                        key: widget.index, note: widget.note);
-                  } else if (selected && selectionProvider.getSelection) {
-                    selectionProvider.remove(key: widget.index);
+                  onTap: () {
+                    if (!selected && selectionProvider.getSelection) {
+                      selectionProvider.setSelected(
+                          key: widget.index, note: widget.note);
+                    } else if (selected && selectionProvider.getSelection) {
+                      selectionProvider.remove(key: widget.index);
 
-                    if (selectionProvider.getSelected.length == 0) {
+                      if (selectionProvider.getSelected.length == 0) {
+                        Provider.of<DeepBottomProvider>(context, listen: false)
+                            .setSelection = false;
+                        selectionProvider.setSelection = false;
+                      }
+                    } else
+                      widget.ontap();
+                  },
+                  onLongPress: () {
+                    if (!selectionProvider.getSelection) {
+                      selectionProvider.setSelected(
+                          key: widget.index, note: widget.note);
+
                       Provider.of<DeepBottomProvider>(context, listen: false)
-                          .setSelection = false;
-                      selectionProvider.setSelection = false;
+                          .setSelection = true;
+
+                      selectionProvider.setSelection = true;
+                    } else if (!selected && selectionProvider.getSelection) {
+                      selectionProvider.setSelected(
+                          key: widget.index, note: widget.note);
+                    } else if (selected && selectionProvider.getSelection) {
+                      selectionProvider.remove(key: widget.index);
+
+                      if (selectionProvider.getSelected.length == 0) {
+                        Provider.of<DeepBottomProvider>(context, listen: false)
+                            .setSelection = false;
+                        selectionProvider.setSelection = false;
+                      }
                     }
-                  } else
-                    widget.ontap();
-                },
-                onLongPress: () {
-                  if (!selectionProvider.getSelection) {
-                    selectionProvider.setSelected(
-                        key: widget.index, note: widget.note);
-
-                    Provider.of<DeepBottomProvider>(context, listen: false)
-                        .setSelection = true;
-
-                    selectionProvider.setSelection = true;
-                  } else if (!selected && selectionProvider.getSelection) {
-                    selectionProvider.setSelected(
-                        key: widget.index, note: widget.note);
-                  } else if (selected && selectionProvider.getSelection) {
-                    selectionProvider.remove(key: widget.index);
-
-                    if (selectionProvider.getSelected.length == 0) {
-                      Provider.of<DeepBottomProvider>(context, listen: false)
-                          .setSelection = false;
-                      selectionProvider.setSelection = false;
-                    }
-                  }
-                },
-                child: Padding(
-                  padding: EdgeInsetsResponsive.all(20),
-                  child: ListBody(children: <Widget>[
-                    Text(
-                      "${widget.note.detail}",
-                      textDirection: widget.note.detailDirection,
-                      style: Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: Colors.white70,
-                          fontSize: SizeHelper.getDescription),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Padding(
-                        padding: EdgeInsetsResponsive.only(top: 24.0),
-                        child: _labelDateAndIcons(
-                            context: context, note: widget.note)),
-                  ]),
+                  },
+                  child: Padding(
+                    padding: EdgeInsetsResponsive.all(20),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        textDirection: widget.note.detailDirection,
+                        children: <Widget>[
+                          Text(
+                            "${widget.note.detail}",
+                            textDirection: widget.note.detailDirection,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                                    color: Colors.white70,
+                                    fontSize: SizeHelper.getDescription),
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Padding(
+                              padding: EdgeInsetsResponsive.only(top: 24.0),
+                              child: _labelDateAndIcons(
+                                  context: context, note: widget.note)),
+                        ]),
+                  ),
                 ),
               ),
             ),

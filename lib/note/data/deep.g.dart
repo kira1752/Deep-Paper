@@ -99,36 +99,6 @@ class Note extends DataClass implements Insertable<Note> {
     return map;
   }
 
-  NotesCompanion toCompanion(bool nullToAbsent) {
-    return NotesCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      folderID: folderID == null && nullToAbsent
-          ? const Value.absent()
-          : Value(folderID),
-      folderName: folderName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(folderName),
-      folderNameDirection: folderNameDirection == null && nullToAbsent
-          ? const Value.absent()
-          : Value(folderNameDirection),
-      detail:
-          detail == null && nullToAbsent ? const Value.absent() : Value(detail),
-      detailDirection: detailDirection == null && nullToAbsent
-          ? const Value.absent()
-          : Value(detailDirection),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
-      containAudio: containAudio == null && nullToAbsent
-          ? const Value.absent()
-          : Value(containAudio),
-      containImage: containImage == null && nullToAbsent
-          ? const Value.absent()
-          : Value(containImage),
-      date: date == null && nullToAbsent ? const Value.absent() : Value(date),
-    );
-  }
-
   factory Note.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -376,7 +346,6 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   final GeneratedDatabase _db;
   final String _alias;
   $NotesTable(this._db, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedIntColumn _id;
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
@@ -385,7 +354,6 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
         hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
-  final VerificationMeta _folderIDMeta = const VerificationMeta('folderID');
   GeneratedIntColumn _folderID;
   @override
   GeneratedIntColumn get folderID => _folderID ??= _constructFolderID();
@@ -394,7 +362,6 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
         defaultValue: Constant(0));
   }
 
-  final VerificationMeta _folderNameMeta = const VerificationMeta('folderName');
   GeneratedTextColumn _folderName;
   @override
   GeneratedTextColumn get folderName => _folderName ??= _constructFolderName();
@@ -406,8 +373,6 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     );
   }
 
-  final VerificationMeta _folderNameDirectionMeta =
-      const VerificationMeta('folderNameDirection');
   GeneratedTextColumn _folderNameDirection;
   @override
   GeneratedTextColumn get folderNameDirection =>
@@ -420,7 +385,6 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     );
   }
 
-  final VerificationMeta _detailMeta = const VerificationMeta('detail');
   GeneratedTextColumn _detail;
   @override
   GeneratedTextColumn get detail => _detail ??= _constructDetail();
@@ -432,8 +396,6 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     );
   }
 
-  final VerificationMeta _detailDirectionMeta =
-      const VerificationMeta('detailDirection');
   GeneratedTextColumn _detailDirection;
   @override
   GeneratedTextColumn get detailDirection =>
@@ -446,7 +408,6 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
     );
   }
 
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
   GeneratedBoolColumn _isDeleted;
   @override
   GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
@@ -455,8 +416,6 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
         defaultValue: Constant(false));
   }
 
-  final VerificationMeta _containAudioMeta =
-      const VerificationMeta('containAudio');
   GeneratedBoolColumn _containAudio;
   @override
   GeneratedBoolColumn get containAudio =>
@@ -466,8 +425,6 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
         defaultValue: Constant(false));
   }
 
-  final VerificationMeta _containImageMeta =
-      const VerificationMeta('containImage');
   GeneratedBoolColumn _containImage;
   @override
   GeneratedBoolColumn get containImage =>
@@ -477,7 +434,6 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
         defaultValue: Constant(false));
   }
 
-  final VerificationMeta _dateMeta = const VerificationMeta('date');
   GeneratedDateTimeColumn _date;
   @override
   GeneratedDateTimeColumn get date => _date ??= _constructDate();
@@ -508,60 +464,6 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   String get $tableName => _alias ?? 'notes';
   @override
   final String actualTableName = 'notes';
-  @override
-  VerificationContext validateIntegrity(Insertable<Note> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
-    }
-    if (data.containsKey('folder_i_d')) {
-      context.handle(_folderIDMeta,
-          folderID.isAcceptableOrUnknown(data['folder_i_d'], _folderIDMeta));
-    }
-    if (data.containsKey('folder_name')) {
-      context.handle(
-          _folderNameMeta,
-          folderName.isAcceptableOrUnknown(
-              data['folder_name'], _folderNameMeta));
-    } else if (isInserting) {
-      context.missing(_folderNameMeta);
-    }
-    context.handle(
-        _folderNameDirectionMeta, const VerificationResult.success());
-    if (data.containsKey('detail')) {
-      context.handle(_detailMeta,
-          detail.isAcceptableOrUnknown(data['detail'], _detailMeta));
-    } else if (isInserting) {
-      context.missing(_detailMeta);
-    }
-    context.handle(_detailDirectionMeta, const VerificationResult.success());
-    if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
-    }
-    if (data.containsKey('contain_audio')) {
-      context.handle(
-          _containAudioMeta,
-          containAudio.isAcceptableOrUnknown(
-              data['contain_audio'], _containAudioMeta));
-    }
-    if (data.containsKey('contain_image')) {
-      context.handle(
-          _containImageMeta,
-          containImage.isAcceptableOrUnknown(
-              data['contain_image'], _containImageMeta));
-    }
-    if (data.containsKey('date')) {
-      context.handle(
-          _dateMeta, date.isAcceptableOrUnknown(data['date'], _dateMeta));
-    } else if (isInserting) {
-      context.missing(_dateMeta);
-    }
-    return context;
-  }
-
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
@@ -615,16 +517,6 @@ class FolderNoteData extends DataClass implements Insertable<FolderNoteData> {
           Variable<String>(converter.mapToSql(nameDirection));
     }
     return map;
-  }
-
-  FolderNoteCompanion toCompanion(bool nullToAbsent) {
-    return FolderNoteCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
-      nameDirection: nameDirection == null && nullToAbsent
-          ? const Value.absent()
-          : Value(nameDirection),
-    );
   }
 
   factory FolderNoteData.fromJson(Map<String, dynamic> json,
@@ -733,7 +625,6 @@ class $FolderNoteTable extends FolderNote
   final GeneratedDatabase _db;
   final String _alias;
   $FolderNoteTable(this._db, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedIntColumn _id;
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
@@ -742,7 +633,6 @@ class $FolderNoteTable extends FolderNote
         hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
   GeneratedTextColumn _name;
   @override
   GeneratedTextColumn get name => _name ??= _constructName();
@@ -754,8 +644,6 @@ class $FolderNoteTable extends FolderNote
     );
   }
 
-  final VerificationMeta _nameDirectionMeta =
-      const VerificationMeta('nameDirection');
   GeneratedTextColumn _nameDirection;
   @override
   GeneratedTextColumn get nameDirection =>
@@ -776,24 +664,6 @@ class $FolderNoteTable extends FolderNote
   String get $tableName => _alias ?? 'folder_note';
   @override
   final String actualTableName = 'folder_note';
-  @override
-  VerificationContext validateIntegrity(Insertable<FolderNoteData> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    context.handle(_nameDirectionMeta, const VerificationResult.success());
-    return context;
-  }
-
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
@@ -843,15 +713,6 @@ class AudioNoteData extends DataClass implements Insertable<AudioNoteData> {
       map['name'] = Variable<String>(name);
     }
     return map;
-  }
-
-  AudioNoteCompanion toCompanion(bool nullToAbsent) {
-    return AudioNoteCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      noteID:
-          noteID == null && nullToAbsent ? const Value.absent() : Value(noteID),
-      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
-    );
   }
 
   factory AudioNoteData.fromJson(Map<String, dynamic> json,
@@ -957,7 +818,6 @@ class $AudioNoteTable extends AudioNote
   final GeneratedDatabase _db;
   final String _alias;
   $AudioNoteTable(this._db, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedIntColumn _id;
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
@@ -966,7 +826,6 @@ class $AudioNoteTable extends AudioNote
         hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
-  final VerificationMeta _noteIDMeta = const VerificationMeta('noteID');
   GeneratedIntColumn _noteID;
   @override
   GeneratedIntColumn get noteID => _noteID ??= _constructNoteID();
@@ -978,7 +837,6 @@ class $AudioNoteTable extends AudioNote
     );
   }
 
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
   GeneratedTextColumn _name;
   @override
   GeneratedTextColumn get name => _name ??= _constructName();
@@ -998,29 +856,6 @@ class $AudioNoteTable extends AudioNote
   String get $tableName => _alias ?? 'audio_note';
   @override
   final String actualTableName = 'audio_note';
-  @override
-  VerificationContext validateIntegrity(Insertable<AudioNoteData> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
-    }
-    if (data.containsKey('note_i_d')) {
-      context.handle(_noteIDMeta,
-          noteID.isAcceptableOrUnknown(data['note_i_d'], _noteIDMeta));
-    } else if (isInserting) {
-      context.missing(_noteIDMeta);
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    return context;
-  }
-
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
@@ -1067,15 +902,6 @@ class ImageNoteData extends DataClass implements Insertable<ImageNoteData> {
       map['name'] = Variable<String>(name);
     }
     return map;
-  }
-
-  ImageNoteCompanion toCompanion(bool nullToAbsent) {
-    return ImageNoteCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      noteID:
-          noteID == null && nullToAbsent ? const Value.absent() : Value(noteID),
-      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
-    );
   }
 
   factory ImageNoteData.fromJson(Map<String, dynamic> json,
@@ -1181,7 +1007,6 @@ class $ImageNoteTable extends ImageNote
   final GeneratedDatabase _db;
   final String _alias;
   $ImageNoteTable(this._db, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedIntColumn _id;
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
@@ -1190,7 +1015,6 @@ class $ImageNoteTable extends ImageNote
         hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
-  final VerificationMeta _noteIDMeta = const VerificationMeta('noteID');
   GeneratedIntColumn _noteID;
   @override
   GeneratedIntColumn get noteID => _noteID ??= _constructNoteID();
@@ -1202,7 +1026,6 @@ class $ImageNoteTable extends ImageNote
     );
   }
 
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
   GeneratedTextColumn _name;
   @override
   GeneratedTextColumn get name => _name ??= _constructName();
@@ -1222,29 +1045,6 @@ class $ImageNoteTable extends ImageNote
   String get $tableName => _alias ?? 'image_note';
   @override
   final String actualTableName = 'image_note';
-  @override
-  VerificationContext validateIntegrity(Insertable<ImageNoteData> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
-    }
-    if (data.containsKey('note_i_d')) {
-      context.handle(_noteIDMeta,
-          noteID.isAcceptableOrUnknown(data['note_i_d'], _noteIDMeta));
-    } else if (isInserting) {
-      context.missing(_noteIDMeta);
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    return context;
-  }
-
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override

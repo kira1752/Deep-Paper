@@ -22,7 +22,7 @@ class NoteListView extends StatelessWidget {
               : data.isEmpty
                   ? EmptyNoteIllustration()
                   : CustomScrollView(
-                      physics: BouncingScrollPhysics(),
+                      physics: ScrollPhysics(),
                       slivers: <Widget>[
                         SliverList(
                             delegate: SliverChildBuilderDelegate(

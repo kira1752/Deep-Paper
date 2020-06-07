@@ -48,12 +48,21 @@ class NoteCreation {
       {@required BuildContext context,
       @required Note note,
       @required String detail,
-      @required bool isDeleted}) {
+      @required bool isDeleted,
+      @required bool isCopy}) {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
     final detailDirection = Bidi.detectRtlDirectionality(detail)
         ? TextDirection.rtl
         : TextDirection.ltr;
+
+    if (isCopy) {
+      create(
+          context: context,
+          detail: detail,
+          folderID: note.folderID,
+          folderName: note.folderName);
+    }
 
     if (note.detail != detail && note.isDeleted != isDeleted) {
       if (!detail.isNullEmptyOrWhitespace) {

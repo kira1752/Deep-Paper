@@ -8,7 +8,6 @@ import 'package:deep_paper/note/widgets/deep_toast.dart';
 import 'package:deep_paper/utility/deep_keep_alive.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
@@ -26,22 +25,24 @@ class NoteDetailUpdate extends StatefulWidget {
 
 class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
   bool _isDeleted;
+  bool _isCopy;
   String _date;
   TextEditingController _detailController;
   FocusNode _detailFocus;
+  Note _note;
+  NoteDetailProvider _detailProvider;
+  UndoRedoProvider _undoRedoProvider;
 
   @override
   void initState() {
     super.initState();
-    final detailProvider =
-        Provider.of<NoteDetailProvider>(context, listen: false);
 
-    final undoRedoProvider =
-        Provider.of<UndoRedoProvider>(context, listen: false);
+    _detailProvider = NoteDetailProvider(widget.note.detail);
+    _undoRedoProvider = UndoRedoProvider(widget.note.detail);
 
-    detailProvider.setDetail = widget.note.detail ?? "";
-    undoRedoProvider.setInitialDetail = widget.note.detail ?? "";
     _isDeleted = widget.note.isDeleted;
+    _note = widget.note;
+    _isCopy = false;
     _detailController = TextEditingController(text: widget.note.detail);
     _detailFocus = FocusNode();
 
@@ -70,6 +71,8 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
 
   @override
   void dispose() {
+    _detailProvider.dispose();
+    _undoRedoProvider.dispose();
     _detailController.dispose();
     _detailFocus.dispose();
     super.dispose();
@@ -77,105 +80,102 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    final detailProvider =
-        Provider.of<NoteDetailProvider>(context, listen: false);
+    return Hero(
+      tag: "${widget.note.id}",
+      child: ChangeNotifierProvider.value(
+        value: _detailProvider,
+        child: ChangeNotifierProvider.value(
+            value: _undoRedoProvider,
+            builder: (context, widget) {
+              final detailProvider = Provider.of<NoteDetailProvider>(context);
 
-    return Theme(
-      data: Theme.of(context).copyWith(
-        bottomSheetTheme: BottomSheetThemeData(
-          modalBackgroundColor: Color(0xff202020),
-        ),
-        primaryColor: Theme.of(context).primaryColor,
-        backgroundColor: Theme.of(context).backgroundColor,
-        bottomAppBarColor: Theme.of(context).bottomAppBarColor,
-        scaffoldBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      ),
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.dark.copyWith(
-          systemNavigationBarColor: Theme.of(context).bottomAppBarColor,
-        ),
-        child: WillPopScope(
-          onWillPop: () async {
-            NoteCreation.update(
-                context: context,
-                note: widget.note,
-                detail: detailProvider.getDetail,
-                isDeleted: _isDeleted);
-
-            return true;
-          },
-          child: Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Colors.white70,
+              return Theme(
+                data: Theme.of(context).copyWith(
+                  bottomSheetTheme: BottomSheetThemeData(
+                    modalBackgroundColor: Color(0xff202020),
+                  ),
+                  primaryColor: Theme.of(context).primaryColor,
+                  backgroundColor: Theme.of(context).backgroundColor,
+                  bottomAppBarColor: Theme.of(context).bottomAppBarColor,
+                  scaffoldBackgroundColor:
+                      Theme.of(context).scaffoldBackgroundColor,
                 ),
-                onPressed: () {
-                  Navigator.of(context).maybePop();
-                },
-              ),
-              elevation: 0.0,
-              centerTitle: true,
-            ),
-            bottomNavigationBar: BottomMenu(
-              date: _date,
-              newNote: false,
-              detailController: _detailController,
-              onDelete: () {
-                _isDeleted = true;
+                child: WillPopScope(
+                  onWillPop: () async {
+                    NoteCreation.update(
+                        context: context,
+                        note: _note,
+                        detail: detailProvider.getDetail,
+                        isDeleted: _isDeleted,
+                        isCopy: _isCopy);
 
-                NoteCreation.update(
-                    context: context,
-                    note: widget.note,
-                    detail: detailProvider.getDetail,
-                    isDeleted: _isDeleted);
+                    return true;
+                  },
+                  child: Scaffold(
+                    appBar: AppBar(
+                      leading: IconButton(
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white70,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).maybePop();
+                        },
+                      ),
+                      elevation: 0.0,
+                      centerTitle: true,
+                    ),
+                    bottomNavigationBar: BottomMenu(
+                      date: _date,
+                      newNote: false,
+                      detailController: _detailController,
+                      onDelete: () {
+                        _isDeleted = true;
 
-                Navigator.of(context).popUntil(ModalRoute.withName("/"));
+                        Navigator.pop(context);
+                        Navigator.maybePop(context);
 
-                DeepToast.showToast(description: "Note moved to Trash Bin");
-              },
-              onCopy: () {
-                if (detailProvider.getDetail.isNullEmptyOrWhitespace) {
-                  Navigator.of(context).pop();
-                  DeepToast.showToast(description: "Cannot copy empty note");
-                } else {
-                  NoteCreation.create(
-                      context: context,
-                      detail: detailProvider.getDetail,
-                      folderID: widget.note.folderID,
-                      folderName: widget.note.folderName);
+                        DeepToast.showToast(
+                            description: "Note moved to Trash Bin");
+                      },
+                      onCopy: () {
+                        if (detailProvider
+                            .getDetail.isNullEmptyOrWhitespace) {
+                          Navigator.of(context).pop();
+                          DeepToast.showToast(
+                              description: "Cannot copy empty note");
+                        } else {
+                          _isCopy = true;
 
-                  NoteCreation.update(
-                      context: context,
-                      note: widget.note,
-                      detail: detailProvider.getDetail,
-                      isDeleted: _isDeleted);
+                          Navigator.pop(context);
+                          Navigator.maybePop(context);
 
-                  Navigator.of(context).popUntil(ModalRoute.withName("/"));
-
-                  DeepToast.showToast(description: "Note copied successfully");
-                }
-              },
-            ),
-            body: ListView(
-              physics: ClampingScrollPhysics(),
-              children: <Widget>[
-                DeepKeepAlive(
-                  child: Padding(
-                    padding: EdgeInsetsResponsive.fromLTRB(18, 24, 16, 16),
-                    child: _detailField(widget.note),
+                          DeepToast.showToast(
+                              description: "Note copied successfully");
+                        }
+                      },
+                    ),
+                    body: ListView(
+                      physics: ClampingScrollPhysics(),
+                      children: <Widget>[
+                        DeepKeepAlive(
+                          child: Padding(
+                            padding:
+                                EdgeInsetsResponsive.fromLTRB(18, 24, 16, 16),
+                            child: _detailField(_note, context),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
+              );
+            }),
       ),
     );
   }
 
-  Widget _detailField(Note data) {
+  Widget _detailField(Note data, BuildContext context) {
     final detailProvider =
         Provider.of<NoteDetailProvider>(context, listen: false);
 

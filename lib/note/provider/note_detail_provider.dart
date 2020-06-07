@@ -7,6 +7,8 @@ class NoteDetailProvider with ChangeNotifier {
   bool _isDetailRTL = false;
   String _detail = "";
 
+  NoteDetailProvider(this._detail);
+
   bool get isTextTyped => _isTextTyped;
   bool get getDetailDirection => _isDetailRTL;
   String get getDetail => _detail;
@@ -14,7 +16,7 @@ class NoteDetailProvider with ChangeNotifier {
   set setDetail(String value) => _detail = value;
 
   set setTextState(bool state) {
-    if(_isTextTyped != state) {
+    if (_isTextTyped != state) {
       _isTextTyped = state;
       notifyListeners();
     }

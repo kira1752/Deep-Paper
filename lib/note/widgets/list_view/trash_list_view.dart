@@ -23,7 +23,7 @@ class TrashListView extends StatelessWidget {
               : data.isEmpty
                   ? EmptyTrashIllustration()
                   : CustomScrollView(
-                      physics: BouncingScrollPhysics(),
+                      physics: ScrollPhysics(),
                       slivers: <Widget>[
                         SliverList(
                             delegate: SliverChildBuilderDelegate(

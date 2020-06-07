@@ -1,8 +1,6 @@
 import 'package:deep_paper/note/data/deep.dart';
 import 'package:deep_paper/note/note_page.dart';
-import 'package:deep_paper/note/provider/note_detail_provider.dart';
-import 'package:deep_paper/note/provider/undo_redo_provider.dart';
-import 'package:deep_paper/transition/slide.dart';
+import 'package:deep_paper/transition/fade.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -70,39 +68,24 @@ class DeepPaperApp extends StatelessWidget {
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case '/':
-              return Slide(
+              return Fade(
                 page: DeepPaper(),
                 settings: settings,
               );
             case '/NoteDetail':
-              return Slide(
-                  page: MultiProvider(providers: [
-                    ChangeNotifierProvider(
-                      create: (context) => UndoRedoProvider(),
-                    ),
-                    ChangeNotifierProvider(
-                      create: (context) => NoteDetailProvider(),
-                    ),
-                  ], child: NoteDetail()),
-                  settings: settings);
+              return MaterialPageRoute(
+                  builder: (context) => NoteDetail(), settings: settings);
               break;
             case '/NoteDetailUpdate':
-              return Slide(
-                page: MultiProvider(providers: [
-                  ChangeNotifierProvider(
-                    create: (context) => UndoRedoProvider(),
-                  ),
-                  ChangeNotifierProvider(
-                    create: (context) => NoteDetailProvider(),
-                  ),
-                ], child: NoteDetailUpdate(settings.arguments)),
-              );
+              return Fade(
+                  page: NoteDetailUpdate(settings.arguments),
+                  settings: settings);
               break;
             case '/NotePage':
-              return Slide(page: NotePage(), settings: settings);
+              return Fade(page: NotePage(), settings: settings);
               break;
             default:
-              return Slide(page: DeepPaper(), settings: settings);
+              return Fade(page: DeepPaper(), settings: settings);
           }
         },
       ),

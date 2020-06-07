@@ -7,7 +7,6 @@ import 'package:deep_paper/note/widgets/bottom_menu.dart';
 import 'package:deep_paper/utility/deep_keep_alive.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
@@ -22,6 +21,8 @@ class NoteDetail extends StatefulWidget {
 class _NoteDetailState extends State<NoteDetail> {
   TextEditingController _detailController;
   FocusNode _detailFocus;
+  NoteDetailProvider _detailProvider;
+  UndoRedoProvider _undoRedoProvider;
 
   final String _date = DateFormat.jm('en_US').format(DateTime.now());
 
@@ -31,11 +32,9 @@ class _NoteDetailState extends State<NoteDetail> {
 
     _detailController = TextEditingController();
     _detailFocus = FocusNode();
+    _detailProvider = NoteDetailProvider("");
 
-    final undoRedoProvider =
-        Provider.of<UndoRedoProvider>(context, listen: false);
-
-    undoRedoProvider.setInitialDetail = "";
+    _undoRedoProvider = UndoRedoProvider("");
 
     KeyboardVisibility.onChange.listen((visible) {
       if (visible == false) {
@@ -48,6 +47,8 @@ class _NoteDetailState extends State<NoteDetail> {
 
   @override
   void dispose() {
+    _detailProvider.dispose();
+    _undoRedoProvider.dispose();
     _detailController.dispose();
     _detailFocus.dispose();
     super.dispose();
@@ -56,70 +57,74 @@ class _NoteDetailState extends State<NoteDetail> {
   @override
   Widget build(BuildContext context) {
     final FolderNoteData folder = ModalRoute.of(context).settings.arguments;
-    final detailProvider =
-        Provider.of<NoteDetailProvider>(context, listen: false);
 
-    return Theme(
-      data: Theme.of(context).copyWith(
-        bottomSheetTheme: BottomSheetThemeData(
-          modalBackgroundColor: Color(0xff202020),
-        ),
-        primaryColor: Theme.of(context).primaryColor,
-        backgroundColor: Theme.of(context).backgroundColor,
-        bottomAppBarColor: Theme.of(context).bottomAppBarColor,
-        scaffoldBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      ),
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.dark.copyWith(
-          systemNavigationBarColor: Theme.of(context).bottomAppBarColor,
-        ),
-        child: WillPopScope(
-          onWillPop: () async {
-            NoteCreation.create(
-                context: context,
-                detail: detailProvider.getDetail,
-                folderID: folder.isNotNull ? folder.id : 0,
-                folderName: folder.isNotNull ? folder.name : "Main folder");
-
-            return true;
-          },
-          child: Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Colors.white70,
+    return ChangeNotifierProvider.value(
+      value: _detailProvider,
+      child: ChangeNotifierProvider.value(
+          value: _undoRedoProvider,
+          builder: (context, widget) {
+            final detailProvider = Provider.of<NoteDetailProvider>(context);
+            return Theme(
+              data: Theme.of(context).copyWith(
+                bottomSheetTheme: BottomSheetThemeData(
+                  modalBackgroundColor: Color(0xff202020),
                 ),
-                onPressed: () {
-                  Navigator.of(context).maybePop();
-                },
+                primaryColor: Theme.of(context).primaryColor,
+                backgroundColor: Theme.of(context).backgroundColor,
+                bottomAppBarColor: Theme.of(context).bottomAppBarColor,
+                scaffoldBackgroundColor:
+                    Theme.of(context).scaffoldBackgroundColor,
               ),
-              elevation: 0.0,
-              centerTitle: true,
-            ),
-            bottomNavigationBar: BottomMenu(
-              date: _date,
-              newNote: true,
-              detailController: _detailController,
-            ),
-            body: ListView(
-              physics: ClampingScrollPhysics(),
-              children: <Widget>[
-                DeepKeepAlive(
-                  child: Padding(
-                    padding: EdgeInsetsResponsive.fromLTRB(18, 24, 16, 16),
-                    child: _detailField(),
+              child: WillPopScope(
+                onWillPop: () async {
+                  NoteCreation.create(
+                      context: context,
+                      detail: detailProvider.getDetail,
+                      folderID: folder.isNotNull ? folder.id : 0,
+                      folderName:
+                          folder.isNotNull ? folder.name : "Main folder");
+
+                  return true;
+                },
+                child: Scaffold(
+                  appBar: AppBar(
+                    leading: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white70,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).maybePop();
+                      },
+                    ),
+                    elevation: 0.0,
+                    centerTitle: true,
+                  ),
+                  bottomNavigationBar: BottomMenu(
+                    date: _date,
+                    newNote: true,
+                    detailController: _detailController,
+                  ),
+                  body: ListView(
+                    physics: ClampingScrollPhysics(),
+                    children: <Widget>[
+                      DeepKeepAlive(
+                        child: Padding(
+                          padding:
+                              EdgeInsetsResponsive.fromLTRB(18, 24, 16, 16),
+                          child: _detailField(context),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
-      ),
+              ),
+            );
+          }),
     );
   }
 
-  Widget _detailField() {
+  Widget _detailField(BuildContext context) {
     final detailProvider =
         Provider.of<NoteDetailProvider>(context, listen: false);
 
