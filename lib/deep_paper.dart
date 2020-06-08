@@ -1,4 +1,7 @@
+import 'package:deep_paper/finance/finance_page.dart';
 import 'package:deep_paper/icons/my_icon.dart';
+import 'package:deep_paper/more/more_page.dart';
+import 'package:deep_paper/note/note_page.dart';
 import 'package:deep_paper/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/note/provider/selection_provider.dart';
 import 'package:deep_paper/plan/plan_page.dart';
@@ -7,9 +10,6 @@ import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_widgets/responsive_widgets.dart';
-import 'note/note_page.dart';
-import 'screen/money_page.dart';
-import 'screen/more_page.dart';
 import 'package:deep_paper/note/provider/deep_bottom_provider.dart';
 
 class DeepPaper extends StatelessWidget {
@@ -47,7 +47,7 @@ class DeepPaper extends StatelessWidget {
                       child: NotePage(),
                     )),
                     DeepKeepAlive(child: PlanPage()),
-                    DeepKeepAlive(child: MoneyPage()),
+                    DeepKeepAlive(child: FinancePage()),
                     DeepKeepAlive(child: MorePage())
                   ],
                 );
