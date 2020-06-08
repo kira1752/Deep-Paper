@@ -33,8 +33,10 @@ class _NoteDetailState extends State<NoteDetail> {
     _detailController = TextEditingController();
     _detailFocus = FocusNode();
     _detailProvider = NoteDetailProvider("");
-
     _undoRedoProvider = UndoRedoProvider("");
+
+    Future.delayed(
+        Duration(milliseconds: 310), () => _detailFocus.requestFocus());
 
     KeyboardVisibility.onChange.listen((visible) {
       if (visible == false) {
