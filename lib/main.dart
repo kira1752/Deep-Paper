@@ -45,22 +45,26 @@ class DeepPaperApp extends StatelessWidget {
             canvasColor: Color(0xff181818),
             textTheme: TextTheme(
                 headline5: TextStyle(
-                  fontFamily: "PT Serif",
+                  fontFamily: "IBM Plex",
+                  letterSpacing: 2.0,
                   fontFamilyFallback: ["Noto Color Emoji"],
                   color: Colors.white.withOpacity(0.80),
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
                 ),
                 headline6: TextStyle(
+                  fontFamilyFallback: ["Noto Color Emoji"],
                   wordSpacing: 1.0,
                   height: 1.5,
                   color: Colors.white.withOpacity(0.80),
                 ),
                 bodyText1: TextStyle(
+                  fontFamilyFallback: ["Noto Color Emoji"],
                   wordSpacing: 1.0,
                   height: 1.5,
                   color: Colors.white.withOpacity(0.80),
                 ),
                 bodyText2: TextStyle(
+                  fontFamilyFallback: ["Noto Color Emoji"],
                   color: Colors.white.withOpacity(0.87),
                 ))),
         title: 'Deep Paper',

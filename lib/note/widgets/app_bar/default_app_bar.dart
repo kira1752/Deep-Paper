@@ -45,12 +45,12 @@ class DefaultAppBar extends StatelessWidget {
                       .copyWith(fontSize: SizeHelper.getHeadline5)
                   : drawerProvider.getFolder.isNotNull
                       ? Theme.of(context).textTheme.bodyText1.copyWith(
+                          fontFamily: "IBM Plex",
                           fontWeight: FontWeight.w600,
                           fontSize: SizeHelper.getTitle)
-                      : Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontSize: SizeHelper.getHeadline5));
+                      : Theme.of(context).textTheme.bodyText1.copyWith(
+                          fontFamily: "IBM Plex",
+                          fontSize: SizeHelper.getHeadline5));
         },
       ),
     );
