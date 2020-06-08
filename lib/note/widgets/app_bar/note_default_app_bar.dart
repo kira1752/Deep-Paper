@@ -8,7 +8,7 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 import 'package:deep_paper/utility/extension.dart';
 
-class DefaultAppBar extends StatelessWidget {
+class NoteDefaultAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(

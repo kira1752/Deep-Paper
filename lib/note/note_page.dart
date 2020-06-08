@@ -5,7 +5,7 @@ import 'package:deep_paper/note/provider/selection_provider.dart';
 import 'package:deep_paper/note/widgets/app_bar/normal_selection_app_bar.dart';
 import 'package:deep_paper/note/widgets/app_bar/trash_selection_app_bar.dart';
 import 'package:deep_paper/note/widgets/build_body.dart';
-import 'package:deep_paper/note/widgets/app_bar/default_app_bar.dart';
+import 'package:deep_paper/note/widgets/app_bar/note_default_app_bar.dart';
 import 'package:deep_paper/note/widgets/drawer/deep_drawer.dart';
 import 'package:deep_paper/note/widgets/deep_floating_action_button.dart';
 import 'package:deep_paper/utility/size_helper.dart';
@@ -40,7 +40,7 @@ class NotePage extends StatelessWidget {
 
                     return selectionAppBar;
                   } else
-                    return DefaultAppBar();
+                    return NoteDefaultAppBar();
                 }),
           ),
           floatingActionButton: Selector2<NoteDrawerProvider, SelectionProvider,
