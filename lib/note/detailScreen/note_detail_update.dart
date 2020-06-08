@@ -139,8 +139,7 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
                             description: "Note moved to Trash Bin");
                       },
                       onCopy: () {
-                        if (detailProvider
-                            .getDetail.isNullEmptyOrWhitespace) {
+                        if (detailProvider.getDetail.isNullEmptyOrWhitespace) {
                           Navigator.of(context).pop();
                           DeepToast.showToast(
                               description: "Cannot copy empty note");
@@ -148,10 +147,11 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
                           _isCopy = true;
 
                           Navigator.pop(context);
-                          Navigator.maybePop(context);
-
-                          DeepToast.showToast(
-                              description: "Note copied successfully");
+                          Future.delayed(Duration(milliseconds: 400), () {
+                            Navigator.maybePop(context);
+                            DeepToast.showToast(
+                                description: "Note copied successfully");
+                          });
                         }
                       },
                     ),

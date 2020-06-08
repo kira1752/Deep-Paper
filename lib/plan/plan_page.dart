@@ -9,6 +9,7 @@ class PlanPage extends StatelessWidget {
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(SizeHelper.setHeight(size: 56)),
           child: PlanDefaultAppBar()),
+      body: ListView(),
     );
   }
 }
