@@ -78,7 +78,9 @@ class DeepPaperApp extends StatelessWidget {
               );
             case '/NoteDetail':
               return MaterialPageRoute(
-                  builder: (context) => NoteDetail(), settings: settings);
+                  builder: (context) => NoteDetail(),
+                  settings: settings,
+                  maintainState: false);
               break;
             case '/NoteDetailUpdate':
               return Fade(

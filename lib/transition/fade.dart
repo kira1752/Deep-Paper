@@ -6,7 +6,7 @@ class Fade extends PageRouteBuilder {
   Fade({this.page, this.settings})
       : super(
           opaque: false,
-          maintainState: true,
+          maintainState: false,
           transitionDuration: Duration(milliseconds: 500),
           settings: settings,
           pageBuilder: (
