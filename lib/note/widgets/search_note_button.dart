@@ -11,8 +11,6 @@ class SearchNoteButton extends StatelessWidget {
           return Visibility(
             visible: showSearch,
             child: IconButton(
-                padding: EdgeInsets.only(
-                    top: 8.0, bottom: 8.0, left: 18.0, right: 8.0),
                 tooltip: "Search button",
                 icon: Icon(
                   Icons.search,
