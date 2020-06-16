@@ -1,0 +1,61 @@
+import 'package:deep_paper/UI/note/widgets/deep_toast.dart';
+import 'package:deep_paper/bussiness_logic/note/provider/note_drawer_provider.dart';
+import 'package:deep_paper/bussiness_logic/note/trash_management.dart';
+import 'package:deep_paper/data/deep.dart';
+import 'package:deep_paper/icons/my_icon.dart';
+import 'package:deep_paper/utility/size_helper.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class TrashMenu extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
+
+    return StreamProvider<List<Note>>(
+      create: (context) => database.noteDao.watchAllDeletedNotes(),
+      child: Selector2<NoteDrawerProvider, List<Note>, bool>(
+        selector: (context, provider, data) =>
+            provider.getIndexDrawerItem == 1 && data != null && data.isNotEmpty,
+        builder: (context, showMenu, child) {
+          return Visibility(
+            visible: showMenu,
+            child: PopupMenuButton(
+                tooltip: "Open Trash Bin menu",
+                icon: Icon(
+                  Icons.more_vert,
+                  color: Colors.white70,
+                ),
+                onSelected: (choice) {
+                  if (choice == 0) TrashManagement.empty(context: context);
+
+                  DeepToast.showToast(
+                      description: "Trash emptied successfully");
+                },
+                padding: EdgeInsets.all(18.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0)),
+                itemBuilder: (context) {
+                  return [
+                    PopupMenuItem(
+                        value: 0,
+                        child: ListTile(
+                          leading: Icon(
+                            MyIcon.trash_empty,
+                            color: Colors.white60,
+                          ),
+                          title: Text(
+                            "Empty Trash Bin",
+                            style: TextStyle(
+                                fontSize: SizeHelper.getBodyText1,
+                                color: Colors.white.withOpacity(0.87)),
+                          ),
+                        ))
+                  ];
+                }),
+          );
+        },
+      ),
+    );
+  }
+}
