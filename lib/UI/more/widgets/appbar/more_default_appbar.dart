@@ -6,6 +6,7 @@ class MoreDefaultAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
+      automaticallyImplyLeading: false,
       elevation: 0.0,
       title: Text(
         "MORE",

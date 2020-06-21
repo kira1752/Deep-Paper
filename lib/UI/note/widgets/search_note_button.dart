@@ -13,8 +13,8 @@ class SearchNoteButton extends StatelessWidget {
           return Visibility(
             visible: showSearch,
             child: IconButton(
-                tooltip: StringResource().tooltipSearch,
-                icon: IconResource().darkSearch,
+                tooltip: StringResource.tooltipSearch,
+                icon: IconResource.darkSearch,
                 onPressed: () {}),
           );
         });

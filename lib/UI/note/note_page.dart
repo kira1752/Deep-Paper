@@ -1,6 +1,5 @@
-import 'package:deep_paper/UI/note/widgets/app_bar/normal_selection_app_bar.dart';
 import 'package:deep_paper/UI/note/widgets/app_bar/note_default_app_bar.dart';
-import 'package:deep_paper/UI/note/widgets/app_bar/trash_selection_app_bar.dart';
+import 'package:deep_paper/UI/note/widgets/app_bar/selection_app_bar.dart';
 import 'package:deep_paper/UI/note/widgets/build_body.dart';
 import 'package:deep_paper/UI/note/widgets/drawer/deep_drawer.dart';
 import 'package:deep_paper/bussiness_logic/note/provider/deep_bottom_provider.dart';
@@ -29,15 +28,7 @@ class NotePage extends StatelessWidget {
                 selector: (context, provider) => provider.getSelection,
                 builder: (context, selection, child) {
                   if (selection) {
-                    final drawerProvider =
-                        Provider.of<NoteDrawerProvider>(context, listen: false);
-
-                    final selectionAppBar =
-                        drawerProvider.getIndexDrawerItem == 1
-                            ? TrashSelectionAppBar()
-                            : NormalSelectionAppBar();
-
-                    return selectionAppBar;
+                    return NormalSelectionAppBar();
                   } else
                     return NoteDefaultAppBar();
                 }),

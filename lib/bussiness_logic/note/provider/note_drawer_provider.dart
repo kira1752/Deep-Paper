@@ -3,7 +3,7 @@ import 'package:deep_paper/resource/string_resource.dart';
 import 'package:flutter/foundation.dart';
 
 class NoteDrawerProvider with ChangeNotifier {
-  String _titleFragment = StringResource().noteAppBar;
+  String _titleFragment = StringResource.noteAppBar;
   int _indexDrawerItem = 0;
   int _indexFolderItem;
   List<Note> _noteList;

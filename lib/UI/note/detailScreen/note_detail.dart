@@ -22,8 +22,6 @@ class NoteDetail extends StatefulWidget {
 class _NoteDetailState extends State<NoteDetail> {
   TextEditingController _detailController;
   FocusNode _detailFocus;
-  NoteDetailProvider _detailProvider;
-  UndoRedoProvider _undoRedoProvider;
 
   final String _date = DateFormat.jm('en_US').format(DateTime.now());
 
@@ -31,10 +29,10 @@ class _NoteDetailState extends State<NoteDetail> {
   void initState() {
     super.initState();
 
+    Provider.of<UndoRedoProvider>(context, listen: false).setInitialDetail = "";
+
     _detailController = TextEditingController();
     _detailFocus = FocusNode();
-    _detailProvider = NoteDetailProvider("");
-    _undoRedoProvider = UndoRedoProvider("");
 
     Future.delayed(
         Duration(milliseconds: 400), () => _detailFocus.requestFocus());
@@ -50,8 +48,6 @@ class _NoteDetailState extends State<NoteDetail> {
 
   @override
   void dispose() {
-    _detailProvider.dispose();
-    _undoRedoProvider.dispose();
     _detailController.dispose();
     _detailFocus.dispose();
     super.dispose();
@@ -61,80 +57,73 @@ class _NoteDetailState extends State<NoteDetail> {
   Widget build(BuildContext context) {
     final FolderNoteData folder = ModalRoute.of(context).settings.arguments;
 
-    return ChangeNotifierProvider.value(
-      value: _detailProvider,
-      child: ChangeNotifierProvider.value(
-          value: _undoRedoProvider,
-          builder: (context, widget) {
-            final detailProvider = Provider.of<NoteDetailProvider>(context);
-            return Theme(
-              data: Theme.of(context).copyWith(
-                bottomSheetTheme: BottomSheetThemeData(
-                  modalBackgroundColor: Color(0xff202020),
-                ),
-                primaryColor: Theme.of(context).primaryColor,
-                backgroundColor: Theme.of(context).backgroundColor,
-                bottomAppBarColor: Theme.of(context).bottomAppBarColor,
-                scaffoldBackgroundColor:
-                    Theme.of(context).scaffoldBackgroundColor,
-              ),
-              child: AnnotatedRegion<SystemUiOverlayStyle>(
-                value: SystemUiOverlayStyle.light.copyWith(
-                  systemNavigationBarColor: Theme.of(context).primaryColor,
-                ),
-                child: WillPopScope(
-                  onWillPop: () async {
-                    NoteCreation.create(
-                        context: context,
-                        detail: detailProvider.getDetail,
-                        folderID: folder.isNotNull ? folder.id : 0,
-                        folderName:
-                            folder.isNotNull ? folder.name : "Main folder");
+    final detailProvider =
+        Provider.of<NoteDetailProvider>(context, listen: false);
 
-                    return true;
-                  },
-                  child: Scaffold(
-                    appBar: AppBar(
-                      leading: IconButton(
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white70,
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).maybePop();
-                        },
-                      ),
-                      elevation: 0.0,
-                      centerTitle: true,
-                    ),
-                    bottomNavigationBar: BottomMenu(
-                      date: _date,
-                      newNote: true,
-                      detailController: _detailController,
-                    ),
-                    body: ScrollConfiguration(
-                      behavior: DeepScrollBehavior(),
-                      child: ListView(
-                        physics: ClampingScrollPhysics(),
-                        children: <Widget>[
-                          DeepKeepAlive(
-                            child: Padding(
-                              padding: EdgeInsets.fromLTRB(18, 24, 16, 16),
-                              child: _detailField(context),
-                            ),
-                          ),
-                        ],
-                      ),
+    return Theme(
+      data: Theme.of(context).copyWith(
+        bottomSheetTheme: BottomSheetThemeData(
+          modalBackgroundColor: Color(0xff202020),
+        ),
+        primaryColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).backgroundColor,
+        bottomAppBarColor: Theme.of(context).bottomAppBarColor,
+        scaffoldBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      ),
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light.copyWith(
+          systemNavigationBarColor: Theme.of(context).primaryColor,
+        ),
+        child: WillPopScope(
+          onWillPop: () async {
+            NoteCreation.create(
+                context: context,
+                detail: detailProvider.getDetail,
+                folderID: folder.isNotNull ? folder.id : 0,
+                folderName: folder.isNotNull ? folder.name : "Main folder");
+
+            return true;
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white70,
+                ),
+                onPressed: () {
+                  Navigator.of(context).maybePop();
+                },
+              ),
+              elevation: 0.0,
+              centerTitle: true,
+            ),
+            bottomNavigationBar: BottomMenu(
+              date: _date,
+              newNote: true,
+              detailController: _detailController,
+            ),
+            body: ScrollConfiguration(
+              behavior: DeepScrollBehavior(),
+              child: ListView(
+                physics: ClampingScrollPhysics(),
+                children: <Widget>[
+                  DeepKeepAlive(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(18, 24, 16, 16),
+                      child: _detailField(),
                     ),
                   ),
-                ),
+                ],
               ),
-            );
-          }),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
-  Widget _detailField(BuildContext context) {
+  Widget _detailField() {
     final detailProvider =
         Provider.of<NoteDetailProvider>(context, listen: false);
 

@@ -5,6 +5,7 @@ class PlanDefaultAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       centerTitle: true,
       elevation: 0.0,
       title: Text(

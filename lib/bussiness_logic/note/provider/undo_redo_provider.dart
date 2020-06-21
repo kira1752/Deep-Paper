@@ -13,7 +13,7 @@ class UndoRedoProvider with ChangeNotifier {
   bool _space = false;
   int _count = 0;
 
-  UndoRedoProvider(this._initialDetail);
+  UndoRedoProvider();
 
   set setCanUndo(bool value) {
     _canUndo = value;

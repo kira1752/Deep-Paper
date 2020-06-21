@@ -1,6 +1,5 @@
 import 'package:deep_paper/UI/apptheme.dart';
-import 'package:deep_paper/UI/note/widgets/menu_app_bar/folder_menu.dart';
-import 'package:deep_paper/UI/note/widgets/menu_app_bar/trash_menu.dart';
+import 'package:deep_paper/UI/note/widgets/menu_app_bar/menu.dart';
 import 'package:deep_paper/UI/note/widgets/search_note_button.dart';
 import 'package:deep_paper/bussiness_logic/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/resource/icon_resource.dart';
@@ -16,13 +15,13 @@ class NoteDefaultAppBar extends StatelessWidget {
     return AppBar(
       elevation: 0.0,
       centerTitle: true,
+      automaticallyImplyLeading: false,
       actions: <Widget>[
         SearchNoteButton(),
-        FolderMenu(),
-        TrashMenu(),
+        Menu(),
       ],
       leading: IconButton(
-          icon: IconResource().darkHamburgerMenu,
+          icon: IconResource.darkHamburgerMenu,
           onPressed: () {
             Scaffold.of(context).openDrawer();
           }),
@@ -33,15 +32,15 @@ class NoteDefaultAppBar extends StatelessWidget {
           final drawerProvider =
               Provider.of<NoteDrawerProvider>(context, listen: false);
 
-          return Text('$title',
+          return Text(StringResource.titleAppBar(title),
               textDirection: Bidi.detectRtlDirectionality(title)
                   ? TextDirection.rtl
                   : TextDirection.ltr,
-              style: title == StringResource().noteAppBar
-                  ? AppTheme().darkTitleAppBar(context)
+              style: title == StringResource.noteAppBar
+                  ? AppTheme.darkTitleAppBar(context)
                   : drawerProvider.getFolder.isNotNull
-                      ? AppTheme().darkFolderAppBar(context)
-                      : AppTheme().darkTrashAppBar(context));
+                      ? AppTheme.darkTitleFolderAppBar(context)
+                      : AppTheme.darkTitleTrashAppBar(context));
         },
       ),
     );

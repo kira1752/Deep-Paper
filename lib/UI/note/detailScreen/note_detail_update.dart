@@ -30,19 +30,17 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
   String _date;
   TextEditingController _detailController;
   FocusNode _detailFocus;
-  Note _note;
-  NoteDetailProvider _detailProvider;
-  UndoRedoProvider _undoRedoProvider;
 
   @override
   void initState() {
     super.initState();
 
-    _detailProvider = NoteDetailProvider(widget.note.detail);
-    _undoRedoProvider = UndoRedoProvider(widget.note.detail);
+    Provider.of<UndoRedoProvider>(context, listen: false).setInitialDetail =
+        widget.note.detail;
+    Provider.of<NoteDetailProvider>(context, listen: false).setDetail =
+        widget.note.detail;
 
     _isDeleted = widget.note.isDeleted;
-    _note = widget.note;
     _isCopy = false;
     _detailController = TextEditingController(text: widget.note.detail);
     _detailFocus = FocusNode();
@@ -72,8 +70,6 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
 
   @override
   void dispose() {
-    _detailProvider.dispose();
-    _undoRedoProvider.dispose();
     _detailController.dispose();
     _detailFocus.dispose();
     super.dispose();
@@ -81,107 +77,98 @@ class _NoteDetailUpdateState extends State<NoteDetailUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: _detailProvider,
-      child: ChangeNotifierProvider.value(
-          value: _undoRedoProvider,
-          builder: (context, widget) {
-            final detailProvider = Provider.of<NoteDetailProvider>(context);
+    final detailProvider =
+        Provider.of<NoteDetailProvider>(context, listen: false);
 
-            return Theme(
-              data: Theme.of(context).copyWith(
-                bottomSheetTheme: BottomSheetThemeData(
-                  modalBackgroundColor: Color(0xff202020),
+    return Theme(
+      data: Theme.of(context).copyWith(
+        bottomSheetTheme: BottomSheetThemeData(
+          modalBackgroundColor: Color(0xff202020),
+        ),
+        primaryColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).backgroundColor,
+        bottomAppBarColor: Theme.of(context).bottomAppBarColor,
+        scaffoldBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      ),
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light.copyWith(
+          systemNavigationBarColor: Theme.of(context).primaryColor,
+        ),
+        child: WillPopScope(
+          onWillPop: () async {
+            NoteCreation.update(
+                context: context,
+                note: widget.note,
+                detail: detailProvider.getDetail,
+                isDeleted: _isDeleted,
+                isCopy: _isCopy);
+
+            return true;
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white70,
                 ),
-                primaryColor: Theme.of(context).primaryColor,
-                backgroundColor: Theme.of(context).backgroundColor,
-                bottomAppBarColor: Theme.of(context).bottomAppBarColor,
-                scaffoldBackgroundColor:
-                    Theme.of(context).scaffoldBackgroundColor,
+                onPressed: () {
+                  Navigator.of(context).maybePop();
+                },
               ),
-              child: AnnotatedRegion<SystemUiOverlayStyle>(
-                value: SystemUiOverlayStyle.light.copyWith(
-                  systemNavigationBarColor: Theme.of(context).primaryColor,
-                ),
-                child: WillPopScope(
-                  onWillPop: () async {
-                    NoteCreation.update(
-                        context: context,
-                        note: _note,
-                        detail: detailProvider.getDetail,
-                        isDeleted: _isDeleted,
-                        isCopy: _isCopy);
+              elevation: 0.0,
+              centerTitle: true,
+            ),
+            bottomNavigationBar: BottomMenu(
+              date: _date,
+              newNote: false,
+              detailController: _detailController,
+              onDelete: () {
+                _isDeleted = true;
 
-                    return true;
-                  },
-                  child: Scaffold(
-                    appBar: AppBar(
-                      leading: IconButton(
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white70,
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).maybePop();
-                        },
-                      ),
-                      elevation: 0.0,
-                      centerTitle: true,
-                    ),
-                    bottomNavigationBar: BottomMenu(
-                      date: _date,
-                      newNote: false,
-                      detailController: _detailController,
-                      onDelete: () {
-                        _isDeleted = true;
+                Navigator.pop(context);
+                Future.delayed(Duration(milliseconds: 400), () {
+                  Navigator.maybePop(context);
+                  DeepToast.showToast(description: "Note moved to Trash Bin");
+                });
+              },
+              onCopy: () {
+                if (detailProvider.getDetail.isNullEmptyOrWhitespace) {
+                  Navigator.of(context).pop();
+                  DeepToast.showToast(description: "Cannot copy empty note");
+                } else {
+                  _isCopy = true;
 
-                        Navigator.pop(context);
-                        Future.delayed(Duration(milliseconds: 400), () {
-                          Navigator.maybePop(context);
-                          DeepToast.showToast(
-                              description: "Note moved to Trash Bin");
-                        });
-                      },
-                      onCopy: () {
-                        if (detailProvider.getDetail.isNullEmptyOrWhitespace) {
-                          Navigator.of(context).pop();
-                          DeepToast.showToast(
-                              description: "Cannot copy empty note");
-                        } else {
-                          _isCopy = true;
-
-                          Navigator.pop(context);
-                          Future.delayed(Duration(milliseconds: 400), () {
-                            Navigator.maybePop(context);
-                            DeepToast.showToast(
-                                description: "Note copied successfully");
-                          });
-                        }
-                      },
-                    ),
-                    body: ScrollConfiguration(
-                      behavior: DeepScrollBehavior(),
-                      child: ListView(
-                        physics: ClampingScrollPhysics(),
-                        children: <Widget>[
-                          DeepKeepAlive(
-                            child: Padding(
-                              padding: EdgeInsets.fromLTRB(18, 24, 16, 16),
-                              child: _detailField(_note, context),
-                            ),
-                          ),
-                        ],
-                      ),
+                  Navigator.pop(context);
+                  Future.delayed(Duration(milliseconds: 400), () {
+                    Navigator.maybePop(context);
+                    DeepToast.showToast(
+                        description: "Note copied successfully");
+                  });
+                }
+              },
+            ),
+            body: ScrollConfiguration(
+              behavior: DeepScrollBehavior(),
+              child: ListView(
+                physics: ClampingScrollPhysics(),
+                children: <Widget>[
+                  DeepKeepAlive(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(18, 24, 16, 16),
+                      child: _detailField(widget.note),
                     ),
                   ),
-                ),
+                ],
               ),
-            );
-          }),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
-  Widget _detailField(Note data, BuildContext context) {
+  Widget _detailField(Note data) {
     final detailProvider =
         Provider.of<NoteDetailProvider>(context, listen: false);
 
