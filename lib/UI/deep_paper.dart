@@ -8,19 +8,16 @@ import 'package:deep_paper/bussiness_logic/note/provider/note_drawer_provider.da
 import 'package:deep_paper/bussiness_logic/note/provider/selection_provider.dart';
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/utility/size_helper.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:deep_paper/utility/sizeconfig.dart';
 
 class DeepPaper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context);
-
-    debugPrintSynchronously("Pixel Ratio: ${media.devicePixelRatio}");
-    debugPrintSynchronously("Height: ${media.size.height}");
-    debugPrintSynchronously("width: ${media.size.width}");
+    SizeConfig.init(context);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light.copyWith(
@@ -62,59 +59,61 @@ class DeepPaper extends StatelessWidget {
           bottomNavigationBar: Selector<DeepBottomProvider, bool>(
               selector: (context, provider) => provider.getSelection,
               builder: (context, selection, child) {
-                return Visibility(
-                  visible: selection ? false : true,
-                  child: Consumer<DeepBottomProvider>(
-                      builder: (context, deepProvider, child) {
-                    return BottomNavigationBar(
-                      elevation: 0.0,
-                      backgroundColor: Theme.of(context).canvasColor,
-                      type: BottomNavigationBarType.fixed,
-                      selectedFontSize: SizeHelper.getButton,
-                      unselectedFontSize: SizeHelper.getButton,
-                      selectedItemColor: Theme.of(context).accentColor,
-                      unselectedItemColor: Colors.white70,
-                      currentIndex: deepProvider
-                          .currentIndex, // use this to remove appBar's elevation
-                      onTap: (index) {
-                        deepProvider.setCurrentIndex = index;
-                        deepProvider.controller.jumpToPage(index);
-                      },
-                      items: [
-                        BottomNavigationBarItem(
-                          icon: Icon(MyIcon.library_books_outline),
-                          activeIcon: Icon(Icons.library_books),
-                          title: Text(
-                            'Note',
-                            style: TextStyle(fontWeight: FontWeight.w600),
+                return RepaintBoundary(
+                  child: Visibility(
+                    visible: selection ? false : true,
+                    child: Consumer<DeepBottomProvider>(
+                        builder: (context, deepProvider, child) {
+                      return BottomNavigationBar(
+                        elevation: 0.0,
+                        backgroundColor: Theme.of(context).canvasColor,
+                        type: BottomNavigationBarType.fixed,
+                        selectedFontSize: SizeHelper.getButton,
+                        unselectedFontSize: SizeHelper.getButton,
+                        selectedItemColor: Theme.of(context).accentColor,
+                        unselectedItemColor: Colors.white70,
+                        currentIndex: deepProvider
+                            .currentIndex, // use this to remove appBar's elevation
+                        onTap: (index) {
+                          deepProvider.setCurrentIndex = index;
+                          deepProvider.controller.jumpToPage(index);
+                        },
+                        items: [
+                          BottomNavigationBarItem(
+                            icon: Icon(MyIcon.library_books_outline),
+                            activeIcon: Icon(Icons.library_books),
+                            title: Text(
+                              'Note',
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
                           ),
-                        ),
-                        BottomNavigationBarItem(
-                          icon: Icon(MyIcon.event_note_outline),
-                          activeIcon: Icon(Icons.event_note),
-                          title: Text(
-                            'Plan',
-                            style: TextStyle(fontWeight: FontWeight.w600),
+                          BottomNavigationBarItem(
+                            icon: Icon(MyIcon.event_note_outline),
+                            activeIcon: Icon(Icons.event_note),
+                            title: Text(
+                              'Plan',
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
                           ),
-                        ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.pie_chart_outlined),
-                          activeIcon: Icon(Icons.pie_chart),
-                          title: Text(
-                            'Finance',
-                            style: TextStyle(fontWeight: FontWeight.w600),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.pie_chart_outlined),
+                            activeIcon: Icon(Icons.pie_chart),
+                            title: Text(
+                              'Finance',
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
                           ),
-                        ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.more_horiz),
-                          title: Text(
-                            'More',
-                            style: TextStyle(fontWeight: FontWeight.w600),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.more_horiz),
+                            title: Text(
+                              'More',
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  }),
+                        ],
+                      );
+                    }),
+                  ),
                 );
               }),
         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 class SizeConfig {
@@ -8,6 +7,7 @@ class SizeConfig {
   static double _blockWidth = 0;
   static double _blockHeight = 0;
 
+  static Orientation orientation;
   static double textMultiplier;
   static double imageSizeMultiplier;
   static double heightMultiplier;
@@ -15,17 +15,19 @@ class SizeConfig {
   static bool isPortrait = true;
   static bool isMobilePortrait = false;
 
-  void init(BoxConstraints constraints, Orientation orientation) {
+  static void init(BuildContext context) {
+    orientation = MediaQuery.of(context).orientation;
+
     if (orientation == Orientation.portrait) {
-      _screenWidth = constraints.maxWidth;
-      _screenHeight = constraints.maxHeight;
+      _screenWidth = MediaQuery.of(context).size.width;
+      _screenHeight = MediaQuery.of(context).size.height;
       isPortrait = true;
       if (_screenWidth < 450) {
         isMobilePortrait = true;
       }
     } else {
-      _screenWidth = constraints.maxHeight;
-      _screenHeight = constraints.maxWidth;
+      _screenWidth = MediaQuery.of(context).size.height;
+      _screenHeight = MediaQuery.of(context).size.width;
       isPortrait = false;
       isMobilePortrait = false;
     }

@@ -21,6 +21,7 @@ class NoteDefaultAppBar extends StatelessWidget {
         Menu(),
       ],
       leading: IconButton(
+        tooltip: StringResource.tooltipNoteHamburgerMenu,
           icon: IconResource.darkHamburgerMenu,
           onPressed: () {
             Scaffold.of(context).openDrawer();

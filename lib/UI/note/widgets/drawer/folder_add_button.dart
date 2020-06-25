@@ -14,20 +14,22 @@ class FolderAddButton extends StatelessWidget {
               color: Colors.white.withOpacity(0.70),
               fontSize: SizeHelper.getBodyText1),
         ),
-        trailing: FlatButton(
-            shape: StadiumBorder(
-                side: BorderSide(
-                    color: Theme.of(context).accentColor, width: 2.0)),
-            onPressed: () {
-              BottomModal.openCreateFolderDialog(context: context);
-            },
-            child: Text(
-              "ADD",
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: Colors.white.withOpacity(0.87),
-                  fontSize: SizeHelper.getAddButton),
-            )));
+        trailing: RepaintBoundary(
+          child: FlatButton(
+              shape: StadiumBorder(
+                  side: BorderSide(
+                      color: Theme.of(context).accentColor, width: 2.0)),
+              onPressed: () {
+                BottomModal.openCreateFolderDialog(context: context);
+              },
+              child: Text(
+                "ADD",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: Colors.white.withOpacity(0.87),
+                    fontSize: SizeHelper.getAddButton),
+              )),
+        ));
   }
 }

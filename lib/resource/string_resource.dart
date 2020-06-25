@@ -15,6 +15,7 @@ class StringResource {
   static const tooltipFolderMenu = "Open Folder Menu";
   static const tooltipSelectionMenu = "Open Selection Menu";
   static const tooltipTrashMenu = "Open Trash Bin menu";
+  static const tooltipNoteHamburgerMenu = "Open note menu";
 
   static String selectionAppBar(int count) {
     return '$count selected';

@@ -35,7 +35,7 @@ class _NoteDetailState extends State<NoteDetail> {
     _detailFocus = FocusNode();
 
     Future.delayed(
-        Duration(milliseconds: 400), () => _detailFocus.requestFocus());
+        Duration(milliseconds: 300), () => _detailFocus.requestFocus());
 
     KeyboardVisibility.onChange.listen((visible) {
       if (visible == false) {

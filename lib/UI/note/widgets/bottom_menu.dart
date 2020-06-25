@@ -23,50 +23,52 @@ class BottomMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: MediaQuery.of(context).viewInsets,
-      child: BottomAppBar(
-        elevation: 0.0,
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(
-                MyIcon.plus_square,
-                color: Colors.white70,
+    return RepaintBoundary(
+      child: Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: BottomAppBar(
+          elevation: 0.0,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(
+                  MyIcon.plus_square,
+                  color: Colors.white70,
+                ),
+                onPressed: () async {
+                  if (FocusScope.of(context).hasFocus) {
+                    FocusScope.of(context).unfocus();
+                  }
+                  await BottomModal.openAddMenu(context: context);
+                },
               ),
-              onPressed: () async {
-                if (FocusScope.of(context).hasFocus) {
-                  FocusScope.of(context).unfocus();
-                }
-                await BottomModal.openAddMenu(context: context);
-              },
-            ),
-            Selector<NoteDetailProvider, bool>(
-                selector: (context, detailProvider) =>
-                    detailProvider.isTextTyped,
-                builder: (context, isTyped, child) {
-                  return _textOrUndoRedo(
-                      context: context, isTyped: isTyped, date: date);
-                }),
-            IconButton(
-              icon: Icon(
-                Icons.more_vert,
-                color: Colors.white70,
-              ),
-              onPressed: () async {
-                if (FocusScope.of(context).hasFocus) {
-                  FocusScope.of(context).unfocus();
-                }
-                await BottomModal.openOptionsMenu(
-                    context: context,
-                    newNote: newNote,
-                    onDelete: onDelete,
-                    onCopy: onCopy);
-              },
-            )
-          ],
+              Selector<NoteDetailProvider, bool>(
+                  selector: (context, detailProvider) =>
+                      detailProvider.isTextTyped,
+                  builder: (context, isTyped, child) {
+                    return _textOrUndoRedo(
+                        context: context, isTyped: isTyped, date: date);
+                  }),
+              IconButton(
+                icon: Icon(
+                  Icons.more_vert,
+                  color: Colors.white70,
+                ),
+                onPressed: () async {
+                  if (FocusScope.of(context).hasFocus) {
+                    FocusScope.of(context).unfocus();
+                  }
+                  await BottomModal.openOptionsMenu(
+                      context: context,
+                      newNote: newNote,
+                      onDelete: onDelete,
+                      onCopy: onCopy);
+                },
+              )
+            ],
+          ),
         ),
       ),
     );
