@@ -21,12 +21,12 @@ class DeepMaterialApp extends StatelessWidget {
         switch (settings.name) {
           case '/':
             return DeepRoute(
-              page: DeepPaper(),
+              page: (context) => DeepPaper(),
               settings: settings,
             );
           case '/NoteDetail':
             return DeepRoute(
-              page: MultiProvider(providers: [
+              page: (context) => MultiProvider(providers: [
                 ChangeNotifierProvider(create: (context) => UndoRedoProvider()),
                 ChangeNotifierProvider(
                     create: (context) => NoteDetailProvider())
@@ -36,19 +36,20 @@ class DeepMaterialApp extends StatelessWidget {
             break;
           case '/NoteDetailUpdate':
             return DeepRoute(
-                page: MultiProvider(providers: [
-                  ChangeNotifierProvider(
-                      create: (context) => UndoRedoProvider()),
-                  ChangeNotifierProvider(
-                      create: (context) => NoteDetailProvider())
-                ], child: NoteDetailUpdate(settings.arguments)),
+                page: (context) => MultiProvider(providers: [
+                      ChangeNotifierProvider(
+                          create: (context) => UndoRedoProvider()),
+                      ChangeNotifierProvider(
+                          create: (context) => NoteDetailProvider())
+                    ], child: NoteDetailUpdate(settings.arguments)),
                 settings: settings);
             break;
           case '/NotePage':
-            return DeepRoute(page: NotePage(), settings: settings);
+            return DeepRoute(page: (context) => NotePage(), settings: settings);
             break;
           default:
-            return DeepRoute(page: DeepPaper(), settings: settings);
+            return DeepRoute(
+                page: (context) => DeepPaper(), settings: settings);
         }
       },
     );
