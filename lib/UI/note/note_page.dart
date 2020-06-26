@@ -1,5 +1,4 @@
 import 'package:deep_paper/UI/note/widgets/app_bar/note_default_app_bar.dart';
-import 'package:deep_paper/UI/note/widgets/app_bar/selection_app_bar.dart';
 import 'package:deep_paper/UI/note/widgets/build_body.dart';
 import 'package:deep_paper/UI/note/widgets/drawer/deep_drawer.dart';
 import 'package:deep_paper/bussiness_logic/note/provider/deep_bottom_provider.dart';
@@ -24,14 +23,7 @@ class NotePage extends StatelessWidget {
           drawer: DeepDrawer(key: Key("Note Drawer")),
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(SizeHelper.setHeight(size: 56)),
-            child: Selector<SelectionProvider, bool>(
-                selector: (context, provider) => provider.getSelection,
-                builder: (context, selection, child) {
-                  if (selection) {
-                    return NormalSelectionAppBar();
-                  } else
-                    return NoteDefaultAppBar();
-                }),
+            child: NoteDefaultAppBar()
           ),
           floatingActionButton: Selector2<NoteDrawerProvider, SelectionProvider,
                   Tuple2<int, bool>>(
