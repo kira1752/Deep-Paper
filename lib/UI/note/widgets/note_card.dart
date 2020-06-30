@@ -139,7 +139,6 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
               style: Theme.of(context).textTheme.caption.copyWith(
                   color: Colors.white70, fontSize: SizeHelper.getFolder),
               overflow: TextOverflow.ellipsis,
-              maxLines: 1,
             ),
           ),
         ),

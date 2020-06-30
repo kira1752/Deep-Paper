@@ -105,16 +105,23 @@ class _NoteDetailState extends State<NoteDetail> {
             ),
             body: ScrollConfiguration(
               behavior: DeepScrollBehavior(),
-              child: ListView(
-                physics: ClampingScrollPhysics(),
-                children: <Widget>[
-                  DeepKeepAlive(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(18, 24, 16, 16),
-                      child: _detailField(),
+              child: GestureDetector(
+                onTap: () {
+                  if (!_detailFocus.hasFocus) {
+                    _detailFocus.requestFocus();
+                  }
+                },
+                child: ListView(
+                  physics: ClampingScrollPhysics(),
+                  children: <Widget>[
+                    DeepKeepAlive(
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(18, 24, 16, 16),
+                        child: _detailField(),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
