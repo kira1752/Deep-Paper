@@ -340,6 +340,23 @@ class NotesCompanion extends UpdateCompanion<Note> {
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('NotesCompanion(')
+          ..write('id: $id, ')
+          ..write('folderID: $folderID, ')
+          ..write('folderName: $folderName, ')
+          ..write('folderNameDirection: $folderNameDirection, ')
+          ..write('detail: $detail, ')
+          ..write('detailDirection: $detailDirection, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('containAudio: $containAudio, ')
+          ..write('containImage: $containImage, ')
+          ..write('date: $date')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
@@ -618,6 +635,16 @@ class FolderNoteCompanion extends UpdateCompanion<FolderNoteData> {
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('FolderNoteCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('nameDirection: $nameDirection')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $FolderNoteTable extends FolderNote
@@ -811,6 +838,16 @@ class AudioNoteCompanion extends UpdateCompanion<AudioNoteData> {
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('AudioNoteCompanion(')
+          ..write('id: $id, ')
+          ..write('noteID: $noteID, ')
+          ..write('name: $name')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $AudioNoteTable extends AudioNote
@@ -999,6 +1036,16 @@ class ImageNoteCompanion extends UpdateCompanion<ImageNoteData> {
       map['name'] = Variable<String>(name.value);
     }
     return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ImageNoteCompanion(')
+          ..write('id: $id, ')
+          ..write('noteID: $noteID, ')
+          ..write('name: $name')
+          ..write(')'))
+        .toString();
   }
 }
 

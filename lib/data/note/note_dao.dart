@@ -35,7 +35,7 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
         .watch();
   }
 
-  Future<void> insertNote(NotesCompanion entry) => into(notes).insert(entry);
+  Future<int> insertNote(NotesCompanion entry) => into(notes).insert(entry);
 
   Future<void> insertNoteBatch(Map<int, Note> selectedNote) async {
     await batch((b) {
@@ -53,7 +53,8 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
     });
   }
 
-  Future<void> updateNote(Note entry) => update(notes).replace(entry);
+  Future<void> updateNote(int noteID, NotesCompanion entry) =>
+      (update(notes)..where((tbl) => tbl.id.equals(noteID))).write(entry);
 
   Future<void> moveToTrash(Map<int, Note> selectedNote) async {
     await batch((b) {
@@ -126,5 +127,9 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
             folderNameDirection: Value(folderNameDirection)));
   }
 
-  Future<void> deleteNote(Note entry) => delete(notes).delete(entry);
+  Future<void> deleteNote(int noteID) async {
+    delete(notes)
+      ..where((n) => n.id.equals(noteID))
+      ..go();
+  }
 }

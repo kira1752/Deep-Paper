@@ -69,7 +69,7 @@ class NotePage extends StatelessWidget {
             Provider.of<NoteDrawerProvider>(context, listen: false);
 
         final FolderNoteData folder = drawerProvider.getFolder;
-        Navigator.pushNamed(context, '/NoteDetail', arguments: folder);
+        Navigator.pushNamed(context, '/NoteCreate', arguments: folder);
       },
     );
   }

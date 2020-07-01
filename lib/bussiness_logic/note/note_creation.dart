@@ -1,4 +1,3 @@
-import 'package:deep_paper/UI/note/widgets/deep_toast.dart';
 import 'package:deep_paper/bussiness_logic/note/provider/selection_provider.dart';
 import 'package:deep_paper/data/deep.dart';
 import 'package:flutter/foundation.dart';
@@ -9,11 +8,16 @@ import 'package:provider/provider.dart';
 import 'package:deep_paper/utility/extension.dart';
 
 class NoteCreation {
-  static void create(
+  static Future<int> create(
       {@required BuildContext context,
       @required String detail,
+      @required TextDirection detailDirection,
       @required int folderID,
-      @required String folderName}) {
+      @required String folderName,
+      @required TextDirection folderNameDirection,
+      @required bool isDeleted,
+      @required bool isCopy}) async {
+    int noteID;
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
     final detailDirection = Bidi.detectRtlDirectionality(detail)
         ? TextDirection.rtl
@@ -23,15 +27,29 @@ class NoteCreation {
         ? TextDirection.rtl
         : TextDirection.ltr;
 
+    if (isCopy) {
+      copy(
+          context: context,
+          detail: detail,
+          detailDirection: detailDirection,
+          folderID: folderID,
+          folderName: folderName,
+          folderNameDirection: folderNameDirection);
+    }
+
     if (!detail.isNullEmptyOrWhitespace) {
-      database.noteDao.insertNote(NotesCompanion(
+      debugPrintSynchronously("create note");
+      noteID = await database.noteDao.insertNote(NotesCompanion(
           detail: Value(detail),
           detailDirection: Value(detailDirection),
           folderID: Value(folderID),
           folderName: Value(folderName),
           folderNameDirection: Value(folderNameDirection),
+          isDeleted: Value(isDeleted),
           date: Value(DateTime.now())));
     }
+
+    return noteID;
   }
 
   static Future<void> copySelectedNotes(
@@ -46,8 +64,10 @@ class NoteCreation {
 
   static void update(
       {@required BuildContext context,
-      @required Note note,
+      @required int noteID,
       @required String detail,
+      @required int folderID,
+      @required String folderName,
       @required bool isDeleted,
       @required bool isCopy}) {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
@@ -56,42 +76,68 @@ class NoteCreation {
         ? TextDirection.rtl
         : TextDirection.ltr;
 
+    final folderNameDirection = Bidi.detectRtlDirectionality(folderName)
+        ? TextDirection.rtl
+        : TextDirection.ltr;
+
     if (isCopy) {
-      create(
+      copy(
           context: context,
           detail: detail,
-          folderID: note.folderID,
-          folderName: note.folderName);
+          detailDirection: detailDirection,
+          folderID: folderID,
+          folderName: folderName,
+          folderNameDirection: folderNameDirection);
     }
 
-    if (note.detail != detail && note.isDeleted != isDeleted) {
-      if (!detail.isNullEmptyOrWhitespace) {
-        database.noteDao.updateNote(note.copyWith(
-            detail: detail,
-            detailDirection: detailDirection,
-            isDeleted: isDeleted,
-            date: DateTime.now()));
-      } else if (detail.isNullEmptyOrWhitespace) {
-        database.noteDao.deleteNote(note);
+    database.noteDao.updateNote(
+        noteID,
+        NotesCompanion(
+            detail: Value(detail),
+            detailDirection: Value(detailDirection),
+            folderID: Value(folderID),
+            folderName: Value(folderName),
+            folderNameDirection: Value(folderNameDirection),
+            isDeleted: Value(isDeleted),
+            date: Value(DateTime.now())));
+  }
 
-        DeepToast.showToast(description: "Empty note deleted");
-      }
-    } else if (note.detail != detail) {
-      if (!detail.isNullEmptyOrWhitespace) {
-        database.noteDao.updateNote(note.copyWith(
-            detail: detail,
-            detailDirection: detailDirection,
-            date: DateTime.now()));
-      } else if (detail.isNullEmptyOrWhitespace) {
-        database.noteDao.deleteNote(note);
+  static void copy({
+    @required BuildContext context,
+    @required String detail,
+    @required TextDirection detailDirection,
+    @required int folderID,
+    @required String folderName,
+    @required TextDirection folderNameDirection,
+  }) async {
+    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
+    final detailDirection = Bidi.detectRtlDirectionality(detail)
+        ? TextDirection.rtl
+        : TextDirection.ltr;
 
-        DeepToast.showToast(description: "Empty note deleted");
-      }
-    } else if (note.isDeleted != isDeleted) {
-      database.noteDao.updateNote(note.copyWith(
-        isDeleted: isDeleted,
-      ));
+    final folderNameDirection = Bidi.detectRtlDirectionality(folderName)
+        ? TextDirection.rtl
+        : TextDirection.ltr;
+
+    if (!detail.isNullEmptyOrWhitespace) {
+      debugPrintSynchronously("create note");
+      await database.noteDao.insertNote(NotesCompanion(
+          detail: Value(detail),
+          detailDirection: Value(detailDirection),
+          folderID: Value(folderID),
+          folderName: Value(folderName),
+          folderNameDirection: Value(folderNameDirection),
+          date: Value(DateTime.now())));
     }
+  }
+
+  static void deleteEmptyNote({
+    @required BuildContext context,
+    @required int noteID,
+  }) {
+    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
+
+    database.noteDao.deleteNote(noteID);
   }
 
   static Future<void> moveToTrashBatch({@required BuildContext context}) async {

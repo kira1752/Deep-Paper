@@ -35,7 +35,7 @@ class FolderListView extends StatelessWidget {
                           note: data[index],
                           ontap: () {
                             Navigator.of(context).pushNamed(
-                                "/NoteDetailUpdate",
+                                "/NoteDetail",
                                 arguments: data[index]);
                           },
                         );

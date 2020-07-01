@@ -1,13 +1,14 @@
 import 'package:deep_paper/UI/apptheme.dart';
 import 'package:deep_paper/UI/deep_paper.dart';
 import 'package:deep_paper/UI/note/detailScreen/note_detail.dart';
-import 'package:deep_paper/UI/note/detailScreen/note_detail_update.dart';
 import 'package:deep_paper/UI/note/note_page.dart';
 import 'package:deep_paper/UI/transition/deep_route.dart';
 import 'package:deep_paper/bussiness_logic/note/provider/note_detail_provider.dart';
 import 'package:deep_paper/bussiness_logic/note/provider/undo_redo_provider.dart';
+import 'package:deep_paper/data/deep.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:deep_paper/utility/extension.dart';
 
 class DeepMaterialApp extends StatelessWidget {
   @override
@@ -24,24 +25,43 @@ class DeepMaterialApp extends StatelessWidget {
               page: (context) => DeepPaper(),
               settings: settings,
             );
-          case '/NoteDetail':
+          case '/NoteCreate':
+            final FolderNoteData folder = settings.arguments;
+            final String folderName =
+                folder.isNotNull ? folder.name : "Main folder";
+            final int folderID = folder.isNotNull ? folder.id : 0;
+
             return DeepRoute(
-              page: (context) => MultiProvider(providers: [
-                ChangeNotifierProvider(create: (context) => UndoRedoProvider()),
-                ChangeNotifierProvider(
-                    create: (context) => NoteDetailProvider())
-              ], child: NoteDetail()),
+              page: (context) => MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider(
+                        create: (context) => UndoRedoProvider()),
+                    ChangeNotifierProvider(
+                        create: (context) => NoteDetailProvider())
+                  ],
+                  child: NoteDetail(
+                      folderID: folderID, folderName: folderName, note: null)),
               settings: settings,
             );
             break;
-          case '/NoteDetailUpdate':
+          case '/NoteDetail':
+            final Note note = settings.arguments;
+            final int folderID = note.folderID;
+            final String folderName = note.folderName;
+
             return DeepRoute(
-                page: (context) => MultiProvider(providers: [
-                      ChangeNotifierProvider(
-                          create: (context) => UndoRedoProvider()),
-                      ChangeNotifierProvider(
-                          create: (context) => NoteDetailProvider())
-                    ], child: NoteDetailUpdate(settings.arguments)),
+                page: (context) => MultiProvider(
+                        providers: [
+                          ChangeNotifierProvider(
+                              create: (context) => UndoRedoProvider()),
+                          ChangeNotifierProvider(
+                              create: (context) => NoteDetailProvider())
+                        ],
+                        child: NoteDetail(
+                          note: note,
+                          folderID: folderID,
+                          folderName: folderName,
+                        )),
                 settings: settings);
             break;
           case '/NotePage':
