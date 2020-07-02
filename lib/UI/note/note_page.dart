@@ -22,9 +22,8 @@ class NotePage extends StatelessWidget {
           resizeToAvoidBottomInset: false,
           drawer: DeepDrawer(key: Key("Note Drawer")),
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(SizeHelper.setHeight(size: 56)),
-            child: NoteDefaultAppBar()
-          ),
+              preferredSize: Size.fromHeight(SizeHelper.setHeight(size: 56)),
+              child: NoteDefaultAppBar()),
           floatingActionButton: Selector2<NoteDrawerProvider, SelectionProvider,
                   Tuple2<int, bool>>(
               selector: (context, drawerProvider, selectionProvider) => Tuple2(
@@ -33,7 +32,7 @@ class NotePage extends StatelessWidget {
               builder: (context, data, child) {
                 return Visibility(
                     visible: data.item1 != 1 && !data.item2 ? true : false,
-                    child: _buildFloatingActionButton(context: context));
+                    child: NoteFloatingActionButton());
               }),
           body: BuildBody()),
     );
@@ -54,8 +53,11 @@ class NotePage extends StatelessWidget {
     } else
       return true;
   }
+}
 
-  Widget _buildFloatingActionButton({BuildContext context}) {
+class NoteFloatingActionButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return FloatingActionButton(
       tooltip: "Create note",
       backgroundColor: Theme.of(context).accentColor,
