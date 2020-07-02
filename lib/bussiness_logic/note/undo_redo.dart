@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class UndoRedo {
+  UndoRedo._();
+
   static void undo({
     @required BuildContext context,
     @required TextEditingController detailController,

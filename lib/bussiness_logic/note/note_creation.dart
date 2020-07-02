@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:deep_paper/utility/extension.dart';
 
 class NoteCreation {
+  NoteCreation._();
+
   static Future<int> create(
       {@required BuildContext context,
       @required String detail,
@@ -38,7 +40,6 @@ class NoteCreation {
     }
 
     if (!detail.isNullEmptyOrWhitespace) {
-      debugPrintSynchronously("create note");
       noteID = await database.noteDao.insertNote(NotesCompanion(
           detail: Value(detail),
           detailDirection: Value(detailDirection),
@@ -68,6 +69,7 @@ class NoteCreation {
       @required String detail,
       @required int folderID,
       @required String folderName,
+      @required DateTime date,
       @required bool isDeleted,
       @required bool isCopy}) {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
@@ -99,7 +101,7 @@ class NoteCreation {
             folderName: Value(folderName),
             folderNameDirection: Value(folderNameDirection),
             isDeleted: Value(isDeleted),
-            date: Value(DateTime.now())));
+            date: Value(date)));
   }
 
   static void copy({

@@ -17,6 +17,8 @@ import 'package:provider/provider.dart';
 import 'package:deep_paper/utility/extension.dart';
 
 class BottomModal {
+  BottomModal._();
+
   static Future openAddMenu({@required BuildContext context}) {
     return showModalBottomSheet(
         context: context,

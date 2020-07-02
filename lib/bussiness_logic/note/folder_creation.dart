@@ -6,6 +6,8 @@ import 'package:moor/moor.dart';
 import 'package:provider/provider.dart';
 
 class FolderCreation {
+  FolderCreation._();
+
   static void create({@required BuildContext context, @required String name}) {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 

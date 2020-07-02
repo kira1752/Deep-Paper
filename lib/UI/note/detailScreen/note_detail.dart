@@ -3,6 +3,7 @@ import 'package:deep_paper/UI/note/widgets/deep_toast.dart';
 import 'package:deep_paper/UI/widgets/deep_keep_alive.dart';
 import 'package:deep_paper/UI/widgets/deep_scroll_behavior.dart';
 import 'package:deep_paper/bussiness_logic/note/note_creation.dart';
+import 'package:deep_paper/bussiness_logic/note/note_detail_normal_save.dart';
 import 'package:deep_paper/bussiness_logic/note/provider/note_detail_provider.dart';
 import 'package:deep_paper/bussiness_logic/note/provider/undo_redo_provider.dart';
 import 'package:deep_paper/bussiness_logic/note/text_field_logic.dart';
@@ -36,6 +37,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
   String _date;
   Note _note;
   int _noteID;
+  String _detail;
   TextEditingController _detailController;
   FocusNode _detailFocus;
 
@@ -47,7 +49,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
 
     _note = widget.note;
-    String _detail = _note.isNull ? "" : _note.detail;
+    _detail = _note.isNull ? "" : _note.detail;
 
     Provider.of<UndoRedoProvider>(context, listen: false).setInitialDetail =
         _detail;
@@ -106,6 +108,9 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
 
     if (state == AppLifecycleState.inactive) {
       if (_noteID.isNull && _note.isNull) {
+        // Create note data when user tapping home button
+        // and there is no Note data exist in database
+        _detail = detailProvider.getDetail;
         _noteID = await NoteCreation.create(
           context: context,
           detail: detailProvider.getDetail,
@@ -128,30 +133,40 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
           _noteID = null;
           _note = null;
         } else if (_note.isNotNull) {
-          if (_note.detail != detailProvider.getDetail ||
-              _note.isDeleted != _isDeleted) {
-            debugPrintSynchronously("update note run");
-            if (!detailProvider.getDetail.isNullEmptyOrWhitespace) {
-              NoteCreation.update(
-                  context: context,
-                  noteID: _note.id,
-                  detail: detailProvider.getDetail,
-                  folderID: widget.folderID,
-                  folderName: widget.folderName,
-                  isDeleted: _isDeleted,
-                  isCopy: _isCopy);
-            }
+          // Update note with latest date if there is any changes in detail
+          // then user exit the app not using the usual pop
+          // like using home button, chat notification, etc
+          if (_detail != detailProvider.getDetail) {
+            _detail = detailProvider.getDetail;
+
+            NoteCreation.update(
+                context: context,
+                noteID: _note.id,
+                detail: detailProvider.getDetail,
+                folderID: widget.folderID,
+                folderName: widget.folderName,
+                date: DateTime.now(),
+                isDeleted: _isDeleted,
+                isCopy: _isCopy);
           }
         } else {
-          debugPrintSynchronously("update note run");
-          NoteCreation.update(
-              context: context,
-              noteID: _noteID,
-              detail: detailProvider.getDetail,
-              folderID: widget.folderID,
-              folderName: widget.folderName,
-              isDeleted: _isDeleted,
-              isCopy: _isCopy);
+          // Same as above but this run only when there is no note data provided
+          // like when creating new note because of user pressing home button, etc
+          // then user continue editing the note,
+          // then pressing home button again, etc
+          if (_detail != detailProvider.getDetail) {
+            _detail = detailProvider.getDetail;
+
+            NoteCreation.update(
+                context: context,
+                noteID: _noteID,
+                detail: detailProvider.getDetail,
+                folderID: widget.folderID,
+                folderName: widget.folderName,
+                date: DateTime.now(),
+                isDeleted: _isDeleted,
+                isCopy: _isCopy);
+          }
         }
       }
     }
@@ -178,71 +193,16 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
         ),
         child: WillPopScope(
           onWillPop: () async {
-            if (_noteID.isNotNull || _note.isNotNull) {
-              if (detailProvider.getDetail.isNullEmptyOrWhitespace) {
-                NoteCreation.deleteEmptyNote(
-                    context: context,
-                    noteID: _note.isNull ? _noteID : _note.id);
-
-                DeepToast.showToast(description: "Empty note deleted");
-              } else if (_note.isNotNull) {
-                if (_note.detail != detailProvider.getDetail ||
-                    _note.isDeleted != _isDeleted) {
-                  debugPrintSynchronously("update note run");
-                  if (!detailProvider.getDetail.isNullEmptyOrWhitespace) {
-                    NoteCreation.update(
-                        context: context,
-                        noteID: _note.id,
-                        detail: detailProvider.getDetail,
-                        folderID: widget.folderID,
-                        folderName: widget.folderName,
-                        isDeleted: _isDeleted,
-                        isCopy: _isCopy);
-                  }
-                } else if (_isCopy) {
-                  NoteCreation.copy(
-                      context: context,
-                      detail: detailProvider.getDetail,
-                      detailDirection:
-                          Bidi.detectRtlDirectionality(detailProvider.getDetail)
-                              ? TextDirection.rtl
-                              : TextDirection.ltr,
-                      folderID: widget.folderID,
-                      folderName: widget.folderName,
-                      folderNameDirection:
-                          Bidi.detectRtlDirectionality(widget.folderName)
-                              ? TextDirection.rtl
-                              : TextDirection.ltr,
-                     );
-                }
-              } else {
-                debugPrintSynchronously("update note run");
-                NoteCreation.update(
-                    context: context,
-                    noteID: _noteID,
-                    detail: detailProvider.getDetail,
-                    folderID: widget.folderID,
-                    folderName: widget.folderName,
-                    isDeleted: _isDeleted,
-                    isCopy: _isCopy);
-              }
-            } else {
-              NoteCreation.create(
-                  context: context,
-                  detail: detailProvider.getDetail,
-                  detailDirection:
-                      Bidi.detectRtlDirectionality(detailProvider.getDetail)
-                          ? TextDirection.rtl
-                          : TextDirection.ltr,
-                  folderID: widget.folderID,
-                  folderName: widget.folderName,
-                  folderNameDirection:
-                      Bidi.detectRtlDirectionality(widget.folderName)
-                          ? TextDirection.rtl
-                          : TextDirection.ltr,
-                  isDeleted: _isDeleted,
-                  isCopy: _isCopy);
-            }
+            NoteDetailNormalSave.run(
+                context: context,
+                noteID: _noteID,
+                note: _note,
+                detailProvider: detailProvider,
+                detail: _detail,
+                folderID: widget.folderID,
+                folderName: widget.folderName,
+                isDeleted: _isDeleted,
+                isCopy: _isCopy);
 
             return true;
           },
@@ -316,7 +276,10 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
                     DeepKeepAlive(
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(18, 24, 16, 16),
-                        child: _detailField(),
+                        child: DetailField(
+                          detailController: _detailController,
+                          detailFocus: _detailFocus,
+                        ),
                       ),
                     ),
                   ],
@@ -328,23 +291,42 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
       ),
     );
   }
+}
 
-  Widget _detailField() {
-    final detailProvider =
-        Provider.of<NoteDetailProvider>(context, listen: false);
+class DetailField extends StatefulWidget {
+  final TextEditingController detailController;
+  final FocusNode detailFocus;
 
-    final undoRedoProvider =
-        Provider.of<UndoRedoProvider>(context, listen: false);
+  const DetailField(
+      {@required this.detailController, @required this.detailFocus});
 
-    detailProvider.checkDetailDirection = detailProvider.getDetail;
+  @override
+  _DetailFieldState createState() => _DetailFieldState();
+}
 
+class _DetailFieldState extends State<DetailField> {
+  NoteDetailProvider _detailProvider;
+  UndoRedoProvider _undoRedoProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _detailProvider = Provider.of<NoteDetailProvider>(context, listen: false);
+
+    _undoRedoProvider = Provider.of<UndoRedoProvider>(context, listen: false);
+
+    _detailProvider.checkDetailDirection = _detailProvider.getDetail;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Selector<NoteDetailProvider, TextDirection>(
         selector: (context, provider) =>
             provider.getDetailDirection ? TextDirection.rtl : TextDirection.ltr,
         builder: (context, direction, child) {
           return TextField(
-            controller: _detailController,
-            focusNode: _detailFocus,
+            controller: widget.detailController,
+            focusNode: widget.detailFocus,
             showCursor: true,
             textDirection: direction,
             style: Theme.of(context).textTheme.bodyText1.copyWith(
@@ -353,8 +335,8 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
             keyboardType: TextInputType.multiline,
             onChanged: (value) => TextFieldLogic.detail(
                 value: value,
-                detailProvider: detailProvider,
-                undoRedoProvider: undoRedoProvider),
+                detailProvider: _detailProvider,
+                undoRedoProvider: _undoRedoProvider),
             decoration: InputDecoration.collapsed(
               hintText: 'Write your note here...',
             ),

@@ -5,6 +5,8 @@ import 'package:moor/moor.dart';
 import 'package:provider/provider.dart';
 
 class TrashManagement {
+  TrashManagement._();
+
   static Future<void> empty({@required BuildContext context}) async {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 

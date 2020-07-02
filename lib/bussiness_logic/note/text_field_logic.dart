@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:deep_paper/utility/extension.dart';
 
 class TextFieldLogic {
+  TextFieldLogic._();
+
   static void detail(
       {@required String value,
       @required NoteDetailProvider detailProvider,

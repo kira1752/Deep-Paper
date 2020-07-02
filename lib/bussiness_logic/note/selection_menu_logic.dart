@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SelectionMenuLogic {
+  SelectionMenuLogic._();
+
   static void menuTrashSelected(
       {@required BuildContext context, @required int choice}) {
     switch (choice) {
