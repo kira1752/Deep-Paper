@@ -450,7 +450,7 @@ class DeepDialog {
                       }),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     FlatButton(
                         textColor: Colors.white.withOpacity(0.87),
