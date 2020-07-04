@@ -1,11 +1,11 @@
-import 'package:deep_paper/UI/note/widgets/bottom_modal.dart';
+import 'package:deep_paper/UI/note/widgets/deep_dialog.dart';
 import 'package:deep_paper/UI/note/widgets/empty_trash_illustration.dart';
 import 'package:deep_paper/UI/note/widgets/note_card.dart';
 import 'package:deep_paper/data/deep.dart';
+import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:deep_paper/utility/extension.dart';
 
 class TrashListView extends StatelessWidget {
   @override
@@ -31,7 +31,7 @@ class TrashListView extends StatelessWidget {
                           index: index,
                           note: data[index],
                           ontap: () {
-                            BottomModal.openRestoreDialog(
+                            DeepDialog.openRestoreDialog(
                                 context: context, data: data[index]);
                           },
                         );

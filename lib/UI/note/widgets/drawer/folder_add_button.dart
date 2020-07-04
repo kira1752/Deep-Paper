@@ -1,4 +1,4 @@
-import 'package:deep_paper/UI/note/widgets/bottom_modal.dart';
+import 'package:deep_paper/UI/note/widgets/deep_dialog.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +20,7 @@ class FolderAddButton extends StatelessWidget {
                   side: BorderSide(
                       color: Theme.of(context).accentColor, width: 2.0)),
               onPressed: () {
-                BottomModal.openCreateFolderDialog(context: context);
+                DeepDialog.openCreateFolderDialog(context: context);
               },
               child: Text(
                 "ADD",

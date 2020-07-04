@@ -40,13 +40,13 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
             child: Material(
               color: Theme.of(context).cardColor,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
+                  borderRadius: BorderRadius.circular(6.0),
                   side: selectionProvider.getSelection && selected
                       ? BorderSide(
                           color: Theme.of(context).accentColor, width: 2.0)
                       : BorderSide.none),
               child: InkWell(
-                borderRadius: BorderRadius.circular(12.0),
+                borderRadius: BorderRadius.circular(6.0),
                 onTap: () {
                   if (!selected && selectionProvider.getSelection) {
                     selectionProvider.setSelected(
@@ -126,8 +126,8 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
             color: Theme.of(context).cardColor,
             border: Border.all(
                 width: 2.0,
-                color: Theme.of(context).accentColor.withOpacity(0.3)),
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                color: Theme.of(context).accentColor.withOpacity(0.5)),
+            borderRadius: BorderRadius.all(Radius.circular(6.0)),
           ),
           child: AnimatedSize(
             duration: Duration(milliseconds: 250),
@@ -136,8 +136,10 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
             child: Text(
               "${note.folderName}",
               textDirection: note.folderNameDirection,
-              style: Theme.of(context).textTheme.caption.copyWith(
-                  color: Colors.white70, fontSize: SizeHelper.getFolder),
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .caption,
               overflow: TextOverflow.ellipsis,
             ),
           ),

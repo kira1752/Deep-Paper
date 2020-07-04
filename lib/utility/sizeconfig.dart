@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 class SizeConfig {
@@ -39,8 +38,5 @@ class SizeConfig {
     imageSizeMultiplier = _blockWidth;
     heightMultiplier = _blockHeight;
     widthMultiplier = _blockWidth;
-
-    debugPrintSynchronously("block width: $_blockWidth");
-    debugPrintSynchronously("block height: $_blockHeight");
   }
 }

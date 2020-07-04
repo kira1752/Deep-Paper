@@ -1,4 +1,5 @@
 import 'package:deep_paper/utility/sizeconfig.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ResponsiveWidget extends StatelessWidget {

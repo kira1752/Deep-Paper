@@ -46,6 +46,9 @@ class AppTheme {
         bottomSheetTheme: BottomSheetThemeData(
           modalBackgroundColor: Color(0xff202020),
         ),
+        dialogTheme: DialogTheme(
+          backgroundColor: Color(0xff202020),
+        ),
         cardColor: Color(0xff202020).withOpacity(0.90),
         highlightColor: Color(0x424242),
         accentColor: Colors.orange[400], //#fdb368
@@ -80,6 +83,11 @@ class AppTheme {
             bodyText2: TextStyle(
               fontFamilyFallback: ["Noto Color Emoji"],
               color: Colors.white.withOpacity(0.87),
-            )));
+            ),
+            caption: TextStyle(
+                fontFamily: "IBM Plex",
+                fontFamilyFallback: ["Noto Color Emoji"],
+                color: Colors.white70,
+                fontSize: SizeHelper.getFolder)));
   }
 }
