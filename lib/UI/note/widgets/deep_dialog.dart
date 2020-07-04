@@ -371,111 +371,126 @@ class DeepDialog {
         ],
         child: ScrollConfiguration(
           behavior: DeepScrollBehavior(),
-          child: SimpleDialog(children: <Widget>[
-            Text(
-              "Rename folder",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontFamily: "Roboto",
-                  fontSize: SizeHelper.getHeadline6,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white.withOpacity(0.87)),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 26, bottom: 26),
-              child: Consumer<TextControllerProvider>(
-                  builder: (context, textControllerProvider, child) {
-                textControllerProvider.controller.text = folderName;
+          child: SimpleDialog(
+              contentPadding: EdgeInsets.all(24.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0))),
+              children: <Widget>[
+                Text(
+                  "Rename folder",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: "Roboto",
+                      fontSize: SizeHelper.getHeadline6,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white.withOpacity(0.87)),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 26, bottom: 26),
+                  child: Consumer<TextControllerProvider>(
+                      builder: (context, textControllerProvider, child) {
+                    textControllerProvider.controller.text = folderName;
 
-                textControllerProvider.controller.selection = TextSelection(
-                    baseOffset: 0, extentOffset: folderName.length);
+                    textControllerProvider.controller.selection = TextSelection(
+                        baseOffset: 0, extentOffset: folderName.length);
 
-                Provider.of<DetectTextDirectionProvider>(context, listen: false)
-                    .checkDirection = folderName;
+                    Provider.of<DetectTextDirectionProvider>(context,
+                            listen: false)
+                        .checkDirection = folderName;
 
-                return Selector<DetectTextDirectionProvider, TextDirection>(
-                    selector: (context, provider) => provider.getDirection
-                        ? TextDirection.rtl
-                        : TextDirection.ltr,
-                    builder: (context, direction, child) {
-                      return TextField(
-                        controller: textControllerProvider.controller,
-                        textDirection: direction,
-                        autofocus: true,
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Colors.white70,
-                            fontSize: SizeHelper.getModalTextField),
-                        maxLines: 1,
-                        keyboardType: TextInputType.text,
-                        onChanged: (value) {
-                          folderName = value;
-                          Provider.of<FolderDialogProvider>(context,
+                    return Selector<DetectTextDirectionProvider, TextDirection>(
+                        selector: (context, provider) => provider.getDirection
+                            ? TextDirection.rtl
+                            : TextDirection.ltr,
+                        builder: (context, direction, child) {
+                          return TextField(
+                            controller: textControllerProvider.controller,
+                            textDirection: direction,
+                            autofocus: true,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                                    color: Colors.white70,
+                                    fontSize: SizeHelper.getModalTextField),
+                            maxLines: 1,
+                            keyboardType: TextInputType.text,
+                            onChanged: (value) {
+                              folderName = value;
+                              Provider.of<FolderDialogProvider>(context,
                                       listen: false)
-                                  .setIsNameTyped =
-                              !folderName.isNullEmptyOrWhitespace &&
+                                      .setIsNameTyped = !folderName
+                                      .isNullEmptyOrWhitespace &&
                                   folderName != drawerProvider.getFolder.name;
 
-                          Provider.of<DetectTextDirectionProvider>(context,
-                                  listen: false)
-                              .checkDirection = folderName;
+                                  Provider
+                                      .of<DetectTextDirectionProvider>(context,
+                                      listen: false)
+                                      .checkDirection = folderName;
+                                },
+                                decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      borderSide: BorderSide(
+                                          width: 2.0,
+                                          color: Theme
+                                              .of(context)
+                                              .accentColor)),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      borderSide: BorderSide(
+                                          width: 2.0,
+                                          color: Theme
+                                              .of(context)
+                                              .accentColor)),
+                                  hintText: 'Folder Name',
+                                ),
+                              );
+                            });
+                      }),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    FlatButton(
+                        textColor: Colors.white.withOpacity(0.87),
+                        onPressed: () {
+                          Navigator.of(context).pop();
                         },
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16.0),
-                              borderSide: BorderSide(
-                                  width: 2.0,
-                                  color: Theme.of(context).accentColor)),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16.0),
-                              borderSide: BorderSide(
-                                  width: 2.0,
-                                  color: Theme.of(context).accentColor)),
-                          hintText: 'Folder Name',
-                        ),
-                      );
-                    });
-              }),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                FlatButton(
-                    textColor: Colors.white.withOpacity(0.87),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontSize: SizeHelper.getModalButton,
-                      ),
-                    )),
-                Consumer<FolderDialogProvider>(
-                    builder: (context, provider, widget) {
-                  return FlatButton(
-                      textColor: Theme.of(context).accentColor,
-                      onPressed: provider.isNameTyped
-                          ? () {
-                              FolderCreation.update(
-                                  context: context,
-                                  drawerProvider: drawerProvider,
-                                  name: folderName);
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                            fontFamily: "Roboto",
+                            fontSize: SizeHelper.getModalButton,
+                          ),
+                        )),
+                    Consumer<FolderDialogProvider>(
+                        builder: (context, provider, widget) {
+                          return FlatButton(
+                              textColor: Theme
+                                  .of(context)
+                                  .accentColor,
+                              onPressed: provider.isNameTyped
+                                  ? () {
+                                FolderCreation.update(
+                                    context: context,
+                                    drawerProvider: drawerProvider,
+                                    name: folderName);
 
-                              Navigator.of(context).pop();
-                            }
-                          : null,
-                      child: Text(
-                        "Rename",
-                        style: TextStyle(
-                          fontFamily: "Roboto",
-                          fontSize: SizeHelper.getModalButton,
-                        ),
-                      ));
-                }),
-              ],
-            )
-          ]),
+                                Navigator.of(context).pop();
+                              }
+                                  : null,
+                              child: Text(
+                                "Rename",
+                                style: TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: SizeHelper.getModalButton,
+                                ),
+                              ));
+                        }),
+                  ],
+                )
+              ]),
         ),
       ),
     );
