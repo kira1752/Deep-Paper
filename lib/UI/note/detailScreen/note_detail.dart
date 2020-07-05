@@ -208,6 +208,8 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
           },
           child: Scaffold(
             appBar: AppBar(
+              elevation: 0.0,
+              centerTitle: true,
               leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back,
@@ -217,8 +219,6 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
                   Navigator.of(context).maybePop();
                 },
               ),
-              elevation: 0.0,
-              centerTitle: true,
             ),
             bottomNavigationBar: BottomMenu(
               date: _date,
@@ -270,7 +270,6 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
                   }
                 },
                 child: ListView(
-                  physics: ClampingScrollPhysics(),
                   children: <Widget>[
                     DeepKeepAlive(
                       child: Padding(
