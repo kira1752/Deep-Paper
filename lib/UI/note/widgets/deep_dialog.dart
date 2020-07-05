@@ -84,7 +84,6 @@ class DeepDialog {
     @required BuildContext context,
   }) {
     String folderName;
-
     return showDialog(
       context: context,
       builder: (context) => MultiProvider(
