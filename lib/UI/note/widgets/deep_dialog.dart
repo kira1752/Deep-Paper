@@ -40,7 +40,7 @@ class DeepDialog {
           ChangeNotifierProvider(
               create: (context) => DetectTextDirectionProvider())
         ],
-        child: _DeepDialog(child: _CreateFolderDialog()),
+        child: DeepBaseDialog(child: _CreateFolderDialog()),
       ),
     );
   }
@@ -78,7 +78,7 @@ class DeepDialog {
             ChangeNotifierProvider(
                 create: (context) => DetectTextDirectionProvider())
           ],
-          child: _DeepDialog(child: _CreateFolderMoveToDialog()),
+          child: DeepBaseDialog(child: _CreateFolderMoveToDialog()),
         ),
       ),
     );
@@ -92,23 +92,21 @@ class DeepDialog {
 
     return showDialog(
       context: context,
-      builder: (context) =>
-          MultiProvider(
-            providers: [
-              Provider<TextControllerProvider>(
-                create: (context) => TextControllerProvider(),
-                dispose: (context, provider) => provider.controller.dispose(),
-              ),
-              ChangeNotifierProvider(
-                  create: (context) => FolderDialogProvider()),
-              ChangeNotifierProvider(
-                  create: (context) => DetectTextDirectionProvider())
-            ],
-            child: _DeepDialog(
-                child: _RenameFolderDialog(
-                  drawerProvider: drawerProvider,
-                )),
+      builder: (context) => MultiProvider(
+        providers: [
+          Provider<TextControllerProvider>(
+            create: (context) => TextControllerProvider(),
+            dispose: (context, provider) => provider.controller.dispose(),
           ),
+          ChangeNotifierProvider(create: (context) => FolderDialogProvider()),
+          ChangeNotifierProvider(
+              create: (context) => DetectTextDirectionProvider())
+        ],
+        child: DeepBaseDialog(
+            child: _RenameFolderDialog(
+          drawerProvider: drawerProvider,
+        )),
+      ),
     );
   }
 
@@ -125,10 +123,10 @@ class DeepDialog {
   }
 }
 
-class _DeepDialog extends StatelessWidget {
+class DeepBaseDialog extends StatelessWidget {
   final Widget child;
 
-  _DeepDialog({this.child});
+  DeepBaseDialog({this.child});
 
   @override
   Widget build(BuildContext context) {
