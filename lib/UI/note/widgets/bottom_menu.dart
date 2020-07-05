@@ -9,14 +9,12 @@ import 'package:provider/provider.dart';
 
 class BottomMenu extends StatelessWidget {
   final String date;
-  final bool newNote;
   final TextEditingController detailController;
   final void Function() onDelete;
   final void Function() onCopy;
 
   BottomMenu(
       {@required this.date,
-      @required this.newNote,
       @required this.detailController,
       this.onDelete,
       this.onCopy});
@@ -61,10 +59,7 @@ class BottomMenu extends StatelessWidget {
                     FocusScope.of(context).unfocus();
                   }
                   await BottomModal.openOptionsMenu(
-                      context: context,
-                      newNote: newNote,
-                      onDelete: onDelete,
-                      onCopy: onCopy);
+                      context: context, onDelete: onDelete, onCopy: onCopy);
                 },
               )
             ],

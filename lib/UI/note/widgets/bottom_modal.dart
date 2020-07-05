@@ -34,9 +34,10 @@ class BottomModal {
                     ),
                     title: Text(
                       "Take photo",
-                      style: Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: Colors.white70,
-                          fontSize: SizeHelper.getModalButton),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(fontSize: SizeHelper.getModalButton),
                     ),
                   ),
                 ),
@@ -51,9 +52,11 @@ class BottomModal {
                     ),
                     title: Text(
                       "Choose image",
-                      style: Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: Colors.white70,
-                          fontSize: SizeHelper.getModalButton),
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(fontSize: SizeHelper.getModalButton),
                     ),
                   ),
                 ),
@@ -68,9 +71,11 @@ class BottomModal {
                     ),
                     title: Text(
                       "Recording",
-                      style: Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: Colors.white70,
-                          fontSize: SizeHelper.getModalButton),
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(fontSize: SizeHelper.getModalButton),
                     ),
                   ),
                 ),
@@ -85,9 +90,11 @@ class BottomModal {
                     ),
                     title: Text(
                       "Choose audio",
-                      style: Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: Colors.white70,
-                          fontSize: SizeHelper.getModalButton),
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(fontSize: SizeHelper.getModalButton),
                     ),
                   ),
                 )
@@ -99,7 +106,6 @@ class BottomModal {
 
   static Future openOptionsMenu(
       {@required BuildContext context,
-      @required bool newNote,
       @required void Function() onDelete,
       @required void Function() onCopy}) {
     return showModalBottomSheet(
@@ -121,11 +127,11 @@ class BottomModal {
                   clipBehavior: Clip.hardEdge,
                   shape: StadiumBorder(),
                   child: ListTile(
-                    enabled: newNote ? false : true,
+                    enabled: true,
                     onTap: onDelete,
                     leading: Icon(
                       MyIcon.trash_empty,
-                      color: newNote ? Colors.white30 : Colors.white70,
+                      color: Colors.white70,
                     ),
                     title: Text(
                       "Delete",
@@ -133,9 +139,7 @@ class BottomModal {
                           .of(context)
                           .textTheme
                           .bodyText1
-                          .copyWith(
-                          color: newNote ? Colors.white30 : Colors.white70,
-                          fontSize: SizeHelper.getModalButton),
+                          .copyWith(fontSize: SizeHelper.getModalButton),
                     ),
                   ),
                 ),
@@ -144,11 +148,11 @@ class BottomModal {
                   clipBehavior: Clip.hardEdge,
                   shape: StadiumBorder(),
                   child: ListTile(
-                    enabled: newNote ? false : true,
+                    enabled: true,
                     onTap: onCopy,
                     leading: Icon(
                       Icons.content_copy,
-                      color: newNote ? Colors.white30 : Colors.white70,
+                      color: Colors.white70,
                     ),
                     title: Text(
                       "Make a copy",
@@ -156,9 +160,7 @@ class BottomModal {
                           .of(context)
                           .textTheme
                           .bodyText1
-                          .copyWith(
-                          color: newNote ? Colors.white30 : Colors.white70,
-                          fontSize: SizeHelper.getModalButton),
+                          .copyWith(fontSize: SizeHelper.getModalButton),
                     ),
                   ),
                 ),
@@ -177,9 +179,7 @@ class BottomModal {
                           .of(context)
                           .textTheme
                           .bodyText1
-                          .copyWith(
-                          color: Colors.white70,
-                          fontSize: SizeHelper.getModalButton),
+                          .copyWith(fontSize: SizeHelper.getModalButton),
                     ),
                   ),
                 ),

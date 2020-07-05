@@ -93,9 +93,10 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
                         Text(
                           "${widget.note.detail}",
                           textDirection: widget.note.detailDirection,
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.white70,
-                              fontSize: SizeHelper.getDescription),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              .copyWith(fontSize: SizeHelper.getDetail),
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                         ),

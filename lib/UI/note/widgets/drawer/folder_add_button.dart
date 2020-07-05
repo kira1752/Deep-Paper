@@ -10,9 +10,10 @@ class FolderAddButton extends StatelessWidget {
     return ListTile(
         title: Text(
           "FOLDERS",
-          style: Theme.of(context).textTheme.bodyText1.copyWith(
-              color: Colors.white.withOpacity(0.70),
-              fontSize: SizeHelper.getBodyText1),
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1
+              .copyWith(fontSize: SizeHelper.getBodyText1),
         ),
         trailing: RepaintBoundary(
           child: FlatButton(

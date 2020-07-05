@@ -1,11 +1,11 @@
 import 'package:deep_paper/bussiness_logic/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/data/deep.dart';
+import 'package:deep_paper/utility/extension.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
-import 'package:deep_paper/utility/extension.dart';
 
 class DrawerFolderItem extends StatelessWidget {
   final FolderNoteData folder;
@@ -87,9 +87,10 @@ class DrawerFolderItem extends StatelessWidget {
                       ? Theme.of(context).textTheme.bodyText1.copyWith(
                           color: Colors.white.withOpacity(0.87),
                           fontSize: SizeHelper.getDrawerMenuText)
-                      : Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: Colors.white70,
-                          fontSize: SizeHelper.getDrawerMenuText),
+                      : Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(fontSize: SizeHelper.getDrawerMenuText),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 )),

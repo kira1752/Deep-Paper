@@ -4,7 +4,7 @@ class SizeHelper {
   static double _headline5 = 24;
   static double _headline6 = 20;
   static double _title = 22;
-  static double _description = 18;
+  static double _detail = 18;
   static double _drawerMenuText = 17;
   static double _searchText = 17;
   static double _modalDesciption = 17;
@@ -20,7 +20,8 @@ class SizeHelper {
   static double get getHeadline5 => _headline5;
   static double get getHeadline6 => _headline6;
   static double get getTitle => _title;
-  static double get getDescription => _description;
+
+  static double get getDetail => _detail;
   static double get getDrawerMenuText => _drawerMenuText;
   static double get getModalDescription => _modalDesciption;
   static double get getModalTextField => _modalTextField;

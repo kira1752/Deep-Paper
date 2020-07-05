@@ -13,7 +13,6 @@ class AppTheme {
 
   static TextStyle darkTitleFolderAppBar(BuildContext context) {
     return Theme.of(context).textTheme.bodyText1.copyWith(
-        fontFamily: "IBM Plex",
         fontWeight: FontWeight.w600,
         fontSize: SizeHelper.getTitle);
   }
@@ -78,16 +77,16 @@ class AppTheme {
               fontFamilyFallback: ["Noto Color Emoji"],
               wordSpacing: 1.0,
               height: 1.5,
-              color: Colors.white.withOpacity(0.80),
+              color: Colors.white.withOpacity(0.70),
             ),
             bodyText2: TextStyle(
               fontFamilyFallback: ["Noto Color Emoji"],
               color: Colors.white.withOpacity(0.87),
             ),
             caption: TextStyle(
-                fontFamily: "IBM Plex",
                 fontFamilyFallback: ["Noto Color Emoji"],
                 color: Colors.white70,
+                fontWeight: FontWeight.w600,
                 fontSize: SizeHelper.getFolder)));
   }
 }

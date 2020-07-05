@@ -8,6 +8,7 @@ import 'package:deep_paper/bussiness_logic/note/provider/note_detail_provider.da
 import 'package:deep_paper/bussiness_logic/note/provider/undo_redo_provider.dart';
 import 'package:deep_paper/bussiness_logic/note/text_field_logic.dart';
 import 'package:deep_paper/data/deep.dart';
+import 'package:deep_paper/utility/extension.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
-import 'package:deep_paper/utility/extension.dart';
 
 class NoteDetail extends StatefulWidget {
   final Note note;
@@ -222,7 +222,6 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
             ),
             bottomNavigationBar: BottomMenu(
               date: _date,
-              newNote: false,
               detailController: _detailController,
               onDelete: () {
                 if (!detailProvider.getDetail.isNullEmptyOrWhitespace) {
@@ -330,7 +329,7 @@ class _DetailFieldState extends State<DetailField> {
             showCursor: true,
             textDirection: direction,
             style: Theme.of(context).textTheme.bodyText1.copyWith(
-                color: Colors.white70, fontSize: SizeHelper.getDescription),
+                fontWeight: FontWeight.normal, fontSize: SizeHelper.getDetail),
             maxLines: null,
             keyboardType: TextInputType.multiline,
             onChanged: (value) => TextFieldLogic.detail(

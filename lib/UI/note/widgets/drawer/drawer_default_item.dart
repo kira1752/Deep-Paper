@@ -85,9 +85,10 @@ class DrawerDefaultItem extends StatelessWidget {
                       ? Theme.of(context).textTheme.bodyText1.copyWith(
                           color: Colors.white.withOpacity(0.87),
                           fontSize: SizeHelper.getDrawerMenuText)
-                      : Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: Colors.white70,
-                          fontSize: SizeHelper.getDrawerMenuText),
+                      : Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(fontSize: SizeHelper.getDrawerMenuText),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 )),
