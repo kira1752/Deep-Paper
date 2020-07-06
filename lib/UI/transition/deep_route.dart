@@ -4,6 +4,7 @@ class DeepRoute extends PageRouteBuilder {
   DeepRoute({@required WidgetBuilder page, RouteSettings settings})
       : super(
           transitionDuration: const Duration(milliseconds: 300),
+    opaque: false,
           settings: settings,
           pageBuilder: (
             BuildContext context,
