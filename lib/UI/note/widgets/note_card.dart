@@ -36,17 +36,17 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
             provider.getSelected.containsKey(widget.index),
         builder: (context, selected, child) {
           return Padding(
-            padding: EdgeInsets.only(left: 16, right: 16, bottom: 12, top: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Material(
               color: Theme.of(context).cardColor,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6.0),
+                  borderRadius: BorderRadius.circular(12.0),
                   side: selectionProvider.getSelection && selected
                       ? BorderSide(
                           color: Theme.of(context).accentColor, width: 2.0)
                       : BorderSide.none),
               child: InkWell(
-                borderRadius: BorderRadius.circular(6.0),
+                borderRadius: BorderRadius.circular(12.0),
                 onTap: () {
                   if (!selected && selectionProvider.getSelection) {
                     selectionProvider.setSelected(
@@ -85,7 +85,7 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
                   }
                 },
                 child: Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       textDirection: widget.note.detailDirection,
@@ -101,7 +101,7 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
                           overflow: TextOverflow.ellipsis,
                         ),
                         Padding(
-                            padding: EdgeInsets.only(top: 24.0),
+                            padding: const EdgeInsets.only(top: 24.0),
                             child: _labelDateAndIcons(
                                 context: context, note: widget.note)),
                       ]),
@@ -122,13 +122,13 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
             border: Border.all(
                 width: 2.0,
                 color: Theme.of(context).accentColor.withOpacity(0.5)),
-            borderRadius: BorderRadius.all(Radius.circular(6.0)),
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
           ),
           child: AnimatedSize(
             duration: Duration(milliseconds: 250),
@@ -137,10 +137,7 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
             child: Text(
               "${note.folderName}",
               textDirection: note.folderNameDirection,
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .caption,
+              style: Theme.of(context).textTheme.caption,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -151,7 +148,7 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
             children: <Widget>[
               if (note.containImage)
                 Padding(
-                  padding: EdgeInsets.only(right: 8.0),
+                  padding: const EdgeInsets.only(right: 8.0),
                   child: Icon(
                     MyIcon.photo_outline,
                     color: Colors.white70,

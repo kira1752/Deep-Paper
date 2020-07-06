@@ -4,7 +4,7 @@ class SizeHelper {
   static double _headline5 = 24;
   static double _headline6 = 20;
   static double _title = 22;
-  static double _detail = 18;
+  static double _detail = 17;
   static double _drawerMenuText = 17;
   static double _searchText = 17;
   static double _modalDesciption = 17;

@@ -112,7 +112,7 @@ class DeepDialog {
 
   static Future<void> openDeleteFolderDialog({@required BuildContext context}) {
     final drawerProvider =
-    Provider.of<NoteDrawerProvider>(context, listen: false);
+        Provider.of<NoteDrawerProvider>(context, listen: false);
 
     return showDialog(
         context: context,
@@ -132,7 +132,7 @@ class DeepBaseDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-          borderRadius: const BorderRadius.all(const Radius.circular(8.0))),
+          borderRadius: const BorderRadius.all(const Radius.circular(12.0))),
       insetAnimationDuration: Duration(milliseconds: 250),
       insetAnimationCurve: Curves.easeIn,
       child: child,
@@ -151,7 +151,7 @@ class _RestoreDialog extends StatelessWidget {
       behavior: DeepScrollBehavior(),
       child: SimpleDialog(
         shape: RoundedRectangleBorder(
-            borderRadius: const BorderRadius.all(const Radius.circular(8.0))),
+            borderRadius: const BorderRadius.all(const Radius.circular(12.0))),
         contentPadding: const EdgeInsets.all(24.0),
         children: <Widget>[
           Padding(
@@ -169,6 +169,9 @@ class _RestoreDialog extends StatelessWidget {
             children: <Widget>[
               FlatButton(
                   textColor: Colors.white.withOpacity(0.87),
+                  shape: RoundedRectangleBorder(
+                      borderRadius:
+                      const BorderRadius.all(const Radius.circular(12.0))),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -183,6 +186,9 @@ class _RestoreDialog extends StatelessWidget {
                   textColor: Theme
                       .of(context)
                       .accentColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius:
+                      const BorderRadius.all(const Radius.circular(12.0))),
                   onPressed: () async {
                     TrashManagement.restore(context: context, data: data);
 
@@ -230,12 +236,13 @@ class __DeleteFolderDialogState extends State<_DeleteFolderDialog> {
     return ScrollConfiguration(
       behavior: DeepScrollBehavior(),
       child: SimpleDialog(
-          contentPadding: EdgeInsets.all(24.0),
+          contentPadding: const EdgeInsets.all(24.0),
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8.0))),
+              borderRadius:
+              const BorderRadius.all(const Radius.circular(12.0))),
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(bottom: 24.0),
+              padding: const EdgeInsets.only(bottom: 24.0),
               child: Text(
                 "Delete this folder ?\n\nAll notes inside this folder will be deleted.",
                 style: TextStyle(
@@ -249,6 +256,9 @@ class __DeleteFolderDialogState extends State<_DeleteFolderDialog> {
               children: <Widget>[
                 FlatButton(
                     textColor: Colors.white.withOpacity(0.87),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: const BorderRadius.all(
+                            const Radius.circular(12.0))),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -263,6 +273,9 @@ class __DeleteFolderDialogState extends State<_DeleteFolderDialog> {
                     textColor: Theme
                         .of(context)
                         .accentColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: const BorderRadius.all(
+                            const Radius.circular(12.0))),
                     onPressed: () {
                       FolderCreation.delete(
                           context: context, drawerProvider: drawerProvider);
@@ -367,7 +380,7 @@ class __CreateFolderDialogState extends State<_CreateFolderDialog> {
                                           decoration: InputDecoration(
                                             enabledBorder: OutlineInputBorder(
                                                 borderRadius:
-                                                BorderRadius.circular(8.0),
+                                                BorderRadius.circular(12.0),
                                                 borderSide: BorderSide(
                                                     width: 2.0,
                                                     color:
@@ -376,7 +389,7 @@ class __CreateFolderDialogState extends State<_CreateFolderDialog> {
                                                         .accentColor)),
                                             border: OutlineInputBorder(
                                                 borderRadius:
-                                                BorderRadius.circular(8.0),
+                                                BorderRadius.circular(12.0),
                                                 borderSide: BorderSide(
                                                     width: 2.0,
                                                     color:
@@ -394,6 +407,9 @@ class __CreateFolderDialogState extends State<_CreateFolderDialog> {
                             children: <Widget>[
                               FlatButton(
                                   textColor: Colors.white.withOpacity(0.87),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: const BorderRadius.all(
+                                          const Radius.circular(12.0))),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
@@ -410,6 +426,10 @@ class __CreateFolderDialogState extends State<_CreateFolderDialog> {
                                         textColor: Theme
                                             .of(context)
                                             .accentColor,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: const BorderRadius
+                                                .all(
+                                                const Radius.circular(12.0))),
                                         onPressed: provider.isNameTyped
                                             ? () {
                                           FolderCreation.create(
@@ -517,7 +537,7 @@ class __CreateFolderMoveToDialogState extends State<_CreateFolderMoveToDialog> {
                                       decoration: InputDecoration(
                                         enabledBorder: OutlineInputBorder(
                                             borderRadius:
-                                            BorderRadius.circular(16.0),
+                                            BorderRadius.circular(12.0),
                                             borderSide: BorderSide(
                                                 width: 2.0,
                                                 color:
@@ -526,7 +546,7 @@ class __CreateFolderMoveToDialogState extends State<_CreateFolderMoveToDialog> {
                                                     .accentColor)),
                                         border: OutlineInputBorder(
                                             borderRadius:
-                                            BorderRadius.circular(16.0),
+                                            BorderRadius.circular(12.0),
                                             borderSide: BorderSide(
                                                 width: 2.0,
                                                 color:
@@ -544,6 +564,9 @@ class __CreateFolderMoveToDialogState extends State<_CreateFolderMoveToDialog> {
                         children: <Widget>[
                           FlatButton(
                               textColor: Colors.white.withOpacity(0.87),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: const BorderRadius.all(
+                                      const Radius.circular(12.0))),
                               onPressed: () {
                                 Navigator.of(context).maybePop();
                               },
@@ -560,6 +583,9 @@ class __CreateFolderMoveToDialogState extends State<_CreateFolderMoveToDialog> {
                                     textColor: Theme
                                         .of(context)
                                         .accentColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: const BorderRadius.all(
+                                            const Radius.circular(12.0))),
                                     onPressed: provider.isNameTyped
                                         ? () {
                                       FolderCreation.create(
@@ -638,7 +664,7 @@ class __RenameFolderDialogState extends State<_RenameFolderDialog> {
                               color: Colors.white.withOpacity(0.87)),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: 26, bottom: 26),
+                          padding: const EdgeInsets.only(top: 26, bottom: 26),
                           child: Consumer<TextControllerProvider>(builder:
                               (context, textControllerProvider, child) {
                             textControllerProvider.controller.text = folderName;
@@ -694,7 +720,7 @@ class __RenameFolderDialogState extends State<_RenameFolderDialog> {
                                     decoration: InputDecoration(
                                       enabledBorder: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(16.0),
+                                          BorderRadius.circular(12.0),
                                           borderSide: BorderSide(
                                               width: 2.0,
                                               color: Theme
@@ -702,7 +728,7 @@ class __RenameFolderDialogState extends State<_RenameFolderDialog> {
                                                   .accentColor)),
                                       border: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(16.0),
+                                          BorderRadius.circular(12.0),
                                           borderSide: BorderSide(
                                               width: 2.0,
                                               color: Theme
@@ -719,6 +745,9 @@ class __RenameFolderDialogState extends State<_RenameFolderDialog> {
                           children: <Widget>[
                             FlatButton(
                                 textColor: Colors.white.withOpacity(0.87),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: const BorderRadius.all(
+                                        const Radius.circular(12.0))),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
@@ -735,6 +764,9 @@ class __RenameFolderDialogState extends State<_RenameFolderDialog> {
                                       textColor: Theme
                                           .of(context)
                                           .accentColor,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: const BorderRadius.all(
+                                              const Radius.circular(12.0))),
                                       onPressed: provider.isNameTyped
                                           ? () {
                                         FolderCreation.update(

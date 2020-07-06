@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 class DeepRoute extends PageRouteBuilder {
   DeepRoute({@required WidgetBuilder page, RouteSettings settings})
       : super(
-          opaque: false,
-          maintainState: true,
-          transitionDuration: Duration(milliseconds: 300),
+          transitionDuration: const Duration(milliseconds: 300),
           settings: settings,
           pageBuilder: (
             BuildContext context,

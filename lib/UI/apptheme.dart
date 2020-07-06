@@ -56,7 +56,7 @@ class AppTheme {
         bottomAppBarColor: Color(0xff121212),
         cursorColor: Colors.orange[900],
         scaffoldBackgroundColor: Color(0xff121212),
-        textSelectionColor: Colors.orange[900],
+        textSelectionColor: Colors.grey[600],
         textSelectionHandleColor: Colors.orange[900],
         canvasColor: Color(0xff181818),
         textTheme: TextTheme(

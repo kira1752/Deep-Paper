@@ -82,7 +82,7 @@ class TrashMenu extends StatelessWidget {
                   DeepToast.showToast(
                       description: StringResource.trashEmptiedSuccesfully);
                 },
-                padding: EdgeInsets.all(18.0),
+                padding: const EdgeInsets.all(18.0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0)),
                 itemBuilder: (context) {
