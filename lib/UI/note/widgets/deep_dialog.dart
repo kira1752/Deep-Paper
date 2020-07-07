@@ -116,8 +116,7 @@ class DeepDialog {
 
     return showDialog(
         context: context,
-        builder: (context) =>
-            _DeleteFolderDialog(
+        builder: (context) => _DeleteFolderDialog(
               drawerProvider: drawerProvider,
             ));
   }

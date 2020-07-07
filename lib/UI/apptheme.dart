@@ -12,9 +12,10 @@ class AppTheme {
   }
 
   static TextStyle darkTitleFolderAppBar(BuildContext context) {
-    return Theme.of(context).textTheme.bodyText1.copyWith(
-        fontWeight: FontWeight.w600,
-        fontSize: SizeHelper.getTitle);
+    return Theme.of(context)
+        .textTheme
+        .bodyText1
+        .copyWith(fontWeight: FontWeight.w600, fontSize: SizeHelper.getTitle);
   }
 
   static TextStyle darkTitleTrashAppBar(BuildContext context) {
@@ -77,7 +78,7 @@ class AppTheme {
               fontFamilyFallback: ["Noto Color Emoji"],
               wordSpacing: 1.0,
               height: 1.5,
-              color: Colors.white.withOpacity(0.70),
+              color: Colors.white70,
             ),
             bodyText2: TextStyle(
               fontFamilyFallback: ["Noto Color Emoji"],
