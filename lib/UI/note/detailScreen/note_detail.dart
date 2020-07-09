@@ -327,10 +327,10 @@ class _DetailFieldState extends State<DetailField> {
             focusNode: widget.detailFocus,
             showCursor: true,
             textDirection: direction,
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1
-                .copyWith(fontSize: SizeHelper.getDetail),
+            style: Theme.of(context).textTheme.bodyText1.copyWith(
+                color: Colors.white.withOpacity(0.87),
+                fontWeight: FontWeight.normal,
+                fontSize: SizeHelper.getDetail),
             maxLines: null,
             keyboardType: TextInputType.multiline,
             onChanged: (value) => TextFieldLogic.detail(

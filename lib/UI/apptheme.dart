@@ -40,6 +40,7 @@ class AppTheme {
 
   static ThemeData dark() {
     return ThemeData.dark().copyWith(
+        visualDensity: VisualDensity.adaptivePlatformDensity,
         popupMenuTheme: PopupMenuThemeData(
             color: Color(0xff202020),
             textStyle: TextStyle(color: Colors.white.withOpacity(0.80))),

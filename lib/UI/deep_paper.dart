@@ -8,11 +8,11 @@ import 'package:deep_paper/bussiness_logic/note/provider/note_drawer_provider.da
 import 'package:deep_paper/bussiness_logic/note/provider/selection_provider.dart';
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/utility/size_helper.dart';
+import 'package:deep_paper/utility/sizeconfig.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:deep_paper/utility/sizeconfig.dart';
 
 class DeepPaper extends StatelessWidget {
   @override
@@ -33,10 +33,6 @@ class DeepPaper extends StatelessWidget {
                 return PageView(
                   physics: const NeverScrollableScrollPhysics(),
                   controller: controller,
-                  onPageChanged: (index) {
-                    Provider.of<DeepBottomProvider>(context, listen: false)
-                        .setCurrentIndex = index;
-                  },
                   children: <Widget>[
                     DeepKeepAlive(
                         child: MultiProvider(
@@ -72,8 +68,7 @@ class DeepPaper extends StatelessWidget {
                         unselectedFontSize: SizeHelper.getButton,
                         selectedItemColor: Theme.of(context).accentColor,
                         unselectedItemColor: Colors.white70,
-                        currentIndex: deepProvider
-                            .currentIndex, // use this to remove appBar's elevation
+                        currentIndex: deepProvider.currentIndex,
                         onTap: (index) {
                           deepProvider.setCurrentIndex = index;
                           deepProvider.controller.jumpToPage(index);
