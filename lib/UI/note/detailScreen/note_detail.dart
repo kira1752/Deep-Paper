@@ -339,7 +339,7 @@ class _DetailFieldState extends State<DetailField> {
                 undoRedoProvider: _undoRedoProvider),
             decoration: InputDecoration.collapsed(
               hintText: 'Write your note here...',
-            ),
+                hintStyle: TextStyle(fontWeight: FontWeight.w500)),
           );
         });
   }
