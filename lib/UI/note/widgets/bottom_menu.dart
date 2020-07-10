@@ -12,12 +12,14 @@ class BottomMenu extends StatelessWidget {
   final TextEditingController detailController;
   final void Function() onDelete;
   final void Function() onCopy;
+  final void Function() noteInfo;
 
   BottomMenu(
       {@required this.date,
       @required this.detailController,
-      this.onDelete,
-      this.onCopy});
+      @required this.onDelete,
+      @required this.onCopy,
+      @required this.noteInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,10 @@ class BottomMenu extends StatelessWidget {
                     FocusScope.of(context).unfocus();
                   }
                   await BottomModal.openOptionsMenu(
-                      context: context, onDelete: onDelete, onCopy: onCopy);
+                      context: context,
+                      onDelete: onDelete,
+                      onCopy: onCopy,
+                      noteInfo: noteInfo);
                 },
               )
             ],

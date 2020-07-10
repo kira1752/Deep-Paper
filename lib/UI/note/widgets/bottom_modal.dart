@@ -52,8 +52,7 @@ class BottomModal {
                     ),
                     title: Text(
                       "Choose image",
-                      style: Theme
-                          .of(context)
+                      style: Theme.of(context)
                           .textTheme
                           .bodyText1
                           .copyWith(fontSize: SizeHelper.getModalButton),
@@ -107,7 +106,8 @@ class BottomModal {
   static Future openOptionsMenu(
       {@required BuildContext context,
       @required void Function() onDelete,
-      @required void Function() onCopy}) {
+        @required void Function() onCopy,
+        @required void Function() noteInfo}) {
     return showModalBottomSheet(
         context: context,
         shape: RoundedRectangleBorder(
@@ -169,12 +169,13 @@ class BottomModal {
                   clipBehavior: Clip.hardEdge,
                   shape: StadiumBorder(),
                   child: ListTile(
+                    onTap: noteInfo,
                     leading: Icon(
-                      Icons.color_lens,
+                      Icons.info_outline,
                       color: Colors.white70,
                     ),
                     title: Text(
-                      "Change color",
+                      "Note info",
                       style: Theme
                           .of(context)
                           .textTheme

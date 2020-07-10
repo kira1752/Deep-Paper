@@ -1,4 +1,5 @@
 import 'package:deep_paper/UI/note/widgets/bottom_menu.dart';
+import 'package:deep_paper/UI/note/widgets/deep_dialog.dart';
 import 'package:deep_paper/UI/note/widgets/deep_toast.dart';
 import 'package:deep_paper/UI/widgets/deep_keep_alive.dart';
 import 'package:deep_paper/UI/widgets/deep_scroll_behavior.dart';
@@ -260,6 +261,15 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
                   });
                 }
               },
+              noteInfo: () {
+                Navigator.pop(context);
+                Future.delayed(Duration(milliseconds: 400), () {
+                  DeepDialog.openNoteInfo(
+                      context: context,
+                      folderName: widget.folderName,
+                      date: _note.isNull ? DateTime.now() : _note.date);
+                });
+              },
             ),
             body: ScrollConfiguration(
               behavior: DeepScrollBehavior(),
@@ -328,7 +338,7 @@ class _DetailFieldState extends State<DetailField> {
             showCursor: true,
             textDirection: direction,
             style: Theme.of(context).textTheme.bodyText1.copyWith(
-                color: Colors.white.withOpacity(0.87),
+                color: Colors.white.withOpacity(0.80),
                 fontWeight: FontWeight.normal,
                 fontSize: SizeHelper.getDetail),
             maxLines: null,

@@ -13,6 +13,7 @@ import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 
 import 'deep_toast.dart';
@@ -120,6 +121,18 @@ class DeepDialog {
               drawerProvider: drawerProvider,
             ));
   }
+
+  static Future<void> openNoteInfo(
+      {@required BuildContext context,
+      @required String folderName,
+      @required DateTime date}) {
+    return showDialog(
+        context: context,
+        builder: (context) => _NoteInfoDialog(
+              folderName: folderName,
+              date: date,
+            ));
+  }
 }
 
 class DeepBaseDialog extends StatelessWidget {
@@ -135,6 +148,53 @@ class DeepBaseDialog extends StatelessWidget {
       insetAnimationDuration: Duration(milliseconds: 250),
       insetAnimationCurve: Curves.easeIn,
       child: child,
+    );
+  }
+}
+
+class _NoteInfoDialog extends StatelessWidget {
+  final String folderName;
+  final DateTime date;
+
+  _NoteInfoDialog({@required this.folderName, @required this.date});
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: const BorderRadius.all(const Radius.circular(12.0))),
+      contentPadding: const EdgeInsets.all(24.0),
+      title: Text(
+        "Note Info",
+        textAlign: TextAlign.center,
+        style: Theme
+            .of(context)
+            .textTheme
+            .bodyText1
+            .copyWith(fontSize: SizeHelper.getTitle),
+      ),
+      children: [
+        Padding(
+          padding: EdgeInsets.only(bottom: 18.0),
+          child: Text(
+            "Folder: $folderName",
+            style: Theme
+                .of(context)
+                .textTheme
+                .bodyText1
+                .copyWith(fontSize: SizeHelper.getDetail),
+            maxLines: null,
+          ),
+        ),
+        Text(
+          "Date modified: ${DateFormat.yMMMd("en_US").add_jm().format(date)}",
+          style: Theme
+              .of(context)
+              .textTheme
+              .bodyText1
+              .copyWith(fontSize: SizeHelper.getDetail),
+        ),
+      ],
     );
   }
 }
