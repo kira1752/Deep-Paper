@@ -210,13 +210,12 @@ class _NoteInfoDialog extends StatelessWidget {
                           .copyWith(fontSize: SizeHelper.getBodyText1),
                     ),
                   ),
-                  Expanded(
-                    flex: 1,
+                  Flexible(
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 12.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text(
                         ":",
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1
@@ -253,13 +252,12 @@ class _NoteInfoDialog extends StatelessWidget {
                           .copyWith(fontSize: SizeHelper.getBodyText1),
                     ),
                   ),
-                  Expanded(
-                    flex: 1,
+                  Flexible(
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 12.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Text(
                         ":",
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1
@@ -294,13 +292,12 @@ class _NoteInfoDialog extends StatelessWidget {
                         .copyWith(fontSize: SizeHelper.getBodyText1),
                   ),
                 ),
-                Expanded(
-                  flex: 1,
+                Flexible(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 12.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: Text(
                       ":",
-                      textAlign: TextAlign.right,
+                      textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
@@ -356,7 +353,7 @@ class _RestoreDialog extends StatelessWidget {
                   textColor: Colors.white.withOpacity(0.87),
                   shape: RoundedRectangleBorder(
                       borderRadius:
-                      const BorderRadius.all(const Radius.circular(12.0))),
+                          const BorderRadius.all(const Radius.circular(12.0))),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
