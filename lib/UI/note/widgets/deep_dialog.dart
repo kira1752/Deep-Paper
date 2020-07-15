@@ -12,7 +12,6 @@ import 'package:deep_paper/utility/extension.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 
@@ -160,42 +159,169 @@ class _NoteInfoDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: const BorderRadius.all(const Radius.circular(12.0))),
-      contentPadding: const EdgeInsets.all(24.0),
-      title: Text(
-        "Note Info",
-        textAlign: TextAlign.center,
-        style: Theme
-            .of(context)
-            .textTheme
-            .bodyText1
-            .copyWith(fontSize: SizeHelper.getTitle),
-      ),
-      children: [
-        Padding(
-          padding: EdgeInsets.only(bottom: 18.0),
-          child: Text(
-            "Folder: $folderName",
-            style: Theme
-                .of(context)
-                .textTheme
-                .bodyText1
-                .copyWith(fontSize: SizeHelper.getDetail),
-            maxLines: null,
-          ),
-        ),
-        Text(
-          "Date modified: ${DateFormat.yMMMd("en_US").add_jm().format(date)}",
-          style: Theme
-              .of(context)
+    return AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: const BorderRadius.all(const Radius.circular(12.0))),
+        contentPadding: const EdgeInsets.all(24.0),
+        actionsPadding:
+            const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 12.0),
+        title: Text(
+          "Note Info",
+          textAlign: TextAlign.center,
+          style: Theme.of(context)
               .textTheme
               .bodyText1
-              .copyWith(fontSize: SizeHelper.getDetail),
+              .copyWith(fontSize: SizeHelper.getTitle),
         ),
-      ],
-    );
+        actions: <Widget>[
+          FlatButton(
+              textColor: Colors.white.withOpacity(0.87),
+              shape: RoundedRectangleBorder(
+                  borderRadius:
+                      const BorderRadius.all(const Radius.circular(12.0))),
+              onPressed: () async {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                "Close",
+                style: TextStyle(
+                  fontFamily: "Roboto",
+                  fontSize: SizeHelper.getModalButton,
+                ),
+              )),
+        ],
+        content: SingleChildScrollView(
+            child: ListBody(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(bottom: 18.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      "Folder",
+                      textAlign: TextAlign.right,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(fontSize: SizeHelper.getBodyText1),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 12.0),
+                      child: Text(
+                        ":",
+                        textAlign: TextAlign.right,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .copyWith(fontSize: SizeHelper.getBodyText1),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 6,
+                    child: Text(
+                      "$folderName",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(fontSize: SizeHelper.getBodyText1),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 18.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      "Created",
+                      textAlign: TextAlign.right,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(fontSize: SizeHelper.getBodyText1),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 12.0),
+                      child: Text(
+                        ":",
+                        textAlign: TextAlign.right,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .copyWith(fontSize: SizeHelper.getBodyText1),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 6,
+                    child: Text(
+                      "${DateFormat.yMMMd("en_US").add_jm().format(date)}",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(fontSize: SizeHelper.getBodyText1),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    "Modified",
+                    textAlign: TextAlign.right,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(fontSize: SizeHelper.getBodyText1),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 12.0),
+                    child: Text(
+                      ":",
+                      textAlign: TextAlign.right,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(fontSize: SizeHelper.getBodyText1),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 6,
+                  child: Text(
+                    "${DateFormat.yMMMd("en_US").add_jm().format(date)}",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(fontSize: SizeHelper.getBodyText1),
+                  ),
+                )
+              ],
+            ),
+          ],
+        )));
   }
 }
 
