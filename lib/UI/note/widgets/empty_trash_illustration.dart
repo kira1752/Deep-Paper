@@ -1,6 +1,8 @@
+import 'package:deep_paper/bussiness_logic/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/utility/illustration.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EmptyTrashIllustration extends StatefulWidget {
   @override
@@ -8,6 +10,16 @@ class EmptyTrashIllustration extends StatefulWidget {
 }
 
 class _EmptyTrashIllustrationState extends State<EmptyTrashIllustration> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final drawerProvider =
+          Provider.of<NoteDrawerProvider>(context, listen: false);
+      drawerProvider.setTrashExist = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(

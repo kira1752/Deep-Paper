@@ -22,7 +22,7 @@ class AppTheme {
     return Theme.of(context)
         .textTheme
         .bodyText1
-        .copyWith(fontFamily: "IBM Plex", fontSize: SizeHelper.getHeadline5);
+        .copyWith(fontSize: SizeHelper.getHeadline5);
   }
 
   static TextStyle darkTitleSelectionAppBar(BuildContext context) {
@@ -52,20 +52,20 @@ class AppTheme {
         ),
         cardColor: Color(0xff202020).withOpacity(0.90),
         highlightColor: Color(0x424242),
-        accentColor: Colors.orange[400], //#fdb368
+        accentColor: Color(0xffffb348),
+        //#fdb368
         primaryColor: Color(0xff121212),
         backgroundColor: Color(0xff121212),
         bottomAppBarColor: Color(0xff121212),
-        cursorColor: Colors.orange[900],
+        cursorColor: Color(0xffffb348),
         scaffoldBackgroundColor: Color(0xff121212),
-        textSelectionColor: Colors.grey[600],
-        textSelectionHandleColor: Colors.orange[900],
+        textSelectionColor: Color(0xffffb348).withOpacity(0.30),
+        textSelectionHandleColor: Color(0xffffb348),
         canvasColor: Color(0xff181818),
         textTheme: TextTheme(
             headline5: TextStyle(
-              fontFamily: "IBM Plex",
-              letterSpacing: 2.0,
               fontFamilyFallback: ["Noto Color Emoji"],
+              letterSpacing: 1.2,
               color: Colors.white.withOpacity(0.80),
               fontWeight: FontWeight.w500,
             ),

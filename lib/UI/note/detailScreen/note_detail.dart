@@ -49,12 +49,15 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
     // Watch Deep Paper app lifecycle when user creating new note
     WidgetsBinding.instance.addObserver(this);
 
+    final undoRedoProvider =
+        Provider.of<UndoRedoProvider>(context, listen: false);
+    final noteDetailProvider =
+        Provider.of<NoteDetailProvider>(context, listen: false);
     _note = widget.note;
     _detail = _note.isNull ? "" : _note.detail;
 
-    Provider.of<UndoRedoProvider>(context, listen: false).setInitialDetail =
-        _detail;
-    Provider.of<NoteDetailProvider>(context, listen: false).setDetail = _detail;
+    undoRedoProvider.initialDetail = _detail;
+    noteDetailProvider.setDetail = _detail;
 
     _isDeleted = _note.isNull ? false : _note.isDeleted;
     _isCopy = false;
@@ -64,22 +67,31 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
     if (_note.isNull) {
       _date = DateFormat.jm('en_US').format(DateTime.now());
 
-      Future.delayed(
-          Duration(milliseconds: 300), () => _detailFocus.requestFocus());
+      Future.delayed(Duration(milliseconds: 300), () {
+        final undoRedoProvider =
+        Provider.of<UndoRedoProvider>(context, listen: false);
+
+        _detailFocus.requestFocus();
+
+        if (undoRedoProvider.isInitialCursor == false) {
+          undoRedoProvider.initialCursorPosition =
+              _detailController.selection.extentOffset;
+        }
+      });
     } else {
       final DateTime now = DateTime(
           DateTime.now().year, DateTime.now().month, DateTime.now().day);
-      final DateTime noteDate =
-          DateTime(_note.date.year, _note.date.month, _note.date.day);
+      final DateTime noteDate = DateTime(
+          _note.modified.year, _note.modified.month, _note.modified.day);
 
       _date = now.difference(noteDate).inDays == 0
-          ? DateFormat.jm("en_US").format(_note.date)
+          ? DateFormat.jm("en_US").format(_note.modified)
           : (now.difference(noteDate).inDays == 1
-              ? "Yesterday, ${DateFormat.jm("en_US").format(_note.date)}"
+          ? "Yesterday, ${DateFormat.jm("en_US").format(_note.modified)}"
               : (now.difference(noteDate).inDays > 1 &&
-                      now.year - _note.date.year == 0
-                  ? DateFormat.MMMd("en_US").add_jm().format(_note.date)
-                  : DateFormat.yMMMd("en_US").add_jm().format(_note.date)));
+          now.year - _note.modified.year == 0
+          ? DateFormat.MMMd("en_US").add_jm().format(_note.modified)
+          : DateFormat.yMMMd("en_US").add_jm().format(_note.modified)));
     }
 
     KeyboardVisibility.onChange.listen((visible) {
@@ -146,7 +158,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
                 detail: detailProvider.getDetail,
                 folderID: widget.folderID,
                 folderName: widget.folderName,
-                date: DateTime.now(),
+                modified: DateTime.now(),
                 isDeleted: _isDeleted,
                 isCopy: _isCopy);
           }
@@ -164,7 +176,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
                 detail: detailProvider.getDetail,
                 folderID: widget.folderID,
                 folderName: widget.folderName,
-                date: DateTime.now(),
+                modified: DateTime.now(),
                 isDeleted: _isDeleted,
                 isCopy: _isCopy);
           }
@@ -214,7 +226,10 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
               leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back,
-                  color: Colors.white70,
+                  color: Theme
+                      .of(context)
+                      .accentColor
+                      .withOpacity(0.87),
                 ),
                 onPressed: () {
                   Navigator.of(context).maybePop();
@@ -261,13 +276,25 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
                   });
                 }
               },
-              noteInfo: () {
+              noteInfo: () async {
+                final database =
+                Provider.of<DeepPaperDatabase>(context, listen: false);
+
+                final created = await database.noteDao.getCreatedDate(_noteID);
+
                 Navigator.pop(context);
                 Future.delayed(Duration(milliseconds: 400), () {
                   DeepDialog.openNoteInfo(
                       context: context,
                       folderName: widget.folderName,
-                      date: _note.isNull ? DateTime.now() : _note.date);
+                      modified: _note.isNull
+                          ? DateTime.now()
+                          : (_note.detail != detailProvider.getDetail
+                          ? DateTime.now()
+                          : _note.modified),
+                      created: _noteID.isNull
+                          ? (_note.isNull ? DateTime.now() : _note.created)
+                          : created);
                 });
               },
             ),
@@ -275,8 +302,15 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
               behavior: DeepScrollBehavior(),
               child: GestureDetector(
                 onTap: () {
+                  final undoRedoProvider =
+                  Provider.of<UndoRedoProvider>(context, listen: false);
                   if (!_detailFocus.hasFocus) {
                     _detailFocus.requestFocus();
+                  }
+
+                  if (undoRedoProvider.isInitialCursor == false) {
+                    undoRedoProvider.initialCursorPosition =
+                        _detailController.selection.extentOffset;
                   }
                 },
                 child: ListView(
@@ -343,10 +377,17 @@ class _DetailFieldState extends State<DetailField> {
                 fontSize: SizeHelper.getDetail),
             maxLines: null,
             keyboardType: TextInputType.multiline,
+            onTap: () {
+              if (_undoRedoProvider.isInitialCursor == false) {
+                _undoRedoProvider.initialCursorPosition =
+                    widget.detailController.selection.extentOffset;
+              }
+            },
             onChanged: (value) => TextFieldLogic.detail(
                 value: value,
                 detailProvider: _detailProvider,
-                undoRedoProvider: _undoRedoProvider),
+                undoRedoProvider: _undoRedoProvider,
+                controller: widget.detailController),
             decoration: InputDecoration.collapsed(
                 hintText: 'Write your note here...',
                 hintStyle: TextStyle(fontWeight: FontWeight.w500)),

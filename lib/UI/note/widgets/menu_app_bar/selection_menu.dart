@@ -15,15 +15,15 @@ class SelectionMenu extends StatelessWidget {
       selector: (context, provider) => provider.getIndexDrawerItem == 1,
       builder: (context, value, child) {
         if (value) {
-          return TrashMenu();
+          return _TrashMenu();
         } else
-          return NormalSelectionMenu();
+          return _NormalSelectionMenu();
       },
     );
   }
 }
 
-class TrashMenu extends StatelessWidget {
+class _TrashMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
@@ -65,7 +65,7 @@ class TrashMenu extends StatelessWidget {
   }
 }
 
-class NormalSelectionMenu extends StatelessWidget {
+class _NormalSelectionMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(

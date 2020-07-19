@@ -54,10 +54,6 @@ flutter:
     - family: MyIcon
       fonts:
         - asset: icons/MyIcon.ttf
-    - family: IBM Plex
-      fonts:
-        - asset: fonts/IBMPlexSans-SemiBold.ttf
-
 
   # To add assets to your application, add an assets section, like this:
   # assets:

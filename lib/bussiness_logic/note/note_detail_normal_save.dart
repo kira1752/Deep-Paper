@@ -2,8 +2,8 @@ import 'package:deep_paper/UI/note/widgets/deep_toast.dart';
 import 'package:deep_paper/bussiness_logic/note/note_creation.dart';
 import 'package:deep_paper/bussiness_logic/note/provider/note_detail_provider.dart';
 import 'package:deep_paper/data/deep.dart';
-import 'package:flutter/material.dart';
 import 'package:deep_paper/utility/extension.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
 class NoteDetailNormalSave {
@@ -39,7 +39,7 @@ class NoteDetailNormalSave {
               detail: detailProvider.getDetail,
               folderID: folderID,
               folderName: folderName,
-              date: DateTime.now(),
+              modified: DateTime.now(),
               isDeleted: isDeleted,
               isCopy: isCopy);
         } else if (isDeleted) {
@@ -51,7 +51,7 @@ class NoteDetailNormalSave {
               detail: detailProvider.getDetail,
               folderID: folderID,
               folderName: folderName,
-              date: note.date,
+              modified: note.modified,
               isDeleted: isDeleted,
               isCopy: isCopy);
         } else if (isCopy) {
@@ -85,7 +85,7 @@ class NoteDetailNormalSave {
               detail: detailProvider.getDetail,
               folderID: folderID,
               folderName: folderName,
-              date: DateTime.now(),
+              modified: DateTime.now(),
               isDeleted: isDeleted,
               isCopy: isCopy);
         }

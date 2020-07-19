@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:deep_paper/data/deep.dart';
-import 'package:moor/moor.dart';
 import 'package:deep_paper/utility/extension.dart';
+import 'package:moor/moor.dart';
 
 part 'note_dao.g.dart';
 
@@ -15,7 +15,7 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
   Stream<List<Note>> watchAllNotes() {
     return (select(notes)
           ..where((n) => n.isDeleted.equals(false))
-          ..orderBy([(n) => OrderingTerm.desc(n.date)]))
+          ..orderBy([(n) => OrderingTerm.desc(n.modified)]))
         .watch();
   }
 
@@ -23,7 +23,7 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
 
   Stream<List<Note>> watchAllDeletedNotes() => (select(notes)
         ..where((n) => n.isDeleted.equals(true))
-        ..orderBy([(n) => OrderingTerm.desc(n.date)]))
+    ..orderBy([(n) => OrderingTerm.desc(n.modified)]))
       .watch();
 
   Stream<List<Note>> watchNoteInsideFolder(FolderNoteData folder) {
@@ -31,7 +31,7 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
     return (select(notes)
           ..where((n) => n.folderID.equals(folderID))
           ..where((n) => n.isDeleted.equals(false))
-          ..orderBy([(n) => OrderingTerm.desc(n.date)]))
+      ..orderBy([(n) => OrderingTerm.desc(n.modified)]))
         .watch();
   }
 
@@ -48,7 +48,8 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
                 folderID: Value(note.folderID),
                 folderName: Value(note.folderName),
                 folderNameDirection: Value(note.folderNameDirection),
-                date: Value(DateTime.now())));
+                modified: Value(DateTime.now()),
+                created: Value(DateTime.now())));
       });
     });
   }
@@ -83,7 +84,8 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
       ..where((n) => n.folderID.equals(folder.id))
       ..write(NotesCompanion(
           detail: Value.absent(),
-          date: Value.absent(),
+          modified: Value.absent(),
+          created: Value.absent(),
           folderName: Value(folder.name),
           folderNameDirection: Value(folder.nameDirection)));
   }
@@ -131,5 +133,13 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
     delete(notes)
       ..where((n) => n.id.equals(noteID))
       ..go();
+  }
+
+  Future<DateTime> getCreatedDate(int noteID) async {
+    final query = await (select(notes)
+      ..where((tbl) => tbl.id.equals(noteID)))
+        .getSingle();
+
+    return query?.created ?? null;
   }
 }

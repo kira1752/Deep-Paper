@@ -41,7 +41,7 @@ class _EmptyNoteIllustrationState extends State<EmptyNoteIllustration> {
                         style: Theme.of(context).textTheme.bodyText1.copyWith(
                             color: Colors.white70,
                             fontSize: SizeHelper.getBodyText1,
-                            fontWeight: FontWeight.w400),
+                            fontWeight: FontWeight.w500),
                       )
                     ]),
                     textAlign: TextAlign.center,

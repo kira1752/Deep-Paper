@@ -2,14 +2,15 @@ import 'package:deep_paper/UI/note/widgets/app_bar/note_default_app_bar.dart';
 import 'package:deep_paper/UI/note/widgets/build_body.dart';
 import 'package:deep_paper/UI/note/widgets/drawer/deep_drawer.dart';
 import 'package:deep_paper/bussiness_logic/note/provider/deep_bottom_provider.dart';
+import 'package:deep_paper/bussiness_logic/note/provider/fab_provider.dart';
 import 'package:deep_paper/bussiness_logic/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/bussiness_logic/note/provider/selection_provider.dart';
 import 'package:deep_paper/data/deep.dart';
+import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tuple/tuple.dart';
 
 class NotePage extends StatelessWidget {
   @override
@@ -24,15 +25,12 @@ class NotePage extends StatelessWidget {
           appBar: PreferredSize(
               preferredSize: Size.fromHeight(SizeHelper.setHeight(size: 56)),
               child: NoteDefaultAppBar()),
-          floatingActionButton: Selector2<NoteDrawerProvider, SelectionProvider,
-                  Tuple2<int, bool>>(
-              selector: (context, drawerProvider, selectionProvider) => Tuple2(
-                  drawerProvider.getIndexDrawerItem,
-                  selectionProvider.getSelection),
-              builder: (context, data, child) {
+          floatingActionButton: Selector<SelectionProvider, bool>(
+              selector: (context, selectionProvider) =>
+                  !selectionProvider.getSelection,
+              builder: (context, selection, child) {
                 return Visibility(
-                    visible: data.item1 != 1 && !data.item2 ? true : false,
-                    child: NoteFloatingActionButton());
+                    visible: selection, child: NoteFloatingActionButton());
               }),
           body: BuildBody()),
     );
@@ -43,11 +41,14 @@ class NotePage extends StatelessWidget {
         Provider.of<SelectionProvider>(context, listen: false);
     final providerDeepBottom =
         Provider.of<DeepBottomProvider>(context, listen: false);
+    final fabProvider = Provider.of<FABProvider>(context, listen: false);
+
     final selection = providerSelection.getSelection;
 
     if (selection) {
       providerSelection.setSelection = false;
       providerDeepBottom.setSelection = false;
+      fabProvider.setScroll = false;
       providerSelection.getSelected.clear();
       return false;
     } else
@@ -58,21 +59,58 @@ class NotePage extends StatelessWidget {
 class NoteFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      tooltip: "Create note",
-      backgroundColor: Theme.of(context).accentColor,
-      child: Icon(
-        Icons.add,
-        color: Colors.white,
-        size: 32.0,
-      ),
-      onPressed: () {
-        final drawerProvider =
-            Provider.of<NoteDrawerProvider>(context, listen: false);
+    return RepaintBoundary(
+      child: Selector3<NoteDrawerProvider,
+          SelectionProvider,
+          FABProvider,
+          bool>(
+          selector: (context, drawerProvider, selectionProvider, fabProvider) =>
+          (drawerProvider.getIndexDrawerItem != 1
+              ? fabProvider.getScroll
+              : true),
+          builder: (context, isVisible, widget) {
+            return AnimatedAlign(
+              alignment:
+              isVisible ? Alignment(1.0, 2.0) : Alignment.bottomRight,
+              duration: Duration(milliseconds: 350),
+              curve: isVisible ? Curves.easeIn : Curves.easeOut,
+              child: FloatingActionButton.extended(
+                backgroundColor: Color(0xff292929),
+                splashColor: Theme
+                    .of(context)
+                    .accentColor
+                    .withOpacity(0.16),
+                icon: Icon(
+                  MyIcon.edit_outline,
+                  color: Theme
+                      .of(context)
+                      .accentColor,
+                ),
+                label: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(
+                    "Write a note",
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .button
+                        .copyWith(
+                        letterSpacing: 1.2,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white.withOpacity(0.80)),
+                  ),
+                ),
+                onPressed: () {
+                  final drawerProvider =
+                  Provider.of<NoteDrawerProvider>(context, listen: false);
 
-        final FolderNoteData folder = drawerProvider.getFolder;
-        Navigator.pushNamed(context, '/NoteCreate', arguments: folder);
-      },
+                  final FolderNoteData folder = drawerProvider.getFolder;
+                  Navigator.pushNamed(context, '/NoteCreate',
+                      arguments: folder);
+                },
+              ),
+            );
+          }),
     );
   }
 }

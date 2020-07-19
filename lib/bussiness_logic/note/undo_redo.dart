@@ -13,14 +13,13 @@ class UndoRedo {
   }) {
     final undoRedoProvider =
         Provider.of<UndoRedoProvider>(context, listen: false);
-
     final detailProvider =
         Provider.of<NoteDetailProvider>(context, listen: false);
+    final cursorOffset = undoRedoProvider.getUndoCursor();
 
     detailController.text = undoRedoProvider.getUndoValue();
-    detailController.selection = TextSelection(
-        baseOffset: detailController.text.length,
-        extentOffset: detailController.text.length);
+    detailController.selection =
+        TextSelection.fromPosition(TextPosition(offset: cursorOffset));
 
     detailProvider.setDetail = detailController.text;
     detailProvider.checkDetailDirection = detailController.text;
@@ -33,11 +32,11 @@ class UndoRedo {
         Provider.of<UndoRedoProvider>(context, listen: false);
     final detailProvider =
         Provider.of<NoteDetailProvider>(context, listen: false);
+    final cursorOffset = undoRedoProvider.getRedoCursor();
 
     detailController.text = undoRedoProvider.getRedoValue();
-    detailController.selection = TextSelection(
-        baseOffset: detailController.text.length,
-        extentOffset: detailController.text.length);
+    detailController.selection =
+        TextSelection.fromPosition(TextPosition(offset: cursorOffset));
 
     detailProvider.setDetail = detailController.text;
     detailProvider.checkDetailDirection = detailController.text;

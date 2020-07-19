@@ -20,13 +20,14 @@ class TrashManagement {
     await database.noteDao.updateNote(
         data.id,
         NotesCompanion(
-            detail: Value(data.detail),
-            detailDirection: Value(data.detailDirection),
-            folderID: Value(data.folderID),
-            folderName: Value(data.folderName),
-            folderNameDirection: Value(data.folderNameDirection),
+            detail: Value.absent(),
+            detailDirection: Value.absent(),
+            folderID: Value.absent(),
+            folderName: Value.absent(),
+            folderNameDirection: Value.absent(),
             isDeleted: Value(false),
-            date: Value(data.date)));
+            modified: Value.absent(),
+            created: Value.absent()));
   }
 
   static Future<void> restoreBatch({@required BuildContext context}) async {

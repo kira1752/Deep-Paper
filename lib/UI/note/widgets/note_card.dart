@@ -1,4 +1,5 @@
 import 'package:deep_paper/bussiness_logic/note/provider/deep_bottom_provider.dart';
+import 'package:deep_paper/bussiness_logic/note/provider/fab_provider.dart';
 import 'package:deep_paper/bussiness_logic/note/provider/selection_provider.dart';
 import 'package:deep_paper/data/deep.dart';
 import 'package:deep_paper/icons/my_icon.dart';
@@ -12,13 +13,13 @@ typedef void _OnTap();
 class NoteCard extends StatefulWidget {
   final int index;
   final Note note;
-  final _OnTap ontap;
+  final _OnTap onTap;
 
   NoteCard(
       {Key key,
       @required this.index,
       @required this.note,
-      @required this.ontap})
+      @required this.onTap})
       : super(key: key);
 
   @override
@@ -30,6 +31,9 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final selectionProvider =
         Provider.of<SelectionProvider>(context, listen: false);
+    final deepBottomProvider =
+    Provider.of<DeepBottomProvider>(context, listen: false);
+    final fabProvider = Provider.of<FABProvider>(context, listen: false);
 
     return Selector<SelectionProvider, bool>(
         selector: (context, provider) =>
@@ -43,7 +47,12 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
                   borderRadius: BorderRadius.circular(12.0),
                   side: selectionProvider.getSelection && selected
                       ? BorderSide(
-                          color: Theme.of(context).accentColor, width: 2.0)
+                      color:
+                      Theme
+                          .of(context)
+                          .accentColor
+                          .withOpacity(0.70),
+                      width: 3.0)
                       : BorderSide.none),
               child: InkWell(
                 borderRadius: BorderRadius.circular(12.0),
@@ -55,20 +64,20 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
                     selectionProvider.remove(key: widget.index);
 
                     if (selectionProvider.getSelected.length == 0) {
-                      Provider.of<DeepBottomProvider>(context, listen: false)
-                          .setSelection = false;
+                      deepBottomProvider.setSelection = false;
                       selectionProvider.setSelection = false;
+                      fabProvider.setScroll = false;
                     }
-                  } else
-                    widget.ontap();
+                  } else {
+                    widget.onTap();
+                  }
                 },
                 onLongPress: () {
                   if (!selectionProvider.getSelection) {
                     selectionProvider.setSelected(
                         key: widget.index, note: widget.note);
 
-                    Provider.of<DeepBottomProvider>(context, listen: false)
-                        .setSelection = true;
+                    deepBottomProvider.setSelection = true;
 
                     selectionProvider.setSelection = true;
                   } else if (!selected && selectionProvider.getSelection) {
@@ -78,9 +87,9 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
                     selectionProvider.remove(key: widget.index);
 
                     if (selectionProvider.getSelected.length == 0) {
-                      Provider.of<DeepBottomProvider>(context, listen: false)
-                          .setSelection = false;
+                      deepBottomProvider.setSelection = false;
                       selectionProvider.setSelection = false;
+                      fabProvider.setScroll = false;
                     }
                   }
                 },
@@ -122,17 +131,17 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: <Widget>[
         Container(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
             border: Border.all(
                 width: 2.0,
                 color: Theme.of(context).accentColor.withOpacity(0.5)),
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            borderRadius: BorderRadius.all(Radius.circular(12.0)),
           ),
           child: AnimatedSize(
             duration: Duration(milliseconds: 250),
-            curve: Curves.decelerate,
+            curve: Curves.easeIn,
             vsync: this,
             child: Text(
               "${note.folderName}",

@@ -124,12 +124,14 @@ class DeepDialog {
   static Future<void> openNoteInfo(
       {@required BuildContext context,
       @required String folderName,
-      @required DateTime date}) {
+      @required DateTime created,
+      @required DateTime modified}) {
     return showDialog(
         context: context,
         builder: (context) => _NoteInfoDialog(
               folderName: folderName,
-              date: date,
+          created: created,
+          modified: modified,
             ));
   }
 }
@@ -153,9 +155,12 @@ class DeepBaseDialog extends StatelessWidget {
 
 class _NoteInfoDialog extends StatelessWidget {
   final String folderName;
-  final DateTime date;
+  final DateTime modified;
+  final DateTime created;
 
-  _NoteInfoDialog({@required this.folderName, @required this.date});
+  _NoteInfoDialog({@required this.folderName,
+    @required this.modified,
+    @required this.created});
 
   @override
   Widget build(BuildContext context) {
@@ -165,17 +170,33 @@ class _NoteInfoDialog extends StatelessWidget {
         contentPadding: const EdgeInsets.all(24.0),
         actionsPadding:
             const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 12.0),
-        title: Text(
-          "Note Info",
-          textAlign: TextAlign.center,
-          style: Theme.of(context)
-              .textTheme
-              .bodyText1
-              .copyWith(fontSize: SizeHelper.getTitle),
+        titlePadding: const EdgeInsets.all(0.0),
+        title: Container(
+          padding: const EdgeInsets.all(24.0),
+          decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(
+                      width: 3.0,
+                      color: Theme
+                          .of(context)
+                          .accentColor
+                          .withOpacity(0.50)))),
+          child: Text(
+            "Note Info",
+            textAlign: TextAlign.center,
+            style: Theme
+                .of(context)
+                .textTheme
+                .bodyText1
+                .copyWith(fontSize: SizeHelper.getTitle),
+          ),
         ),
         actions: <Widget>[
           FlatButton(
-              textColor: Colors.white.withOpacity(0.87),
+              textColor: Theme
+                  .of(context)
+                  .accentColor
+                  .withOpacity(0.87),
               shape: RoundedRectangleBorder(
                   borderRadius:
                       const BorderRadius.all(const Radius.circular(12.0))),
@@ -212,7 +233,7 @@ class _NoteInfoDialog extends StatelessWidget {
                   ),
                   Flexible(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      padding: const EdgeInsets.only(left: 6.0, right: 24.0),
                       child: Text(
                         ":",
                         textAlign: TextAlign.center,
@@ -239,6 +260,7 @@ class _NoteInfoDialog extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 18.0),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Expanded(
@@ -254,7 +276,7 @@ class _NoteInfoDialog extends StatelessWidget {
                   ),
                   Flexible(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      padding: const EdgeInsets.only(left: 6.0, right: 24.0),
                       child: Text(
                         ":",
                         textAlign: TextAlign.center,
@@ -268,7 +290,7 @@ class _NoteInfoDialog extends StatelessWidget {
                   Expanded(
                     flex: 6,
                     child: Text(
-                      "${DateFormat.yMMMd("en_US").add_jm().format(date)}",
+                      "${DateFormat.yMMMd("en_US").add_jm().format(created)}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
@@ -279,6 +301,7 @@ class _NoteInfoDialog extends StatelessWidget {
               ),
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Expanded(
@@ -294,7 +317,7 @@ class _NoteInfoDialog extends StatelessWidget {
                 ),
                 Flexible(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    padding: const EdgeInsets.only(left: 6.0, right: 24.0),
                     child: Text(
                       ":",
                       textAlign: TextAlign.center,
@@ -308,7 +331,7 @@ class _NoteInfoDialog extends StatelessWidget {
                 Expanded(
                   flex: 6,
                   child: Text(
-                    "${DateFormat.yMMMd("en_US").add_jm().format(date)}",
+                    "${DateFormat.yMMMd("en_US").add_jm().format(modified)}",
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
@@ -367,7 +390,8 @@ class _RestoreDialog extends StatelessWidget {
               FlatButton(
                   textColor: Theme
                       .of(context)
-                      .accentColor,
+                      .accentColor
+                      .withOpacity(0.87),
                   shape: RoundedRectangleBorder(
                       borderRadius:
                       const BorderRadius.all(const Radius.circular(12.0))),
@@ -454,7 +478,8 @@ class __DeleteFolderDialogState extends State<_DeleteFolderDialog> {
                 FlatButton(
                     textColor: Theme
                         .of(context)
-                        .accentColor,
+                        .accentColor
+                        .withOpacity(0.87),
                     shape: RoundedRectangleBorder(
                         borderRadius: const BorderRadius.all(
                             const Radius.circular(12.0))),
@@ -607,7 +632,8 @@ class __CreateFolderDialogState extends State<_CreateFolderDialog> {
                                     return FlatButton(
                                         textColor: Theme
                                             .of(context)
-                                            .accentColor,
+                                            .accentColor
+                                            .withOpacity(0.87),
                                         shape: RoundedRectangleBorder(
                                             borderRadius: const BorderRadius
                                                 .all(
@@ -764,7 +790,8 @@ class __CreateFolderMoveToDialogState extends State<_CreateFolderMoveToDialog> {
                                 return FlatButton(
                                     textColor: Theme
                                         .of(context)
-                                        .accentColor,
+                                        .accentColor
+                                        .withOpacity(0.87),
                                     shape: RoundedRectangleBorder(
                                         borderRadius: const BorderRadius.all(
                                             const Radius.circular(12.0))),
@@ -945,7 +972,8 @@ class __RenameFolderDialogState extends State<_RenameFolderDialog> {
                                   return FlatButton(
                                       textColor: Theme
                                           .of(context)
-                                          .accentColor,
+                                          .accentColor
+                                          .withOpacity(0.87),
                                       shape: RoundedRectangleBorder(
                                           borderRadius: const BorderRadius.all(
                                               const Radius.circular(12.0))),

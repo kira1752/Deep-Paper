@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'dart:ui';
+
 import 'package:deep_paper/data/note/folder_note_dao.dart';
 import 'package:deep_paper/data/note/note_dao.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 part 'deep.g.dart';
 
@@ -43,7 +44,10 @@ class Notes extends Table {
   BoolColumn get isDeleted => boolean().withDefault(Constant(false))();
   BoolColumn get containAudio => boolean().withDefault(Constant(false))();
   BoolColumn get containImage => boolean().withDefault(Constant(false))();
-  DateTimeColumn get date => dateTime()();
+
+  DateTimeColumn get modified => dateTime()();
+
+  DateTimeColumn get created => dateTime()();
 }
 
 class AudioNote extends Table {

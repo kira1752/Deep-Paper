@@ -3,14 +3,15 @@ import 'package:deep_paper/UI/note/widgets/menu_app_bar/menu.dart';
 import 'package:deep_paper/UI/note/widgets/menu_app_bar/selection_menu.dart';
 import 'package:deep_paper/UI/note/widgets/search_note_button.dart';
 import 'package:deep_paper/bussiness_logic/note/provider/deep_bottom_provider.dart';
+import 'package:deep_paper/bussiness_logic/note/provider/fab_provider.dart';
 import 'package:deep_paper/bussiness_logic/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/bussiness_logic/note/provider/selection_provider.dart';
 import 'package:deep_paper/resource/icon_resource.dart';
 import 'package:deep_paper/resource/string_resource.dart';
+import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
-import 'package:deep_paper/utility/extension.dart';
 
 class NoteDefaultAppBar extends StatelessWidget {
   @override
@@ -37,13 +38,17 @@ class NoteDefaultAppBar extends StatelessWidget {
               return IconButton(
                   icon: IconResource.darkClose,
                   onPressed: () {
-                    Provider.of<DeepBottomProvider>(context, listen: false)
-                        .setSelection = false;
-                    Provider.of<SelectionProvider>(context, listen: false)
-                        .setSelection = false;
-                    Provider.of<SelectionProvider>(context, listen: false)
-                        .getSelected
-                        .clear();
+                    final deepBottomProvider =
+                        Provider.of<DeepBottomProvider>(context, listen: false);
+                    final selectionProvider =
+                        Provider.of<SelectionProvider>(context, listen: false);
+                    final fabProvider =
+                        Provider.of<FABProvider>(context, listen: false);
+
+                    deepBottomProvider.setSelection = false;
+                    selectionProvider.setSelection = false;
+                    fabProvider.setScroll = false;
+                    selectionProvider.getSelected.clear();
                   });
             } else
               return IconButton(

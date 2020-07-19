@@ -4,16 +4,20 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 class UndoRedoProvider with ChangeNotifier {
+  int currentCursorPosition = 0;
+  int initialCursorPosition;
+  bool isInitialCursor = false;
+  String initialDetail;
+  String currentTyped = "";
+  bool space = false;
+  int count = 0;
+
   Queue<String> _undo = Queue();
   Queue<String> _redo = Queue();
+  Queue<int> _undoCursor = Queue();
+  Queue<int> _redoCursor = Queue();
   bool _canUndo = false;
   bool _canRedo = false;
-  String _initialDetail;
-  String _tempTyped = "";
-  bool _space = false;
-  int _count = 0;
-
-  UndoRedoProvider();
 
   set setCanUndo(bool value) {
     _canUndo = value;
@@ -21,51 +25,60 @@ class UndoRedoProvider with ChangeNotifier {
   }
 
   set setContainSpace(bool value) {
-    if (_space != value) {
-      _space = value;
+    if (space != value) {
+      space = value;
     }
   }
 
-  set setInitialDetail(String value) => _initialDetail = value;
-
-  set setCurrentTyped(String value) => _tempTyped = value;
-
-  set setCount(int value) => _count = value;
-
-  bool get getContainSpace => _space;
-
-  String get getCurrentTyped => _tempTyped;
-
-  int get getCount => _count;
-
-  String get getInitialDetail => _initialDetail;
-
   void addUndo() {
-    _undo.add(_tempTyped);
+    _undo.add(currentTyped);
+    _undoCursor.add(currentCursorPosition);
+  }
+
+  int getUndoCursor() {
+    if (_undoCursor.isNotEmpty) {
+      _redoCursor.add(currentCursorPosition);
+      currentCursorPosition = _undoCursor.removeLast();
+      return currentCursorPosition;
+    } else {
+      _redoCursor.add(currentCursorPosition);
+      currentCursorPosition = null;
+      isInitialCursor = false;
+
+      return initialCursorPosition;
+    }
+  }
+
+  int getRedoCursor() {
+    if (_canUndo == false) {
+      currentCursorPosition = _redoCursor.removeLast();
+    } else {
+      _undoCursor.add(currentCursorPosition);
+      currentCursorPosition = _redoCursor.removeLast();
+    }
+
+    return currentCursorPosition;
   }
 
   String getUndoValue() {
     if (_undo.isNotEmpty) {
-      if (_count != 0) {
-        _count = 0;
+      if (count != 0) {
+        count = 0;
       }
-      _redo.add(_tempTyped);
-      _tempTyped = _undo.removeLast();
+      _redo.add(currentTyped);
+      currentTyped = _undo.removeLast();
       if (_canRedo != true) {
         _canRedo = true;
         notifyListeners();
       }
-      debugPrintSynchronously("undo value: $_tempTyped");
-      return _tempTyped;
+      return currentTyped;
     } else {
-      debugPrintSynchronously("undo empty: ${_undo.isEmpty}");
-
-      if (_count != 0) {
-        _count = 0;
+      if (count != 0) {
+        count = 0;
       }
 
-      _redo.add(_tempTyped);
-      _tempTyped = null;
+      _redo.add(currentTyped);
+      currentTyped = null;
 
       _canUndo = false;
       if (_canRedo != true) {
@@ -73,7 +86,7 @@ class UndoRedoProvider with ChangeNotifier {
       }
 
       notifyListeners();
-      return _initialDetail;
+      return initialDetail;
     }
   }
 
@@ -81,10 +94,10 @@ class UndoRedoProvider with ChangeNotifier {
     if (_canUndo == false) {
       _canUndo = true;
       notifyListeners();
-      _tempTyped = _redo.removeLast();
+      currentTyped = _redo.removeLast();
     } else {
-      _undo.add(_tempTyped);
-      _tempTyped = _redo.removeLast();
+      _undo.add(currentTyped);
+      currentTyped = _redo.removeLast();
     }
 
     if (_redo.isEmpty) {
@@ -92,7 +105,7 @@ class UndoRedoProvider with ChangeNotifier {
       notifyListeners();
     }
 
-    return _tempTyped;
+    return currentTyped;
   }
 
   void clearRedo() {

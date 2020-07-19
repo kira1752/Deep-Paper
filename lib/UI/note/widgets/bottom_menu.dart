@@ -35,7 +35,7 @@ class BottomMenu extends StatelessWidget {
               IconButton(
                 icon: Icon(
                   MyIcon.plus_square,
-                  color: Colors.white70,
+                  color: Theme.of(context).accentColor.withOpacity(0.87),
                 ),
                 onPressed: () async {
                   if (FocusScope.of(context).hasFocus) {
@@ -54,7 +54,10 @@ class BottomMenu extends StatelessWidget {
               IconButton(
                 icon: Icon(
                   Icons.more_vert,
-                  color: Colors.white70,
+                  color: Theme
+                      .of(context)
+                      .accentColor
+                      .withOpacity(0.87),
                 ),
                 onPressed: () async {
                   if (FocusScope.of(context).hasFocus) {
@@ -89,7 +92,10 @@ class BottomMenu extends StatelessWidget {
                   icon: Icon(
                     Icons.undo,
                     color: canUndo
-                        ? Colors.white.withOpacity(0.87)
+                        ? Theme
+                        .of(context)
+                        .accentColor
+                        .withOpacity(0.87)
                         : Colors.white38,
                   ),
                   onPressed: canUndo
@@ -108,7 +114,10 @@ class BottomMenu extends StatelessWidget {
                   icon: Icon(
                     Icons.redo,
                     color: canRedo
-                        ? Colors.white.withOpacity(0.87)
+                        ? Theme
+                        .of(context)
+                        .accentColor
+                        .withOpacity(0.87)
                         : Colors.white38,
                   ),
                   onPressed: canRedo

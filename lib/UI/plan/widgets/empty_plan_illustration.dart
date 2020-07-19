@@ -15,7 +15,6 @@ class _EmptyPlanIllustrationState extends State<EmptyPlanIllustration> {
       child: Center(
         child: FittedBox(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Image.asset(
                 Illustration.getPlan,
@@ -41,7 +40,7 @@ class _EmptyPlanIllustrationState extends State<EmptyPlanIllustration> {
                         style: Theme.of(context).textTheme.bodyText1.copyWith(
                             color: Colors.white70,
                             fontSize: SizeHelper.getBodyText1,
-                            fontWeight: FontWeight.w400),
+                            fontWeight: FontWeight.w500),
                       )
                     ]),
                     textAlign: TextAlign.center,

@@ -1,11 +1,11 @@
 import 'package:deep_paper/bussiness_logic/note/provider/selection_provider.dart';
 import 'package:deep_paper/data/deep.dart';
+import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:moor/moor.dart';
 import 'package:provider/provider.dart';
-import 'package:deep_paper/utility/extension.dart';
 
 class NoteCreation {
   NoteCreation._();
@@ -47,7 +47,8 @@ class NoteCreation {
           folderName: Value(folderName),
           folderNameDirection: Value(folderNameDirection),
           isDeleted: Value(isDeleted),
-          date: Value(DateTime.now())));
+          modified: Value(DateTime.now()),
+          created: Value(DateTime.now())));
     }
 
     return noteID;
@@ -63,15 +64,15 @@ class NoteCreation {
     await database.noteDao.insertNoteBatch(selectedNote);
   }
 
-  static void update(
+  static Future<void> update(
       {@required BuildContext context,
       @required int noteID,
       @required String detail,
       @required int folderID,
       @required String folderName,
-      @required DateTime date,
+      @required DateTime modified,
       @required bool isDeleted,
-      @required bool isCopy}) {
+        @required bool isCopy}) async {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
     final detailDirection = Bidi.detectRtlDirectionality(detail)
@@ -81,6 +82,8 @@ class NoteCreation {
     final folderNameDirection = Bidi.detectRtlDirectionality(folderName)
         ? TextDirection.rtl
         : TextDirection.ltr;
+
+    final created = await database.noteDao.getCreatedDate(noteID);
 
     if (isCopy) {
       copy(
@@ -101,7 +104,8 @@ class NoteCreation {
             folderName: Value(folderName),
             folderNameDirection: Value(folderNameDirection),
             isDeleted: Value(isDeleted),
-            date: Value(date)));
+            modified: Value(modified),
+            created: Value(created)));
   }
 
   static void copy({
@@ -129,7 +133,8 @@ class NoteCreation {
           folderID: Value(folderID),
           folderName: Value(folderName),
           folderNameDirection: Value(folderNameDirection),
-          date: Value(DateTime.now())));
+          modified: Value(DateTime.now()),
+          created: Value(DateTime.now())));
     }
   }
 

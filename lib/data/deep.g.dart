@@ -17,7 +17,8 @@ class Note extends DataClass implements Insertable<Note> {
   final bool isDeleted;
   final bool containAudio;
   final bool containImage;
-  final DateTime date;
+  final DateTime modified;
+  final DateTime created;
   Note(
       {@required this.id,
       @required this.folderID,
@@ -28,7 +29,8 @@ class Note extends DataClass implements Insertable<Note> {
       @required this.isDeleted,
       @required this.containAudio,
       @required this.containImage,
-      @required this.date});
+      @required this.modified,
+      @required this.created});
   factory Note.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -55,8 +57,10 @@ class Note extends DataClass implements Insertable<Note> {
           .mapFromDatabaseResponse(data['${effectivePrefix}contain_audio']),
       containImage: boolType
           .mapFromDatabaseResponse(data['${effectivePrefix}contain_image']),
-      date:
-          dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}date']),
+      modified: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}modified']),
+      created: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}created']),
     );
   }
   @override
@@ -93,8 +97,11 @@ class Note extends DataClass implements Insertable<Note> {
     if (!nullToAbsent || containImage != null) {
       map['contain_image'] = Variable<bool>(containImage);
     }
-    if (!nullToAbsent || date != null) {
-      map['date'] = Variable<DateTime>(date);
+    if (!nullToAbsent || modified != null) {
+      map['modified'] = Variable<DateTime>(modified);
+    }
+    if (!nullToAbsent || created != null) {
+      map['created'] = Variable<DateTime>(created);
     }
     return map;
   }
@@ -114,7 +121,8 @@ class Note extends DataClass implements Insertable<Note> {
       isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       containAudio: serializer.fromJson<bool>(json['containAudio']),
       containImage: serializer.fromJson<bool>(json['containImage']),
-      date: serializer.fromJson<DateTime>(json['date']),
+      modified: serializer.fromJson<DateTime>(json['modified']),
+      created: serializer.fromJson<DateTime>(json['created']),
     );
   }
   @override
@@ -131,7 +139,8 @@ class Note extends DataClass implements Insertable<Note> {
       'isDeleted': serializer.toJson<bool>(isDeleted),
       'containAudio': serializer.toJson<bool>(containAudio),
       'containImage': serializer.toJson<bool>(containImage),
-      'date': serializer.toJson<DateTime>(date),
+      'modified': serializer.toJson<DateTime>(modified),
+      'created': serializer.toJson<DateTime>(created),
     };
   }
 
@@ -145,7 +154,8 @@ class Note extends DataClass implements Insertable<Note> {
           bool isDeleted,
           bool containAudio,
           bool containImage,
-          DateTime date}) =>
+            DateTime modified,
+            DateTime created}) =>
       Note(
         id: id ?? this.id,
         folderID: folderID ?? this.folderID,
@@ -156,7 +166,8 @@ class Note extends DataClass implements Insertable<Note> {
         isDeleted: isDeleted ?? this.isDeleted,
         containAudio: containAudio ?? this.containAudio,
         containImage: containImage ?? this.containImage,
-        date: date ?? this.date,
+        modified: modified ?? this.modified,
+        created: created ?? this.created,
       );
   @override
   String toString() {
@@ -169,8 +180,8 @@ class Note extends DataClass implements Insertable<Note> {
           ..write('detailDirection: $detailDirection, ')
           ..write('isDeleted: $isDeleted, ')
           ..write('containAudio: $containAudio, ')
-          ..write('containImage: $containImage, ')
-          ..write('date: $date')
+          ..write('containImage: $containImage, ')..write(
+          'modified: $modified, ')..write('created: $created')
           ..write(')'))
         .toString();
   }
@@ -192,8 +203,10 @@ class Note extends DataClass implements Insertable<Note> {
                               isDeleted.hashCode,
                               $mrjc(
                                   containAudio.hashCode,
-                                  $mrjc(containImage.hashCode,
-                                      date.hashCode))))))))));
+                                  $mrjc(
+                                      containImage.hashCode,
+                                      $mrjc(modified.hashCode,
+                                          created.hashCode)))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -207,7 +220,8 @@ class Note extends DataClass implements Insertable<Note> {
           other.isDeleted == this.isDeleted &&
           other.containAudio == this.containAudio &&
           other.containImage == this.containImage &&
-          other.date == this.date);
+          other.modified == this.modified &&
+          other.created == this.created);
 }
 
 class NotesCompanion extends UpdateCompanion<Note> {
@@ -220,7 +234,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
   final Value<bool> isDeleted;
   final Value<bool> containAudio;
   final Value<bool> containImage;
-  final Value<DateTime> date;
+  final Value<DateTime> modified;
+  final Value<DateTime> created;
   const NotesCompanion({
     this.id = const Value.absent(),
     this.folderID = const Value.absent(),
@@ -231,7 +246,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
     this.isDeleted = const Value.absent(),
     this.containAudio = const Value.absent(),
     this.containImage = const Value.absent(),
-    this.date = const Value.absent(),
+    this.modified = const Value.absent(),
+    this.created = const Value.absent(),
   });
   NotesCompanion.insert({
     this.id = const Value.absent(),
@@ -243,12 +259,14 @@ class NotesCompanion extends UpdateCompanion<Note> {
     this.isDeleted = const Value.absent(),
     this.containAudio = const Value.absent(),
     this.containImage = const Value.absent(),
-    @required DateTime date,
+    @required DateTime modified,
+    @required DateTime created,
   })  : folderName = Value(folderName),
         folderNameDirection = Value(folderNameDirection),
         detail = Value(detail),
         detailDirection = Value(detailDirection),
-        date = Value(date);
+        modified = Value(modified),
+        created = Value(created);
   static Insertable<Note> custom({
     Expression<int> id,
     Expression<int> folderID,
@@ -259,7 +277,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
     Expression<bool> isDeleted,
     Expression<bool> containAudio,
     Expression<bool> containImage,
-    Expression<DateTime> date,
+    Expression<DateTime> modified,
+    Expression<DateTime> created,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -272,7 +291,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
       if (isDeleted != null) 'is_deleted': isDeleted,
       if (containAudio != null) 'contain_audio': containAudio,
       if (containImage != null) 'contain_image': containImage,
-      if (date != null) 'date': date,
+      if (modified != null) 'modified': modified,
+      if (created != null) 'created': created,
     });
   }
 
@@ -286,7 +306,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
       Value<bool> isDeleted,
       Value<bool> containAudio,
       Value<bool> containImage,
-      Value<DateTime> date}) {
+        Value<DateTime> modified,
+        Value<DateTime> created}) {
     return NotesCompanion(
       id: id ?? this.id,
       folderID: folderID ?? this.folderID,
@@ -297,7 +318,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
       isDeleted: isDeleted ?? this.isDeleted,
       containAudio: containAudio ?? this.containAudio,
       containImage: containImage ?? this.containImage,
-      date: date ?? this.date,
+      modified: modified ?? this.modified,
+      created: created ?? this.created,
     );
   }
 
@@ -335,8 +357,11 @@ class NotesCompanion extends UpdateCompanion<Note> {
     if (containImage.present) {
       map['contain_image'] = Variable<bool>(containImage.value);
     }
-    if (date.present) {
-      map['date'] = Variable<DateTime>(date.value);
+    if (modified.present) {
+      map['modified'] = Variable<DateTime>(modified.value);
+    }
+    if (created.present) {
+      map['created'] = Variable<DateTime>(created.value);
     }
     return map;
   }
@@ -352,8 +377,8 @@ class NotesCompanion extends UpdateCompanion<Note> {
           ..write('detailDirection: $detailDirection, ')
           ..write('isDeleted: $isDeleted, ')
           ..write('containAudio: $containAudio, ')
-          ..write('containImage: $containImage, ')
-          ..write('date: $date')
+          ..write('containImage: $containImage, ')..write(
+          'modified: $modified, ')..write('created: $created')
           ..write(')'))
         .toString();
   }
@@ -451,12 +476,26 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
         defaultValue: Constant(false));
   }
 
-  GeneratedDateTimeColumn _date;
+  GeneratedDateTimeColumn _modified;
   @override
-  GeneratedDateTimeColumn get date => _date ??= _constructDate();
-  GeneratedDateTimeColumn _constructDate() {
+  GeneratedDateTimeColumn get modified => _modified ??= _constructModified();
+
+  GeneratedDateTimeColumn _constructModified() {
     return GeneratedDateTimeColumn(
-      'date',
+      'modified',
+      $tableName,
+      false,
+    );
+  }
+
+  GeneratedDateTimeColumn _created;
+
+  @override
+  GeneratedDateTimeColumn get created => _created ??= _constructCreated();
+
+  GeneratedDateTimeColumn _constructCreated() {
+    return GeneratedDateTimeColumn(
+      'created',
       $tableName,
       false,
     );
@@ -473,7 +512,8 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
         isDeleted,
         containAudio,
         containImage,
-        date
+    modified,
+    created
       ];
   @override
   $NotesTable get asDslTable => this;
