@@ -18,13 +18,24 @@ class TextFieldLogic {
     final secondOffset = controller.selection.extentOffset;
     detailProvider.setDetail = value;
 
+    // check if "Undo Redo" can redo
+    // if the result is true, clear all stored value inside "Redo queue"
+    //
+    // this used for case when user doing undo, then continue typing their text,
+    // omitting user previous changes before doing undo
+    // replacing them with text typed by user after doing undo
+    if (undoRedoProvider.canRedo()) {
+      undoRedoProvider.clearRedo();
+    }
+
     // Turn on Undo Redo
     if (detailProvider.isTextTyped == false) {
       detailProvider.setTextState = true;
     }
 
-    if (undoRedoProvider.isInitialCursor == false) {
-      undoRedoProvider.isInitialCursor = true;
+    if (!undoRedoProvider.canUndo() && !undoRedoProvider.canRedo()) {
+      undoRedoProvider.initialCursorPosition =
+          undoRedoProvider.tempInitialCursorPosition;
     }
 
     // Check Detail text direction
@@ -79,16 +90,6 @@ class TextFieldLogic {
         undoRedoProvider.currentCursorPosition =
             controller.selection.extentOffset;
       }
-    }
-
-    // check if "Undo Redo" can redo
-    // if the result is true, clear all stored value inside "Redo queue"
-    //
-    // this used for case when user doing undo, then continue typing their text,
-    // omitting user previous changes before doing undo
-    // replacing them with text typed by user after doing undo
-    if (undoRedoProvider.canRedo()) {
-      undoRedoProvider.clearRedo();
     }
   }
 }

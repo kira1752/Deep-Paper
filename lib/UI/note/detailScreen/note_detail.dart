@@ -69,14 +69,12 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
 
       Future.delayed(Duration(milliseconds: 300), () {
         final undoRedoProvider =
-        Provider.of<UndoRedoProvider>(context, listen: false);
+            Provider.of<UndoRedoProvider>(context, listen: false);
 
         _detailFocus.requestFocus();
 
-        if (undoRedoProvider.isInitialCursor == false) {
-          undoRedoProvider.initialCursorPosition =
-              _detailController.selection.extentOffset;
-        }
+        undoRedoProvider.tempInitialCursorPosition =
+            _detailController.selection.extentOffset;
       });
     } else {
       final DateTime now = DateTime(
@@ -307,10 +305,14 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
                   if (!_detailFocus.hasFocus) {
                     _detailFocus.requestFocus();
                   }
+                  _detailController.selection =
+                      TextSelection.fromPosition(TextPosition(
+                        offset: undoRedoProvider.initialDetail.length,
+                      ));
 
-                  if (undoRedoProvider.isInitialCursor == false) {
-                    undoRedoProvider.initialCursorPosition =
-                        _detailController.selection.extentOffset;
+                  if (!undoRedoProvider.canUndo()) {
+                    undoRedoProvider.tempInitialCursorPosition =
+                        undoRedoProvider.initialDetail.length;
                   }
                 },
                 child: ListView(
@@ -378,10 +380,8 @@ class _DetailFieldState extends State<DetailField> {
             maxLines: null,
             keyboardType: TextInputType.multiline,
             onTap: () {
-              if (_undoRedoProvider.isInitialCursor == false) {
-                _undoRedoProvider.initialCursorPosition =
-                    widget.detailController.selection.extentOffset;
-              }
+              _undoRedoProvider.tempInitialCursorPosition =
+                  widget.detailController.selection.extentOffset;
             },
             onChanged: (value) => TextFieldLogic.detail(
                 value: value,

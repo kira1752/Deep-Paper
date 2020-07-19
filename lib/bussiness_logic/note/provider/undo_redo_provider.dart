@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 class UndoRedoProvider with ChangeNotifier {
   int currentCursorPosition = 0;
   int initialCursorPosition;
-  bool isInitialCursor = false;
+  int tempInitialCursorPosition;
   String initialDetail;
   String currentTyped = "";
   bool space = false;
@@ -43,7 +43,6 @@ class UndoRedoProvider with ChangeNotifier {
     } else {
       _redoCursor.add(currentCursorPosition);
       currentCursorPosition = null;
-      isInitialCursor = false;
 
       return initialCursorPosition;
     }
