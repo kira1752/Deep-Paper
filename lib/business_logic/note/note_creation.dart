@@ -1,4 +1,4 @@
-import 'package:deep_paper/bussiness_logic/note/provider/selection_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
 import 'package:deep_paper/data/deep.dart';
 import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/foundation.dart';

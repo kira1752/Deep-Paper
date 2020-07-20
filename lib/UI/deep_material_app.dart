@@ -3,12 +3,12 @@ import 'package:deep_paper/UI/deep_paper.dart';
 import 'package:deep_paper/UI/note/detailScreen/note_detail.dart';
 import 'package:deep_paper/UI/note/note_page.dart';
 import 'package:deep_paper/UI/transition/deep_route.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/note_detail_provider.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/undo_redo_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/note_detail_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/undo_redo_provider.dart';
 import 'package:deep_paper/data/deep.dart';
+import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:deep_paper/utility/extension.dart';
 
 class DeepMaterialApp extends StatelessWidget {
   @override

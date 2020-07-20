@@ -1,8 +1,8 @@
 import 'package:deep_paper/UI/apptheme.dart';
 import 'package:deep_paper/UI/note/widgets/deep_toast.dart';
-import 'package:deep_paper/bussiness_logic/note/default_menu_logic.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/note_drawer_provider.dart';
-import 'package:deep_paper/bussiness_logic/note/trash_management.dart';
+import 'package:deep_paper/business_logic/note/default_menu_logic.dart';
+import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
+import 'package:deep_paper/business_logic/note/trash_management.dart';
 import 'package:deep_paper/resource/icon_resource.dart';
 import 'package:deep_paper/resource/string_resource.dart';
 import 'package:deep_paper/utility/size_helper.dart';

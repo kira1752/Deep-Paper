@@ -1,4 +1,4 @@
-import 'package:deep_paper/bussiness_logic/note/provider/note_drawer_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

@@ -1,8 +1,8 @@
 import 'package:deep_paper/UI/note/widgets/list_view/folder_list_view.dart';
 import 'package:deep_paper/UI/note/widgets/list_view/note_list_view.dart';
 import 'package:deep_paper/UI/note/widgets/list_view/trash_list_view.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/fab_provider.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/note_drawer_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/data/deep.dart';
 import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/material.dart';

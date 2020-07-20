@@ -83,7 +83,7 @@ class AppTheme {
             ),
             bodyText2: TextStyle(
               fontFamilyFallback: ["Noto Color Emoji"],
-              color: Colors.white.withOpacity(0.87),
+              color: Colors.white54,
             ),
             caption: TextStyle(
                 fontFamilyFallback: ["Noto Color Emoji"],

@@ -1,7 +1,7 @@
 import 'package:deep_paper/UI/note/widgets/deep_dialog.dart';
 import 'package:deep_paper/UI/note/widgets/empty_trash_illustration.dart';
 import 'package:deep_paper/UI/note/widgets/note_card.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/note_drawer_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/data/deep.dart';
 import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/foundation.dart';

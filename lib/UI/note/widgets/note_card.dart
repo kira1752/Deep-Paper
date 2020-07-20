@@ -1,6 +1,6 @@
-import 'package:deep_paper/bussiness_logic/note/provider/deep_bottom_provider.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/fab_provider.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/selection_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/deep_bottom_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
 import 'package:deep_paper/data/deep.dart';
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/utility/size_helper.dart';

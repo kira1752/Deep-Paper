@@ -1,6 +1,6 @@
 import 'package:deep_paper/UI/apptheme.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/note_drawer_provider.dart';
-import 'package:deep_paper/bussiness_logic/note/selection_menu_logic.dart';
+import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
+import 'package:deep_paper/business_logic/note/selection_menu_logic.dart';
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/resource/icon_resource.dart';
 import 'package:deep_paper/resource/string_resource.dart';

@@ -1,11 +1,7 @@
 import 'package:deep_paper/UI/note/widgets/bottom_modal.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/note_detail_provider.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/undo_redo_provider.dart';
-import 'package:deep_paper/bussiness_logic/note/undo_redo.dart';
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class BottomMenu extends StatelessWidget {
   final String date;
@@ -35,7 +31,7 @@ class BottomMenu extends StatelessWidget {
               IconButton(
                 icon: Icon(
                   MyIcon.plus_square,
-                  color: Theme.of(context).accentColor.withOpacity(0.87),
+                  color: Theme.of(context).accentColor.withOpacity(0.80),
                 ),
                 onPressed: () async {
                   if (FocusScope.of(context).hasFocus) {
@@ -44,20 +40,13 @@ class BottomMenu extends StatelessWidget {
                   await BottomModal.openAddMenu(context: context);
                 },
               ),
-              Selector<NoteDetailProvider, bool>(
-                  selector: (context, detailProvider) =>
-                      detailProvider.isTextTyped,
-                  builder: (context, isTyped, child) {
-                    return _textOrUndoRedo(
-                        context: context, isTyped: isTyped, date: date);
-                  }),
               IconButton(
                 icon: Icon(
                   Icons.more_vert,
                   color: Theme
                       .of(context)
                       .accentColor
-                      .withOpacity(0.87),
+                      .withOpacity(0.80),
                 ),
                 onPressed: () async {
                   if (FocusScope.of(context).hasFocus) {
@@ -75,66 +64,5 @@ class BottomMenu extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Widget _textOrUndoRedo(
-      {@required BuildContext context,
-      @required bool isTyped,
-      @required String date}) {
-    if (isTyped) {
-      return Row(
-        children: <Widget>[
-          Selector<UndoRedoProvider, bool>(
-              selector: (context, provider) => provider.canUndo(),
-              builder: (context, canUndo, widget) {
-                debugPrintSynchronously("Undo rebuild");
-                return IconButton(
-                  icon: Icon(
-                    Icons.undo,
-                    color: canUndo
-                        ? Theme
-                        .of(context)
-                        .accentColor
-                        .withOpacity(0.87)
-                        : Colors.white38,
-                  ),
-                  onPressed: canUndo
-                      ? () => UndoRedo.undo(
-                            context: context,
-                            detailController: detailController,
-                          )
-                      : null,
-                );
-              }),
-          Selector<UndoRedoProvider, bool>(
-              selector: (context, provider) => provider.canRedo(),
-              builder: (context, canRedo, widget) {
-                debugPrintSynchronously("Redo rebuild");
-                return IconButton(
-                  icon: Icon(
-                    Icons.redo,
-                    color: canRedo
-                        ? Theme
-                        .of(context)
-                        .accentColor
-                        .withOpacity(0.87)
-                        : Colors.white38,
-                  ),
-                  onPressed: canRedo
-                      ? () => UndoRedo.redo(
-                            context: context,
-                            detailController: detailController,
-                          )
-                      : null,
-                );
-              })
-        ],
-      );
-    } else {
-      return Text(
-        "$date",
-        style: Theme.of(context).textTheme.bodyText2,
-      );
-    }
   }
 }

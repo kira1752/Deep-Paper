@@ -1,6 +1,6 @@
 import 'package:deep_paper/UI/plan/widgets/appbar/plan_default_appbar.dart';
 import 'package:deep_paper/UI/plan/widgets/empty_plan_illustration.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/fab_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';

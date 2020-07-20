@@ -1,6 +1,6 @@
 import 'package:deep_paper/UI/note/widgets/deep_toast.dart';
-import 'package:deep_paper/bussiness_logic/note/note_creation.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/note_detail_provider.dart';
+import 'package:deep_paper/business_logic/note/note_creation.dart';
+import 'package:deep_paper/business_logic/note/provider/note_detail_provider.dart';
 import 'package:deep_paper/data/deep.dart';
 import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/material.dart';

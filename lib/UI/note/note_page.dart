@@ -1,10 +1,10 @@
 import 'package:deep_paper/UI/note/widgets/app_bar/note_default_app_bar.dart';
 import 'package:deep_paper/UI/note/widgets/build_body.dart';
 import 'package:deep_paper/UI/note/widgets/drawer/deep_drawer.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/deep_bottom_provider.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/fab_provider.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/note_drawer_provider.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/selection_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/deep_bottom_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
 import 'package:deep_paper/data/deep.dart';
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/utility/size_helper.dart';

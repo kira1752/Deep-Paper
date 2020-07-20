@@ -1,13 +1,15 @@
 import 'package:deep_paper/UI/note/widgets/bottom_menu.dart';
+import 'package:deep_paper/UI/note/widgets/date_character_counts.dart';
 import 'package:deep_paper/UI/note/widgets/deep_dialog.dart';
 import 'package:deep_paper/UI/note/widgets/deep_toast.dart';
+import 'package:deep_paper/UI/note/widgets/undo_redo.dart';
 import 'package:deep_paper/UI/widgets/deep_keep_alive.dart';
 import 'package:deep_paper/UI/widgets/deep_scroll_behavior.dart';
-import 'package:deep_paper/bussiness_logic/note/note_creation.dart';
-import 'package:deep_paper/bussiness_logic/note/note_detail_normal_save.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/note_detail_provider.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/undo_redo_provider.dart';
-import 'package:deep_paper/bussiness_logic/note/text_field_logic.dart';
+import 'package:deep_paper/business_logic/note/note_creation.dart';
+import 'package:deep_paper/business_logic/note/note_detail_normal_save.dart';
+import 'package:deep_paper/business_logic/note/provider/note_detail_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/undo_redo_provider.dart';
+import 'package:deep_paper/business_logic/note/text_field_logic.dart';
 import 'package:deep_paper/data/deep.dart';
 import 'package:deep_paper/utility/extension.dart';
 import 'package:deep_paper/utility/size_helper.dart';
@@ -85,7 +87,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
       _date = now.difference(noteDate).inDays == 0
           ? DateFormat.jm("en_US").format(_note.modified)
           : (now.difference(noteDate).inDays == 1
-          ? "Yesterday, ${DateFormat.jm("en_US").format(_note.modified)}"
+              ? "Yesterday, ${DateFormat.jm("en_US").format(_note.modified)}"
               : (now.difference(noteDate).inDays > 1 &&
           now.year - _note.modified.year == 0
           ? DateFormat.MMMd("en_US").add_jm().format(_note.modified)
@@ -220,19 +222,31 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
           child: Scaffold(
             appBar: AppBar(
               elevation: 0.0,
-              centerTitle: true,
               leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back,
                   color: Theme
                       .of(context)
                       .accentColor
-                      .withOpacity(0.87),
+                      .withOpacity(0.80),
                 ),
                 onPressed: () {
                   Navigator.of(context).maybePop();
                 },
               ),
+              actions: [
+                Undo(
+                  detailController: _detailController,
+                  date: _date,
+                ),
+                Redo(
+                  detailController: _detailController,
+                  date: _date,
+                )
+              ],
+              bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(56),
+                  child: DateCharacterCounts(date: _date, detail: _detail)),
             ),
             bottomNavigationBar: BottomMenu(
               date: _date,
@@ -319,7 +333,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
                   children: <Widget>[
                     DeepKeepAlive(
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(18, 24, 16, 16),
+                        padding: EdgeInsets.fromLTRB(18, 0, 16, 16),
                         child: DetailField(
                           detailController: _detailController,
                           detailFocus: _detailFocus,

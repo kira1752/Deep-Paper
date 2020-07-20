@@ -1,11 +1,11 @@
 import 'package:deep_paper/UI/note/widgets/deep_toast.dart';
 import 'package:deep_paper/UI/note/widgets/move_to_folder.dart';
-import 'package:deep_paper/bussiness_logic/note/note_creation.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/deep_bottom_provider.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/fab_provider.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/note_drawer_provider.dart';
-import 'package:deep_paper/bussiness_logic/note/provider/selection_provider.dart';
-import 'package:deep_paper/bussiness_logic/note/trash_management.dart';
+import 'package:deep_paper/business_logic/note/note_creation.dart';
+import 'package:deep_paper/business_logic/note/provider/deep_bottom_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
+import 'package:deep_paper/business_logic/note/trash_management.dart';
 import 'package:deep_paper/data/deep.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
