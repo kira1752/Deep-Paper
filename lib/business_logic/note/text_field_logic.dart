@@ -3,20 +3,23 @@ import 'package:deep_paper/business_logic/note/provider/undo_redo_provider.dart'
 import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 class TextFieldLogic {
   TextFieldLogic._();
 
-  static void detail(
+  static Future<void> detail(
       {@required String value,
       @required NoteDetailProvider detailProvider,
       @required UndoRedoProvider undoRedoProvider,
-      @required TextEditingController controller}) {
+      @required TextEditingController controller}) async {
     final firstOffset = value.isNullEmptyOrWhitespace
         ? controller.selection.extentOffset
         : controller.selection.extentOffset - 1;
     final secondOffset = controller.selection.extentOffset;
     detailProvider.setDetail = value;
+    detailProvider.setDetailCountNotify =
+    await countAllAsync(detailProvider.getDetail);
 
     // check if "Undo Redo" can redo
     // if the result is true, clear all stored value inside "Redo queue"
@@ -91,5 +94,54 @@ class TextFieldLogic {
             controller.selection.extentOffset;
       }
     }
+  }
+
+  static int countAll(String text) {
+    return text
+        .replaceAll(RegExp(r"\s+\b|\b\s|\s|\b"), "")
+        .length;
+  }
+
+  static String loadDate(DateTime time) {
+    if (time == null) {
+      return DateFormat.jm('en_US').format(DateTime.now());
+    } else {
+      final DateTime now = DateTime(
+          DateTime
+              .now()
+              .year, DateTime
+          .now()
+          .month, DateTime
+          .now()
+          .day);
+      final DateTime noteDate = DateTime(time.year, time.month, time.day);
+
+      final date = now
+          .difference(noteDate)
+          .inDays == 0
+          ? DateFormat.jm("en_US").format(time)
+          : (now
+          .difference(noteDate)
+          .inDays == 1
+          ? "Yesterday, ${DateFormat.jm("en_US").format(time)}"
+          : (now
+          .difference(noteDate)
+          .inDays > 1 &&
+          now.year - time.year == 0
+          ? DateFormat.MMMd("en_US").add_jm().format(time)
+          : DateFormat.yMMMd("en_US").add_jm().format(time)));
+
+      return date;
+    }
+  }
+
+  static Future<int> countAllAsync(String text) {
+    final result = compute(countAll, text);
+    return result;
+  }
+
+  static Future<String> loadDateAsync(DateTime time) {
+    final result = compute(loadDate, time);
+    return result;
   }
 }

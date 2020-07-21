@@ -1,5 +1,6 @@
 import 'package:deep_paper/business_logic/note/provider/note_detail_provider.dart';
 import 'package:deep_paper/business_logic/note/provider/undo_redo_provider.dart';
+import 'package:deep_paper/business_logic/note/text_field_logic.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -7,10 +8,10 @@ import 'package:provider/provider.dart';
 class UndoRedoBusinessLogic {
   UndoRedoBusinessLogic._();
 
-  static void undo({
+  static Future<void> undo({
     @required BuildContext context,
     @required TextEditingController detailController,
-  }) {
+  }) async {
     final undoRedoProvider =
         Provider.of<UndoRedoProvider>(context, listen: false);
     final detailProvider =
@@ -23,11 +24,13 @@ class UndoRedoBusinessLogic {
 
     detailProvider.setDetail = detailController.text;
     detailProvider.checkDetailDirection = detailController.text;
+    detailProvider.setDetailCountNotify =
+        await TextFieldLogic.countAllAsync(detailProvider.getDetail);
   }
 
-  static void redo(
+  static Future<void> redo(
       {@required BuildContext context,
-      @required TextEditingController detailController}) {
+      @required TextEditingController detailController}) async {
     final undoRedoProvider =
         Provider.of<UndoRedoProvider>(context, listen: false);
     final detailProvider =
@@ -40,5 +43,7 @@ class UndoRedoBusinessLogic {
 
     detailProvider.setDetail = detailController.text;
     detailProvider.checkDetailDirection = detailController.text;
+    detailProvider.setDetailCountNotify =
+        await TextFieldLogic.countAllAsync(detailProvider.getDetail);
   }
 }

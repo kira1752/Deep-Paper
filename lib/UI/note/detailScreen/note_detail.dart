@@ -2,7 +2,6 @@ import 'package:deep_paper/UI/note/widgets/bottom_menu.dart';
 import 'package:deep_paper/UI/note/widgets/date_character_counts.dart';
 import 'package:deep_paper/UI/note/widgets/deep_dialog.dart';
 import 'package:deep_paper/UI/note/widgets/deep_toast.dart';
-import 'package:deep_paper/UI/note/widgets/undo_redo.dart';
 import 'package:deep_paper/UI/widgets/deep_keep_alive.dart';
 import 'package:deep_paper/UI/widgets/deep_scroll_behavior.dart';
 import 'package:deep_paper/business_logic/note/note_creation.dart';
@@ -37,7 +36,7 @@ class NoteDetail extends StatefulWidget {
 class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
   bool _isDeleted;
   bool _isCopy;
-  String _date;
+  Future<String> _date;
   Note _note;
   int _noteID;
   String _detail;
@@ -67,7 +66,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
     _detailFocus = FocusNode();
 
     if (_note.isNull) {
-      _date = DateFormat.jm('en_US').format(DateTime.now());
+      _date = TextFieldLogic.loadDateAsync(null);
 
       Future.delayed(Duration(milliseconds: 300), () {
         final undoRedoProvider =
@@ -79,19 +78,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
             _detailController.selection.extentOffset;
       });
     } else {
-      final DateTime now = DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day);
-      final DateTime noteDate = DateTime(
-          _note.modified.year, _note.modified.month, _note.modified.day);
-
-      _date = now.difference(noteDate).inDays == 0
-          ? DateFormat.jm("en_US").format(_note.modified)
-          : (now.difference(noteDate).inDays == 1
-              ? "Yesterday, ${DateFormat.jm("en_US").format(_note.modified)}"
-              : (now.difference(noteDate).inDays > 1 &&
-          now.year - _note.modified.year == 0
-          ? DateFormat.MMMd("en_US").add_jm().format(_note.modified)
-          : DateFormat.yMMMd("en_US").add_jm().format(_note.modified)));
+      _date = TextFieldLogic.loadDateAsync(_note.modified);
     }
 
     KeyboardVisibility.onChange.listen((visible) {
@@ -221,35 +208,20 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
           },
           child: Scaffold(
             appBar: AppBar(
-              elevation: 0.0,
-              leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Theme
-                      .of(context)
-                      .accentColor
-                      .withOpacity(0.80),
+                elevation: 0.0,
+                leading: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Theme.of(context).accentColor.withOpacity(0.80),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).maybePop();
+                  },
                 ),
-                onPressed: () {
-                  Navigator.of(context).maybePop();
-                },
-              ),
-              actions: [
-                Undo(
-                  detailController: _detailController,
-                  date: _date,
-                ),
-                Redo(
-                  detailController: _detailController,
-                  date: _date,
-                )
-              ],
-              bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(56),
-                  child: DateCharacterCounts(date: _date, detail: _detail)),
-            ),
+                bottom: PreferredSize(
+                    preferredSize: Size.fromHeight(56),
+                    child: DateCharacterCounts(date: _date, detail: _detail))),
             bottomNavigationBar: BottomMenu(
-              date: _date,
               detailController: _detailController,
               onDelete: () {
                 if (!detailProvider.getDetail.isNullEmptyOrWhitespace) {

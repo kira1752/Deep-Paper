@@ -75,6 +75,7 @@ class NoteFloatingActionButton extends StatelessWidget {
               duration: Duration(milliseconds: 350),
               curve: isVisible ? Curves.easeIn : Curves.easeOut,
               child: FloatingActionButton.extended(
+                heroTag: null,
                 backgroundColor: Color(0xff292929),
                 splashColor: Theme
                     .of(context)
