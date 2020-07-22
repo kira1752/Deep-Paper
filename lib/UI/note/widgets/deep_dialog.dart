@@ -12,6 +12,7 @@ import 'package:deep_paper/utility/extension.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 
@@ -130,8 +131,8 @@ class DeepDialog {
         context: context,
         builder: (context) => _NoteInfoDialog(
               folderName: folderName,
-          created: created,
-          modified: modified,
+              created: created,
+              modified: modified,
             ));
   }
 }
@@ -164,184 +165,204 @@ class _NoteInfoDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: const BorderRadius.all(const Radius.circular(12.0))),
-        contentPadding: const EdgeInsets.all(24.0),
-        actionsPadding:
-            const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 12.0),
-        titlePadding: const EdgeInsets.all(0.0),
-        title: Container(
-          padding: const EdgeInsets.all(24.0),
-          decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(
-                      width: 3.0,
-                      color: Theme
-                          .of(context)
-                          .accentColor
-                          .withOpacity(0.50)))),
-          child: Text(
-            "Note Info",
-            textAlign: TextAlign.center,
-            style: Theme
-                .of(context)
-                .textTheme
-                .bodyText1
-                .copyWith(fontSize: SizeHelper.getTitle),
-          ),
-        ),
-        actions: <Widget>[
-          FlatButton(
-              textColor: Theme
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light
+          .copyWith(systemNavigationBarColor: Colors.black),
+      child: AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius:
+              const BorderRadius.all(const Radius.circular(12.0))),
+          contentPadding: const EdgeInsets.all(24.0),
+          actionsPadding:
+          const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 12.0),
+          titlePadding: const EdgeInsets.all(0.0),
+          title: Container(
+            padding: const EdgeInsets.all(24.0),
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                        width: 3.0,
+                        color:
+                        Theme
+                            .of(context)
+                            .accentColor
+                            .withOpacity(0.50)))),
+            child: Text(
+              "Note Info",
+              textAlign: TextAlign.center,
+              style: Theme
                   .of(context)
-                  .accentColor
-                  .withOpacity(0.87),
-              shape: RoundedRectangleBorder(
-                  borderRadius:
-                      const BorderRadius.all(const Radius.circular(12.0))),
-              onPressed: () async {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                "Close",
-                style: TextStyle(
-                  fontFamily: "Roboto",
-                  fontSize: SizeHelper.getModalButton,
-                ),
-              )),
-        ],
-        content: SingleChildScrollView(
-            child: ListBody(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(bottom: 18.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Expanded(
-                    flex: 3,
-                    child: Text(
-                      "Folder",
-                      textAlign: TextAlign.right,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontSize: SizeHelper.getBodyText1),
-                    ),
-                  ),
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 6.0, right: 24.0),
-                      child: Text(
-                        ":",
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            .copyWith(fontSize: SizeHelper.getBodyText1),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 6,
-                    child: Text(
-                      "$folderName",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontSize: SizeHelper.getBodyText1),
-                    ),
-                  )
-                ],
-              ),
+                  .textTheme
+                  .bodyText1
+                  .copyWith(fontSize: SizeHelper.getTitle),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 18.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Expanded(
-                    flex: 3,
-                    child: Text(
-                      "Created",
-                      textAlign: TextAlign.right,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontSize: SizeHelper.getBodyText1),
-                    ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+                textColor: Theme
+                    .of(context)
+                    .accentColor
+                    .withOpacity(0.87),
+                shape: RoundedRectangleBorder(
+                    borderRadius:
+                    const BorderRadius.all(const Radius.circular(12.0))),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  "Close",
+                  style: TextStyle(
+                    fontFamily: "Roboto",
+                    fontSize: SizeHelper.getModalButton,
                   ),
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 6.0, right: 24.0),
-                      child: Text(
-                        ":",
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            .copyWith(fontSize: SizeHelper.getBodyText1),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 6,
-                    child: Text(
-                      "${DateFormat.yMMMd("en_US").add_jm().format(created)}",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontSize: SizeHelper.getBodyText1),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Expanded(
-                  flex: 3,
-                  child: Text(
-                    "Modified",
-                    textAlign: TextAlign.right,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(fontSize: SizeHelper.getBodyText1),
-                  ),
-                ),
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 6.0, right: 24.0),
-                    child: Text(
-                      ":",
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontSize: SizeHelper.getBodyText1),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 6,
-                  child: Text(
-                    "${DateFormat.yMMMd("en_US").add_jm().format(modified)}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(fontSize: SizeHelper.getBodyText1),
-                  ),
-                )
-              ],
-            ),
+                )),
           ],
-        )));
+          content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 18.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 3,
+                          child: Text(
+                            "Folder",
+                            textAlign: TextAlign.right,
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(fontSize: SizeHelper.getBodyText1),
+                          ),
+                        ),
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 6.0, right: 24.0),
+                            child: Text(
+                              ":",
+                              textAlign: TextAlign.center,
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(fontSize: SizeHelper.getBodyText1),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: Text(
+                            "$folderName",
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(fontSize: SizeHelper.getBodyText1),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 18.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 3,
+                          child: Text(
+                            "Created",
+                            textAlign: TextAlign.right,
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(fontSize: SizeHelper.getBodyText1),
+                          ),
+                        ),
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 6.0, right: 24.0),
+                            child: Text(
+                              ":",
+                              textAlign: TextAlign.center,
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(fontSize: SizeHelper.getBodyText1),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: Text(
+                            "${DateFormat.yMMMd("en_US").add_jm().format(
+                                created)}",
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(fontSize: SizeHelper.getBodyText1),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          "Modified",
+                          textAlign: TextAlign.right,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .bodyText1
+                              .copyWith(fontSize: SizeHelper.getBodyText1),
+                        ),
+                      ),
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 6.0, right: 24.0),
+                          child: Text(
+                            ":",
+                            textAlign: TextAlign.center,
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(fontSize: SizeHelper.getBodyText1),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 6,
+                        child: Text(
+                          "${DateFormat.yMMMd("en_US").add_jm().format(
+                              modified)}",
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .bodyText1
+                              .copyWith(fontSize: SizeHelper.getBodyText1),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ))),
+    );
   }
 }
 
@@ -352,105 +373,21 @@ class _RestoreDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScrollConfiguration(
-      behavior: DeepScrollBehavior(),
-      child: SimpleDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: const BorderRadius.all(const Radius.circular(12.0))),
-        contentPadding: const EdgeInsets.all(24.0),
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(bottom: 24.0),
-            child: Text(
-              "Restore this note ?",
-              style: TextStyle(
-                  fontFamily: "Roboto",
-                  fontSize: SizeHelper.getModalDescription,
-                  color: Colors.white.withOpacity(0.87)),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              FlatButton(
-                  textColor: Colors.white.withOpacity(0.87),
-                  shape: RoundedRectangleBorder(
-                      borderRadius:
-                          const BorderRadius.all(const Radius.circular(12.0))),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(
-                    "Cancel",
-                    style: TextStyle(
-                      fontFamily: "Roboto",
-                      fontSize: SizeHelper.getModalButton,
-                    ),
-                  )),
-              FlatButton(
-                  textColor: Theme
-                      .of(context)
-                      .accentColor
-                      .withOpacity(0.87),
-                  shape: RoundedRectangleBorder(
-                      borderRadius:
-                      const BorderRadius.all(const Radius.circular(12.0))),
-                  onPressed: () async {
-                    TrashManagement.restore(context: context, data: data);
-
-                    DeepToast.showToast(
-                        description: "Note restored successfully");
-
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(
-                    "Restore",
-                    style: TextStyle(
-                      fontFamily: "Roboto",
-                      fontSize: SizeHelper.getModalButton,
-                    ),
-                  )),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class _DeleteFolderDialog extends StatefulWidget {
-  final NoteDrawerProvider drawerProvider;
-
-  _DeleteFolderDialog({@required this.drawerProvider});
-
-  @override
-  __DeleteFolderDialogState createState() => __DeleteFolderDialogState();
-}
-
-class __DeleteFolderDialogState extends State<_DeleteFolderDialog> {
-  NoteDrawerProvider drawerProvider;
-
-  @override
-  void initState() {
-    super.initState();
-
-    drawerProvider = widget.drawerProvider;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScrollConfiguration(
-      behavior: DeepScrollBehavior(),
-      child: SimpleDialog(
-          contentPadding: const EdgeInsets.all(24.0),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light
+          .copyWith(systemNavigationBarColor: Colors.black),
+      child: ScrollConfiguration(
+        behavior: DeepScrollBehavior(),
+        child: SimpleDialog(
           shape: RoundedRectangleBorder(
               borderRadius:
               const BorderRadius.all(const Radius.circular(12.0))),
+          contentPadding: const EdgeInsets.all(24.0),
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(bottom: 24.0),
               child: Text(
-                "Delete this folder ?\n\nAll notes inside this folder will be deleted.",
+                "Restore this note ?",
                 style: TextStyle(
                     fontFamily: "Roboto",
                     fontSize: SizeHelper.getModalDescription,
@@ -483,17 +420,16 @@ class __DeleteFolderDialogState extends State<_DeleteFolderDialog> {
                     shape: RoundedRectangleBorder(
                         borderRadius: const BorderRadius.all(
                             const Radius.circular(12.0))),
-                    onPressed: () {
-                      FolderCreation.delete(
-                          context: context, drawerProvider: drawerProvider);
+                    onPressed: () async {
+                      TrashManagement.restore(context: context, data: data);
 
                       DeepToast.showToast(
-                          description: "Folder deleted successfully");
+                          description: "Note restored successfully");
 
                       Navigator.of(context).pop();
                     },
                     child: Text(
-                      "Delete",
+                      "Restore",
                       style: TextStyle(
                         fontFamily: "Roboto",
                         fontSize: SizeHelper.getModalButton,
@@ -501,7 +437,102 @@ class __DeleteFolderDialogState extends State<_DeleteFolderDialog> {
                     )),
               ],
             )
-          ]),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _DeleteFolderDialog extends StatefulWidget {
+  final NoteDrawerProvider drawerProvider;
+
+  _DeleteFolderDialog({@required this.drawerProvider});
+
+  @override
+  __DeleteFolderDialogState createState() => __DeleteFolderDialogState();
+}
+
+class __DeleteFolderDialogState extends State<_DeleteFolderDialog> {
+  NoteDrawerProvider drawerProvider;
+
+  @override
+  void initState() {
+    super.initState();
+
+    drawerProvider = widget.drawerProvider;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light
+          .copyWith(systemNavigationBarColor: Colors.black),
+      child: ScrollConfiguration(
+        behavior: DeepScrollBehavior(),
+        child: SimpleDialog(
+            contentPadding: const EdgeInsets.all(24.0),
+            shape: RoundedRectangleBorder(
+                borderRadius:
+                const BorderRadius.all(const Radius.circular(12.0))),
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 24.0),
+                child: Text(
+                  "Delete this folder ?\n\nAll notes inside this folder will be deleted.",
+                  style: TextStyle(
+                      fontFamily: "Roboto",
+                      fontSize: SizeHelper.getModalDescription,
+                      color: Colors.white.withOpacity(0.87)),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  FlatButton(
+                      textColor: Colors.white.withOpacity(0.87),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: const BorderRadius.all(
+                              const Radius.circular(12.0))),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                          fontFamily: "Roboto",
+                          fontSize: SizeHelper.getModalButton,
+                        ),
+                      )),
+                  FlatButton(
+                      textColor:
+                      Theme
+                          .of(context)
+                          .accentColor
+                          .withOpacity(0.87),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: const BorderRadius.all(
+                              const Radius.circular(12.0))),
+                      onPressed: () {
+                        FolderCreation.delete(
+                            context: context, drawerProvider: drawerProvider);
+
+                        DeepToast.showToast(
+                            description: "Folder deleted successfully");
+
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        "Delete",
+                        style: TextStyle(
+                          fontFamily: "Roboto",
+                          fontSize: SizeHelper.getModalButton,
+                        ),
+                      )),
+                ],
+              )
+            ]),
+      ),
     );
   }
 }
@@ -516,151 +547,151 @@ class __CreateFolderDialogState extends State<_CreateFolderDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicWidth(
-      stepWidth: 56,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(minWidth: 280),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Flexible(
-                child: ScrollConfiguration(
-                  behavior: DeepScrollBehavior(),
-                  child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(24.0),
-                      child: ListBody(
-                        children: <Widget>[
-                          Text(
-                            "Create folder",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontFamily: "Roboto",
-                                fontSize: SizeHelper.getHeadline6,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white.withOpacity(0.87)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 26.0, bottom: 26.0),
-                            child: Consumer<TextControllerProvider>(
-                                builder: (context, textControllerProvider,
-                                    child) {
-                                  return Selector<DetectTextDirectionProvider,
-                                      TextDirection>(
-                                      selector: (context, provider) =>
-                                      provider.getDirection
-                                          ? TextDirection.rtl
-                                          : TextDirection.ltr,
-                                      builder: (context, direction, child) {
-                                        return TextField(
-                                          controller: textControllerProvider
-                                              .controller,
-                                          textDirection: direction,
-                                          autofocus: true,
-                                          style: Theme
-                                              .of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              .copyWith(
-                                              color: Colors.white70,
-                                              fontSize:
-                                              SizeHelper.getModalTextField),
-                                          maxLines: 1,
-                                          keyboardType: TextInputType.text,
-                                          onChanged: (value) {
-                                            folderName = value;
-                                            Provider
-                                                .of<FolderDialogProvider>(
-                                                context,
-                                                listen: false)
-                                                .setIsNameTyped =
-                                            !folderName.isNullEmptyOrWhitespace;
-
-                                            Provider
-                                                .of<
-                                                DetectTextDirectionProvider>(
-                                                context,
-                                                listen: false)
-                                                .checkDirection = folderName;
-                                          },
-                                          decoration: InputDecoration(
-                                            enabledBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(12.0),
-                                                borderSide: BorderSide(
-                                                    width: 2.0,
-                                                    color:
-                                                    Theme
-                                                        .of(context)
-                                                        .accentColor)),
-                                            border: OutlineInputBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(12.0),
-                                                borderSide: BorderSide(
-                                                    width: 2.0,
-                                                    color:
-                                                    Theme
-                                                        .of(context)
-                                                        .accentColor)),
-                                            hintText: 'Folder Name',
-                                          ),
-                                        );
-                                      });
-                                }),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              FlatButton(
-                                  textColor: Colors.white.withOpacity(0.87),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: const BorderRadius.all(
-                                          const Radius.circular(12.0))),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text(
-                                    "Cancel",
-                                    style: TextStyle(
-                                      fontFamily: "Roboto",
-                                      fontSize: SizeHelper.getModalButton,
-                                    ),
-                                  )),
-                              Consumer<FolderDialogProvider>(
-                                  builder: (context, provider, widget) {
-                                    return FlatButton(
-                                        textColor: Theme
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light
+          .copyWith(systemNavigationBarColor: Colors.black),
+      child: IntrinsicWidth(
+        stepWidth: 56,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: 280),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Flexible(
+                  child: ScrollConfiguration(
+                    behavior: DeepScrollBehavior(),
+                    child: SingleChildScrollView(
+                        padding: const EdgeInsets.all(24.0),
+                        child: ListBody(
+                          children: <Widget>[
+                            Text(
+                              "Create folder",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontSize: SizeHelper.getHeadline6,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white.withOpacity(0.87)),
+                            ),
+                            Padding(
+                              padding:
+                              const EdgeInsets.only(top: 26.0, bottom: 26.0),
+                              child: Consumer<TextControllerProvider>(builder:
+                                  (context, textControllerProvider, child) {
+                                return Selector<DetectTextDirectionProvider,
+                                    TextDirection>(
+                                    selector: (context, provider) =>
+                                    provider.getDirection
+                                        ? TextDirection.rtl
+                                        : TextDirection.ltr,
+                                    builder: (context, direction, child) {
+                                      return TextField(
+                                        controller:
+                                        textControllerProvider.controller,
+                                        textDirection: direction,
+                                        autofocus: true,
+                                        style: Theme
                                             .of(context)
-                                            .accentColor
-                                            .withOpacity(0.87),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: const BorderRadius
-                                                .all(
-                                                const Radius.circular(12.0))),
-                                        onPressed: provider.isNameTyped
-                                            ? () {
+                                            .textTheme
+                                            .bodyText1
+                                            .copyWith(
+                                            color: Colors.white70,
+                                            fontSize:
+                                            SizeHelper.getModalTextField),
+                                        maxLines: 1,
+                                        keyboardType: TextInputType.text,
+                                        onChanged: (value) {
+                                          folderName = value;
+                                          Provider
+                                              .of<FolderDialogProvider>(context,
+                                              listen: false)
+                                              .setIsNameTyped =
+                                          !folderName.isNullEmptyOrWhitespace;
+
+                                          Provider
+                                              .of<DetectTextDirectionProvider>(
+                                              context,
+                                              listen: false)
+                                              .checkDirection = folderName;
+                                        },
+                                        decoration: InputDecoration(
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(12.0),
+                                              borderSide: BorderSide(
+                                                  width: 2.0,
+                                                  color: Theme
+                                                      .of(context)
+                                                      .accentColor)),
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                              BorderRadius.circular(12.0),
+                                              borderSide: BorderSide(
+                                                  width: 2.0,
+                                                  color: Theme
+                                                      .of(context)
+                                                      .accentColor)),
+                                          hintText: 'Folder Name',
+                                        ),
+                                      );
+                                    });
+                              }),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                FlatButton(
+                                    textColor: Colors.white.withOpacity(0.87),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: const BorderRadius.all(
+                                            const Radius.circular(12.0))),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      "Cancel",
+                                      style: TextStyle(
+                                        fontFamily: "Roboto",
+                                        fontSize: SizeHelper.getModalButton,
+                                      ),
+                                    )),
+                                Consumer<FolderDialogProvider>(
+                                    builder: (context, provider, widget) {
+                                      return FlatButton(
+                                          textColor: Theme
+                                              .of(context)
+                                              .accentColor
+                                              .withOpacity(0.87),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: const BorderRadius
+                                                  .all(
+                                                  const Radius.circular(12.0))),
+                                          onPressed: provider.isNameTyped
+                                              ? () {
                                           FolderCreation.create(
                                               context: context,
                                               name: folderName);
 
                                           Navigator.of(context).pop();
                                         }
-                                            : null,
-                                        child: Text(
-                                          "Create",
-                                          style: TextStyle(
-                                            fontFamily: "Roboto",
-                                            fontSize: SizeHelper.getModalButton,
-                                          ),
-                                        ));
-                                  }),
-                            ],
-                          )
-                        ],
-                      )),
-                ))
-          ],
+                                              : null,
+                                          child: Text(
+                                            "Create",
+                                            style: TextStyle(
+                                              fontFamily: "Roboto",
+                                              fontSize: SizeHelper
+                                                  .getModalButton,
+                                            ),
+                                          ));
+                                    }),
+                              ],
+                            )
+                          ],
+                        )),
+                  ))
+            ],
+          ),
         ),
       ),
     );
@@ -678,181 +709,14 @@ class __CreateFolderMoveToDialogState extends State<_CreateFolderMoveToDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicWidth(
-      stepWidth: 56,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(minWidth: 280),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Flexible(
-              child: ScrollConfiguration(
-                behavior: DeepScrollBehavior(),
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(24.0),
-                  child: ListBody(
-                    children: <Widget>[
-                      Text(
-                        "Create folder",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: "Roboto",
-                            fontSize: SizeHelper.getHeadline6,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white.withOpacity(0.87)),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 26.0, bottom: 26.0),
-                        child: Consumer<TextControllerProvider>(
-                            builder: (context, textControllerProvider, child) {
-                              return Selector<DetectTextDirectionProvider,
-                                  TextDirection>(
-                                  selector: (context, provider) =>
-                                  provider.getDirection
-                                      ? TextDirection.rtl
-                                      : TextDirection.ltr,
-                                  builder: (context, direction, child) {
-                                    return TextField(
-                                      controller: textControllerProvider
-                                          .controller,
-                                      textDirection: direction,
-                                      autofocus: true,
-                                      style: Theme
-                                          .of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          .copyWith(
-                                          color: Colors.white70,
-                                          fontSize:
-                                          SizeHelper.getModalTextField),
-                                      maxLines: 1,
-                                      keyboardType: TextInputType.text,
-                                      onChanged: (value) {
-                                        folderName = value;
-                                        Provider
-                                            .of<FolderDialogProvider>(context,
-                                            listen: false)
-                                            .setIsNameTyped =
-                                        !folderName.isNullEmptyOrWhitespace;
-
-                                        Provider
-                                            .of<DetectTextDirectionProvider>(
-                                            context,
-                                            listen: false)
-                                            .checkDirection = folderName;
-                                      },
-                                      decoration: InputDecoration(
-                                        enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                            BorderRadius.circular(12.0),
-                                            borderSide: BorderSide(
-                                                width: 2.0,
-                                                color:
-                                                Theme
-                                                    .of(context)
-                                                    .accentColor)),
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                            BorderRadius.circular(12.0),
-                                            borderSide: BorderSide(
-                                                width: 2.0,
-                                                color:
-                                                Theme
-                                                    .of(context)
-                                                    .accentColor)),
-                                        hintText: 'Folder Name',
-                                      ),
-                                    );
-                                  });
-                            }),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          FlatButton(
-                              textColor: Colors.white.withOpacity(0.87),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: const BorderRadius.all(
-                                      const Radius.circular(12.0))),
-                              onPressed: () {
-                                Navigator.of(context).maybePop();
-                              },
-                              child: Text(
-                                "Cancel",
-                                style: TextStyle(
-                                  fontFamily: "Roboto",
-                                  fontSize: SizeHelper.getModalButton,
-                                ),
-                              )),
-                          Consumer<FolderDialogProvider>(
-                              builder: (context, provider, widget) {
-                                return FlatButton(
-                                    textColor: Theme
-                                        .of(context)
-                                        .accentColor
-                                        .withOpacity(0.87),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: const BorderRadius.all(
-                                            const Radius.circular(12.0))),
-                                    onPressed: provider.isNameTyped
-                                        ? () {
-                                      FolderCreation.create(
-                                          context: context, name: folderName);
-
-                                      Navigator.of(context).maybePop();
-                                    }
-                                        : null,
-                                    child: Text(
-                                      "Create",
-                                      style: TextStyle(
-                                        fontFamily: "Roboto",
-                                        fontSize: SizeHelper.getModalButton,
-                                      ),
-                                    ));
-                              }),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _RenameFolderDialog extends StatefulWidget {
-  final NoteDrawerProvider drawerProvider;
-
-  _RenameFolderDialog({@required this.drawerProvider});
-
-  @override
-  __RenameFolderDialogState createState() => __RenameFolderDialogState();
-}
-
-class __RenameFolderDialogState extends State<_RenameFolderDialog> {
-  String folderName;
-  NoteDrawerProvider drawerProvider;
-
-  @override
-  void initState() {
-    super.initState();
-
-    drawerProvider = widget.drawerProvider;
-    folderName = drawerProvider.getFolder.name;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return IntrinsicWidth(
-      stepWidth: 56,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(minWidth: 280.0),
-        child: Column(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light
+          .copyWith(systemNavigationBarColor: Colors.black),
+      child: IntrinsicWidth(
+        stepWidth: 56,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minWidth: 280),
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -864,7 +728,7 @@ class __RenameFolderDialogState extends State<_RenameFolderDialog> {
                     child: ListBody(
                       children: <Widget>[
                         Text(
-                          "Rename folder",
+                          "Create folder",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontFamily: "Roboto",
@@ -873,21 +737,10 @@ class __RenameFolderDialogState extends State<_RenameFolderDialog> {
                               color: Colors.white.withOpacity(0.87)),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 26, bottom: 26),
+                          padding:
+                          const EdgeInsets.only(top: 26.0, bottom: 26.0),
                           child: Consumer<TextControllerProvider>(builder:
                               (context, textControllerProvider, child) {
-                            textControllerProvider.controller.text = folderName;
-
-                            textControllerProvider.controller.selection =
-                                TextSelection(
-                                    baseOffset: 0,
-                                    extentOffset: folderName.length);
-
-                            Provider
-                                .of<DetectTextDirectionProvider>(context,
-                                listen: false)
-                                .checkDirection = folderName;
-
                             return Selector<DetectTextDirectionProvider,
                                 TextDirection>(
                                 selector: (context, provider) =>
@@ -916,9 +769,7 @@ class __RenameFolderDialogState extends State<_RenameFolderDialog> {
                                           .of<FolderDialogProvider>(context,
                                           listen: false)
                                           .setIsNameTyped =
-                                          !folderName.isNullEmptyOrWhitespace &&
-                                              folderName !=
-                                                  drawerProvider.getFolder.name;
+                                      !folderName.isNullEmptyOrWhitespace;
 
                                       Provider
                                           .of<DetectTextDirectionProvider>(
@@ -958,7 +809,7 @@ class __RenameFolderDialogState extends State<_RenameFolderDialog> {
                                     borderRadius: const BorderRadius.all(
                                         const Radius.circular(12.0))),
                                 onPressed: () {
-                                  Navigator.of(context).pop();
+                                  Navigator.of(context).maybePop();
                                 },
                                 child: Text(
                                   "Cancel",
@@ -979,16 +830,15 @@ class __RenameFolderDialogState extends State<_RenameFolderDialog> {
                                               const Radius.circular(12.0))),
                                       onPressed: provider.isNameTyped
                                           ? () {
-                                        FolderCreation.update(
+                                        FolderCreation.create(
                                             context: context,
-                                            drawerProvider: drawerProvider,
                                             name: folderName);
 
-                                        Navigator.of(context).pop();
+                                        Navigator.of(context).maybePop();
                                       }
                                           : null,
                                       child: Text(
-                                        "Rename",
+                                        "Create",
                                         style: TextStyle(
                                           fontFamily: "Roboto",
                                           fontSize: SizeHelper.getModalButton,
@@ -1002,7 +852,199 @@ class __RenameFolderDialogState extends State<_RenameFolderDialog> {
                   ),
                 ),
               )
-            ]),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _RenameFolderDialog extends StatefulWidget {
+  final NoteDrawerProvider drawerProvider;
+
+  _RenameFolderDialog({@required this.drawerProvider});
+
+  @override
+  __RenameFolderDialogState createState() => __RenameFolderDialogState();
+}
+
+class __RenameFolderDialogState extends State<_RenameFolderDialog> {
+  String folderName;
+  NoteDrawerProvider drawerProvider;
+
+  @override
+  void initState() {
+    super.initState();
+
+    drawerProvider = widget.drawerProvider;
+    folderName = drawerProvider.getFolder.name;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light
+          .copyWith(systemNavigationBarColor: Colors.black),
+      child: IntrinsicWidth(
+        stepWidth: 56,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: 280.0),
+          child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Flexible(
+                  child: ScrollConfiguration(
+                    behavior: DeepScrollBehavior(),
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.all(24.0),
+                      child: ListBody(
+                        children: <Widget>[
+                          Text(
+                            "Rename folder",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: "Roboto",
+                                fontSize: SizeHelper.getHeadline6,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white.withOpacity(0.87)),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 26, bottom: 26),
+                            child: Consumer<TextControllerProvider>(builder:
+                                (context, textControllerProvider, child) {
+                              textControllerProvider.controller.text =
+                                  folderName;
+
+                              textControllerProvider.controller.selection =
+                                  TextSelection(
+                                      baseOffset: 0,
+                                      extentOffset: folderName.length);
+
+                              Provider
+                                  .of<DetectTextDirectionProvider>(context,
+                                  listen: false)
+                                  .checkDirection = folderName;
+
+                              return Selector<DetectTextDirectionProvider,
+                                  TextDirection>(
+                                  selector: (context, provider) =>
+                                  provider.getDirection
+                                      ? TextDirection.rtl
+                                      : TextDirection.ltr,
+                                  builder: (context, direction, child) {
+                                    return TextField(
+                                      controller:
+                                      textControllerProvider.controller,
+                                      textDirection: direction,
+                                      autofocus: true,
+                                      style: Theme
+                                          .of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          .copyWith(
+                                          color: Colors.white70,
+                                          fontSize:
+                                          SizeHelper.getModalTextField),
+                                      maxLines: 1,
+                                      keyboardType: TextInputType.text,
+                                      onChanged: (value) {
+                                        folderName = value;
+                                        Provider
+                                            .of<FolderDialogProvider>(
+                                            context,
+                                            listen: false)
+                                            .setIsNameTyped = !folderName
+                                            .isNullEmptyOrWhitespace &&
+                                            folderName !=
+                                                drawerProvider.getFolder.name;
+
+                                        Provider
+                                            .of<DetectTextDirectionProvider>(
+                                            context,
+                                            listen: false)
+                                            .checkDirection = folderName;
+                                      },
+                                      decoration: InputDecoration(
+                                        enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(12.0),
+                                            borderSide: BorderSide(
+                                                width: 2.0,
+                                                color: Theme
+                                                    .of(context)
+                                                    .accentColor)),
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(12.0),
+                                            borderSide: BorderSide(
+                                                width: 2.0,
+                                                color: Theme
+                                                    .of(context)
+                                                    .accentColor)),
+                                        hintText: 'Folder Name',
+                                      ),
+                                    );
+                                  });
+                            }),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              FlatButton(
+                                  textColor: Colors.white.withOpacity(0.87),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: const BorderRadius.all(
+                                          const Radius.circular(12.0))),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    "Cancel",
+                                    style: TextStyle(
+                                      fontFamily: "Roboto",
+                                      fontSize: SizeHelper.getModalButton,
+                                    ),
+                                  )),
+                              Consumer<FolderDialogProvider>(
+                                  builder: (context, provider, widget) {
+                                    return FlatButton(
+                                        textColor: Theme
+                                            .of(context)
+                                            .accentColor
+                                            .withOpacity(0.87),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: const BorderRadius
+                                                .all(
+                                                const Radius.circular(12.0))),
+                                        onPressed: provider.isNameTyped
+                                            ? () {
+                                          FolderCreation.update(
+                                              context: context,
+                                              drawerProvider: drawerProvider,
+                                              name: folderName);
+
+                                          Navigator.of(context).pop();
+                                        }
+                                            : null,
+                                        child: Text(
+                                          "Rename",
+                                          style: TextStyle(
+                                            fontFamily: "Roboto",
+                                            fontSize: SizeHelper.getModalButton,
+                                          ),
+                                        ));
+                                  }),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ]),
+        ),
       ),
     );
   }
