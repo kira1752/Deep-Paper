@@ -6,7 +6,7 @@ class DeepBottomProvider with ChangeNotifier {
   PageController _controller = PageController(keepPage: false);
   bool _selection = false;
 
-  int get currentIndex => _currentIndex;
+  int get getCurrentIndex => _currentIndex;
   PageController get controller => _controller;
   bool get getSelection => _selection;
 

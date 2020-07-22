@@ -14,7 +14,6 @@ class NoteDetailNormalSave {
       @required int noteID,
       @required Note note,
       @required NoteDetailProvider detailProvider,
-      @required String detail,
       @required int folderID,
       @required String folderName,
       @required bool isDeleted,
@@ -30,9 +29,7 @@ class NoteDetailNormalSave {
       } else if (note.isNotNull) {
         // if there is any changes happen in note
         // update note data
-        if (detail != detailProvider.getDetail) {
-          detail = detailProvider.getDetail;
-
+        if (detailProvider.getTempDetail != detailProvider.getDetail) {
           NoteCreation.update(
               context: context,
               noteID: note.id,
@@ -76,9 +73,7 @@ class NoteDetailNormalSave {
         // like when creating new note because of user pressing home button, etc
         // then user continue editing the note,
         // then pressing back button to access the homepage of DeepPaper app
-        if (detail != detailProvider.getDetail) {
-          detail = detailProvider.getDetail;
-
+        if (detailProvider.getTempDetail != detailProvider.getDetail) {
           NoteCreation.update(
               context: context,
               noteID: noteID,

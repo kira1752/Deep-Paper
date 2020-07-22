@@ -63,53 +63,58 @@ class _DeepPaperState extends State<DeepPaper> {
                 return RepaintBoundary(
                   child: Visibility(
                       visible: selection ? false : true,
-                      child: BottomNavigationBar(
-                        elevation: 0.0,
-                        backgroundColor: Theme.of(context).canvasColor,
-                        type: BottomNavigationBarType.fixed,
-                        selectedFontSize: SizeHelper.getButton,
-                        unselectedFontSize: SizeHelper.getButton,
-                        selectedItemColor: Theme.of(context).accentColor,
-                        unselectedItemColor: Colors.white70,
-                        currentIndex: deepProvider.currentIndex,
-                        onTap: (index) {
-                          fabProvider.setScroll = false;
-                          deepProvider.setCurrentIndex = index;
-                          deepProvider.controller.jumpToPage(index);
-                        },
-                        items: [
-                          BottomNavigationBarItem(
-                            icon: Icon(MyIcon.library_books_outline),
-                            activeIcon: Icon(Icons.library_books),
-                            title: Text(
-                              'Note',
-                              style: TextStyle(fontWeight: FontWeight.w600),
+                      child: Selector<DeepBottomProvider, int>(
+                        selector: (context, provider) =>
+                            provider.getCurrentIndex,
+                        builder: (context, index, widget) =>
+                            BottomNavigationBar(
+                          elevation: 0.0,
+                          backgroundColor: Theme.of(context).canvasColor,
+                          type: BottomNavigationBarType.fixed,
+                          selectedFontSize: SizeHelper.getButton,
+                          unselectedFontSize: SizeHelper.getButton,
+                          selectedItemColor: Theme.of(context).accentColor,
+                          unselectedItemColor: Colors.white70,
+                          currentIndex: index,
+                          onTap: (index) {
+                            fabProvider.setScroll = false;
+                            deepProvider.setCurrentIndex = index;
+                            deepProvider.controller.jumpToPage(index);
+                          },
+                          items: [
+                            BottomNavigationBarItem(
+                              icon: Icon(MyIcon.library_books_outline),
+                              activeIcon: Icon(Icons.library_books),
+                              title: Text(
+                                'Note',
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
                             ),
-                          ),
-                          BottomNavigationBarItem(
-                            icon: Icon(MyIcon.event_note_outline),
-                            activeIcon: Icon(Icons.event_note),
-                            title: Text(
-                              'Plan',
-                              style: TextStyle(fontWeight: FontWeight.w600),
+                            BottomNavigationBarItem(
+                              icon: Icon(MyIcon.event_note_outline),
+                              activeIcon: Icon(Icons.event_note),
+                              title: Text(
+                                'Plan',
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
                             ),
-                          ),
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.pie_chart_outlined),
-                            activeIcon: Icon(Icons.pie_chart),
-                            title: Text(
-                              'Finance',
-                              style: TextStyle(fontWeight: FontWeight.w600),
+                            BottomNavigationBarItem(
+                              icon: Icon(Icons.pie_chart_outlined),
+                              activeIcon: Icon(Icons.pie_chart),
+                              title: Text(
+                                'Finance',
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
                             ),
-                          ),
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.more_horiz),
-                            title: Text(
-                              'More',
-                              style: TextStyle(fontWeight: FontWeight.w600),
+                            BottomNavigationBarItem(
+                              icon: Icon(Icons.more_horiz),
+                              title: Text(
+                                'More',
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       )),
                 );
               }),
