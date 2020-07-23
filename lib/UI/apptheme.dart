@@ -8,7 +8,7 @@ class AppTheme {
     return Theme.of(context)
         .textTheme
         .headline5
-        .copyWith(fontSize: SizeHelper.getHeadline5);
+        .copyWith(fontSize: SizeHelper.getTitle);
   }
 
   static TextStyle darkTitleFolderAppBar(BuildContext context) {
@@ -22,14 +22,14 @@ class AppTheme {
     return Theme.of(context)
         .textTheme
         .bodyText1
-        .copyWith(fontSize: SizeHelper.getHeadline5);
+        .copyWith(fontSize: SizeHelper.getTitle);
   }
 
   static TextStyle darkTitleSelectionAppBar(BuildContext context) {
     return Theme.of(context)
         .textTheme
         .bodyText1
-        .copyWith(fontSize: SizeHelper.getHeadline5);
+        .copyWith(fontSize: SizeHelper.getTitle);
   }
 
   static TextStyle darkPopupMenuItem(BuildContext context) {

@@ -13,7 +13,7 @@ class FinanceDefaultAppBar extends StatelessWidget {
         style: Theme.of(context)
             .textTheme
             .headline5
-            .copyWith(fontSize: SizeHelper.getHeadline5),
+            .copyWith(fontSize: SizeHelper.getTitle),
       ),
     );
   }

@@ -19,34 +19,12 @@ class TrashListView extends StatelessWidget {
         return AnimatedSwitcher(
             duration: const Duration(milliseconds: 450),
             child: data.isNull
-                ? _TrashIsNull()
+                ? const SizedBox()
                 : data.isEmpty
                     ? EmptyTrashIllustration()
                     : _TrashIsExist(data: data));
       }),
     );
-  }
-}
-
-class _TrashIsNull extends StatefulWidget {
-  @override
-  __TrashIsNullState createState() => __TrashIsNullState();
-}
-
-class __TrashIsNullState extends State<_TrashIsNull> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final drawerProvider =
-          Provider.of<NoteDrawerProvider>(context, listen: false);
-      drawerProvider.setTrashExist = false;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox();
   }
 }
 
