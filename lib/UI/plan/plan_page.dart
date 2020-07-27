@@ -48,7 +48,9 @@ class PlanFloatingActionButton extends StatelessWidget {
                         color: Colors.white.withOpacity(0.80)),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed("/CreatePlan");
+                },
               ),
             );
           }),

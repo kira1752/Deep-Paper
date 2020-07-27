@@ -110,138 +110,128 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
         bottomSheetTheme: BottomSheetThemeData(
           modalBackgroundColor: Color(0xff202020),
         ),
-        primaryColor: Theme.of(context).primaryColor,
-        backgroundColor: Theme.of(context).backgroundColor,
-        bottomAppBarColor: Theme.of(context).bottomAppBarColor,
-        scaffoldBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light.copyWith(
-          systemNavigationBarColor: Theme.of(context).primaryColor,
-        ),
-        child: WillPopScope(
-          onWillPop: () async {
-            NoteDetailNormalSave.run(
-                context: context,
-                noteID: _detailProvider.getNoteID,
-                note: _detailProvider.getNote,
-                detailProvider: _detailProvider,
-                folderID: widget.folderID,
-                folderName: widget.folderName,
-                isDeleted: _detailProvider.getIsDeleted,
-                isCopy: _detailProvider.getIsCopy);
+      child: WillPopScope(
+        onWillPop: () async {
+          NoteDetailNormalSave.run(
+              context: context,
+              noteID: _detailProvider.getNoteID,
+              note: _detailProvider.getNote,
+              detailProvider: _detailProvider,
+              folderID: widget.folderID,
+              folderName: widget.folderName,
+              isDeleted: _detailProvider.getIsDeleted,
+              isCopy: _detailProvider.getIsCopy);
 
-            return true;
-          },
-          child: Scaffold(
-            appBar: AppBar(
-                elevation: 0.0,
-                leading: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: Theme.of(context).accentColor.withOpacity(0.80),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).maybePop();
-                  },
+          return true;
+        },
+        child: Scaffold(
+          appBar: AppBar(
+              elevation: 0.0,
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Theme.of(context).accentColor.withOpacity(0.80),
                 ),
-                bottom: PreferredSize(
-                    preferredSize: Size.fromHeight(56),
-                    child: DateCharacterCounts(
-                        date: _date, detail: _detailProvider.getDetail))),
-            bottomNavigationBar: BottomMenu(
-              detailController: _detailController,
-              onDelete: () {
-                if (!_detailProvider.getDetail.isNullEmptyOrWhitespace) {
-                  _detailProvider.setIsDeleted = true;
-
-                  Navigator.pop(context);
-                  Future.delayed(Duration(milliseconds: 400), () {
-                    Navigator.maybePop(context);
-                    DeepToast.showToast(description: "Note moved to Trash Bin");
-                  });
-                } else if (_detailProvider.getNoteID.isNull &&
-                    _detailProvider.getNote.isNull) {
-                  Navigator.pop(context);
-                  Future.delayed(Duration(milliseconds: 400), () {
-                    Navigator.maybePop(context);
-                    DeepToast.showToast(description: "Empty note deleted");
-                  });
-                } else {
-                  Navigator.pop(context);
-                  Future.delayed(Duration(milliseconds: 400), () {
-                    Navigator.maybePop(context);
-                  });
-                }
-              },
-              onCopy: () {
-                if (_detailProvider.getDetail.isNullEmptyOrWhitespace) {
-                  Navigator.of(context).pop();
-                  DeepToast.showToast(description: "Cannot copy empty note");
-                } else {
-                  _detailProvider.setIsCopy = true;
-
-                  Navigator.pop(context);
-                  Future.delayed(Duration(milliseconds: 400), () {
-                    Navigator.maybePop(context);
-                    DeepToast.showToast(
-                        description: "Note copied successfully");
-                  });
-                }
-              },
-              noteInfo: () async {
-                final created = await _database.noteDao
-                    .getCreatedDate(_detailProvider.getNoteID);
+                onPressed: () {
+                  Navigator.of(context).maybePop();
+                },
+              ),
+              bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(56),
+                  child: DateCharacterCounts(
+                      date: _date, detail: _detailProvider.getDetail))),
+          bottomNavigationBar: BottomMenu(
+            detailController: _detailController,
+            onDelete: () {
+              if (!_detailProvider.getDetail.isNullEmptyOrWhitespace) {
+                _detailProvider.setIsDeleted = true;
 
                 Navigator.pop(context);
                 Future.delayed(Duration(milliseconds: 400), () {
-                  DeepDialog.openNoteInfo(
-                      context: context,
-                      folderName: widget.folderName,
-                      modified: _detailProvider.getNote.isNull
-                          ? DateTime.now()
-                          : (_detailProvider.getNote.detail !=
-                          _detailProvider.getDetail
-                          ? DateTime.now()
-                          : _detailProvider.getNote.modified),
-                      created: _detailProvider.getNoteID.isNull
-                          ? (_detailProvider.getNote.isNull
-                          ? DateTime.now()
-                          : _detailProvider.getNote.created)
-                          : created);
+                  Navigator.maybePop(context);
+                  DeepToast.showToast(description: "Note moved to Trash Bin");
                 });
-              },
-            ),
-            body: ScrollConfiguration(
-              behavior: DeepScrollBehavior(),
-              child: GestureDetector(
-                onTap: () {
-                  if (!_detailFocus.hasFocus) {
-                    _detailFocus.requestFocus();
-                  }
-                  _detailController.selection =
-                      TextSelection.fromPosition(TextPosition(
-                        offset: _detailProvider.getDetail.length,
-                      ));
+              } else if (_detailProvider.getNoteID.isNull &&
+                  _detailProvider.getNote.isNull) {
+                Navigator.pop(context);
+                Future.delayed(Duration(milliseconds: 400), () {
+                  Navigator.maybePop(context);
+                  DeepToast.showToast(description: "Empty note deleted");
+                });
+              } else {
+                Navigator.pop(context);
+                Future.delayed(Duration(milliseconds: 400), () {
+                  Navigator.maybePop(context);
+                });
+              }
+            },
+            onCopy: () {
+              if (_detailProvider.getDetail.isNullEmptyOrWhitespace) {
+                Navigator.of(context).pop();
+                DeepToast.showToast(description: "Cannot copy empty note");
+              } else {
+                _detailProvider.setIsCopy = true;
 
-                  if (!_undoRedoProvider.canUndo()) {
-                    _undoRedoProvider.tempInitialCursorPosition =
-                        _detailProvider.getDetail.length;
-                  }
-                },
-                child: ListView(
-                  children: <Widget>[
-                    DeepKeepAlive(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(18, 0, 16, 16),
-                        child: DetailField(
-                          detailController: _detailController,
-                          detailFocus: _detailFocus,
-                        ),
+                Navigator.pop(context);
+                Future.delayed(Duration(milliseconds: 400), () {
+                  Navigator.maybePop(context);
+                  DeepToast.showToast(description: "Note copied successfully");
+                });
+              }
+            },
+            noteInfo: () async {
+              final created = await _database.noteDao
+                  .getCreatedDate(_detailProvider.getNoteID);
+
+              Navigator.pop(context);
+              Future.delayed(Duration(milliseconds: 400), () {
+                DeepDialog.openNoteInfo(
+                    context: context,
+                    folderName: widget.folderName,
+                    modified: _detailProvider.getNote.isNull
+                        ? DateTime.now()
+                        : (_detailProvider.getNote.detail !=
+                                _detailProvider.getDetail
+                            ? DateTime.now()
+                            : _detailProvider.getNote.modified),
+                    created: _detailProvider.getNoteID.isNull
+                        ? (_detailProvider.getNote.isNull
+                            ? DateTime.now()
+                            : _detailProvider.getNote.created)
+                        : created);
+              });
+            },
+          ),
+          body: ScrollConfiguration(
+            behavior: DeepScrollBehavior(),
+            child: GestureDetector(
+              onTap: () {
+                if (!_detailFocus.hasFocus) {
+                  _detailFocus.requestFocus();
+                }
+                _detailController.selection =
+                    TextSelection.fromPosition(TextPosition(
+                  offset: _detailProvider.getDetail.length,
+                ));
+
+                if (!_undoRedoProvider.canUndo()) {
+                  _undoRedoProvider.tempInitialCursorPosition =
+                      _detailProvider.getDetail.length;
+                }
+              },
+              child: ListView(
+                children: <Widget>[
+                  DeepKeepAlive(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(18, 0, 16, 16),
+                      child: DetailField(
+                        detailController: _detailController,
+                        detailFocus: _detailFocus,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

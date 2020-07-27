@@ -42,10 +42,10 @@ class AppTheme {
     return ThemeData.dark().copyWith(
         visualDensity: VisualDensity.adaptivePlatformDensity,
         popupMenuTheme: PopupMenuThemeData(
-            color: Color(0xff202020),
+            color: Color(0xff1f1f1f),
             textStyle: TextStyle(color: Colors.white.withOpacity(0.80))),
         bottomSheetTheme: BottomSheetThemeData(
-          modalBackgroundColor: Color(0xff202020),
+          modalBackgroundColor: Color(0xff1f1f1f),
         ),
         dialogTheme: DialogTheme(
           backgroundColor: Color(0xff202020),
@@ -61,7 +61,7 @@ class AppTheme {
         scaffoldBackgroundColor: Color(0xff121212),
         textSelectionColor: Color(0xffffb348).withOpacity(0.30),
         textSelectionHandleColor: Color(0xffffb348),
-        canvasColor: Color(0xff181818),
+        canvasColor: Color(0xff1a1a1a),
         textTheme: TextTheme(
             headline5: TextStyle(
               fontFamilyFallback: ["Noto Color Emoji"],

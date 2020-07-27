@@ -2,6 +2,7 @@ import 'package:deep_paper/UI/apptheme.dart';
 import 'package:deep_paper/UI/deep_paper.dart';
 import 'package:deep_paper/UI/note/detailScreen/note_detail.dart';
 import 'package:deep_paper/UI/note/note_page.dart';
+import 'package:deep_paper/UI/plan/plan_detail/create_plan_page.dart';
 import 'package:deep_paper/UI/transition/deep_route.dart';
 import 'package:deep_paper/business_logic/note/provider/note_detail_provider.dart';
 import 'package:deep_paper/business_logic/note/provider/undo_redo_provider.dart';
@@ -66,6 +67,10 @@ class DeepMaterialApp extends StatelessWidget {
             break;
           case '/NotePage':
             return DeepRoute(page: (context) => NotePage(), settings: settings);
+            break;
+          case '/CreatePlan':
+            return DeepRoute(
+                page: (context) => CreatePlanPage(), settings: settings);
             break;
           default:
             return DeepRoute(

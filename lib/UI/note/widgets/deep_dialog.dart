@@ -156,54 +156,50 @@ class DeepBaseDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion(
-      value: SystemUiOverlayStyle.light
-          .copyWith(systemNavigationBarColor: Colors.black),
-      child: Dialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: const BorderRadius.all(const Radius.circular(12.0))),
-        insetAnimationDuration: Duration(milliseconds: 250),
-        insetAnimationCurve: Curves.easeIn,
-        child: IntrinsicWidth(
-          stepWidth: 56,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minWidth: 280),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (title.isNotNull)
-                  Padding(
-                    padding: titlePadding ??
-                        const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0),
-                    child: title,
-                  ),
-                if (children.isNotNull)
-                  Flexible(
-                    child: ScrollConfiguration(
-                      behavior: DeepScrollBehavior(),
-                      child: SingleChildScrollView(
-                        padding: childrenPadding ?? actions.isNotNull
-                            ? const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0)
-                            : const EdgeInsets.all(24.0),
-                        child: ListBody(
-                          children: children,
-                        ),
+    return Dialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: const BorderRadius.all(const Radius.circular(12.0))),
+      insetAnimationDuration: Duration(milliseconds: 250),
+      insetAnimationCurve: Curves.easeIn,
+      child: IntrinsicWidth(
+        stepWidth: 56,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: 280),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (title.isNotNull)
+                Padding(
+                  padding: titlePadding ??
+                      const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0),
+                  child: title,
+                ),
+              if (children.isNotNull)
+                Flexible(
+                  child: ScrollConfiguration(
+                    behavior: DeepScrollBehavior(),
+                    child: SingleChildScrollView(
+                      padding: childrenPadding ?? actions.isNotNull
+                          ? const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0)
+                          : const EdgeInsets.all(24.0),
+                      child: ListBody(
+                        children: children,
                       ),
                     ),
                   ),
-                if (optionalScrollable.isNotNull)
-                  Flexible(child: optionalScrollable),
-                if (actions.isNotNull)
-                  Padding(
-                    padding: actionsPadding ?? const EdgeInsets.all(24.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: actions,
-                    ),
-                  )
-              ],
-            ),
+                ),
+              if (optionalScrollable.isNotNull)
+                Flexible(child: optionalScrollable),
+              if (actions.isNotNull)
+                Padding(
+                  padding: actionsPadding ?? const EdgeInsets.all(24.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: actions,
+                  ),
+                )
+            ],
           ),
         ),
       ),
@@ -220,60 +216,56 @@ class MoveToBaseDialog extends StatelessWidget {
   final List<Widget> actions;
   final EdgeInsets actionsPadding;
 
-  MoveToBaseDialog({this.title,
-    this.titlePadding,
-    this.children,
-    this.childrenPadding,
-    this.actions,
-    this.actionsPadding,
-    this.optionalScrollable});
+  MoveToBaseDialog(
+      {this.title,
+      this.titlePadding,
+      this.children,
+      this.childrenPadding,
+      this.actions,
+      this.actionsPadding,
+      this.optionalScrollable});
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion(
-      value: SystemUiOverlayStyle.light
-          .copyWith(systemNavigationBarColor: Colors.black),
-      child: Dialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: const BorderRadius.all(const Radius.circular(12.0))),
-        insetAnimationDuration: Duration(milliseconds: 250),
-        insetAnimationCurve: Curves.easeIn,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (title.isNotNull)
-              Padding(
-                padding: titlePadding ??
-                    const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0),
-                child: title,
-              ),
-            if (children.isNotNull)
-              Flexible(
-                child: ScrollConfiguration(
-                  behavior: DeepScrollBehavior(),
-                  child: SingleChildScrollView(
-                    padding: childrenPadding ?? actions.isNotNull
-                        ? const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0)
-                        : const EdgeInsets.all(24.0),
-                    child: ListBody(
-                      children: children,
-                    ),
+    return Dialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: const BorderRadius.all(const Radius.circular(12.0))),
+      insetAnimationDuration: Duration(milliseconds: 250),
+      insetAnimationCurve: Curves.easeIn,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (title.isNotNull)
+            Padding(
+              padding: titlePadding ??
+                  const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0),
+              child: title,
+            ),
+          if (children.isNotNull)
+            Flexible(
+              child: ScrollConfiguration(
+                behavior: DeepScrollBehavior(),
+                child: SingleChildScrollView(
+                  padding: childrenPadding ?? actions.isNotNull
+                      ? const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0)
+                      : const EdgeInsets.all(24.0),
+                  child: ListBody(
+                    children: children,
                   ),
                 ),
               ),
-            if (optionalScrollable.isNotNull)
-              Flexible(child: optionalScrollable),
-            if (actions.isNotNull)
-              Padding(
-                padding: actionsPadding ?? const EdgeInsets.all(24.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: actions,
-                ),
-              )
-          ],
-        ),
+            ),
+          if (optionalScrollable.isNotNull) Flexible(child: optionalScrollable),
+          if (actions.isNotNull)
+            Padding(
+              padding: actionsPadding ?? const EdgeInsets.all(24.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: actions,
+              ),
+            )
+        ],
       ),
     );
   }
@@ -290,152 +282,59 @@ class _NoteInfoDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light
-          .copyWith(systemNavigationBarColor: Colors.black),
-      child: DeepBaseDialog(
-        titlePadding: const EdgeInsets.symmetric(horizontal: 24.0),
-        title: Container(
-          padding: const EdgeInsets.symmetric(vertical: 24.0),
-          decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(
-                      width: 2.0,
-                      color: Theme
-                          .of(context)
-                          .accentColor
-                          .withOpacity(.20)))),
-          child: Text(
-            "Note Info",
-            textAlign: TextAlign.center,
-            style: Theme
-                .of(context)
-                .textTheme
-                .bodyText1
-                .copyWith(fontSize: SizeHelper.getTitle),
-          ),
+    return DeepBaseDialog(
+      titlePadding: const EdgeInsets.symmetric(horizontal: 24.0),
+      title: Container(
+        padding: const EdgeInsets.symmetric(vertical: 24.0),
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+                    width: 2.0,
+                    color: Theme
+                        .of(context)
+                        .accentColor
+                        .withOpacity(.20)))),
+        child: Text(
+          "Note Info",
+          textAlign: TextAlign.center,
+          style: Theme
+              .of(context)
+              .textTheme
+              .bodyText1
+              .copyWith(fontSize: SizeHelper.getTitle),
         ),
-        actions: <Widget>[
-          FlatButton(
-              textColor: Theme
-                  .of(context)
-                  .accentColor
-                  .withOpacity(0.87),
-              shape: RoundedRectangleBorder(
-                  borderRadius:
-                  const BorderRadius.all(const Radius.circular(12.0))),
-              onPressed: () async {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                "Close",
-                style: TextStyle(
-                  fontFamily: "Roboto",
-                  fontSize: SizeHelper.getModalButton,
-                ),
-              )),
-        ],
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(bottom: 18.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Expanded(
-                  flex: 3,
-                  child: Text(
-                    "Folder",
-                    textAlign: TextAlign.right,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(fontSize: SizeHelper.getBodyText1),
-                  ),
-                ),
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 6.0, right: 24.0),
-                    child: Text(
-                      ":",
-                      textAlign: TextAlign.center,
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontSize: SizeHelper.getBodyText1),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 6,
-                  child: Text(
-                    "$folderName",
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(fontSize: SizeHelper.getBodyText1),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 18.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Expanded(
-                  flex: 3,
-                  child: Text(
-                    "Created",
-                    textAlign: TextAlign.right,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(fontSize: SizeHelper.getBodyText1),
-                  ),
-                ),
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 6.0, right: 24.0),
-                    child: Text(
-                      ":",
-                      textAlign: TextAlign.center,
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontSize: SizeHelper.getBodyText1),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 6,
-                  child: Text(
-                    "${DateFormat.yMMMd("en_US").add_jm().format(created)}",
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(fontSize: SizeHelper.getBodyText1),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Row(
+      ),
+      actions: <Widget>[
+        FlatButton(
+            textColor: Theme
+                .of(context)
+                .accentColor
+                .withOpacity(0.87),
+            shape: RoundedRectangleBorder(
+                borderRadius:
+                const BorderRadius.all(const Radius.circular(12.0))),
+            onPressed: () async {
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              "Close",
+              style: TextStyle(
+                fontFamily: "Roboto",
+                fontSize: SizeHelper.getModalButton,
+              ),
+            )),
+      ],
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(bottom: 18.0),
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Expanded(
                 flex: 3,
                 child: Text(
-                  "Modified",
+                  "Folder",
                   textAlign: TextAlign.right,
                   style: Theme
                       .of(context)
@@ -461,7 +360,7 @@ class _NoteInfoDialog extends StatelessWidget {
               Expanded(
                 flex: 6,
                 child: Text(
-                  "${DateFormat.yMMMd("en_US").add_jm().format(modified)}",
+                  "$folderName",
                   style: Theme
                       .of(context)
                       .textTheme
@@ -471,8 +370,97 @@ class _NoteInfoDialog extends StatelessWidget {
               )
             ],
           ),
-        ],
-      ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 18.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Expanded(
+                flex: 3,
+                child: Text(
+                  "Created",
+                  textAlign: TextAlign.right,
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(fontSize: SizeHelper.getBodyText1),
+                ),
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 6.0, right: 24.0),
+                  child: Text(
+                    ":",
+                    textAlign: TextAlign.center,
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(fontSize: SizeHelper.getBodyText1),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 6,
+                child: Text(
+                  "${DateFormat.yMMMd("en_US").add_jm().format(created)}",
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(fontSize: SizeHelper.getBodyText1),
+                ),
+              )
+            ],
+          ),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Expanded(
+              flex: 3,
+              child: Text(
+                "Modified",
+                textAlign: TextAlign.right,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(fontSize: SizeHelper.getBodyText1),
+              ),
+            ),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 6.0, right: 24.0),
+                child: Text(
+                  ":",
+                  textAlign: TextAlign.center,
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(fontSize: SizeHelper.getBodyText1),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 6,
+              child: Text(
+                "${DateFormat.yMMMd("en_US").add_jm().format(modified)}",
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(fontSize: SizeHelper.getBodyText1),
+              ),
+            )
+          ],
+        ),
+      ],
     );
   }
 }
@@ -484,60 +472,55 @@ class _RestoreDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light
-          .copyWith(systemNavigationBarColor: Colors.black),
-      child: ScrollConfiguration(
-        behavior: DeepScrollBehavior(),
-        child: DeepBaseDialog(
-          title: Text(
-            "Restore this note ?",
-            style: TextStyle(
-                fontFamily: "Roboto",
-                fontSize: SizeHelper.getModalDescription,
-                color: Colors.white.withOpacity(0.87)),
-          ),
-          actions: [
-            FlatButton(
-                textColor: Colors.white.withOpacity(0.87),
-                shape: RoundedRectangleBorder(
-                    borderRadius:
-                    const BorderRadius.all(const Radius.circular(12.0))),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  "Cancel",
-                  style: TextStyle(
-                    fontFamily: "Roboto",
-                    fontSize: SizeHelper.getModalButton,
-                  ),
-                )),
-            FlatButton(
-                textColor: Theme
-                    .of(context)
-                    .accentColor
-                    .withOpacity(0.87),
-                shape: RoundedRectangleBorder(
-                    borderRadius:
-                    const BorderRadius.all(const Radius.circular(12.0))),
-                onPressed: () async {
-                  TrashManagement.restore(context: context, data: data);
-
-                  DeepToast.showToast(
-                      description: "Note restored successfully");
-
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  "Restore",
-                  style: TextStyle(
-                    fontFamily: "Roboto",
-                    fontSize: SizeHelper.getModalButton,
-                  ),
-                )),
-          ],
+    return ScrollConfiguration(
+      behavior: DeepScrollBehavior(),
+      child: DeepBaseDialog(
+        title: Text(
+          "Restore this note ?",
+          style: TextStyle(
+              fontFamily: "Roboto",
+              fontSize: SizeHelper.getModalDescription,
+              color: Colors.white.withOpacity(0.87)),
         ),
+        actions: [
+          FlatButton(
+              textColor: Colors.white.withOpacity(0.87),
+              shape: RoundedRectangleBorder(
+                  borderRadius:
+                  const BorderRadius.all(const Radius.circular(12.0))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                "Cancel",
+                style: TextStyle(
+                  fontFamily: "Roboto",
+                  fontSize: SizeHelper.getModalButton,
+                ),
+              )),
+          FlatButton(
+              textColor: Theme
+                  .of(context)
+                  .accentColor
+                  .withOpacity(0.87),
+              shape: RoundedRectangleBorder(
+                  borderRadius:
+                  const BorderRadius.all(const Radius.circular(12.0))),
+              onPressed: () async {
+                TrashManagement.restore(context: context, data: data);
+
+                DeepToast.showToast(description: "Note restored successfully");
+
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                "Restore",
+                style: TextStyle(
+                  fontFamily: "Roboto",
+                  fontSize: SizeHelper.getModalButton,
+                ),
+              )),
+        ],
       ),
     );
   }

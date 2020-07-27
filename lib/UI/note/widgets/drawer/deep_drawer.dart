@@ -53,7 +53,7 @@ class _DeepDrawerState extends State<DeepDrawer> {
       child: Drawer(
         child: Container(
           padding: const EdgeInsets.only(right: 12.0),
-          color: Theme.of(context).canvasColor,
+          color: Theme.of(context).primaryColor,
           child: SafeArea(
               child: MultiProvider(
                 providers: [
