@@ -34,7 +34,7 @@ class _DeepDrawerState extends State<DeepDrawer> {
 
       final fabProvider = Provider.of<FABProvider>(context, listen: false);
 
-      fabProvider.setScroll = false;
+      fabProvider.setScrollDown = false;
 
       if (selectionProvider.getSelection == true) {
         selectionProvider.setSelection = false;
@@ -53,7 +53,9 @@ class _DeepDrawerState extends State<DeepDrawer> {
       child: Drawer(
         child: Container(
           padding: const EdgeInsets.only(right: 12.0),
-          color: Theme.of(context).primaryColor,
+          color: Theme
+              .of(context)
+              .cardColor,
           child: SafeArea(
               child: MultiProvider(
                 providers: [

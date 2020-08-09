@@ -48,7 +48,7 @@ class NotePage extends StatelessWidget {
     if (selection) {
       providerSelection.setSelection = false;
       providerDeepBottom.setSelection = false;
-      fabProvider.setScroll = false;
+      fabProvider.setScrollDown = false;
       providerSelection.getSelected.clear();
       return false;
     } else
@@ -60,42 +60,30 @@ class NoteFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      child: Selector3<NoteDrawerProvider,
-          SelectionProvider,
-          FABProvider,
-          bool>(
+      child: Selector3<NoteDrawerProvider, SelectionProvider, FABProvider,
+              bool>(
           selector: (context, drawerProvider, selectionProvider, fabProvider) =>
-          (drawerProvider.getIndexDrawerItem != 1
-              ? fabProvider.getScroll
-              : true),
+              (drawerProvider.getIndexDrawerItem != 1
+                  ? fabProvider.getScrollDown
+                  : true),
           builder: (context, isVisible, widget) {
             return AnimatedAlign(
               alignment:
-              isVisible ? Alignment(1.0, 2.0) : Alignment.bottomRight,
+                  isVisible ? Alignment(1.0, 1.5) : Alignment.bottomRight,
               duration: Duration(milliseconds: 350),
               curve: isVisible ? Curves.easeIn : Curves.easeOut,
               child: FloatingActionButton.extended(
                 heroTag: null,
-                backgroundColor: Color(0xff292929),
-                splashColor: Theme
-                    .of(context)
-                    .accentColor
-                    .withOpacity(0.16),
+                splashColor: Theme.of(context).accentColor.withOpacity(0.16),
                 icon: Icon(
                   MyIcon.edit_outline,
-                  color: Theme
-                      .of(context)
-                      .accentColor,
+                  color: Theme.of(context).accentColor,
                 ),
                 label: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
                     "Write a note",
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .button
-                        .copyWith(
+                    style: Theme.of(context).textTheme.button.copyWith(
                         letterSpacing: 1.2,
                         fontWeight: FontWeight.w600,
                         color: Colors.white.withOpacity(0.80)),

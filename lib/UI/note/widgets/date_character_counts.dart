@@ -21,7 +21,10 @@ class DateCharacterCounts extends StatelessWidget {
           _TopDate(date: date),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text("|"),
+            child: Text(
+              "|",
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
           ),
           FutureProvider<int>(
               create: (context) => TextFieldLogic.countAllAsync(detail),
@@ -95,7 +98,13 @@ class __TopCountState extends State<_TopCount> {
     return Selector<NoteDetailProvider, int>(
         selector: (context, provider) => provider.getDetailCount,
         builder: (context, count, widget) {
-          return Text("$count characters");
+          return Text(
+            "$count characters",
+            style: Theme
+                .of(context)
+                .textTheme
+                .bodyText2,
+          );
         });
   }
 }

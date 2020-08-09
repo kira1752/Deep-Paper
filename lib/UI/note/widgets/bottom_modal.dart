@@ -11,7 +11,8 @@ class BottomModal {
   static Future openAddMenu({@required BuildContext context}) {
     return showModalBottomSheet(
         context: context,
-        shape: RoundedRectangleBorder(
+        backgroundColor: Theme.of(context).canvasColor,
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(24.0),
                 topRight: Radius.circular(24.0))),
@@ -21,13 +22,13 @@ class BottomModal {
             child: ListView(
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
-              padding: EdgeInsets.all(18.0),
+              padding: const EdgeInsets.all(18.0),
               children: <Widget>[
                 Material(
                   color: Colors.transparent,
-                  clipBehavior: Clip.hardEdge,
-                  shape: StadiumBorder(),
+                  shape: const StadiumBorder(),
                   child: ListTile(
+                    shape: const StadiumBorder(),
                     leading: Icon(
                       MyIcon.camera_alt_outline,
                       color: Colors.white70,
@@ -43,16 +44,17 @@ class BottomModal {
                 ),
                 Material(
                   color: Colors.transparent,
-                  clipBehavior: Clip.hardEdge,
-                  shape: StadiumBorder(),
+                  shape: const StadiumBorder(),
                   child: ListTile(
+                    shape: const StadiumBorder(),
                     leading: Icon(
                       MyIcon.photo_outline,
                       color: Colors.white70,
                     ),
                     title: Text(
                       "Choose image",
-                      style: Theme.of(context)
+                      style: Theme
+                          .of(context)
                           .textTheme
                           .bodyText1
                           .copyWith(fontSize: SizeHelper.getModalButton),
@@ -61,9 +63,9 @@ class BottomModal {
                 ),
                 Material(
                   color: Colors.transparent,
-                  clipBehavior: Clip.hardEdge,
-                  shape: StadiumBorder(),
+                  shape: const StadiumBorder(),
                   child: ListTile(
+                    shape: const StadiumBorder(),
                     leading: Icon(
                       Icons.mic_none,
                       color: Colors.white70,
@@ -80,9 +82,9 @@ class BottomModal {
                 ),
                 Material(
                   color: Colors.transparent,
-                  clipBehavior: Clip.hardEdge,
-                  shape: StadiumBorder(),
+                  shape: const StadiumBorder(),
                   child: ListTile(
+                    shape: const StadiumBorder(),
                     leading: Icon(
                       MyIcon.audiotrack_outline,
                       color: Colors.white70,
@@ -103,14 +105,16 @@ class BottomModal {
         });
   }
 
-  static Future openOptionsMenu(
-      {@required BuildContext context,
-      @required void Function() onDelete,
-        @required void Function() onCopy,
-        @required void Function() noteInfo}) {
+  static Future openOptionsMenu({@required BuildContext context,
+    @required void Function() onDelete,
+    @required void Function() onCopy,
+    @required void Function() noteInfo}) {
     return showModalBottomSheet(
         context: context,
-        shape: RoundedRectangleBorder(
+        backgroundColor: Theme
+            .of(context)
+            .canvasColor,
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(24.0),
                 topRight: Radius.circular(24.0))),
@@ -120,14 +124,13 @@ class BottomModal {
             child: ListView(
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
-              padding: EdgeInsets.all(18.0),
+              padding: const EdgeInsets.all(18.0),
               children: <Widget>[
                 Material(
                   color: Colors.transparent,
-                  clipBehavior: Clip.hardEdge,
-                  shape: StadiumBorder(),
+                  shape: const StadiumBorder(),
                   child: ListTile(
-                    enabled: true,
+                    shape: const StadiumBorder(),
                     onTap: onDelete,
                     leading: Icon(
                       MyIcon.trash_empty,
@@ -145,10 +148,9 @@ class BottomModal {
                 ),
                 Material(
                   color: Colors.transparent,
-                  clipBehavior: Clip.hardEdge,
-                  shape: StadiumBorder(),
+                  shape: const StadiumBorder(),
                   child: ListTile(
-                    enabled: true,
+                    shape: const StadiumBorder(),
                     onTap: onCopy,
                     leading: Icon(
                       Icons.content_copy,
@@ -166,9 +168,9 @@ class BottomModal {
                 ),
                 Material(
                   color: Colors.transparent,
-                  clipBehavior: Clip.hardEdge,
-                  shape: StadiumBorder(),
+                  shape: const StadiumBorder(),
                   child: ListTile(
+                    shape: const StadiumBorder(),
                     onTap: noteInfo,
                     leading: Icon(
                       Icons.info_outline,

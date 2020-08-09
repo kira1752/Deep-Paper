@@ -1,13 +1,13 @@
 import 'package:flutter/widgets.dart';
 
 class FABProvider with ChangeNotifier {
-  bool _scroll = false;
+  bool _scrollDown = false;
 
-  bool get getScroll => _scroll;
+  bool get getScrollDown => _scrollDown;
 
-  set setScroll(bool state) {
-    if (state != _scroll) {
-      _scroll = state;
+  set setScrollDown(bool state) {
+    if (state != _scrollDown) {
+      _scrollDown = state;
       notifyListeners();
     }
   }

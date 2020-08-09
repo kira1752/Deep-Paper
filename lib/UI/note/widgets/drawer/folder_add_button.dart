@@ -17,6 +17,7 @@ class FolderAddButton extends StatelessWidget {
         ),
         trailing: RepaintBoundary(
           child: FlatButton(
+              splashColor: Theme.of(context).accentColor.withOpacity(0.16),
               shape: StadiumBorder(
                   side: BorderSide(
                       color: Theme.of(context).accentColor, width: 2.0)),

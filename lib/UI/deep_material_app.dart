@@ -2,8 +2,7 @@ import 'package:deep_paper/UI/apptheme.dart';
 import 'package:deep_paper/UI/deep_paper.dart';
 import 'package:deep_paper/UI/note/detailScreen/note_detail.dart';
 import 'package:deep_paper/UI/note/note_page.dart';
-import 'package:deep_paper/UI/plan/plan_detail/create_plan_page.dart';
-import 'package:deep_paper/UI/transition/deep_route.dart';
+import 'package:deep_paper/UI/transition/deep_slide_route.dart';
 import 'package:deep_paper/business_logic/note/provider/note_detail_provider.dart';
 import 'package:deep_paper/business_logic/note/provider/undo_redo_provider.dart';
 import 'package:deep_paper/data/deep.dart';
@@ -19,10 +18,11 @@ class DeepMaterialApp extends StatelessWidget {
       theme: AppTheme.dark(),
       title: 'Deep Paper',
       initialRoute: '/',
+      themeMode: ThemeMode.dark,
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/':
-            return DeepRoute(
+            return DeepSlideRoute(
               page: (context) => DeepPaper(),
               settings: settings,
             );
@@ -32,7 +32,7 @@ class DeepMaterialApp extends StatelessWidget {
                 folder.isNotNull ? folder.name : "Main folder";
             final int folderID = folder.isNotNull ? folder.id : 0;
 
-            return DeepRoute(
+            return DeepSlideRoute(
               page: (context) => MultiProvider(
                   providers: [
                     ChangeNotifierProvider(
@@ -50,8 +50,9 @@ class DeepMaterialApp extends StatelessWidget {
             final int folderID = note.folderID;
             final String folderName = note.folderName;
 
-            return DeepRoute(
-                page: (context) => MultiProvider(
+            return DeepSlideRoute(
+                page: (context) =>
+                    MultiProvider(
                         providers: [
                           ChangeNotifierProvider(
                               create: (context) => UndoRedoProvider()),
@@ -66,15 +67,13 @@ class DeepMaterialApp extends StatelessWidget {
                 settings: settings);
             break;
           case '/NotePage':
-            return DeepRoute(page: (context) => NotePage(), settings: settings);
-            break;
-          case '/CreatePlan':
-            return DeepRoute(
-                page: (context) => CreatePlanPage(), settings: settings);
+            return DeepSlideRoute(
+                page: (context) => NotePage(), settings: settings);
             break;
           default:
-            return DeepRoute(
+            return DeepSlideRoute(
                 page: (context) => DeepPaper(), settings: settings);
+            break;
         }
       },
     );

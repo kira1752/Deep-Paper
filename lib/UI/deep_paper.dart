@@ -61,6 +61,7 @@ class _DeepPaperState extends State<DeepPaper> {
                     child: Selector<DeepBottomProvider, int>(
                       selector: (context, provider) => provider.getCurrentIndex,
                       builder: (context, index, widget) => BottomNavigationBar(
+                        elevation: 12.0,
                         backgroundColor: Theme.of(context).canvasColor,
                         type: BottomNavigationBarType.fixed,
                         selectedFontSize: SizeHelper.getButton,
@@ -69,7 +70,7 @@ class _DeepPaperState extends State<DeepPaper> {
                         unselectedItemColor: Colors.white70,
                         currentIndex: index,
                         onTap: (index) {
-                          fabProvider.setScroll = false;
+                          fabProvider.setScrollDown = false;
                           deepProvider.setCurrentIndex = index;
                           deepProvider.controller.jumpToPage(index);
                         },

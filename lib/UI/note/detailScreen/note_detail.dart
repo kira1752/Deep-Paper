@@ -1,9 +1,9 @@
 import 'package:deep_paper/UI/note/widgets/bottom_menu.dart';
 import 'package:deep_paper/UI/note/widgets/date_character_counts.dart';
 import 'package:deep_paper/UI/note/widgets/deep_dialog.dart';
-import 'package:deep_paper/UI/note/widgets/deep_toast.dart';
 import 'package:deep_paper/UI/widgets/deep_keep_alive.dart';
 import 'package:deep_paper/UI/widgets/deep_scroll_behavior.dart';
+import 'package:deep_paper/UI/widgets/deep_toast.dart';
 import 'package:deep_paper/business_logic/note/note_detail_lifecycle.dart';
 import 'package:deep_paper/business_logic/note/note_detail_normal_save.dart';
 import 'package:deep_paper/business_logic/note/provider/note_detail_provider.dart';
@@ -278,7 +278,7 @@ class _DetailFieldState extends State<DetailField> {
             showCursor: true,
             textDirection: direction,
             style: Theme.of(context).textTheme.bodyText1.copyWith(
-                color: Colors.white.withOpacity(0.80),
+                color: Colors.white.withOpacity(.80),
                 fontWeight: FontWeight.normal,
                 fontSize: SizeHelper.getDetail),
             maxLines: null,

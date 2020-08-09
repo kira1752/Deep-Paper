@@ -41,33 +41,41 @@ class AppTheme {
   static ThemeData dark() {
     return ThemeData.dark().copyWith(
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        timePickerTheme: TimePickerThemeData(
+          backgroundColor: Color(0xff202125),
+        ),
         popupMenuTheme: PopupMenuThemeData(
-            color: Color(0xff1f1f1f),
+            color: Color(0xff202125),
             textStyle: TextStyle(color: Colors.white.withOpacity(0.80))),
         bottomSheetTheme: BottomSheetThemeData(
-          modalBackgroundColor: Color(0xff1f1f1f),
+          modalBackgroundColor: Color(0xff202125),
+          backgroundColor: Color(0xff202125),
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Color(0xff26272b),
         ),
         dialogTheme: DialogTheme(
-          backgroundColor: Color(0xff202020),
+          backgroundColor: Color(0xff202125),
         ),
-        cardColor: Color(0xff202020).withOpacity(0.90),
+        cardColor: Color(0xff1d1d1f),
+        // Color(0xff1d2025), backup color
         highlightColor: Color(0x424242),
         accentColor: Color(0xffffb348),
         //#fdb368
-        primaryColor: Color(0xff121212),
-        backgroundColor: Color(0xff121212),
-        bottomAppBarColor: Color(0xff121212),
+        primaryColor: Color(0xff101115),
+        backgroundColor: Color(0xff101115),
+        bottomAppBarColor: Color(0xff101115),
         cursorColor: Color(0xffffb348),
-        scaffoldBackgroundColor: Color(0xff121212),
+        scaffoldBackgroundColor: Color(0xff101115),
         textSelectionColor: Color(0xffffb348).withOpacity(0.30),
         textSelectionHandleColor: Color(0xffffb348),
-        canvasColor: Color(0xff1a1a1a),
+        canvasColor: Color(0xff202125),
         textTheme: TextTheme(
             headline5: TextStyle(
               fontFamilyFallback: ["Noto Color Emoji"],
               letterSpacing: 1.2,
               color: Colors.white.withOpacity(0.80),
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
             ),
             headline6: TextStyle(
               fontFamilyFallback: ["Noto Color Emoji"],
@@ -77,7 +85,6 @@ class AppTheme {
             ),
             bodyText1: TextStyle(
               fontFamilyFallback: ["Noto Color Emoji"],
-              wordSpacing: 1.0,
               height: 1.5,
               color: Colors.white70,
             ),

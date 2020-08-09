@@ -1,5 +1,5 @@
-import 'package:deep_paper/UI/note/widgets/deep_toast.dart';
 import 'package:deep_paper/UI/note/widgets/move_to_folder.dart';
+import 'package:deep_paper/UI/widgets/deep_toast.dart';
 import 'package:deep_paper/business_logic/note/note_creation.dart';
 import 'package:deep_paper/business_logic/note/provider/deep_bottom_provider.dart';
 import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
@@ -29,7 +29,7 @@ class SelectionMenuLogic {
 
         deepBottomProvider.setSelection = false;
         selectionProvider.setSelection = false;
-        fabProvider.setScroll = false;
+        fabProvider.setScrollDown = false;
         selectionProvider.getSelected.clear();
 
         break;
@@ -41,7 +41,7 @@ class SelectionMenuLogic {
 
         deepBottomProvider.setSelection = false;
         selectionProvider.setSelection = false;
-        fabProvider.setScroll = false;
+        fabProvider.setScrollDown = false;
         selectionProvider.getSelected.clear();
 
         break;
@@ -54,12 +54,12 @@ class SelectionMenuLogic {
   static Future<void> menuSelectionSelected(
       {@required BuildContext context, @required int choice}) async {
     final deepBottomProvider =
-    Provider.of<DeepBottomProvider>(context, listen: false);
+        Provider.of<DeepBottomProvider>(context, listen: false);
     final selectionProvider =
-    Provider.of<SelectionProvider>(context, listen: false);
+        Provider.of<SelectionProvider>(context, listen: false);
     final fabProvider = Provider.of<FABProvider>(context, listen: false);
     final drawerProvider =
-    Provider.of<NoteDrawerProvider>(context, listen: false);
+        Provider.of<NoteDrawerProvider>(context, listen: false);
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
     switch (choice) {
@@ -70,7 +70,7 @@ class SelectionMenuLogic {
 
         deepBottomProvider.setSelection = false;
         selectionProvider.setSelection = false;
-        fabProvider.setScroll = false;
+        fabProvider.setScrollDown = false;
         selectionProvider.getSelected.clear();
 
         break;
@@ -85,6 +85,7 @@ class SelectionMenuLogic {
             drawerIndex: drawerIndex,
             selectionProvider: selectionProvider,
             deepBottomProvider: deepBottomProvider,
+            fabProvider: fabProvider,
             database: database);
         break;
       case 2:
@@ -94,7 +95,7 @@ class SelectionMenuLogic {
 
         deepBottomProvider.setSelection = false;
         selectionProvider.setSelection = false;
-        fabProvider.setScroll = false;
+        fabProvider.setScrollDown = false;
         selectionProvider.getSelected.clear();
 
         break;

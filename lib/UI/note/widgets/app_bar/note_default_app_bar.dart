@@ -47,7 +47,7 @@ class NoteDefaultAppBar extends StatelessWidget {
 
                     deepBottomProvider.setSelection = false;
                     selectionProvider.setSelection = false;
-                    fabProvider.setScroll = false;
+                    fabProvider.setScrollDown = false;
                     selectionProvider.getSelected.clear();
                   });
             } else

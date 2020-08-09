@@ -1,9 +1,10 @@
 import 'package:deep_paper/UI/note/widgets/deep_dialog.dart';
-import 'package:deep_paper/UI/note/widgets/deep_toast.dart';
 import 'package:deep_paper/UI/widgets/deep_scroll_behavior.dart';
 import 'package:deep_paper/UI/widgets/deep_scrollbar.dart';
+import 'package:deep_paper/UI/widgets/deep_toast.dart';
 import 'package:deep_paper/business_logic/note/note_creation.dart';
 import 'package:deep_paper/business_logic/note/provider/deep_bottom_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
 import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
 import 'package:deep_paper/data/deep.dart';
 import 'package:deep_paper/icons/my_icon.dart';
@@ -20,6 +21,7 @@ class MoveToFolder {
       @required int drawerIndex,
       @required SelectionProvider selectionProvider,
       @required DeepBottomProvider deepBottomProvider,
+      @required FABProvider fabProvider,
       @required DeepPaperDatabase database}) {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
@@ -37,13 +39,14 @@ class MoveToFolder {
                 child: folderList.isNull
                     ? const SizedBox()
                     : _MoveToFolderDialog(
-                        defaultItemValue: defaultItemValue,
-                        folderList: folderList,
-                        currentFolder: currentFolder,
-                        drawerIndex: drawerIndex,
-                        selectionProvider: selectionProvider,
-                        deepBottomProvider: deepBottomProvider,
-                        database: database),
+                    defaultItemValue: defaultItemValue,
+                    folderList: folderList,
+                    currentFolder: currentFolder,
+                    drawerIndex: drawerIndex,
+                    selectionProvider: selectionProvider,
+                    deepBottomProvider: deepBottomProvider,
+                    fabProvider: fabProvider,
+                    database: database),
               ),
             ),
           );
@@ -58,16 +61,17 @@ class _MoveToFolderDialog extends StatelessWidget {
   final int drawerIndex;
   final SelectionProvider selectionProvider;
   final DeepBottomProvider deepBottomProvider;
+  final FABProvider fabProvider;
   final DeepPaperDatabase database;
 
-  _MoveToFolderDialog(
-      {@required this.defaultItemValue,
-      @required this.folderList,
-      @required this.currentFolder,
-      @required this.drawerIndex,
-      @required this.selectionProvider,
-      @required this.deepBottomProvider,
-      @required this.database});
+  _MoveToFolderDialog({@required this.defaultItemValue,
+    @required this.folderList,
+    @required this.currentFolder,
+    @required this.drawerIndex,
+    @required this.selectionProvider,
+    @required this.deepBottomProvider,
+    @required this.fabProvider,
+    @required this.database});
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +120,8 @@ class _MoveToFolderDialog extends StatelessWidget {
                             currentFolder: currentFolder,
                             drawerIndex: drawerIndex,
                             selectionProvider: selectionProvider,
-                            deepBottomProvider: deepBottomProvider);
+                            deepBottomProvider: deepBottomProvider,
+                            fabProvider: fabProvider);
                       },
                       leading: Icon(
                         MyIcon.plus,
@@ -156,6 +161,8 @@ class _MoveToFolderDialog extends StatelessWidget {
                           deepBottomProvider.setSelection = false;
 
                           selectionProvider.setSelection = false;
+
+                          fabProvider.setScrollDown = false;
 
                           selectionProvider.getSelected.clear();
                         },
@@ -200,6 +207,8 @@ class _MoveToFolderDialog extends StatelessWidget {
 
                           selectionProvider.setSelection = false;
 
+                          fabProvider.setScrollDown = false;
+
                           selectionProvider.getSelected.clear();
                         },
                         leading: Icon(
@@ -243,6 +252,8 @@ class _MoveToFolderDialog extends StatelessWidget {
 
                           selectionProvider.setSelection = false;
 
+                          fabProvider.setScrollDown = false;
+
                           selectionProvider.getSelected.clear();
                         },
                         leading: Icon(
@@ -284,6 +295,8 @@ class _MoveToFolderDialog extends StatelessWidget {
                           deepBottomProvider.setSelection = false;
 
                           selectionProvider.setSelection = false;
+
+                          fabProvider.setScrollDown = false;
 
                           selectionProvider.getSelected.clear();
                         },
@@ -327,6 +340,8 @@ class _MoveToFolderDialog extends StatelessWidget {
                         deepBottomProvider.setSelection = false;
 
                         selectionProvider.setSelection = false;
+
+                        fabProvider.setScrollDown = false;
 
                         selectionProvider.getSelected.clear();
                       },

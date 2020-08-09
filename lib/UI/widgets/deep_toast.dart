@@ -1,5 +1,4 @@
 import 'package:deep_paper/utility/size_helper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -11,6 +10,6 @@ class DeepToast {
         gravity: ToastGravity.CENTER,
         textColor: Colors.white.withOpacity(0.87),
         fontSize: SizeHelper.getToastText,
-        backgroundColor: Color(0xff373737));
+        backgroundColor: Color(0xff36373b));
   }
 }

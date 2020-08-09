@@ -32,9 +32,8 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
     final selectionProvider =
         Provider.of<SelectionProvider>(context, listen: false);
     final deepBottomProvider =
-    Provider.of<DeepBottomProvider>(context, listen: false);
+        Provider.of<DeepBottomProvider>(context, listen: false);
     final fabProvider = Provider.of<FABProvider>(context, listen: false);
-
     return Selector<SelectionProvider, bool>(
         selector: (context, provider) =>
             provider.getSelected.containsKey(widget.index),
@@ -43,19 +42,18 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Material(
               color: Theme.of(context).cardColor,
+              animationDuration: Duration(milliseconds: 300),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),
                   side: selectionProvider.getSelection && selected
                       ? BorderSide(
-                      color:
-                      Theme
-                          .of(context)
-                          .accentColor
-                          .withOpacity(0.70),
-                      width: 3.0)
+                          color:
+                              Theme.of(context).accentColor.withOpacity(0.70),
+                          width: 3.0)
                       : BorderSide.none),
               child: InkWell(
                 borderRadius: BorderRadius.circular(12.0),
+                splashColor: Theme.of(context).accentColor.withOpacity(.16),
                 onTap: () {
                   if (!selected && selectionProvider.getSelection) {
                     selectionProvider.setSelected(
@@ -66,7 +64,7 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
                     if (selectionProvider.getSelected.length == 0) {
                       deepBottomProvider.setSelection = false;
                       selectionProvider.setSelection = false;
-                      fabProvider.setScroll = false;
+                      fabProvider.setScrollDown = false;
                     }
                   } else {
                     widget.onTap();
@@ -89,7 +87,7 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
                     if (selectionProvider.getSelected.length == 0) {
                       deepBottomProvider.setSelection = false;
                       selectionProvider.setSelection = false;
-                      fabProvider.setScroll = false;
+                      fabProvider.setScrollDown = false;
                     }
                   }
                 },

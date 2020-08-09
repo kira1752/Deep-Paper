@@ -1,7 +1,9 @@
 import 'package:deep_paper/UI/widgets/deep_scroll_behavior.dart';
+import 'package:deep_paper/UI/widgets/deep_toast.dart';
 import 'package:deep_paper/business_logic/note/folder_creation.dart';
 import 'package:deep_paper/business_logic/note/provider/deep_bottom_provider.dart';
 import 'package:deep_paper/business_logic/note/provider/detect_text_direction_provider.dart';
+import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
 import 'package:deep_paper/business_logic/note/provider/folder_dialog_provider.dart';
 import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
@@ -16,7 +18,6 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 
-import 'deep_toast.dart';
 import 'move_to_folder.dart';
 
 class DeepDialog {
@@ -52,6 +53,7 @@ class DeepDialog {
       @required int drawerIndex,
       @required SelectionProvider selectionProvider,
       @required DeepBottomProvider deepBottomProvider,
+      @required FABProvider fabProvider,
       DeepPaperDatabase database}) {
     return showDialog(
       context: context,
@@ -65,6 +67,7 @@ class DeepDialog {
               drawerIndex: drawerIndex,
               selectionProvider: selectionProvider,
               deepBottomProvider: deepBottomProvider,
+              fabProvider: fabProvider,
               database: database);
 
           return true;

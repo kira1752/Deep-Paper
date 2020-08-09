@@ -24,7 +24,7 @@ class NoteListView extends StatelessWidget {
                   ? EmptyNoteIllustration()
                   : ListView.builder(
                       cacheExtent: 100,
-                      physics: ScrollPhysics(),
+                      physics: const ClampingScrollPhysics(),
                       itemCount: data.length,
                       itemBuilder: (context, index) {
                         return NoteCard(
@@ -35,7 +35,8 @@ class NoteListView extends StatelessWidget {
                             Navigator.of(context)
                                 .pushNamed("/NoteDetail",
                                     arguments: data[index])
-                                .then((value) => fabProvider.setScroll = false);
+                                .then((value) =>
+                                    fabProvider.setScrollDown = false);
                           },
                         );
                       }),

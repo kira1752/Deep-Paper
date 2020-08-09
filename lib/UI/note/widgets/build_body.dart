@@ -15,13 +15,11 @@ class BuildBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) => _scrollHandler(context, notification),
-      child: Selector<NoteDrawerProvider, Tuple3<int, int, bool>>(
-        selector: (context, drawerProvider) => Tuple3(
-            drawerProvider.getIndexDrawerItem,
-            drawerProvider.getIndexFolderItem,
-            drawerProvider.isFolder),
+      child: Selector<NoteDrawerProvider, Tuple2<int, bool>>(
+        selector: (context, drawerProvider) =>
+            Tuple2(drawerProvider.getIndexDrawerItem, drawerProvider.isFolder),
         builder: (context, data, child) {
-          if (data.item3 == true) {
+          if (data.item2 == true) {
             return Scrollbar(
                 child: Selector<NoteDrawerProvider, FolderNoteData>(
                     selector: (context, provider) => provider.getFolder,
@@ -51,11 +49,11 @@ class BuildBody extends StatelessWidget {
     if (notification is UserScrollNotification) {
       switch (notification.direction) {
         case ScrollDirection.forward:
-          fabProvider.setScroll = false;
+          fabProvider.setScrollDown = false;
           return true;
           break;
         case ScrollDirection.reverse:
-          fabProvider.setScroll = true;
+          fabProvider.setScrollDown = true;
           return true;
           break;
 

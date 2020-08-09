@@ -53,7 +53,7 @@ class __TrashIsExistState extends State<_TrashIsExist> {
   Widget build(BuildContext context) {
     return ListView.builder(
         cacheExtent: 100,
-        physics: ScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         itemCount: widget.data.length,
         itemBuilder: (context, index) {
           return NoteCard(
