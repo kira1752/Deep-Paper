@@ -9,9 +9,9 @@ class NoteDetailProvider with ChangeNotifier {
   bool _isCopy = false;
   bool _isDeleted = false;
   int _detailCount;
-  int _noteID;
-  String _detail = "";
-  String _tempDetail = "";
+  int _tempNoteID;
+  String _detail = '';
+  String _tempDetail = '';
   Note _note;
 
   bool get isTextTyped => _isTextTyped;
@@ -38,7 +38,7 @@ class NoteDetailProvider with ChangeNotifier {
 
   Note get getNote => _note;
 
-  int get getNoteID => _noteID;
+  int get getTempNoteID => _tempNoteID;
 
   /// Use this setter to update the value returned by [getDetail]
   set setDetail(String value) => _detail = value;
@@ -50,7 +50,7 @@ class NoteDetailProvider with ChangeNotifier {
 
   set setNote(Note newNote) => _note = newNote;
 
-  set setNoteID(int newNoteID) => _noteID = newNoteID;
+  set setTempNoteID(int newNoteID) => _tempNoteID = newNoteID;
 
   set setIsCopy(bool value) => _isCopy = value;
 

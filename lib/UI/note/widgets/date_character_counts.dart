@@ -15,14 +15,14 @@ class DateCharacterCounts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 18.0, bottom: 24.0),
+      padding: const EdgeInsets.only(left: 18.0, bottom: 24.0),
       child: Row(
         children: [
           _TopDate(date: date),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              "|",
+              '|',
               style: Theme.of(context).textTheme.bodyText2,
             ),
           ),
@@ -32,10 +32,10 @@ class DateCharacterCounts extends StatelessWidget {
                 return Consumer<int>(
                   builder: (context, count, widget) {
                     if (count == null) {
-                      return _TopCount(key: Key("null"), initialCount: 0);
+                      return _TopCount(key: const Key('null'), initialCount: 0);
                     } else {
                       return _TopCount(
-                          key: Key("available"), initialCount: count);
+                          key: const Key('available'), initialCount: count);
                     }
                   },
                 );
@@ -63,11 +63,14 @@ class __TopDateState extends State<_TopDate> {
         builder: (context, widget) => Consumer<String>(
               builder: (context, date, widget) {
                 if (date == null) {
-                  return SizedBox.shrink();
+                  return const SizedBox.shrink();
                 } else {
                   return Text(
-                    "$date",
-                    style: Theme.of(context).textTheme.bodyText2,
+                    '$date',
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText2,
                   );
                 }
               },
@@ -86,10 +89,10 @@ class _TopCount extends StatefulWidget {
 
 class __TopCountState extends State<_TopCount> {
   @override
-  initState() {
+  void initState() {
     super.initState();
     final detailProvider =
-        Provider.of<NoteDetailProvider>(context, listen: false);
+    Provider.of<NoteDetailProvider>(context, listen: false);
     detailProvider.setDetailCount = widget.initialCount;
   }
 
@@ -99,7 +102,7 @@ class __TopCountState extends State<_TopCount> {
         selector: (context, provider) => provider.getDetailCount,
         builder: (context, count, widget) {
           return Text(
-            "$count characters",
+            '$count characters',
             style: Theme
                 .of(context)
                 .textTheme

@@ -27,8 +27,9 @@ class NoteDefaultAppBar extends StatelessWidget {
             builder: (context, selection, child) {
               if (selection) {
                 return SelectionMenu();
-              } else
+              } else {
                 return Menu();
+              }
             }),
       ],
       leading: Selector<SelectionProvider, bool>(
@@ -50,13 +51,14 @@ class NoteDefaultAppBar extends StatelessWidget {
                     fabProvider.setScrollDown = false;
                     selectionProvider.getSelected.clear();
                   });
-            } else
+            } else {
               return IconButton(
                   tooltip: StringResource.tooltipNoteHamburgerMenu,
                   icon: IconResource.darkHamburgerMenu,
                   onPressed: () {
                     Scaffold.of(context).openDrawer();
                   });
+            }
           }),
       title: Selector<SelectionProvider, bool>(
           selector: (context, provider) => provider.getSelection,
@@ -69,13 +71,13 @@ class NoteDefaultAppBar extends StatelessWidget {
                       style: AppTheme.darkTitleSelectionAppBar(context));
                 },
               );
-            } else
+            } else {
               return Selector<NoteDrawerProvider, String>(
                 selector: (context, noteDrawerProvider) =>
-                    noteDrawerProvider.getTitleFragment,
+                noteDrawerProvider.getTitleFragment,
                 builder: (context, title, child) {
                   final drawerProvider =
-                      Provider.of<NoteDrawerProvider>(context, listen: false);
+                  Provider.of<NoteDrawerProvider>(context, listen: false);
 
                   return Text(StringResource.titleAppBar(title),
                       textDirection: Bidi.detectRtlDirectionality(title)
@@ -84,10 +86,11 @@ class NoteDefaultAppBar extends StatelessWidget {
                       style: title == StringResource.noteAppBar
                           ? AppTheme.darkTitleAppBar(context)
                           : drawerProvider.getFolder.isNotNull
-                              ? AppTheme.darkTitleFolderAppBar(context)
-                              : AppTheme.darkTitleTrashAppBar(context));
+                          ? AppTheme.darkTitleFolderAppBar(context)
+                          : AppTheme.darkTitleTrashAppBar(context));
                 },
               );
+            }
           }),
     );
   }

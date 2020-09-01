@@ -32,7 +32,7 @@ class FolderCreation {
     database.folderNoteDao.updateFolder(drawerProvider.getFolder
         .copyWith(name: name, nameDirection: nameDirection));
 
-    drawerProvider.setTitleFragment = "$name";
+    drawerProvider.setTitleFragment = '$name';
     drawerProvider.setFolder = drawerProvider.getFolder
         .copyWith(name: name, nameDirection: nameDirection);
 
@@ -45,7 +45,7 @@ class FolderCreation {
   }) async {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
-    final mainFolder = "Main folder";
+    final mainFolder = 'Main folder';
     final folderNameDirection = Bidi.detectRtlDirectionality(mainFolder)
         ? TextDirection.rtl
         : TextDirection.ltr;
@@ -62,6 +62,6 @@ class FolderCreation {
     drawerProvider.setIndexFolderItem = null;
     drawerProvider.setFolder = null;
     drawerProvider.setIndexDrawerItem = 0;
-    drawerProvider.setTitleFragment = "NOTE";
+    drawerProvider.setTitleFragment = 'NOTE';
   }
 }

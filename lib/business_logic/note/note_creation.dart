@@ -95,7 +95,7 @@ class NoteCreation {
           folderNameDirection: folderNameDirection);
     }
 
-    database.noteDao.updateNote(
+    await database.noteDao.updateNote(
         noteID,
         NotesCompanion(
             detail: Value(detail),
@@ -126,7 +126,7 @@ class NoteCreation {
         : TextDirection.ltr;
 
     if (!detail.isNullEmptyOrWhitespace) {
-      debugPrintSynchronously("create note");
+      debugPrintSynchronously('create note');
       await database.noteDao.insertNote(NotesCompanion(
           detail: Value(detail),
           detailDirection: Value(detailDirection),
@@ -163,7 +163,7 @@ class NoteCreation {
       @required DeepPaperDatabase database}) async {
     final selectedNote = selectionProvider.getSelected;
     final folderID = folder.isNotNull ? folder.id : 0;
-    final folderName = folder.isNotNull ? folder.name : "Main folder";
+    final folderName = folder.isNotNull ? folder.name : 'Main folder';
     final folderNameDirection = Bidi.detectRtlDirectionality(folderName)
         ? TextDirection.rtl
         : TextDirection.ltr;

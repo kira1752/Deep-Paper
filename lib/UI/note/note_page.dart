@@ -5,7 +5,6 @@ import 'package:deep_paper/business_logic/note/provider/deep_bottom_provider.dar
 import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
 import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
-import 'package:deep_paper/data/deep.dart';
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
@@ -21,7 +20,7 @@ class NotePage extends StatelessWidget {
       },
       child: Scaffold(
           resizeToAvoidBottomInset: false,
-          drawer: DeepDrawer(key: Key("Note Drawer")),
+          drawer: DeepDrawer(key: const Key('Note Drawer')),
           appBar: PreferredSize(
               preferredSize: Size.fromHeight(SizeHelper.setHeight(size: 56)),
               child: NoteDefaultAppBar()),
@@ -51,8 +50,9 @@ class NotePage extends StatelessWidget {
       fabProvider.setScrollDown = false;
       providerSelection.getSelected.clear();
       return false;
-    } else
+    } else {
       return true;
+    }
   }
 }
 
@@ -69,21 +69,31 @@ class NoteFloatingActionButton extends StatelessWidget {
           builder: (context, isVisible, widget) {
             return AnimatedAlign(
               alignment:
-                  isVisible ? Alignment(1.0, 1.5) : Alignment.bottomRight,
-              duration: Duration(milliseconds: 350),
+              isVisible ? const Alignment(1.0, 1.5) : Alignment.bottomRight,
+              duration: const Duration(milliseconds: 350),
               curve: isVisible ? Curves.easeIn : Curves.easeOut,
               child: FloatingActionButton.extended(
                 heroTag: null,
-                splashColor: Theme.of(context).accentColor.withOpacity(0.16),
+                elevation: 0.0,
+                splashColor: Theme
+                    .of(context)
+                    .accentColor
+                    .withOpacity(0.16),
                 icon: Icon(
-                  MyIcon.edit_outline,
-                  color: Theme.of(context).accentColor,
+                  MyIcon.edit,
+                  color: Theme
+                      .of(context)
+                      .accentColor,
                 ),
                 label: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
-                    "Write a note",
-                    style: Theme.of(context).textTheme.button.copyWith(
+                    'Write a note',
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .button
+                        .copyWith(
                         letterSpacing: 1.2,
                         fontWeight: FontWeight.w600,
                         color: Colors.white.withOpacity(0.80)),
@@ -93,7 +103,7 @@ class NoteFloatingActionButton extends StatelessWidget {
                   final drawerProvider =
                   Provider.of<NoteDrawerProvider>(context, listen: false);
 
-                  final FolderNoteData folder = drawerProvider.getFolder;
+                  final folder = drawerProvider.getFolder;
                   Navigator.pushNamed(context, '/NoteCreate',
                       arguments: folder);
                 },

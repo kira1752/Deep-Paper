@@ -9,7 +9,7 @@ class MoreDefaultAppBar extends StatelessWidget {
       automaticallyImplyLeading: false,
       elevation: 0.0,
       title: Text(
-        "MORE",
+        'MORE',
         style: Theme.of(context)
             .textTheme
             .headline5

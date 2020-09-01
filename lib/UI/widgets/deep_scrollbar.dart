@@ -82,7 +82,7 @@ class _DeepScrollbarState extends State<DeepScrollbar>
       _useCupertinoDeepScrollbar = null;
       return true;
     })());
-    final ThemeData theme = Theme.of(context);
+    final theme = Theme.of(context);
     switch (theme.platform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
@@ -117,7 +117,7 @@ class _DeepScrollbarState extends State<DeepScrollbar>
   }
 
   bool _handleScrollNotification(ScrollNotification notification) {
-    final ScrollMetrics metrics = notification.metrics;
+    final metrics = notification.metrics;
     if (metrics.maxScrollExtent <= metrics.minScrollExtent) {
       return false;
     }

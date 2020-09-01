@@ -16,8 +16,9 @@ class SelectionMenu extends StatelessWidget {
       builder: (context, value, child) {
         if (value) {
           return _TrashMenu();
-        } else
+        } else {
           return _NormalSelectionMenu();
+        }
       },
     );
   }
@@ -51,11 +52,11 @@ class _TrashMenu extends StatelessWidget {
                   value: 1,
                   child: ListTile(
                     leading: Icon(
-                      MyIcon.trash_empty,
+                      MyIcon.trash_2,
                       color: Colors.white.withOpacity(0.60),
                     ),
                     title: Text(
-                      "Delete forever",
+                      'Delete forever',
                       style: TextStyle(
                           fontSize: SizeHelper.getBodyText1,
                           color: Colors.white.withOpacity(0.87)),

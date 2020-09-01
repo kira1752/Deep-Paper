@@ -1,6 +1,6 @@
 import 'package:deep_paper/UI/note/widgets/bottom_menu.dart';
 import 'package:deep_paper/UI/note/widgets/date_character_counts.dart';
-import 'package:deep_paper/UI/note/widgets/deep_dialog.dart';
+import 'package:deep_paper/UI/note/widgets/dialog/note_dialog.dart';
 import 'package:deep_paper/UI/widgets/deep_keep_alive.dart';
 import 'package:deep_paper/UI/widgets/deep_scroll_behavior.dart';
 import 'package:deep_paper/UI/widgets/deep_toast.dart';
@@ -12,9 +12,7 @@ import 'package:deep_paper/business_logic/note/text_field_logic.dart';
 import 'package:deep_paper/data/deep.dart';
 import 'package:deep_paper/utility/extension.dart';
 import 'package:deep_paper/utility/size_helper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:provider/provider.dart';
 
@@ -52,8 +50,8 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
     _detailProvider = Provider.of<NoteDetailProvider>(context, listen: false);
     _detailProvider.setNote = widget.note;
 
-    String detail =
-        _detailProvider.getNote.isNull ? "" : _detailProvider.getNote.detail;
+    final detail =
+        _detailProvider.getNote.isNull ? '' : _detailProvider.getNote.detail;
 
     _undoRedoProvider.initialDetail = detail;
     _detailProvider.setDetail = detail;
@@ -64,7 +62,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
     if (_detailProvider.getNote.isNull) {
       _date = TextFieldLogic.loadDateAsync(null);
 
-      Future.delayed(Duration(milliseconds: 300), () {
+      Future.delayed(const Duration(milliseconds: 300), () {
         _detailFocus.requestFocus();
 
         _undoRedoProvider.tempInitialCursorPosition =
@@ -107,7 +105,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
-        bottomSheetTheme: BottomSheetThemeData(
+        bottomSheetTheme: const BottomSheetThemeData(
           modalBackgroundColor: Color(0xff202020),
         ),
       ),
@@ -115,7 +113,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
         onWillPop: () async {
           NoteDetailNormalSave.run(
               context: context,
-              noteID: _detailProvider.getNoteID,
+              noteID: _detailProvider.getTempNoteID,
               note: _detailProvider.getNote,
               detailProvider: _detailProvider,
               folderID: widget.folderID,
@@ -138,7 +136,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
                 },
               ),
               bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(56),
+                  preferredSize: const Size.fromHeight(56),
                   child: DateCharacterCounts(
                       date: _date, detail: _detailProvider.getDetail))),
           bottomNavigationBar: BottomMenu(
@@ -148,20 +146,20 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
                 _detailProvider.setIsDeleted = true;
 
                 Navigator.pop(context);
-                Future.delayed(Duration(milliseconds: 400), () {
+                Future.delayed(const Duration(milliseconds: 400), () {
                   Navigator.maybePop(context);
-                  DeepToast.showToast(description: "Note moved to Trash Bin");
+                  DeepToast.showToast(description: 'Note moved to Trash Bin');
                 });
-              } else if (_detailProvider.getNoteID.isNull &&
+              } else if (_detailProvider.getTempNoteID.isNull &&
                   _detailProvider.getNote.isNull) {
                 Navigator.pop(context);
-                Future.delayed(Duration(milliseconds: 400), () {
+                Future.delayed(const Duration(milliseconds: 400), () {
                   Navigator.maybePop(context);
-                  DeepToast.showToast(description: "Empty note deleted");
+                  DeepToast.showToast(description: 'Empty note deleted');
                 });
               } else {
                 Navigator.pop(context);
-                Future.delayed(Duration(milliseconds: 400), () {
+                Future.delayed(const Duration(milliseconds: 400), () {
                   Navigator.maybePop(context);
                 });
               }
@@ -169,36 +167,36 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
             onCopy: () {
               if (_detailProvider.getDetail.isNullEmptyOrWhitespace) {
                 Navigator.of(context).pop();
-                DeepToast.showToast(description: "Cannot copy empty note");
+                DeepToast.showToast(description: 'Cannot copy empty note');
               } else {
                 _detailProvider.setIsCopy = true;
 
                 Navigator.pop(context);
-                Future.delayed(Duration(milliseconds: 400), () {
+                Future.delayed(const Duration(milliseconds: 400), () {
                   Navigator.maybePop(context);
-                  DeepToast.showToast(description: "Note copied successfully");
+                  DeepToast.showToast(description: 'Note copied successfully');
                 });
               }
             },
             noteInfo: () async {
               final created = await _database.noteDao
-                  .getCreatedDate(_detailProvider.getNoteID);
+                  .getCreatedDate(_detailProvider.getTempNoteID);
 
               Navigator.pop(context);
-              Future.delayed(Duration(milliseconds: 400), () {
+              Future.delayed(const Duration(milliseconds: 400), () {
                 DeepDialog.openNoteInfo(
                     context: context,
                     folderName: widget.folderName,
                     modified: _detailProvider.getNote.isNull
                         ? DateTime.now()
                         : (_detailProvider.getNote.detail !=
-                                _detailProvider.getDetail
-                            ? DateTime.now()
-                            : _detailProvider.getNote.modified),
-                    created: _detailProvider.getNoteID.isNull
+                        _detailProvider.getDetail
+                        ? DateTime.now()
+                        : _detailProvider.getNote.modified),
+                    created: _detailProvider.getTempNoteID.isNull
                         ? (_detailProvider.getNote.isNull
-                            ? DateTime.now()
-                            : _detailProvider.getNote.created)
+                        ? DateTime.now()
+                        : _detailProvider.getNote.created)
                         : created);
               });
             },
@@ -224,7 +222,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
                 children: <Widget>[
                   DeepKeepAlive(
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(18, 0, 16, 16),
+                      padding: const EdgeInsets.fromLTRB(18, 0, 16, 16),
                       child: DetailField(
                         detailController: _detailController,
                         detailFocus: _detailFocus,
@@ -277,7 +275,12 @@ class _DetailFieldState extends State<DetailField> {
             focusNode: widget.detailFocus,
             showCursor: true,
             textDirection: direction,
-            style: Theme.of(context).textTheme.bodyText1.copyWith(
+            strutStyle: const StrutStyle(leading: 0.7),
+            style: Theme
+                .of(context)
+                .textTheme
+                .bodyText1
+                .copyWith(
                 color: Colors.white.withOpacity(.80),
                 fontWeight: FontWeight.normal,
                 fontSize: SizeHelper.getDetail),
@@ -287,12 +290,13 @@ class _DetailFieldState extends State<DetailField> {
               _undoRedoProvider.tempInitialCursorPosition =
                   widget.detailController.selection.extentOffset;
             },
-            onChanged: (value) => TextFieldLogic.detail(
+            onChanged: (value) =>
+                TextFieldLogic.detail(
                 value: value,
                 detailProvider: _detailProvider,
                 undoRedoProvider: _undoRedoProvider,
                 controller: widget.detailController),
-            decoration: InputDecoration.collapsed(
+            decoration: const InputDecoration.collapsed(
                 hintText: 'Write your note here...',
                 hintStyle: TextStyle(fontWeight: FontWeight.w500)),
           );

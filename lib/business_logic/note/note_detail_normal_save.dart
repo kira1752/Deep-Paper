@@ -25,7 +25,7 @@ class NoteDetailNormalSave {
         NoteCreation.deleteEmptyNote(
             context: context, noteID: note.isNull ? noteID : note.id);
 
-        DeepToast.showToast(description: "Empty note deleted");
+        DeepToast.showToast(description: 'Empty note deleted');
       } else if (note.isNotNull) {
         // if there is any changes happen in note
         // update note data

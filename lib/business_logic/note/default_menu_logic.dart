@@ -1,4 +1,4 @@
-import 'package:deep_paper/UI/note/widgets/deep_dialog.dart';
+import 'package:deep_paper/UI/note/widgets/dialog/note_dialog.dart';
 import 'package:flutter/material.dart';
 
 class DefaultMenuLogic {

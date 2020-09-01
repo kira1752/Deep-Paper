@@ -22,7 +22,7 @@ class AppTheme {
     return Theme.of(context)
         .textTheme
         .bodyText1
-        .copyWith(fontSize: SizeHelper.getTitle);
+        .copyWith(fontWeight: FontWeight.w600, fontSize: SizeHelper.getTitle);
   }
 
   static TextStyle darkTitleSelectionAppBar(BuildContext context) {
@@ -41,60 +41,59 @@ class AppTheme {
   static ThemeData dark() {
     return ThemeData.dark().copyWith(
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        timePickerTheme: TimePickerThemeData(
+        dividerColor: Colors.white.withOpacity(.10),
+        timePickerTheme: const TimePickerThemeData(
           backgroundColor: Color(0xff202125),
         ),
         popupMenuTheme: PopupMenuThemeData(
-            color: Color(0xff202125),
+            color: const Color(0xff202125),
             textStyle: TextStyle(color: Colors.white.withOpacity(0.80))),
-        bottomSheetTheme: BottomSheetThemeData(
+        bottomSheetTheme: const BottomSheetThemeData(
           modalBackgroundColor: Color(0xff202125),
           backgroundColor: Color(0xff202125),
         ),
-        floatingActionButtonTheme: FloatingActionButtonThemeData(
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
           backgroundColor: Color(0xff26272b),
         ),
-        dialogTheme: DialogTheme(
+        dialogTheme: const DialogTheme(
           backgroundColor: Color(0xff202125),
         ),
-        cardColor: Color(0xff1d1d1f),
+        cardColor: const Color(0xff1d1d1f),
         // Color(0xff1d2025), backup color
-        highlightColor: Color(0x424242),
-        accentColor: Color(0xffffb348),
+        highlightColor: const Color(0x424242),
+        accentColor: const Color(0xffffb348),
         //#fdb368
-        primaryColor: Color(0xff101115),
-        backgroundColor: Color(0xff101115),
-        bottomAppBarColor: Color(0xff101115),
-        cursorColor: Color(0xffffb348),
-        scaffoldBackgroundColor: Color(0xff101115),
-        textSelectionColor: Color(0xffffb348).withOpacity(0.30),
-        textSelectionHandleColor: Color(0xffffb348),
-        canvasColor: Color(0xff202125),
+        primaryColor: const Color(0xff101115),
+        backgroundColor: const Color(0xff101115),
+        bottomAppBarColor: const Color(0xff101115),
+        cursorColor: const Color(0xffffb348),
+        scaffoldBackgroundColor: const Color(0xff101115),
+        textSelectionColor: const Color(0xffffb348).withOpacity(0.30),
+        textSelectionHandleColor: const Color(0xffffb348),
+        canvasColor: const Color(0xff17181c),
         textTheme: TextTheme(
             headline5: TextStyle(
-              fontFamilyFallback: ["Noto Color Emoji"],
+              fontFamilyFallback: ['Noto Color Emoji'],
               letterSpacing: 1.2,
               color: Colors.white.withOpacity(0.80),
               fontWeight: FontWeight.w600,
             ),
             headline6: TextStyle(
-              fontFamilyFallback: ["Noto Color Emoji"],
+              fontFamilyFallback: ['Noto Color Emoji'],
               wordSpacing: 1.0,
-              height: 1.5,
               color: Colors.white.withOpacity(0.80),
             ),
-            bodyText1: TextStyle(
-              fontFamilyFallback: ["Noto Color Emoji"],
-              height: 1.5,
+            bodyText1: const TextStyle(
+              fontFamilyFallback: ['Noto Color Emoji'],
               color: Colors.white70,
             ),
-            bodyText2: TextStyle(
-              fontFamilyFallback: ["Noto Color Emoji"],
+            bodyText2: const TextStyle(
+              fontFamilyFallback: ['Noto Color Emoji'],
               color: Colors.white54,
             ),
             caption: TextStyle(
-                fontFamilyFallback: ["Noto Color Emoji"],
-                color: Colors.white70,
+                fontFamilyFallback: ['Noto Color Emoji'],
+                color: Colors.white.withOpacity(.80),
                 fontWeight: FontWeight.w600,
                 fontSize: SizeHelper.getFolder)));
   }

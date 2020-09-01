@@ -8,30 +8,12 @@ import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
 import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
 import 'package:deep_paper/icons/my_icon.dart';
-import 'package:deep_paper/utility/illustration.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:deep_paper/utility/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DeepPaper extends StatefulWidget {
-  @override
-  _DeepPaperState createState() => _DeepPaperState();
-}
-
-class _DeepPaperState extends State<DeepPaper> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    precacheImage(AssetImage(Illustration.getNote), context);
-
-    precacheImage(AssetImage(Illustration.getTrash), context);
-
-    precacheImage(AssetImage(Illustration.getPlan), context);
-
-    precacheImage(AssetImage(Illustration.getFinance), context);
-  }
-
+class DeepPaper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
@@ -60,53 +42,56 @@ class _DeepPaperState extends State<DeepPaper> {
                     visible: selection ? false : true,
                     child: Selector<DeepBottomProvider, int>(
                       selector: (context, provider) => provider.getCurrentIndex,
-                      builder: (context, index, widget) => BottomNavigationBar(
-                        elevation: 12.0,
-                        backgroundColor: Theme.of(context).canvasColor,
-                        type: BottomNavigationBarType.fixed,
-                        selectedFontSize: SizeHelper.getButton,
-                        unselectedFontSize: SizeHelper.getButton,
-                        selectedItemColor: Theme.of(context).accentColor,
-                        unselectedItemColor: Colors.white70,
-                        currentIndex: index,
-                        onTap: (index) {
-                          fabProvider.setScrollDown = false;
-                          deepProvider.setCurrentIndex = index;
-                          deepProvider.controller.jumpToPage(index);
-                        },
-                        items: [
-                          BottomNavigationBarItem(
-                            icon: Icon(MyIcon.library_books_outline),
-                            activeIcon: Icon(Icons.library_books),
-                            title: Text(
-                              'Note',
-                              style: TextStyle(fontWeight: FontWeight.w600),
+                      builder: (context, index, widget) => Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                                top: Divider.createBorderSide(context,
+                                    width: 2.0))),
+                        child: BottomNavigationBar(
+                          backgroundColor: Theme.of(context).primaryColor,
+                          type: BottomNavigationBarType.fixed,
+                          elevation: 0.0,
+                          selectedFontSize: SizeHelper.getButton,
+                          unselectedFontSize: SizeHelper.getButton,
+                          selectedItemColor: Theme.of(context).accentColor,
+                          unselectedItemColor: Colors.white60,
+                          currentIndex: index,
+                          onTap: (index) {
+                            fabProvider.setScrollDown = false;
+                            deepProvider.setCurrentIndex = index;
+                            deepProvider.controller.jumpToPage(index);
+                          },
+                          items: [
+                            const BottomNavigationBarItem(
+                              icon: Icon(MyIcon.square_edit),
+                              title: Text(
+                                'Note',
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
                             ),
-                          ),
-                          BottomNavigationBarItem(
-                            icon: Icon(MyIcon.event_note_outline),
-                            activeIcon: Icon(Icons.event_note),
-                            title: Text(
-                              'Plan',
-                              style: TextStyle(fontWeight: FontWeight.w600),
+                            const BottomNavigationBarItem(
+                              icon: Icon(MyIcon.calendar_1),
+                              title: Text(
+                                'Plan',
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
                             ),
-                          ),
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.pie_chart_outlined),
-                            activeIcon: Icon(Icons.pie_chart),
-                            title: Text(
-                              'Finance',
-                              style: TextStyle(fontWeight: FontWeight.w600),
+                            const BottomNavigationBarItem(
+                              icon: Icon(MyIcon.dollar_sign),
+                              title: Text(
+                                'Finance',
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
                             ),
-                          ),
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.more_horiz),
-                            title: Text(
-                              'More',
-                              style: TextStyle(fontWeight: FontWeight.w600),
+                            const BottomNavigationBarItem(
+                              icon: Icon(MyIcon.more_horizontal),
+                              title: Text(
+                                'More',
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     )),
               );

@@ -52,8 +52,8 @@ class TextFieldLogic {
 
     /// Check for Latin characters
     if (!value.contains(RegExp(
-        r"/[^\u0000-\u024F\u1E00-\u1EFF\u2C60-\u2C7F\uA720-\uA7FF]/g"))) {
-      if (value.substring(firstOffset, secondOffset) == " ") {
+        r'/[^\u0000-\u024F\u1E00-\u1EFF\u2C60-\u2C7F\uA720-\uA7FF]/g'))) {
+      if (value.substring(firstOffset, secondOffset) == ' ') {
         if (undoRedoProvider.space == false &&
             !undoRedoProvider.currentTyped.isNullEmptyOrWhitespace) {
           undoRedoProvider.addUndo();
@@ -97,16 +97,14 @@ class TextFieldLogic {
   }
 
   static int countAll(String text) {
-    return text
-        .replaceAll(RegExp(r"\s+\b|\b\s|\s|\b"), "")
-        .length;
+    return text.replaceAll(RegExp(r'\s+\b|\b\s|\s|\b'), '').length;
   }
 
   static String loadDate(DateTime time) {
     if (time == null) {
       return DateFormat.jm('en_US').format(DateTime.now());
     } else {
-      final DateTime now = DateTime(
+      final now = DateTime(
           DateTime
               .now()
               .year, DateTime
@@ -114,12 +112,12 @@ class TextFieldLogic {
           .month, DateTime
           .now()
           .day);
-      final DateTime noteDate = DateTime(time.year, time.month, time.day);
+      final noteDate = DateTime(time.year, time.month, time.day);
 
       final date = now
           .difference(noteDate)
           .inDays == 0
-          ? DateFormat.jm("en_US").format(time)
+          ? DateFormat.jm('en_US').format(time)
           : (now
           .difference(noteDate)
           .inDays == 1
@@ -128,8 +126,8 @@ class TextFieldLogic {
           .difference(noteDate)
           .inDays > 1 &&
           now.year - time.year == 0
-          ? DateFormat.MMMd("en_US").add_jm().format(time)
-          : DateFormat.yMMMd("en_US").add_jm().format(time)));
+          ? DateFormat.MMMd('en_US').add_jm().format(time)
+          : DateFormat.yMMMd('en_US').add_jm().format(time)));
 
       return date;
     }

@@ -5,8 +5,7 @@ extension TextUtilsStringExtension on String {
   /// - whitespace string.
   ///
   /// Characters considered "whitespace" are listed [here](https://stackoverflow.com/a/59826129/10830091).
-  bool get isNullEmptyOrWhitespace =>
-      this == null || this.isEmpty || this.trim().isEmpty;
+  bool get isNullEmptyOrWhitespace => this == null || isEmpty || trim().isEmpty;
 }
 
 /// - [isNullOrEmpty], [isNullEmptyOrFalse], [isNullEmptyZeroOrFalse] are from [this StackOverflow answer](https://stackoverflow.com/a/59826129/10830091)

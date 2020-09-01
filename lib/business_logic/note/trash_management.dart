@@ -19,7 +19,7 @@ class TrashManagement {
 
     await database.noteDao.updateNote(
         data.id,
-        NotesCompanion(
+        const NotesCompanion(
             detail: Value.absent(),
             detailDirection: Value.absent(),
             folderID: Value.absent(),

@@ -3,9 +3,10 @@ import 'package:flutter/foundation.dart';
 
 class SelectionProvider with ChangeNotifier {
   bool _selection = false;
-  Map<int, Note> _selected = {};
+  final Map<int, Note> _selected = {};
 
   bool get getSelection => _selection;
+
   Map<int, Note> get getSelected => _selected;
 
   void setFirstSelected({@required int key, @required Note note}) {

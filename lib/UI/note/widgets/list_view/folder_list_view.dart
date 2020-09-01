@@ -37,7 +37,7 @@ class FolderListView extends StatelessWidget {
                           note: data[index],
                           onTap: () {
                             Navigator.of(context)
-                                .pushNamed("/NoteDetail",
+                                .pushNamed('/NoteDetail',
                                     arguments: data[index])
                                 .then((value) =>
                                     fabProvider.setScrollDown = false);

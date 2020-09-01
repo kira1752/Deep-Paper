@@ -25,7 +25,7 @@ class BottomMenu extends StatelessWidget {
           child: Padding(
             padding: MediaQuery.of(context).viewInsets.bottom == 0
                 ? MediaQuery.of(context).viewInsets
-                : EdgeInsets.symmetric(vertical: 4.0),
+                : const EdgeInsets.symmetric(vertical: 4.0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

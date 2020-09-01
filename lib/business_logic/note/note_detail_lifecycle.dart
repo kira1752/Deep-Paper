@@ -15,11 +15,12 @@ class NoteDetailLifecycle {
       @required int folderID,
       @required String folderName}) async {
     if (state == AppLifecycleState.inactive) {
-      if (detailProvider.getNoteID.isNull && detailProvider.getNote.isNull) {
+      if (detailProvider.getTempNoteID.isNull &&
+          detailProvider.getNote.isNull) {
         // Create note data when user tapping home button
         // and there is no Note data exist in database
         detailProvider.setTempDetail = detailProvider.getDetail;
-        detailProvider.setNoteID = await NoteCreation.create(
+        detailProvider.setTempNoteID = await NoteCreation.create(
           context: context,
           detail: detailProvider.getDetail,
           detailDirection:
@@ -39,9 +40,9 @@ class NoteDetailLifecycle {
           NoteCreation.deleteEmptyNote(
               context: context,
               noteID: detailProvider.getNote.isNull
-                  ? detailProvider.getNoteID
+                  ? detailProvider.getTempNoteID
                   : detailProvider.getNote.id);
-          detailProvider.setNoteID = null;
+          detailProvider.setTempNoteID = null;
           detailProvider.setNote = null;
         } else if (detailProvider.getNote.isNotNull) {
           // Update note with latest date if there is any changes in detail
@@ -50,7 +51,7 @@ class NoteDetailLifecycle {
           if (detailProvider.getTempDetail != detailProvider.getDetail) {
             detailProvider.setTempDetail = detailProvider.getDetail;
 
-            NoteCreation.update(
+            await NoteCreation.update(
                 context: context,
                 noteID: detailProvider.getNote.id,
                 detail: detailProvider.getDetail,
@@ -68,9 +69,9 @@ class NoteDetailLifecycle {
           if (detailProvider.getTempDetail != detailProvider.getDetail) {
             detailProvider.setTempDetail = detailProvider.getDetail;
 
-            NoteCreation.update(
+            await NoteCreation.update(
                 context: context,
-                noteID: detailProvider.getNoteID,
+                noteID: detailProvider.getTempNoteID,
                 detail: detailProvider.getDetail,
                 folderID: folderID,
                 folderName: folderName,

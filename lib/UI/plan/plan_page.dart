@@ -36,20 +36,21 @@ class PlanFloatingActionButton extends StatelessWidget {
           builder: (context, isVisible, widget) {
             return AnimatedAlign(
               alignment:
-                  isVisible ? Alignment(1.0, 1.5) : Alignment.bottomRight,
-              duration: Duration(milliseconds: 350),
+                  isVisible ? const Alignment(1.0, 1.5) : Alignment.bottomRight,
+              duration: const Duration(milliseconds: 350),
               curve: isVisible ? Curves.easeIn : Curves.easeOut,
               child: FloatingActionButton.extended(
                 heroTag: null,
                 splashColor: Theme.of(context).accentColor.withOpacity(0.16),
+                elevation: 0.0,
                 icon: Icon(
-                  MyIcon.edit_outline,
+                  MyIcon.edit,
                   color: Theme.of(context).accentColor,
                 ),
                 label: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
-                    "Write a plan",
+                    'Write a plan',
                     style: Theme.of(context).textTheme.button.copyWith(
                         letterSpacing: 1.2,
                         fontWeight: FontWeight.w600,

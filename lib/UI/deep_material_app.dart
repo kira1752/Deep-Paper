@@ -8,6 +8,7 @@ import 'package:deep_paper/business_logic/note/provider/undo_redo_provider.dart'
 import 'package:deep_paper/data/deep.dart';
 import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 class DeepMaterialApp extends StatelessWidget {
@@ -15,6 +16,10 @@ class DeepMaterialApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       theme: AppTheme.dark(),
       title: 'Deep Paper',
       initialRoute: '/',
@@ -28,9 +33,8 @@ class DeepMaterialApp extends StatelessWidget {
             );
           case '/NoteCreate':
             final FolderNoteData folder = settings.arguments;
-            final String folderName =
-                folder.isNotNull ? folder.name : "Main folder";
-            final int folderID = folder.isNotNull ? folder.id : 0;
+            final folderName = folder.isNotNull ? folder.name : 'Main folder';
+            final folderID = folder.isNotNull ? folder.id : 0;
 
             return DeepSlideRoute(
               page: (context) => MultiProvider(
@@ -47,8 +51,8 @@ class DeepMaterialApp extends StatelessWidget {
             break;
           case '/NoteDetail':
             final Note note = settings.arguments;
-            final int folderID = note.folderID;
-            final String folderName = note.folderName;
+            final folderID = note.folderID;
+            final folderName = note.folderName;
 
             return DeepSlideRoute(
                 page: (context) =>

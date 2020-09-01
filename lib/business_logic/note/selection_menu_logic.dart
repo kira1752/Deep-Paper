@@ -1,4 +1,4 @@
-import 'package:deep_paper/UI/note/widgets/move_to_folder.dart';
+import 'package:deep_paper/UI/note/widgets/dialog/move_to_folder.dart';
 import 'package:deep_paper/UI/widgets/deep_toast.dart';
 import 'package:deep_paper/business_logic/note/note_creation.dart';
 import 'package:deep_paper/business_logic/note/provider/deep_bottom_provider.dart';
@@ -25,7 +25,7 @@ class SelectionMenuLogic {
       case 0:
         TrashManagement.restoreBatch(context: context);
 
-        DeepToast.showToast(description: "Note restored successfully");
+        DeepToast.showToast(description: 'Note restored successfully');
 
         deepBottomProvider.setSelection = false;
         selectionProvider.setSelection = false;
@@ -37,7 +37,7 @@ class SelectionMenuLogic {
       case 1:
         TrashManagement.deleteBatch(context: context);
 
-        DeepToast.showToast(description: "Note deleted successfully");
+        DeepToast.showToast(description: 'Note deleted successfully');
 
         deepBottomProvider.setSelection = false;
         selectionProvider.setSelection = false;
@@ -64,9 +64,9 @@ class SelectionMenuLogic {
 
     switch (choice) {
       case 0:
-        NoteCreation.moveToTrashBatch(context: context);
+        await NoteCreation.moveToTrashBatch(context: context);
 
-        DeepToast.showToast(description: "Note moved to Trash Bin");
+        await DeepToast.showToast(description: 'Note moved to Trash Bin');
 
         deepBottomProvider.setSelection = false;
         selectionProvider.setSelection = false;
@@ -79,7 +79,7 @@ class SelectionMenuLogic {
 
         final drawerIndex = drawerProvider.getIndexDrawerItem;
 
-        MoveToFolder.openMoveToDialog(
+        await MoveToFolder.openMoveToDialog(
             context: context,
             currentFolder: currentFolder,
             drawerIndex: drawerIndex,
@@ -89,9 +89,9 @@ class SelectionMenuLogic {
             database: database);
         break;
       case 2:
-        NoteCreation.copySelectedNotes(context: context);
+        await NoteCreation.copySelectedNotes(context: context);
 
-        DeepToast.showToast(description: "Note copied successfully");
+        await DeepToast.showToast(description: 'Note copied successfully');
 
         deepBottomProvider.setSelection = false;
         selectionProvider.setSelection = false;

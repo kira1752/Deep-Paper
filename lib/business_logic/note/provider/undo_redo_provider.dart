@@ -8,14 +8,14 @@ class UndoRedoProvider with ChangeNotifier {
   int initialCursorPosition;
   int tempInitialCursorPosition;
   String initialDetail;
-  String currentTyped = "";
+  String currentTyped = '';
   bool space = false;
   int count = 0;
 
-  Queue<String> _undo = Queue();
-  Queue<String> _redo = Queue();
-  Queue<int> _undoCursor = Queue();
-  Queue<int> _redoCursor = Queue();
+  final Queue<String> _undo = Queue();
+  final Queue<String> _redo = Queue();
+  final Queue<int> _undoCursor = Queue();
+  final Queue<int> _redoCursor = Queue();
   bool _canUndo = false;
   bool _canRedo = false;
 

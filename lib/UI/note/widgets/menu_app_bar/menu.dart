@@ -18,8 +18,9 @@ class Menu extends StatelessWidget {
       builder: (context, showMenu, child) {
         if (showMenu) {
           return FolderMenu();
-        } else
+        } else {
           return TrashMenu();
+        }
       },
     );
   }

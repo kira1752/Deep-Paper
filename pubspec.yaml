@@ -19,6 +19,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   provider: ^4.1.3
   scrollable_positioned_list: ^0.1.2
   moor: ^3.1.0
@@ -31,12 +33,18 @@ dependencies:
   flutter_keyboard_visibility: ^3.0.0
   expandable: ^4.1.4
   transparent_image: ^1.0.0
+  fitted_text_field_container: ^1.3.1+1
+  weekday_selector: ^0.4.0
+  flutter_svg: ^0.18.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   moor_generator: ^3.1.0
   build_runner: ^1.7.4
+  pedantic: ^1.9.0
+  analyzer: 0.39.14
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -49,7 +57,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/illustration/
+    - assets/svg/
   fonts:
     - family: MyIcon
       fonts:

@@ -9,7 +9,7 @@ class PlanDefaultAppBar extends StatelessWidget {
       centerTitle: true,
       elevation: 0.0,
       title: Text(
-        "PLAN",
+        'PLAN',
         style: Theme.of(context)
             .textTheme
             .headline5

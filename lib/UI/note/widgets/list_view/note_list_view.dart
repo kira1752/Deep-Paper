@@ -17,7 +17,7 @@ class NoteListView extends StatelessWidget {
       create: (context) => database.noteDao.watchAllNotes(),
       child: Consumer<List<Note>>(builder: (context, data, child) {
         return AnimatedSwitcher(
-          duration: Duration(milliseconds: 450),
+          duration: const Duration(milliseconds: 450),
           child: data.isNull
               ? const SizedBox()
               : data.isEmpty
@@ -33,8 +33,8 @@ class NoteListView extends StatelessWidget {
                           note: data[index],
                           onTap: () {
                             Navigator.of(context)
-                                .pushNamed("/NoteDetail",
-                                    arguments: data[index])
+                                .pushNamed('/NoteDetail',
+                                arguments: data[index])
                                 .then((value) =>
                                     fabProvider.setScrollDown = false);
                           },

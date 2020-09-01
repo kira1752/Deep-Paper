@@ -24,15 +24,14 @@ class DeepSlideRoute extends PageRouteBuilder {
                 CurveTween(curve: Curves.fastOutSlowIn);
             final Animatable<double> _easeInTween =
                 CurveTween(curve: Curves.easeIn);
-            final Tween<Offset> _slideTween = Tween<Offset>(
+            final _slideTween = Tween<Offset>(
               begin: const Offset(0.25, 0.0),
               end: Offset.zero,
             );
 
-            final Animation<Offset> _positionAnimation = primaryRouteAnimation
+            final _positionAnimation = primaryRouteAnimation
                 .drive(_slideTween.chain(_fastOutSlowInTween));
-            final Animation<double> _opacityAnimation =
-                primaryRouteAnimation.drive(_easeInTween);
+            final _opacityAnimation = primaryRouteAnimation.drive(_easeInTween);
 
             return SlideTransition(
               position: _positionAnimation,

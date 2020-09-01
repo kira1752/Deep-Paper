@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 
 class SlideRightWidget extends StatelessWidget {
   final Widget child;
+  final Duration duration;
+  final Duration reverseDuration;
 
-  SlideRightWidget({@required this.child});
+  const SlideRightWidget(
+      {@required this.child,
+      @required this.duration,
+      @required this.reverseDuration});
 
   @override
   Widget build(BuildContext context) {
@@ -13,15 +18,14 @@ class SlideRightWidget extends StatelessWidget {
             CurveTween(curve: Curves.fastOutSlowIn);
         final Animatable<double> _easeInTween =
             CurveTween(curve: Curves.easeIn);
-        final Tween<Offset> _slideTween = Tween<Offset>(
+        final _slideTween = Tween<Offset>(
           begin: const Offset(-0.25, 0.0),
           end: Offset.zero,
         );
 
-        final Animation<Offset> _positionAnimation =
+        final _positionAnimation =
             animation.drive(_slideTween.chain(_fastOutSlowInTween));
-        final Animation<double> _opacityAnimation =
-            animation.drive(_easeInTween);
+        final _opacityAnimation = animation.drive(_easeInTween);
 
         return SlideTransition(
           position: _positionAnimation,
@@ -31,7 +35,16 @@ class SlideRightWidget extends StatelessWidget {
           ),
         );
       },
-      duration: Duration(milliseconds: 300),
+      layoutBuilder: (Widget currentChild, List<Widget> previousChildren) {
+        return Stack(
+          children: <Widget>[
+            ...previousChildren,
+            if (currentChild != null) currentChild,
+          ],
+        );
+      },
+      duration: duration,
+      reverseDuration: reverseDuration,
       child: child,
     );
   }

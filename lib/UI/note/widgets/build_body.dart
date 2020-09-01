@@ -25,22 +25,24 @@ class BuildBody extends StatelessWidget {
                     selector: (context, provider) => provider.getFolder,
                     builder: (context, folder, widget) {
                       return FolderListView(
-                        key: Key("${folder.isNotNull ? folder.id : 0}"),
+                        key: Key('${folder.isNotNull ? folder.id : 0}'),
                         folder: folder,
                       );
                     }));
-          } else
+          } else {
             return _showNote(index: data.item1);
+          }
         },
       ),
     );
   }
 
   Widget _showNote({int index}) {
-    if (index == 0)
+    if (index == 0) {
       return Scrollbar(child: NoteListView());
-    else
+    } else {
       return Scrollbar(child: TrashListView());
+    }
   }
 
   bool _scrollHandler(BuildContext context, Notification notification) {

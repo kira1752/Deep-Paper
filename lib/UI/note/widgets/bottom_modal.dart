@@ -29,12 +29,12 @@ class BottomModal {
                   shape: const StadiumBorder(),
                   child: ListTile(
                     shape: const StadiumBorder(),
-                    leading: Icon(
-                      MyIcon.camera_alt_outline,
+                    leading: const Icon(
+                      MyIcon.camera,
                       color: Colors.white70,
                     ),
                     title: Text(
-                      "Take photo",
+                      'Take photo',
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
@@ -47,12 +47,12 @@ class BottomModal {
                   shape: const StadiumBorder(),
                   child: ListTile(
                     shape: const StadiumBorder(),
-                    leading: Icon(
-                      MyIcon.photo_outline,
+                    leading: const Icon(
+                      MyIcon.image,
                       color: Colors.white70,
                     ),
                     title: Text(
-                      "Choose image",
+                      'Choose image',
                       style: Theme
                           .of(context)
                           .textTheme
@@ -66,12 +66,12 @@ class BottomModal {
                   shape: const StadiumBorder(),
                   child: ListTile(
                     shape: const StadiumBorder(),
-                    leading: Icon(
-                      Icons.mic_none,
+                    leading: const Icon(
+                      MyIcon.mic,
                       color: Colors.white70,
                     ),
                     title: Text(
-                      "Recording",
+                      'Recording',
                       style: Theme
                           .of(context)
                           .textTheme
@@ -85,12 +85,12 @@ class BottomModal {
                   shape: const StadiumBorder(),
                   child: ListTile(
                     shape: const StadiumBorder(),
-                    leading: Icon(
-                      MyIcon.audiotrack_outline,
+                    leading: const Icon(
+                      MyIcon.music,
                       color: Colors.white70,
                     ),
                     title: Text(
-                      "Choose audio",
+                      'Choose audio',
                       style: Theme
                           .of(context)
                           .textTheme
@@ -132,12 +132,12 @@ class BottomModal {
                   child: ListTile(
                     shape: const StadiumBorder(),
                     onTap: onDelete,
-                    leading: Icon(
-                      MyIcon.trash_empty,
+                    leading: const Icon(
+                      MyIcon.trash_2,
                       color: Colors.white70,
                     ),
                     title: Text(
-                      "Delete",
+                      'Delete',
                       style: Theme
                           .of(context)
                           .textTheme
@@ -152,12 +152,12 @@ class BottomModal {
                   child: ListTile(
                     shape: const StadiumBorder(),
                     onTap: onCopy,
-                    leading: Icon(
-                      Icons.content_copy,
+                    leading: const Icon(
+                      MyIcon.copy,
                       color: Colors.white70,
                     ),
                     title: Text(
-                      "Make a copy",
+                      'Make a copy',
                       style: Theme
                           .of(context)
                           .textTheme
@@ -172,12 +172,12 @@ class BottomModal {
                   child: ListTile(
                     shape: const StadiumBorder(),
                     onTap: noteInfo,
-                    leading: Icon(
-                      Icons.info_outline,
+                    leading: const Icon(
+                      MyIcon.info,
                       color: Colors.white70,
                     ),
                     title: Text(
-                      "Note info",
+                      'Note info',
                       style: Theme
                           .of(context)
                           .textTheme

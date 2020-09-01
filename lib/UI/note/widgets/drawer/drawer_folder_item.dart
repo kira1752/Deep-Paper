@@ -28,7 +28,7 @@ class DrawerFolderItem extends StatelessWidget {
     final drawerProvider =
         Provider.of<NoteDrawerProvider>(context, listen: false);
 
-    final folderName = folder.isNotNull ? folder.name : "Main folder";
+    final folderName = folder.isNotNull ? folder.name : 'Main folder';
     final nameDirection = folder.isNotNull
         ? folder.nameDirection
         : (Bidi.detectRtlDirectionality(folderName)
@@ -60,37 +60,46 @@ class DrawerFolderItem extends StatelessWidget {
                     drawerProvider.setIndexFolderItem = index;
                     drawerProvider.setIndexDrawerItem = null;
                     drawerProvider.setFolder = folder;
-                    drawerProvider.setTitleFragment = "$folderName";
+                    drawerProvider.setTitleFragment = '$folderName';
                   } else if (!selected) {
                     drawerProvider.setIndexFolderItem = index;
-                    drawerProvider.setTitleFragment = "$folderName";
+                    drawerProvider.setTitleFragment = '$folderName';
                     drawerProvider.setFolder = folder;
                   }
                 },
                 leading: selected
-                    ? Icon(activeIcon, color: Colors.white.withOpacity(0.87))
+                    ? Icon(activeIcon,
+                    color: Theme
+                        .of(context)
+                        .accentColor
+                        .withOpacity(.87))
                     : Icon(
                   icon,
-                  color: Colors.white70,
+                  color: Colors.white54,
                 ),
                 trailing: total == null
-                    ? SizedBox()
+                    ? const SizedBox()
                     : Padding(
-                    padding: EdgeInsets.only(right: 16.0, left: 16.0),
+                    padding: const EdgeInsets.only(right: 16.0, left: 16.0),
                     child: Text(
-                      "$total",
+                      '$total',
                       style: TextStyle(
                           fontSize: SizeHelper.getBodyText1,
                           fontWeight: FontWeight.w600),
                     )),
                 title: Text(
-                  "$folderName",
+                  '$folderName',
                   textDirection: nameDirection,
                   style: selected
-                      ? Theme.of(context).textTheme.bodyText1.copyWith(
+                      ? Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(
                       color: Colors.white.withOpacity(0.87),
                       fontSize: SizeHelper.getDrawerMenuText)
-                      : Theme.of(context)
+                      : Theme
+                      .of(context)
                       .textTheme
                       .bodyText1
                       .copyWith(fontSize: SizeHelper.getDrawerMenuText),

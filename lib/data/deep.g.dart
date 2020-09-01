@@ -154,8 +154,8 @@ class Note extends DataClass implements Insertable<Note> {
           bool isDeleted,
           bool containAudio,
           bool containImage,
-            DateTime modified,
-            DateTime created}) =>
+          DateTime modified,
+          DateTime created}) =>
       Note(
         id: id ?? this.id,
         folderID: folderID ?? this.folderID,
@@ -172,17 +172,15 @@ class Note extends DataClass implements Insertable<Note> {
   @override
   String toString() {
     return (StringBuffer('Note(')
-          ..write('id: $id, ')
-          ..write('folderID: $folderID, ')
-          ..write('folderName: $folderName, ')
-          ..write('folderNameDirection: $folderNameDirection, ')
-          ..write('detail: $detail, ')
-          ..write('detailDirection: $detailDirection, ')
-          ..write('isDeleted: $isDeleted, ')
-          ..write('containAudio: $containAudio, ')
-          ..write('containImage: $containImage, ')..write(
-          'modified: $modified, ')..write('created: $created')
-          ..write(')'))
+      ..write('id: $id, ')..write('folderID: $folderID, ')..write(
+          'folderName: $folderName, ')..write(
+          'folderNameDirection: $folderNameDirection, ')..write(
+          'detail: $detail, ')..write(
+          'detailDirection: $detailDirection, ')..write(
+          'isDeleted: $isDeleted, ')..write(
+          'containAudio: $containAudio, ')..write(
+          'containImage: $containImage, ')..write(
+          'modified: $modified, ')..write('created: $created')..write(')'))
         .toString();
   }
 
@@ -296,18 +294,17 @@ class NotesCompanion extends UpdateCompanion<Note> {
     });
   }
 
-  NotesCompanion copyWith(
-      {Value<int> id,
-      Value<int> folderID,
-      Value<String> folderName,
-      Value<TextDirection> folderNameDirection,
-      Value<String> detail,
-      Value<TextDirection> detailDirection,
-      Value<bool> isDeleted,
-      Value<bool> containAudio,
-      Value<bool> containImage,
-        Value<DateTime> modified,
-        Value<DateTime> created}) {
+  NotesCompanion copyWith({Value<int> id,
+    Value<int> folderID,
+    Value<String> folderName,
+    Value<TextDirection> folderNameDirection,
+    Value<String> detail,
+    Value<TextDirection> detailDirection,
+    Value<bool> isDeleted,
+    Value<bool> containAudio,
+    Value<bool> containImage,
+    Value<DateTime> modified,
+    Value<DateTime> created}) {
     return NotesCompanion(
       id: id ?? this.id,
       folderID: folderID ?? this.folderID,
@@ -369,17 +366,15 @@ class NotesCompanion extends UpdateCompanion<Note> {
   @override
   String toString() {
     return (StringBuffer('NotesCompanion(')
-          ..write('id: $id, ')
-          ..write('folderID: $folderID, ')
-          ..write('folderName: $folderName, ')
-          ..write('folderNameDirection: $folderNameDirection, ')
-          ..write('detail: $detail, ')
-          ..write('detailDirection: $detailDirection, ')
-          ..write('isDeleted: $isDeleted, ')
-          ..write('containAudio: $containAudio, ')
-          ..write('containImage: $containImage, ')..write(
-          'modified: $modified, ')..write('created: $created')
-          ..write(')'))
+      ..write('id: $id, ')..write('folderID: $folderID, ')..write(
+          'folderName: $folderName, ')..write(
+          'folderNameDirection: $folderNameDirection, ')..write(
+          'detail: $detail, ')..write(
+          'detailDirection: $detailDirection, ')..write(
+          'isDeleted: $isDeleted, ')..write(
+          'containAudio: $containAudio, ')..write(
+          'containImage: $containImage, ')..write(
+          'modified: $modified, ')..write('created: $created')..write(')'))
         .toString();
   }
 }
@@ -401,7 +396,7 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   GeneratedIntColumn get folderID => _folderID ??= _constructFolderID();
   GeneratedIntColumn _constructFolderID() {
     return GeneratedIntColumn('folder_i_d', $tableName, false,
-        defaultValue: Constant(0));
+        defaultValue: const Constant(0));
   }
 
   GeneratedTextColumn _folderName;
@@ -455,7 +450,7 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
   GeneratedBoolColumn _constructIsDeleted() {
     return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
+        defaultValue: const Constant(false));
   }
 
   GeneratedBoolColumn _containAudio;
@@ -464,7 +459,7 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
       _containAudio ??= _constructContainAudio();
   GeneratedBoolColumn _constructContainAudio() {
     return GeneratedBoolColumn('contain_audio', $tableName, false,
-        defaultValue: Constant(false));
+        defaultValue: const Constant(false));
   }
 
   GeneratedBoolColumn _containImage;
@@ -473,13 +468,12 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
       _containImage ??= _constructContainImage();
   GeneratedBoolColumn _constructContainImage() {
     return GeneratedBoolColumn('contain_image', $tableName, false,
-        defaultValue: Constant(false));
+        defaultValue: const Constant(false));
   }
 
   GeneratedDateTimeColumn _modified;
   @override
   GeneratedDateTimeColumn get modified => _modified ??= _constructModified();
-
   GeneratedDateTimeColumn _constructModified() {
     return GeneratedDateTimeColumn(
       'modified',
@@ -489,10 +483,8 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   }
 
   GeneratedDateTimeColumn _created;
-
   @override
   GeneratedDateTimeColumn get created => _created ??= _constructCreated();
-
   GeneratedDateTimeColumn _constructCreated() {
     return GeneratedDateTimeColumn(
       'created',
@@ -502,7 +494,8 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   }
 
   @override
-  List<GeneratedColumn> get $columns => [
+  List<GeneratedColumn> get $columns =>
+      [
         id,
         folderID,
         folderName,
@@ -512,8 +505,8 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
         isDeleted,
         containAudio,
         containImage,
-    modified,
-    created
+        modified,
+        created
       ];
   @override
   $NotesTable get asDslTable => this;

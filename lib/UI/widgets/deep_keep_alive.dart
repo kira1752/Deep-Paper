@@ -6,7 +6,7 @@ class DeepKeepAlive extends StatefulWidget {
   const DeepKeepAlive({Key key, this.child}) : super(key: key);
 
   @override
-  _DeepKeepAliveState createState() => new _DeepKeepAliveState();
+  _DeepKeepAliveState createState() => _DeepKeepAliveState();
 }
 
 class _DeepKeepAliveState extends State<DeepKeepAlive>

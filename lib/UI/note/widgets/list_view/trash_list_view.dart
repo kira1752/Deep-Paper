@@ -1,4 +1,4 @@
-import 'package:deep_paper/UI/note/widgets/deep_dialog.dart';
+import 'package:deep_paper/UI/note/widgets/dialog/note_dialog.dart';
 import 'package:deep_paper/UI/note/widgets/empty_trash_illustration.dart';
 import 'package:deep_paper/UI/note/widgets/note_card.dart';
 import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';

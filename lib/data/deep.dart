@@ -18,7 +18,7 @@ class TextDirectionConverter extends TypeConverter<TextDirection, String> {
       return null;
     }
 
-    return fromDb == "TextDirection.ltr"
+    return fromDb == 'TextDirection.ltr'
         ? TextDirection.ltr
         : TextDirection.rtl;
   }
@@ -28,22 +28,30 @@ class TextDirectionConverter extends TypeConverter<TextDirection, String> {
     if (value == null) {
       return null;
     }
-    return "$value";
+    return '$value';
   }
 }
 
 class Notes extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get folderID => integer().withDefault(Constant(0))();
+
+  IntColumn get folderID => integer().withDefault(const Constant(0))();
+
   TextColumn get folderName => text()();
+
   TextColumn get folderNameDirection =>
       text().map(const TextDirectionConverter())();
+
   TextColumn get detail => text()();
+
   TextColumn get detailDirection =>
       text().map(const TextDirectionConverter())();
-  BoolColumn get isDeleted => boolean().withDefault(Constant(false))();
-  BoolColumn get containAudio => boolean().withDefault(Constant(false))();
-  BoolColumn get containImage => boolean().withDefault(Constant(false))();
+
+  BoolColumn get isDeleted => boolean().withDefault(const Constant(false))();
+
+  BoolColumn get containAudio => boolean().withDefault(const Constant(false))();
+
+  BoolColumn get containImage => boolean().withDefault(const Constant(false))();
 
   DateTimeColumn get modified => dateTime()();
 

@@ -23,14 +23,14 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
 
   Stream<List<Note>> watchAllDeletedNotes() => (select(notes)
         ..where((n) => n.isDeleted.equals(true))
-    ..orderBy([(n) => OrderingTerm.desc(n.modified)]))
+        ..orderBy([(n) => OrderingTerm.desc(n.modified)]))
       .watch();
 
   Stream<List<Note>> watchNoteInsideFolder(FolderNoteData folder) {
     final folderID = folder.isNotNull ? folder.id : 0;
     return (select(notes)
-          ..where((n) => n.folderID.equals(folderID))
-          ..where((n) => n.isDeleted.equals(false))
+      ..where((n) => n.folderID.equals(folderID))..where((n) =>
+          n.isDeleted.equals(false))
       ..orderBy([(n) => OrderingTerm.desc(n.modified)]))
         .watch();
   }
@@ -79,13 +79,13 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
     });
   }
 
-  Future<void> renameFolderAssociation(FolderNoteData folder) async {
+  void renameFolderAssociation(FolderNoteData folder) {
     update(notes)
       ..where((n) => n.folderID.equals(folder.id))
       ..write(NotesCompanion(
-          detail: Value.absent(),
-          modified: Value.absent(),
-          created: Value.absent(),
+          detail: const Value.absent(),
+          modified: const Value.absent(),
+          created: const Value.absent(),
           folderName: Value(folder.name),
           folderNameDirection: Value(folder.nameDirection)));
   }
@@ -106,30 +106,30 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
     });
   }
 
-  Future<void> emptyTrashBin() async {
+  void emptyTrashBin() {
     delete(notes)
       ..where((n) => n.isDeleted.equals(true))
       ..go();
   }
 
-  Future<void> deleteNotesInsideFolderForever(FolderNoteData folder) async {
+  void deleteNotesInsideFolderForever(FolderNoteData folder) {
     delete(notes)
       ..where((n) => n.folderID.equals(folder.id))
       ..go();
   }
 
-  Future deleteFolderRelationWhenNoteInTrash(FolderNoteData folder,
-      String mainFolder, TextDirection folderNameDirection) async {
+  void deleteFolderRelationWhenNoteInTrash(FolderNoteData folder,
+      String mainFolder, TextDirection folderNameDirection) {
     (update(notes)
-          ..where((n) => n.folderID.equals(folder.id))
-          ..where((n) => n.isDeleted.equals(true)))
+      ..where((n) => n.folderID.equals(folder.id))..where((n) =>
+          n.isDeleted.equals(true)))
         .write(NotesCompanion(
-            folderID: Value(0),
-            folderName: Value(mainFolder),
-            folderNameDirection: Value(folderNameDirection)));
+        folderID: const Value(0),
+        folderName: Value(mainFolder),
+        folderNameDirection: Value(folderNameDirection)));
   }
 
-  Future<void> deleteNote(int noteID) async {
+  void deleteNote(int noteID) {
     delete(notes)
       ..where((n) => n.id.equals(noteID))
       ..go();
@@ -140,6 +140,6 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
       ..where((tbl) => tbl.id.equals(noteID)))
         .getSingle();
 
-    return query?.created ?? null;
+    return query?.created;
   }
 }

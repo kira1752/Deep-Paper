@@ -1,4 +1,4 @@
-import 'package:deep_paper/UI/note/widgets/deep_dialog.dart';
+import 'package:deep_paper/UI/note/widgets/dialog/note_dialog.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +9,7 @@ class FolderAddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
         title: Text(
-          "FOLDERS",
+          'FOLDERS',
           style: Theme.of(context)
               .textTheme
               .bodyText1
@@ -25,7 +25,7 @@ class FolderAddButton extends StatelessWidget {
                 DeepDialog.openCreateFolderDialog(context: context);
               },
               child: Text(
-                "ADD",
+                'ADD',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(

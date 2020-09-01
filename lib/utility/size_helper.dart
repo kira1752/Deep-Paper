@@ -1,23 +1,25 @@
 import 'package:flutter/foundation.dart';
 
 class SizeHelper {
-  static double _headline5 = 24;
-  static double _headline6 = 20;
-  static double _title = 22;
-  static double _detail = 17;
-  static double _drawerMenuText = 17;
-  static double _searchText = 17;
-  static double _modalDescription = 17;
-  static double _modalTextField = 17;
-  static double _toastText = 17;
-  static double _bodyText1 = 16;
-  static double _bodyText2 = 14;
-  static double _modalButton = 18;
-  static double _button = 16;
-  static double _addButton = 12;
-  static double _planBottomButton = 18;
-  static double _planTitle = 34;
-  static double _folder = 14;
+  SizeHelper._();
+
+  static final double _headline5 = 24;
+  static final double _headline6 = 20;
+  static final double _title = 22;
+  static final double _detail = 17;
+  static final double _drawerMenuText = 16;
+  static final double _searchText = 17;
+  static final double _modalDescription = 17;
+  static final double _modalTextField = 17;
+  static final double _toastText = 17;
+  static final double _bodyText1 = 16;
+  static final double _bodyText2 = 14;
+  static final double _modalButton = 18;
+  static final double _button = 16;
+  static final double _addButton = 12;
+  static final double _planBottomButton = 18;
+  static final double _planTitle = 34;
+  static final double _folder = 14;
 
   static double get getHeadline5 => _headline5;
 
