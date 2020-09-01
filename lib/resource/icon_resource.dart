@@ -10,7 +10,7 @@ class IconResource {
   );
 
   static final darkClose = const Icon(
-    Icons.close,
+    MyIcon.x,
     color: Colors.white70,
   );
 

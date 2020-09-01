@@ -23,12 +23,12 @@ class MyIcon {
 
   static const IconData square_edit =
       IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData x =
+      IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData clock =
       IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData arrow_up_right =
       IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData x_circle =
-      IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData trash_2 =
       IconData(0xe80b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData repeat =

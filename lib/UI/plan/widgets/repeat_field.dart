@@ -86,7 +86,7 @@ class __RepeatState extends State<_Repeat> {
         selector: (context, provider) => provider.getRepeat.isNotNull,
         child: IconButton(
             icon: const Icon(
-              Icons.clear,
+              Icons.cancel,
               color: Colors.white60,
             ),
             onPressed: () {
