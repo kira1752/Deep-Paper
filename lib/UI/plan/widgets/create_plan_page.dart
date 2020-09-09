@@ -6,17 +6,16 @@ import 'package:deep_paper/UI/plan/widgets/time_field.dart';
 import 'package:deep_paper/UI/widgets/deep_scroll_behavior.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CreatePlanPage extends StatelessWidget {
-  final BuildContext mainContext;
-
-  const CreatePlanPage({@required this.mainContext});
+  const CreatePlanPage();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-        top: MediaQuery.of(mainContext).padding.top + 48,
+        top: Get.mediaQuery.padding.top + 48,
       ),
       decoration: BoxDecoration(
           color: Theme.of(context).canvasColor,
@@ -62,7 +61,7 @@ class CreatePlanPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       textColor: Colors.white.withOpacity(0.87),
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Get.back();
                       },
                       child: Text(
                         'Cancel',

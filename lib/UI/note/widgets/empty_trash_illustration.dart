@@ -30,11 +30,13 @@ class _EmptyTrashIllustrationState extends State<EmptyTrashIllustration> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              SvgPicture.asset(
-                Illustration.getTrash,
-                fit: BoxFit.contain,
-                width: SizeHelper.setWidth(size: 220.0),
-                height: SizeHelper.setHeight(size: 200.0),
+              RepaintBoundary(
+                child: SvgPicture.asset(
+                  Illustration.getTrash,
+                  fit: BoxFit.contain,
+                  width: SizeHelper.setWidth(size: 220.0),
+                  height: SizeHelper.setHeight(size: 200.0),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 32.0),

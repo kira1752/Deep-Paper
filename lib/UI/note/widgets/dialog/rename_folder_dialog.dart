@@ -7,6 +7,7 @@ import 'package:deep_paper/business_logic/note/provider/text_controller_provider
 import 'package:deep_paper/utility/extension.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class RenameFolderDialog extends StatefulWidget {
@@ -128,7 +129,7 @@ class _RenameFolderDialogState extends State<RenameFolderDialog> {
                         borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(12.0))),
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Get.back();
                     },
                     child: Text(
                       'Cancel',
@@ -155,12 +156,11 @@ class _RenameFolderDialogState extends State<RenameFolderDialog> {
                                 bottomRight: Radius.circular(12.0))),
                         onPressed: provider.isNameTyped
                             ? () {
-                                FolderCreation.update(
-                                    context: context,
+                          FolderCreation.update(
                                     drawerProvider: drawerProvider,
                                     name: folderName);
 
-                                Navigator.of(context).pop();
+                                Get.back();
                               }
                             : null,
                         child: Text(

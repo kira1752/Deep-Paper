@@ -4,6 +4,7 @@ import 'package:deep_paper/business_logic/note/trash_management.dart';
 import 'package:deep_paper/data/deep.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class RestoreDialog extends StatelessWidget {
   final Note data;
@@ -13,14 +14,32 @@ class RestoreDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DeepBaseDialog(
-      title: Text(
-        'Restore this note',
-        textAlign: TextAlign.center,
-        style: Theme.of(context)
-            .textTheme
-            .bodyText1
-            .copyWith(fontSize: SizeHelper.getTitle),
+      titlePadding: const EdgeInsets.symmetric(horizontal: 24.0),
+      title: Container(
+        padding: const EdgeInsets.symmetric(vertical: 24.0),
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+                    width: 2.0,
+                    color: Theme.of(context).accentColor.withOpacity(.20)))),
+        child: Text(
+          'Restore note',
+          textAlign: TextAlign.center,
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1
+              .copyWith(fontSize: SizeHelper.getTitle),
+        ),
       ),
+      children: [
+        Text(
+          'Restore this note to access all of its content.',
+          style: TextStyle(
+              fontFamily: 'Roboto',
+              fontSize: SizeHelper.getModalDescription,
+              color: Colors.white.withOpacity(0.87)),
+        ),
+      ],
       actions: [
         Expanded(
           child: FlatButton(
@@ -30,7 +49,7 @@ class RestoreDialog extends StatelessWidget {
                   borderRadius:
                       BorderRadius.only(bottomLeft: Radius.circular(12.0))),
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
               },
               child: Text(
                 'Cancel',
@@ -52,12 +71,12 @@ class RestoreDialog extends StatelessWidget {
                     borderRadius:
                         BorderRadius.only(bottomRight: Radius.circular(12.0))),
                 onPressed: () {
-                  TrashManagement.restore(context: context, data: data);
+                  TrashManagement.restore(data: data);
 
                   DeepToast.showToast(
                       description: 'Note restored successfully');
 
-                  Navigator.of(context).pop();
+                  Get.back();
                 },
                 child: Text(
                   'Restore',

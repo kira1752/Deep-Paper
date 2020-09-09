@@ -21,11 +21,13 @@ class _EmptyFinanceIllustrationState extends State<EmptyFinanceIllustration> {
             children: <Widget>[
               FittedBox(
                 fit: BoxFit.contain,
-                child: SvgPicture.asset(
-                  Illustration.getFinance,
-                  fit: BoxFit.contain,
-                  width: SizeHelper.setWidth(size: 220.0),
-                  height: SizeHelper.setHeight(size: 200.0),
+                child: RepaintBoundary(
+                  child: SvgPicture.asset(
+                    Illustration.getFinance,
+                    fit: BoxFit.contain,
+                    width: SizeHelper.setWidth(size: 220.0),
+                    height: SizeHelper.setHeight(size: 200.0),
+                  ),
                 ),
               ),
               Padding(

@@ -10,7 +10,8 @@ class BottomMenu extends StatelessWidget {
   final void Function() onCopy;
   final void Function() noteInfo;
 
-  BottomMenu({@required this.detailController,
+  BottomMenu(
+      {@required this.detailController,
       @required this.onDelete,
       @required this.onCopy,
       @required this.noteInfo});
@@ -36,10 +37,12 @@ class BottomMenu extends StatelessWidget {
                     color: Theme.of(context).accentColor.withOpacity(0.80),
                   ),
                   onPressed: () async {
-                    if (FocusScope.of(context).hasFocus) {
+                    if (FocusScope
+                        .of(context)
+                        .hasFocus) {
                       FocusScope.of(context).unfocus();
                     }
-                    await BottomModal.openAddMenu(context: context);
+                    await BottomModal.openAddMenu();
                   },
                 ),
                 UndoRedo(detailController: detailController),
@@ -53,7 +56,6 @@ class BottomMenu extends StatelessWidget {
                       FocusScope.of(context).unfocus();
                     }
                     await BottomModal.openOptionsMenu(
-                        context: context,
                         onDelete: onDelete,
                         onCopy: onCopy,
                         noteInfo: noteInfo);

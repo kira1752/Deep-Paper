@@ -17,11 +17,13 @@ class _EmptyPlanIllustrationState extends State<EmptyPlanIllustration> {
         child: FittedBox(
           child: Column(
             children: <Widget>[
-              SvgPicture.asset(
-                Illustration.getPlan,
-                fit: BoxFit.contain,
-                width: SizeHelper.setWidth(size: 220.0),
-                height: SizeHelper.setHeight(size: 200.0),
+              RepaintBoundary(
+                child: SvgPicture.asset(
+                  Illustration.getPlan,
+                  fit: BoxFit.contain,
+                  width: SizeHelper.setWidth(size: 220.0),
+                  height: SizeHelper.setHeight(size: 200.0),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 24.0),
@@ -39,7 +41,7 @@ class _EmptyPlanIllustrationState extends State<EmptyPlanIllustration> {
                             fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
-                        text: 'Plan your day here. Good luck!',
+                        text: 'Plan your day here efficiently',
                         style: Theme.of(context).textTheme.bodyText1.copyWith(
                             color: Colors.white70,
                             height: 1.5,

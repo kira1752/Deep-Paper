@@ -1,6 +1,7 @@
 import 'package:deep_paper/UI/plan/utility/repeat_type.dart';
 import 'package:deep_paper/UI/plan/widgets/dialog/plan_dialog.dart';
 import 'package:deep_paper/UI/plan/widgets/field_base.dart';
+import 'package:deep_paper/UI/transition/widgets/slide_downward_widget.dart';
 import 'package:deep_paper/UI/transition/widgets/slide_right_widget.dart';
 import 'package:deep_paper/business_logic/plan/provider/create_plan_provider.dart';
 import 'package:deep_paper/icons/my_icon.dart';
@@ -18,10 +19,13 @@ class RepeatField extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Selector<CreatePlanProvider, bool>(
           selector: (context, provider) => provider.getDate.isEmpty,
-          builder: (context, isEmpty, child) => SlideRightWidget(
-                duration: const Duration(milliseconds: 400),
-                reverseDuration: const Duration(milliseconds: 300),
-                child: isEmpty ? const SizedBox() : _Repeat(),
+          builder: (context, isEmpty, child) => IgnorePointer(
+                ignoring: isEmpty,
+                child: SlideDownwardWidget(
+                  duration: const Duration(milliseconds: 400),
+                  reverseDuration: const Duration(milliseconds: 400),
+                  child: isEmpty ? const SizedBox() : _Repeat(),
+                ),
               )),
     );
   }
@@ -46,8 +50,7 @@ class __RepeatState extends State<_Repeat> {
   Widget build(BuildContext context) {
     return FieldBase(
       onTap: () {
-        PlanDialog.openRepeatDialog(
-            context: context, createPlanProvider: _createPlanProvider);
+        PlanDialog.openRepeatDialog(createPlanProvider: _createPlanProvider);
       },
       leading: const Icon(
         MyIcon.repeat,
@@ -56,32 +59,55 @@ class __RepeatState extends State<_Repeat> {
       title: Selector<CreatePlanProvider, String>(
           selector: (context, provider) => provider.getRepeatTitle,
           builder: (context, repeatTitle, child) {
-            return Text(
-              '$repeatTitle',
-              overflow: TextOverflow.ellipsis,
-              style: _createPlanProvider.getRepeat == RepeatType.Weekly
-                  ? Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: Theme.of(context).accentColor.withOpacity(.80),
-                      fontSize: SizeHelper.getModalTextField)
-                  : Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: Colors.white.withOpacity(.80),
-                      fontSize: SizeHelper.getModalTextField),
+            return SlideRightWidget(
+              duration: const Duration(milliseconds: 400),
+              child: Text(
+                '$repeatTitle',
+                key: Key('$repeatTitle'),
+                overflow: TextOverflow.ellipsis,
+                style: _createPlanProvider.getRepeat == RepeatType.Weekly
+                    ? Theme
+                    .of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(
+                    color: Theme
+                        .of(context)
+                        .accentColor
+                        .withOpacity(.80),
+                    fontSize: SizeHelper.getModalTextField)
+                    : Theme
+                    .of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(
+                    color: Colors.white.withOpacity(.80),
+                    fontSize: SizeHelper.getModalTextField),
+              ),
             );
           }),
       subtitle: Selector<CreatePlanProvider, String>(
-        selector: (context, provider) => provider.getSelectedDaysTitle,
-        builder: (context, repeatDays, child) => repeatDays.isEmpty
-            ? const SizedBox()
-            : Padding(
-                padding: const EdgeInsetsDirectional.only(top: 6.0),
-                child: Text(
-                  '$repeatDays',
-                  maxLines: null,
-                  style: Theme.of(context).textTheme.bodyText2.copyWith(
-                      color: Colors.white60, fontSize: SizeHelper.getBodyText2),
+          selector: (context, provider) => provider.getSelectedDaysTitle,
+          builder: (context, repeatDays, child) =>
+              SlideRightWidget(
+                duration: const Duration(milliseconds: 400),
+                child: repeatDays.isEmpty
+                    ? const SizedBox()
+                    : Padding(
+                  padding: const EdgeInsetsDirectional.only(top: 6.0),
+                  child: Text(
+                    '$repeatDays',
+                    maxLines: null,
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText2
+                        .copyWith(
+                        color: Colors.white60,
+                        fontSize: SizeHelper.getBodyText2),
+                  ),
                 ),
-              ),
-      ),
+              )),
       trailing: Selector<CreatePlanProvider, bool>(
         selector: (context, provider) => provider.getRepeat.isNotNull,
         child: IconButton(

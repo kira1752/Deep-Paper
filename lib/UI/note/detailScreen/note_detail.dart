@@ -10,21 +10,17 @@ import 'package:deep_paper/business_logic/note/provider/note_detail_provider.dar
 import 'package:deep_paper/business_logic/note/provider/undo_redo_provider.dart';
 import 'package:deep_paper/business_logic/note/text_field_logic.dart';
 import 'package:deep_paper/data/deep.dart';
+import 'package:deep_paper/icons/my_icon.dart';
+import 'package:deep_paper/utility/deep_route_string.dart';
 import 'package:deep_paper/utility/extension.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:get/get.dart' hide GetDynamicUtils;
 import 'package:provider/provider.dart';
 
 class NoteDetail extends StatefulWidget {
-  final Note note;
-  final int folderID;
-  final String folderName;
-
-  NoteDetail(
-      {@required this.folderID,
-      @required this.folderName,
-      @required this.note});
+  const NoteDetail();
 
   @override
   _NoteDetailState createState() => _NoteDetailState();
@@ -37,6 +33,8 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
   DeepPaperDatabase _database;
   UndoRedoProvider _undoRedoProvider;
   NoteDetailProvider _detailProvider;
+  int _folderID;
+  String _folderName;
 
   @override
   void initState() {
@@ -44,14 +42,23 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
 
     // Watch Deep Paper app lifecycle when user creating new note
     WidgetsBinding.instance.addObserver(this);
-
+    Note note;
     _database = Provider.of<DeepPaperDatabase>(context, listen: false);
     _undoRedoProvider = Provider.of<UndoRedoProvider>(context, listen: false);
     _detailProvider = Provider.of<NoteDetailProvider>(context, listen: false);
-    _detailProvider.setNote = widget.note;
 
-    final detail =
-        _detailProvider.getNote.isNull ? '' : _detailProvider.getNote.detail;
+    if (Get.currentRoute == DeepRouteString.noteCreate) {
+      FolderNoteData folder = Get.arguments;
+      _folderID = (folder?.id) ?? 0;
+      _folderName = (folder?.name) ?? 'Main folder';
+    } else if (Get.currentRoute == DeepRouteString.noteDetail) {
+      note = Get.arguments;
+      _folderID = note.folderID;
+      _folderName = note.folderName;
+    }
+
+    _detailProvider.setNote = note;
+    final detail = (_detailProvider.getNote?.detail) ?? '';
 
     _undoRedoProvider.initialDetail = detail;
     _detailProvider.setDetail = detail;
@@ -62,7 +69,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
     if (_detailProvider.getNote.isNull) {
       _date = TextFieldLogic.loadDateAsync(null);
 
-      Future.delayed(const Duration(milliseconds: 300), () {
+      Future.delayed(const Duration(milliseconds: 500), () {
         _detailFocus.requestFocus();
 
         _undoRedoProvider.tempInitialCursorPosition =
@@ -71,6 +78,15 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
     } else {
       _date = TextFieldLogic.loadDateAsync(_detailProvider.getNote.modified);
     }
+
+    debounce(_undoRedoProvider.currentTyped, (value) {
+      String _value = value;
+      if (!_value.isNullEmptyOrWhitespace &&
+          _undoRedoProvider.getUndoLastValue() != _value &&
+          _undoRedoProvider.getRedoLastValue() != _value) {
+        _undoRedoProvider.addUndo();
+      }
+    }, time: const Duration(milliseconds: 500));
 
     KeyboardVisibility.onChange.listen((visible) {
       if (visible == false) {
@@ -94,11 +110,10 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     NoteDetailLifecycle.check(
-        context: context,
         state: state,
         detailProvider: _detailProvider,
-        folderID: widget.folderID,
-        folderName: widget.folderName);
+        folderID: _folderID,
+        folderName: _folderName);
   }
 
   @override
@@ -112,12 +127,11 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
       child: WillPopScope(
         onWillPop: () async {
           NoteDetailNormalSave.run(
-              context: context,
               noteID: _detailProvider.getTempNoteID,
               note: _detailProvider.getNote,
               detailProvider: _detailProvider,
-              folderID: widget.folderID,
-              folderName: widget.folderName,
+              folderID: _folderID,
+              folderName: _folderName,
               isDeleted: _detailProvider.getIsDeleted,
               isCopy: _detailProvider.getIsCopy);
 
@@ -128,11 +142,11 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
               elevation: 0.0,
               leading: IconButton(
                 icon: Icon(
-                  Icons.arrow_back,
+                  MyIcon.arrow_left,
                   color: Theme.of(context).accentColor.withOpacity(0.80),
                 ),
                 onPressed: () {
-                  Navigator.of(context).maybePop();
+                  Navigator.maybePop(context);
                 },
               ),
               bottom: PreferredSize(
@@ -145,20 +159,20 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
               if (!_detailProvider.getDetail.isNullEmptyOrWhitespace) {
                 _detailProvider.setIsDeleted = true;
 
-                Navigator.pop(context);
+                Get.back();
                 Future.delayed(const Duration(milliseconds: 400), () {
                   Navigator.maybePop(context);
                   DeepToast.showToast(description: 'Note moved to Trash Bin');
                 });
               } else if (_detailProvider.getTempNoteID.isNull &&
                   _detailProvider.getNote.isNull) {
-                Navigator.pop(context);
+                Get.back();
                 Future.delayed(const Duration(milliseconds: 400), () {
                   Navigator.maybePop(context);
                   DeepToast.showToast(description: 'Empty note deleted');
                 });
               } else {
-                Navigator.pop(context);
+                Get.back();
                 Future.delayed(const Duration(milliseconds: 400), () {
                   Navigator.maybePop(context);
                 });
@@ -166,12 +180,14 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
             },
             onCopy: () {
               if (_detailProvider.getDetail.isNullEmptyOrWhitespace) {
-                Navigator.of(context).pop();
+                Get.back();
+
                 DeepToast.showToast(description: 'Cannot copy empty note');
               } else {
                 _detailProvider.setIsCopy = true;
 
-                Navigator.pop(context);
+                Get.back();
+
                 Future.delayed(const Duration(milliseconds: 400), () {
                   Navigator.maybePop(context);
                   DeepToast.showToast(description: 'Note copied successfully');
@@ -182,11 +198,11 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
               final created = await _database.noteDao
                   .getCreatedDate(_detailProvider.getTempNoteID);
 
-              Navigator.pop(context);
+              Get.back();
+
               Future.delayed(const Duration(milliseconds: 400), () {
                 DeepDialog.openNoteInfo(
-                    context: context,
-                    folderName: widget.folderName,
+                    folderName: _folderName,
                     modified: _detailProvider.getNote.isNull
                         ? DateTime.now()
                         : (_detailProvider.getNote.detail !=
@@ -292,10 +308,10 @@ class _DetailFieldState extends State<DetailField> {
             },
             onChanged: (value) =>
                 TextFieldLogic.detail(
-                value: value,
-                detailProvider: _detailProvider,
-                undoRedoProvider: _undoRedoProvider,
-                controller: widget.detailController),
+                    value: value,
+                    detailProvider: _detailProvider,
+                    undoRedoProvider: _undoRedoProvider,
+                    controller: widget.detailController),
             decoration: const InputDecoration.collapsed(
                 hintText: 'Write your note here...',
                 hintStyle: TextStyle(fontWeight: FontWeight.w500)),

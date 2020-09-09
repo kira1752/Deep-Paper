@@ -2,10 +2,12 @@ import 'package:deep_paper/UI/note/widgets/empty_note_illustration.dart';
 import 'package:deep_paper/UI/note/widgets/note_card.dart';
 import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
 import 'package:deep_paper/data/deep.dart';
-import 'package:deep_paper/utility/extension.dart';
+import 'package:deep_paper/utility/deep_route_string.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class NoteListView extends StatelessWidget {
   @override
@@ -22,8 +24,7 @@ class NoteListView extends StatelessWidget {
               ? const SizedBox()
               : data.isEmpty
                   ? EmptyNoteIllustration()
-                  : ListView.builder(
-                      cacheExtent: 100,
+                  : ScrollablePositionedList.builder(
                       physics: const ClampingScrollPhysics(),
                       itemCount: data.length,
                       itemBuilder: (context, index) {
@@ -32,9 +33,8 @@ class NoteListView extends StatelessWidget {
                           index: index,
                           note: data[index],
                           onTap: () {
-                            Navigator.of(context)
-                                .pushNamed('/NoteDetail',
-                                arguments: data[index])
+                            Get.toNamed(DeepRouteString.noteDetail,
+                                    arguments: data[index])
                                 .then((value) =>
                                     fabProvider.setScrollDown = false);
                           },

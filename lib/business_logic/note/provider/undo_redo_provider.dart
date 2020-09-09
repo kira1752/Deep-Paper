@@ -1,16 +1,14 @@
 import 'dart:collection';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 
 class UndoRedoProvider with ChangeNotifier {
-  int currentCursorPosition = 0;
+  RxInt currentCursorPosition = 0.obs;
   int initialCursorPosition;
   int tempInitialCursorPosition;
   String initialDetail;
-  String currentTyped = '';
-  bool space = false;
-  int count = 0;
+  RxString currentTyped = ''.obs;
 
   final Queue<String> _undo = Queue();
   final Queue<String> _redo = Queue();
@@ -24,61 +22,69 @@ class UndoRedoProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  set setContainSpace(bool value) {
-    if (space != value) {
-      space = value;
-    }
-  }
-
   void addUndo() {
-    _undo.add(currentTyped);
-    _undoCursor.add(currentCursorPosition);
+    _undo.add(currentTyped.value);
+    _undoCursor.add(currentCursorPosition.value);
   }
 
-  int getUndoCursor() {
+  int popUndoCursor() {
     if (_undoCursor.isNotEmpty) {
-      _redoCursor.add(currentCursorPosition);
-      currentCursorPosition = _undoCursor.removeLast();
-      return currentCursorPosition;
+      if (_undoCursor.last == currentCursorPosition.value) {
+        _redoCursor.add(_undoCursor.removeLast());
+      }
+      if (_undoCursor.isNotEmpty) {
+        currentCursorPosition.value = _undoCursor.removeLast();
+        _redoCursor.add(currentCursorPosition.value);
+        return currentCursorPosition.value;
+      } else {
+        currentCursorPosition.value = 0;
+        return initialCursorPosition;
+      }
     } else {
-      _redoCursor.add(currentCursorPosition);
-      currentCursorPosition = null;
-
+      currentCursorPosition.value = 0;
       return initialCursorPosition;
     }
   }
 
-  int getRedoCursor() {
-    if (_canUndo == false) {
-      currentCursorPosition = _redoCursor.removeLast();
-    } else {
-      _undoCursor.add(currentCursorPosition);
-      currentCursorPosition = _redoCursor.removeLast();
+  int popRedoCursor() {
+    if (_redoCursor.last == currentCursorPosition.value) {
+      _undoCursor.add(_redoCursor.removeLast());
     }
 
-    return currentCursorPosition;
+    if (_redoCursor.isNotEmpty) {
+      currentCursorPosition.value = _redoCursor.removeLast();
+      _undoCursor.add(currentCursorPosition.value);
+    }
+    return currentCursorPosition.value;
   }
 
-  String getUndoValue() {
+  String popUndoValue() {
     if (_undo.isNotEmpty) {
-      if (count != 0) {
-        count = 0;
-      }
-      _redo.add(currentTyped);
-      currentTyped = _undo.removeLast();
       if (_canRedo != true) {
         _canRedo = true;
         notifyListeners();
       }
-      return currentTyped;
-    } else {
-      if (count != 0) {
-        count = 0;
+
+      if (_undo.last == currentTyped.value) {
+        _redo.add(_undo.removeLast());
       }
 
-      _redo.add(currentTyped);
-      currentTyped = null;
+      if (_undo.isNotEmpty) {
+        currentTyped.value = _undo.removeLast();
+        _redo.add(currentTyped.value);
+        return currentTyped.value;
+      } else {
+        currentTyped.value = '';
+        _canUndo = false;
+        if (_canRedo != true) {
+          _canRedo = true;
+        }
 
+        notifyListeners();
+        return initialDetail;
+      }
+    } else {
+      currentTyped.value = '';
       _canUndo = false;
       if (_canRedo != true) {
         _canRedo = true;
@@ -89,14 +95,19 @@ class UndoRedoProvider with ChangeNotifier {
     }
   }
 
-  String getRedoValue() {
+  String popRedoValue() {
+    if (_redo.last == currentTyped.value) {
+      _undo.add(_redo.removeLast());
+    }
+
+    if (_redo.isNotEmpty) {
+      currentTyped.value = _redo.removeLast();
+      _undo.add(currentTyped.value);
+    }
+
     if (_canUndo == false) {
       _canUndo = true;
       notifyListeners();
-      currentTyped = _redo.removeLast();
-    } else {
-      _undo.add(currentTyped);
-      currentTyped = _redo.removeLast();
     }
 
     if (_redo.isEmpty) {
@@ -104,7 +115,33 @@ class UndoRedoProvider with ChangeNotifier {
       notifyListeners();
     }
 
-    return currentTyped;
+    return currentTyped.value;
+  }
+
+  String getUndoLastValue() {
+    if (_undo.isEmpty) {
+      return initialDetail;
+    } else {
+      return _undo.last;
+    }
+  }
+
+  String getRedoLastValue() {
+    if (_redo.isEmpty) {
+      return initialDetail;
+    } else {
+      return _redo.last;
+    }
+  }
+
+  void deleteUndoLastValue() {
+    if (_undo.isNotEmpty) {
+      _undo.removeLast();
+    }
+
+    if (_undoCursor.isNotEmpty) {
+      _undoCursor.removeLast();
+    }
   }
 
   void clearRedo() {

@@ -44,7 +44,7 @@ class PlanFloatingActionButton extends StatelessWidget {
                 splashColor: Theme.of(context).accentColor.withOpacity(0.16),
                 elevation: 0.0,
                 icon: Icon(
-                  MyIcon.edit,
+                  MyIcon.edit_3,
                   color: Theme.of(context).accentColor,
                 ),
                 label: Padding(
@@ -58,7 +58,7 @@ class PlanFloatingActionButton extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  CreatePlan.show(mainContext: mainContext, context: context);
+                  CreatePlan.show();
                 },
               ),
             );

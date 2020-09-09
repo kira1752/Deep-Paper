@@ -1,29 +1,30 @@
 import 'package:deep_paper/business_logic/plan/day_selector_logic.dart';
 import 'package:deep_paper/business_logic/plan/provider/create_plan_provider.dart';
 import 'package:deep_paper/business_logic/plan/provider/repeat_dialog_provider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:weekday_selector/weekday_selector.dart';
 
 class DaySelector extends StatefulWidget {
-  const DaySelector();
+  final CreatePlanProvider createPlanProvider;
+
+  DaySelector({@required this.createPlanProvider});
 
   @override
   _DaySelectorState createState() => _DaySelectorState();
 }
 
 class _DaySelectorState extends State<DaySelector> {
+  RepeatDialogProvider _repeatDialogProvider;
+  CreatePlanProvider _createPlanProvider;
+
   @override
   void initState() {
     super.initState();
-    final _repeatDialogProvider =
+    _repeatDialogProvider =
         Provider.of<RepeatDialogProvider>(context, listen: false);
-    final _createPlanProvider =
-        Provider.of<CreatePlanProvider>(context, listen: false);
-
-    debugPrintSynchronously('${_createPlanProvider.getSelectedDays.length}');
+    _createPlanProvider = widget.createPlanProvider;
 
     _repeatDialogProvider.initiateTempSelectedDays =
         _createPlanProvider.getSelectedDays.isEmpty
@@ -46,7 +47,7 @@ class _DaySelectorState extends State<DaySelector> {
                 shortWeekdays: dateSymbols.STANDALONESHORTWEEKDAYS,
                 weekdays: dateSymbols.STANDALONEWEEKDAYS,
                 selectedFillColor:
-                    Theme.of(context).accentColor.withOpacity(0.70),
+                Theme.of(context).accentColor.withOpacity(0.70),
                 shape: RoundedRectangleBorder(
                     side: BorderSide(
                         width: 2.0, color: Theme.of(context).canvasColor)),
@@ -55,7 +56,9 @@ class _DaySelectorState extends State<DaySelector> {
                         width: 2.0, color: Theme.of(context).canvasColor)),
                 onChanged: (day) {
                   DaySelectorLogic.onChanged(
-                      context: context, day: day, weekDays: weekDays);
+                      repeatDialogProvider: _repeatDialogProvider,
+                      day: day,
+                      weekDays: weekDays);
                 },
                 values: weekDays);
           }),

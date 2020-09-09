@@ -3,10 +3,11 @@ import 'package:deep_paper/UI/note/widgets/empty_trash_illustration.dart';
 import 'package:deep_paper/UI/note/widgets/note_card.dart';
 import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/data/deep.dart';
-import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class TrashListView extends StatelessWidget {
   @override
@@ -51,8 +52,7 @@ class __TrashIsExistState extends State<_TrashIsExist> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        cacheExtent: 100,
+    return ScrollablePositionedList.builder(
         physics: const ClampingScrollPhysics(),
         itemCount: widget.data.length,
         itemBuilder: (context, index) {
@@ -61,8 +61,7 @@ class __TrashIsExistState extends State<_TrashIsExist> {
             index: index,
             note: widget.data[index],
             onTap: () {
-              DeepDialog.openRestoreDialog(
-                  context: context, data: widget.data[index]);
+              DeepDialog.openRestoreDialog(data: widget.data[index]);
             },
           );
         });

@@ -70,7 +70,10 @@ class __DeleteButtonState extends State<_DeleteButton> {
                 ),
               ),
             )),
-        builder: (context, isEmpty, deleteButton) => SlideLeftWidget(
-            child: isEmpty ? const SizedBox.shrink() : deleteButton));
+        builder: (context, isEmpty, deleteButton) => IgnorePointer(
+              ignoring: isEmpty,
+              child: SlideLeftWidget(
+                  child: isEmpty ? const SizedBox.shrink() : deleteButton),
+            ));
   }
 }

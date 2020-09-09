@@ -1,7 +1,5 @@
 import 'package:deep_paper/business_logic/note/provider/note_detail_provider.dart';
 import 'package:deep_paper/utility/extension.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
@@ -9,8 +7,7 @@ import 'note_creation.dart';
 
 class NoteDetailLifecycle {
   static Future<void> check(
-      {@required BuildContext context,
-      @required AppLifecycleState state,
+      {@required AppLifecycleState state,
       @required NoteDetailProvider detailProvider,
       @required int folderID,
       @required String folderName}) async {
@@ -21,7 +18,6 @@ class NoteDetailLifecycle {
         // and there is no Note data exist in database
         detailProvider.setTempDetail = detailProvider.getDetail;
         detailProvider.setTempNoteID = await NoteCreation.create(
-          context: context,
           detail: detailProvider.getDetail,
           detailDirection:
               Bidi.detectRtlDirectionality(detailProvider.getDetail)
@@ -37,8 +33,9 @@ class NoteDetailLifecycle {
         );
       } else {
         if (detailProvider.getDetail.isNullEmptyOrWhitespace) {
+          // If note data exist, but detail text is empty
+          // when user tap home button, the empty data will deleted automatically
           NoteCreation.deleteEmptyNote(
-              context: context,
               noteID: detailProvider.getNote.isNull
                   ? detailProvider.getTempNoteID
                   : detailProvider.getNote.id);
@@ -52,7 +49,6 @@ class NoteDetailLifecycle {
             detailProvider.setTempDetail = detailProvider.getDetail;
 
             await NoteCreation.update(
-                context: context,
                 noteID: detailProvider.getNote.id,
                 detail: detailProvider.getDetail,
                 folderID: folderID,
@@ -70,7 +66,6 @@ class NoteDetailLifecycle {
             detailProvider.setTempDetail = detailProvider.getDetail;
 
             await NoteCreation.update(
-                context: context,
                 noteID: detailProvider.getTempNoteID,
                 detail: detailProvider.getDetail,
                 folderID: folderID,

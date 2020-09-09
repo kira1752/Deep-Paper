@@ -22,8 +22,7 @@ class DateField extends StatelessWidget {
         title: Selector<CreatePlanProvider, bool>(
             selector: (context, provider) => provider.getDate.isEmpty,
             builder: (context, isEmpty, child) => SlideRightWidget(
-                  duration: const Duration(milliseconds: 300),
-                  reverseDuration: const Duration(milliseconds: 150),
+                  duration: const Duration(milliseconds: 400),
                   child: isEmpty
                       ? Text(
                           'Set date',

@@ -1,6 +1,7 @@
 import 'package:deep_paper/UI/note/widgets/dialog/note_dialog.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class FolderAddButton extends StatelessWidget {
   FolderAddButton({Key key}) : super(key: key);
@@ -10,19 +11,16 @@ class FolderAddButton extends StatelessWidget {
     return ListTile(
         title: Text(
           'FOLDERS',
-          style: Theme.of(context)
-              .textTheme
-              .bodyText1
+          style: Get.textTheme.bodyText1
               .copyWith(fontSize: SizeHelper.getBodyText1),
         ),
         trailing: RepaintBoundary(
           child: FlatButton(
-              splashColor: Theme.of(context).accentColor.withOpacity(0.16),
+              splashColor: Get.theme.accentColor.withOpacity(0.16),
               shape: StadiumBorder(
-                  side: BorderSide(
-                      color: Theme.of(context).accentColor, width: 2.0)),
+                  side: BorderSide(color: Get.theme.accentColor, width: 2.0)),
               onPressed: () {
-                DeepDialog.openCreateFolderDialog(context: context);
+                DeepDialog.openCreateFolderDialog();
               },
               child: Text(
                 'ADD',

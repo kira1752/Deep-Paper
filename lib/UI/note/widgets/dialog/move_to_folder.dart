@@ -11,47 +11,43 @@ import 'package:deep_paper/data/deep.dart';
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/utility/extension.dart';
 import 'package:deep_paper/utility/size_helper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart' hide GetDynamicUtils;
 import 'package:provider/provider.dart';
 
 class MoveToFolder {
   static Future openMoveToDialog(
-      {@required BuildContext context,
-      @required FolderNoteData currentFolder,
+      {@required FolderNoteData currentFolder,
       @required int drawerIndex,
       @required SelectionProvider selectionProvider,
       @required DeepBottomProvider deepBottomProvider,
       @required FABProvider fabProvider,
       @required DeepPaperDatabase database}) {
-    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
+    final database = Provider.of<DeepPaperDatabase>(Get.context, listen: false);
 
     final defaultItemValue =
-        currentFolder.isNotNull || drawerIndex == 0 ? 2 : 1;
+    currentFolder.isNotNull || drawerIndex == 0 ? 2 : 1;
 
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return FutureProvider(
-            create: (context) => database.folderNoteDao.getFolder(),
-            child: Consumer<List<FolderNoteData>>(
-              builder: (context, folderList, widget) => AnimatedSwitcher(
-                duration: const Duration(milliseconds: 450),
-                child: folderList.isNull
-                    ? const SizedBox()
-                    : _MoveToFolderDialog(
-                    defaultItemValue: defaultItemValue,
-                    folderList: folderList,
-                    currentFolder: currentFolder,
-                    drawerIndex: drawerIndex,
-                    selectionProvider: selectionProvider,
-                    deepBottomProvider: deepBottomProvider,
-                    fabProvider: fabProvider,
-                    database: database),
-              ),
+    return Get.dialog(FutureProvider(
+      create: (context) => database.folderNoteDao.getFolder(),
+      child: Consumer<List<FolderNoteData>>(
+        builder: (context, folderList, widget) =>
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 450),
+              child: folderList.isNull
+                  ? const SizedBox()
+                  : _MoveToFolderDialog(
+                  defaultItemValue: defaultItemValue,
+                  folderList: folderList,
+                  currentFolder: currentFolder,
+                  drawerIndex: drawerIndex,
+                  selectionProvider: selectionProvider,
+                  deepBottomProvider: deepBottomProvider,
+                  fabProvider: fabProvider,
+                  database: database),
             ),
-          );
-        });
+      ),
+    ));
   }
 }
 
@@ -112,7 +108,7 @@ class _MoveToFolderDialog extends StatelessWidget {
                       bottomLeft: Radius.circular(12.0),
                       bottomRight: Radius.circular(12.0))),
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
               },
               child: Text(
                 'Close',
@@ -140,10 +136,8 @@ class _MoveToFolderDialog extends StatelessWidget {
                     child: ListTile(
                       shape: const StadiumBorder(),
                       onTap: () {
-                        Navigator.of(context).pop();
-
+                        Get.back();
                         DeepDialog.openCreateFolderMoveToDialog(
-                            context: context,
                             currentFolder: currentFolder,
                             drawerIndex: drawerIndex,
                             selectionProvider: selectionProvider,
@@ -175,22 +169,18 @@ class _MoveToFolderDialog extends StatelessWidget {
                         shape: const StadiumBorder(),
                         onTap: () {
                           NoteCreation.moveToFolderBatch(
-                              context: context,
                               folder: null,
                               selectionProvider: selectionProvider,
                               database: database);
 
-                          Navigator.of(context).pop();
+                          Get.back();
 
                           DeepToast.showToast(
                               description: 'Note moved successfully');
 
                           deepBottomProvider.setSelection = false;
-
                           selectionProvider.setSelection = false;
-
                           fabProvider.setScrollDown = false;
-
                           selectionProvider.getSelected.clear();
                         },
                         leading: const Icon(
@@ -220,22 +210,18 @@ class _MoveToFolderDialog extends StatelessWidget {
                         shape: const StadiumBorder(),
                         onTap: () {
                           NoteCreation.moveToFolderBatch(
-                              context: context,
                               folder: folder,
                               selectionProvider: selectionProvider,
                               database: database);
 
-                          Navigator.of(context).pop();
+                          Get.back();
 
                           DeepToast.showToast(
                               description: 'Note moved successfully');
 
                           deepBottomProvider.setSelection = false;
-
                           selectionProvider.setSelection = false;
-
                           fabProvider.setScrollDown = false;
-
                           selectionProvider.getSelected.clear();
                         },
                         leading: const Icon(
@@ -266,22 +252,18 @@ class _MoveToFolderDialog extends StatelessWidget {
                         shape: const StadiumBorder(),
                         onTap: () {
                           NoteCreation.moveToFolderBatch(
-                              context: context,
                               folder: null,
                               selectionProvider: selectionProvider,
                               database: database);
 
-                          Navigator.of(context).pop();
+                          Get.back();
 
                           DeepToast.showToast(
                               description: 'Note moved successfully');
 
                           deepBottomProvider.setSelection = false;
-
                           selectionProvider.setSelection = false;
-
                           fabProvider.setScrollDown = false;
-
                           selectionProvider.getSelected.clear();
                         },
                         leading: const Icon(
@@ -310,22 +292,18 @@ class _MoveToFolderDialog extends StatelessWidget {
                         shape: const StadiumBorder(),
                         onTap: () {
                           NoteCreation.moveToFolderBatch(
-                              context: context,
                               folder: folder,
                               selectionProvider: selectionProvider,
                               database: database);
 
-                          Navigator.of(context).pop();
+                          Get.back();
 
                           DeepToast.showToast(
                               description: 'Note moved successfully');
 
                           deepBottomProvider.setSelection = false;
-
                           selectionProvider.setSelection = false;
-
                           fabProvider.setScrollDown = false;
-
                           selectionProvider.getSelected.clear();
                         },
                         leading: const Icon(
@@ -355,22 +333,18 @@ class _MoveToFolderDialog extends StatelessWidget {
                       shape: const StadiumBorder(),
                       onTap: () {
                         NoteCreation.moveToFolderBatch(
-                            context: context,
                             folder: folder,
                             selectionProvider: selectionProvider,
                             database: database);
 
-                        Navigator.of(context).pop();
+                        Get.back();
 
                         DeepToast.showToast(
                             description: 'Note moved successfully');
 
                         deepBottomProvider.setSelection = false;
-
                         selectionProvider.setSelection = false;
-
                         fabProvider.setScrollDown = false;
-
                         selectionProvider.getSelected.clear();
                       },
                       leading: const Icon(

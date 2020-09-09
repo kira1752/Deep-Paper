@@ -29,34 +29,37 @@ class Menu extends StatelessWidget {
 class FolderMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final drawerProvider =
+        Provider.of<NoteDrawerProvider>(context, listen: false);
     return PopupMenuButton(
         tooltip: StringResource.tooltipFolderMenu,
         icon: IconResource.darkOptions,
         onSelected: (choice) {
-          DefaultMenuLogic.menuFolderSelected(context: context, choice: choice);
+          DefaultMenuLogic.menuFolderSelected(
+              drawerProvider: drawerProvider, choice: choice);
         },
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
         itemBuilder: (context) => [
               PopupMenuItem(
-                  value: 0,
-                  child: ListTile(
-                    leading: IconResource.darkOptionsRenameFolder,
-                    title: Text(
-                      StringResource.renameFolder,
-                      style: AppTheme.darkPopupMenuItem(context),
-                    ),
-                  )),
-              PopupMenuItem(
-                  value: 1,
-                  child: ListTile(
-                    leading: IconResource.darkOptionsDelete,
-                    title: Text(
-                      StringResource.deleteFolder,
-                      style: AppTheme.darkPopupMenuItem(context),
-                    ),
-                  )),
-            ]);
+              value: 0,
+              child: ListTile(
+                leading: IconResource.darkOptionsRenameFolder,
+                title: Text(
+                  StringResource.renameFolder,
+                  style: AppTheme.darkPopupMenuItem(),
+                ),
+              )),
+          PopupMenuItem(
+              value: 1,
+              child: ListTile(
+                leading: IconResource.darkOptionsDelete,
+                title: Text(
+                  StringResource.deleteFolder,
+                  style: AppTheme.darkPopupMenuItem(),
+                ),
+              )),
+        ]);
   }
 }
 
@@ -73,7 +76,7 @@ class TrashMenu extends StatelessWidget {
               tooltip: StringResource.tooltipTrashMenu,
               icon: IconResource.darkOptions,
               onSelected: (choice) {
-                if (choice == 0) TrashManagement.empty(context: context);
+                if (choice == 0) TrashManagement.empty();
 
                 DeepToast.showToast(
                     description: StringResource.trashEmptiedSuccesfully);

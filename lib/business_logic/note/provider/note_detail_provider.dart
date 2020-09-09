@@ -1,5 +1,4 @@
 import 'package:deep_paper/data/deep.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 

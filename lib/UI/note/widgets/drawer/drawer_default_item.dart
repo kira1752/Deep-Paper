@@ -2,6 +2,7 @@ import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dar
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class DrawerDefaultItem extends StatelessWidget {
@@ -23,8 +24,8 @@ class DrawerDefaultItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Selector<NoteDrawerProvider, bool>(
-        selector: (context, drawerProvier) =>
-            drawerProvier.getIndexDrawerItem == setValue,
+        selector: (context, drawerProvider) =>
+            drawerProvider.getIndexDrawerItem == setValue,
         builder: (context, selected, child) {
           final drawerProvider =
               Provider.of<NoteDrawerProvider>(context, listen: false);
@@ -33,7 +34,7 @@ class DrawerDefaultItem extends StatelessWidget {
             padding: const EdgeInsets.only(right: 12.0),
             child: Material(
               color: selected
-                  ? Theme.of(context).accentColor.withOpacity(0.3)
+                  ? Get.theme.accentColor.withOpacity(0.3)
                   : Colors.transparent,
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
@@ -45,7 +46,7 @@ class DrawerDefaultItem extends StatelessWidget {
                           topRight: Radius.circular(50),
                           bottomRight: Radius.circular(50))),
                   onTap: () {
-                    Navigator.of(context).pop();
+                    Get.back();
                     if (!selected &&
                         drawerProvider.getIndexFolderItem != null &&
                         setValue != 0) {
@@ -72,7 +73,7 @@ class DrawerDefaultItem extends StatelessWidget {
                   },
                   leading: selected
                       ? Icon(activeIcon,
-                          color: Theme.of(context).accentColor.withOpacity(.87))
+                      color: Get.theme.accentColor)
                       : Icon(icon, color: Colors.white54),
                   trailing: total == null
                       ? const SizedBox()
@@ -88,13 +89,11 @@ class DrawerDefaultItem extends StatelessWidget {
                   title: Text(
                     title,
                     style: selected
-                        ? Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Colors.white.withOpacity(0.87),
-                            fontSize: SizeHelper.getDrawerMenuText)
-                        : Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            .copyWith(fontSize: SizeHelper.getDrawerMenuText),
+                        ? Get.textTheme.bodyText1.copyWith(
+                        color: Colors.white.withOpacity(0.87),
+                        fontSize: SizeHelper.getDrawerMenuText)
+                        : Get.textTheme.bodyText1
+                        .copyWith(fontSize: SizeHelper.getDrawerMenuText),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   )),

@@ -1,43 +1,26 @@
 import 'package:deep_paper/UI/deep_material_app.dart';
-import 'package:deep_paper/data/deep.dart';
 import 'package:deep_paper/utility/illustration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 
-void main() => runApp(DeepPaperApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-class DeepPaperApp extends StatefulWidget {
-  @override
-  _DeepPaperAppState createState() => _DeepPaperAppState();
-}
+  await precachePicture(
+      ExactAssetPicture(SvgPicture.svgStringDecoder, Illustration.getNote),
+      null);
 
-class _DeepPaperAppState extends State<DeepPaperApp> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    precachePicture(
-        ExactAssetPicture(SvgPicture.svgStringDecoder, Illustration.getNote),
-        context);
+  await precachePicture(
+      ExactAssetPicture(SvgPicture.svgStringDecoder, Illustration.getTrash),
+      null);
 
-    precachePicture(
-        ExactAssetPicture(SvgPicture.svgStringDecoder, Illustration.getTrash),
-        context);
+  await precachePicture(
+      ExactAssetPicture(SvgPicture.svgStringDecoder, Illustration.getPlan),
+      null);
 
-    precachePicture(
-        ExactAssetPicture(SvgPicture.svgStringDecoder, Illustration.getPlan),
-        context);
+  await precachePicture(
+      ExactAssetPicture(SvgPicture.svgStringDecoder, Illustration.getFinance),
+      null);
 
-    precachePicture(
-        ExactAssetPicture(SvgPicture.svgStringDecoder, Illustration.getFinance),
-        context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Provider<DeepPaperDatabase>(
-      create: (_) => DeepPaperDatabase(),
-      child: DeepMaterialApp(),
-    );
-  }
+  runApp(DeepMaterialApp());
 }

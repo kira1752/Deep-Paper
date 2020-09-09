@@ -8,33 +8,40 @@ import 'package:deep_paper/business_logic/plan/provider/repeat_dialog_provider.d
 import 'package:deep_paper/business_logic/plan/repeat_dialog_logic.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class RepeatDialog extends StatefulWidget {
+  final CreatePlanProvider createPlanProvider;
+
+  const RepeatDialog({@required this.createPlanProvider});
+
   @override
   _RepeatDialogState createState() => _RepeatDialogState();
 }
 
 class _RepeatDialogState extends State<RepeatDialog> {
   TextEditingController _numberTextField;
+  CreatePlanProvider _createPlanProvider;
+  RepeatDialogProvider _repeatDialogProvider;
 
   @override
   void initState() {
     super.initState();
-    final createPlanProvider =
-        Provider.of<CreatePlanProvider>(context, listen: false);
-    final repeatDialogProvider =
+    _createPlanProvider = widget.createPlanProvider;
+    _repeatDialogProvider =
         Provider.of<RepeatDialogProvider>(context, listen: false);
     _numberTextField =
-        TextEditingController(text: '${createPlanProvider.getNumberOfRepeat}');
+        TextEditingController(text: '${_createPlanProvider.getNumberOfRepeat}');
 
-    repeatDialogProvider.initiateTempWeekDays = createPlanProvider.getWeekDays;
-    repeatDialogProvider.initiateTempRepeat =
-        createPlanProvider.getRepeat ?? RepeatType.Daily;
-    repeatDialogProvider.initiateTempRepeatDialogType =
-        createPlanProvider.getRepeatDialogType;
-    repeatDialogProvider.initiateTempNumberOfRepeat =
-        createPlanProvider.getNumberOfRepeat;
+    _repeatDialogProvider.initiateTempWeekDays =
+        _createPlanProvider.getWeekDays;
+    _repeatDialogProvider.initiateTempRepeat =
+        _createPlanProvider.getRepeat ?? RepeatType.Daily;
+    _repeatDialogProvider.initiateTempRepeatDialogType =
+        _createPlanProvider.getRepeatDialogType;
+    _repeatDialogProvider.initiateTempNumberOfRepeat =
+        _createPlanProvider.getNumberOfRepeat;
   }
 
   @override
@@ -68,8 +75,11 @@ class _RepeatDialogState extends State<RepeatDialog> {
         Selector<RepeatDialogProvider, bool>(
           selector: (context, provider) =>
               provider.getTempRepeat == RepeatType.Weekly,
-          builder: (context, showWeekDays, child) =>
-              showWeekDays ? const DaySelector() : const SizedBox(),
+          builder: (context, showWeekDays, child) => showWeekDays
+              ? DaySelector(
+                  createPlanProvider: _createPlanProvider,
+                )
+              : const SizedBox(),
         )
       ],
       actions: [
@@ -81,7 +91,7 @@ class _RepeatDialogState extends State<RepeatDialog> {
                   borderRadius:
                       BorderRadius.only(bottomLeft: Radius.circular(12.0))),
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
               },
               child: Text(
                 'Cancel',
@@ -107,9 +117,11 @@ class _RepeatDialogState extends State<RepeatDialog> {
                           bottomRight: Radius.circular(12.0))),
                   onPressed: canTap
                       ? () {
-                          RepeatDialogLogic.create(context: context);
-                          Navigator.of(context).pop();
-                        }
+                    RepeatDialogLogic.create(
+                        createPlanProvider: _createPlanProvider,
+                        repeatDialogProvider: _repeatDialogProvider);
+                    Get.back();
+                  }
                       : null,
                   child: Text(
                     'Done',

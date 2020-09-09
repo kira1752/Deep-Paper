@@ -4,6 +4,7 @@ import 'package:deep_paper/utility/extension.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 
@@ -44,7 +45,7 @@ class DrawerFolderItem extends StatelessWidget {
           builder: (context, selected, child) {
             return Material(
               color: selected
-                  ? Theme.of(context).accentColor.withOpacity(0.3)
+                  ? Get.theme.accentColor.withOpacity(0.3)
                   : Colors.transparent,
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
@@ -56,7 +57,7 @@ class DrawerFolderItem extends StatelessWidget {
                           topRight: Radius.circular(50),
                           bottomRight: Radius.circular(50))),
                   onTap: () {
-                    Navigator.of(context).pop();
+                    Get.back();
                     if (!selected &&
                         drawerProvider.getIndexDrawerItem != null) {
                       drawerProvider.setFolderState = true;
@@ -71,8 +72,7 @@ class DrawerFolderItem extends StatelessWidget {
                     }
                   },
                   leading: selected
-                      ? Icon(activeIcon,
-                          color: Theme.of(context).accentColor.withOpacity(.87))
+                      ? Icon(activeIcon, color: Get.theme.accentColor)
                       : Icon(
                           icon,
                           color: Colors.white54,
@@ -92,13 +92,11 @@ class DrawerFolderItem extends StatelessWidget {
                     '$folderName',
                     textDirection: nameDirection,
                     style: selected
-                        ? Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Colors.white.withOpacity(0.87),
-                            fontSize: SizeHelper.getDrawerMenuText)
-                        : Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            .copyWith(fontSize: SizeHelper.getDrawerMenuText),
+                        ? Get.textTheme.bodyText1.copyWith(
+                        color: Colors.white.withOpacity(0.87),
+                        fontSize: SizeHelper.getDrawerMenuText)
+                        : Get.textTheme.bodyText1
+                        .copyWith(fontSize: SizeHelper.getDrawerMenuText),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   )),

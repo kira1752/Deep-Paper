@@ -1,6 +1,7 @@
 import 'package:deep_paper/UI/widgets/deep_base_dialog.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class NoteInfoDialog extends StatelessWidget {
@@ -44,7 +45,7 @@ class NoteInfoDialog extends StatelessWidget {
                       bottomLeft: Radius.circular(12.0),
                       bottomRight: Radius.circular(12.0))),
               onPressed: () async {
-                Navigator.of(context).pop();
+                Get.back();
               },
               child: Text(
                 'Close',

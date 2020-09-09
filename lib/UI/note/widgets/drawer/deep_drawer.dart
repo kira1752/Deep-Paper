@@ -96,8 +96,8 @@ class _DeepDrawerState extends State<DeepDrawer> {
                                     key: ValueKey('$index'),
                                     title: 'Trash',
                                     setValue: 1,
-                                    icon: MyIcon.trash_2,
-                                    activeIcon: MyIcon.trash_2,
+                                    icon: MyIcon.trash,
+                                    activeIcon: MyIcon.trash,
                                     total: noteList.isNull
                                         ? null
                                         : noteList

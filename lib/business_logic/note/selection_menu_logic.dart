@@ -7,23 +7,21 @@ import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dar
 import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
 import 'package:deep_paper/business_logic/note/trash_management.dart';
 import 'package:deep_paper/data/deep.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class SelectionMenuLogic {
   SelectionMenuLogic._();
 
   static void menuTrashSelected(
-      {@required BuildContext context, @required int choice}) {
-    final deepBottomProvider =
-        Provider.of<DeepBottomProvider>(context, listen: false);
-    final selectionProvider =
-        Provider.of<SelectionProvider>(context, listen: false);
-    final fabProvider = Provider.of<FABProvider>(context, listen: false);
-
+      {@required DeepBottomProvider deepBottomProvider,
+      @required SelectionProvider selectionProvider,
+      @required FABProvider fabProvider,
+      @required int choice}) {
     switch (choice) {
       case 0:
-        TrashManagement.restoreBatch(context: context);
+        TrashManagement.restoreBatch(selectionProvider: selectionProvider);
 
         DeepToast.showToast(description: 'Note restored successfully');
 
@@ -35,7 +33,7 @@ class SelectionMenuLogic {
         break;
 
       case 1:
-        TrashManagement.deleteBatch(context: context);
+        TrashManagement.deleteBatch(selectionProvider: selectionProvider);
 
         DeepToast.showToast(description: 'Note deleted successfully');
 
@@ -51,20 +49,17 @@ class SelectionMenuLogic {
     }
   }
 
-  static Future<void> menuSelectionSelected(
-      {@required BuildContext context, @required int choice}) async {
-    final deepBottomProvider =
-        Provider.of<DeepBottomProvider>(context, listen: false);
-    final selectionProvider =
-        Provider.of<SelectionProvider>(context, listen: false);
-    final fabProvider = Provider.of<FABProvider>(context, listen: false);
-    final drawerProvider =
-        Provider.of<NoteDrawerProvider>(context, listen: false);
-    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
+  static Future<void> menuSelectionSelected({@required int choice,
+    @required DeepBottomProvider deepBottomProvider,
+    @required SelectionProvider selectionProvider,
+    @required FABProvider fabProvider,
+    @required NoteDrawerProvider drawerProvider}) async {
+    final database = Provider.of<DeepPaperDatabase>(Get.context, listen: false);
 
     switch (choice) {
       case 0:
-        await NoteCreation.moveToTrashBatch(context: context);
+        await NoteCreation.moveToTrashBatch(
+            selectionProvider: selectionProvider);
 
         await DeepToast.showToast(description: 'Note moved to Trash Bin');
 
@@ -80,7 +75,6 @@ class SelectionMenuLogic {
         final drawerIndex = drawerProvider.getIndexDrawerItem;
 
         await MoveToFolder.openMoveToDialog(
-            context: context,
             currentFolder: currentFolder,
             drawerIndex: drawerIndex,
             selectionProvider: selectionProvider,
@@ -89,7 +83,8 @@ class SelectionMenuLogic {
             database: database);
         break;
       case 2:
-        await NoteCreation.copySelectedNotes(context: context);
+        await NoteCreation.copySelectedNotes(
+            selectionProvider: selectionProvider);
 
         await DeepToast.showToast(description: 'Note copied successfully');
 

@@ -4,6 +4,7 @@ import 'package:deep_paper/business_logic/note/folder_creation.dart';
 import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DeleteFolderDialog extends StatefulWidget {
   final NoteDrawerProvider drawerProvider;
@@ -62,7 +63,7 @@ class _DeleteFolderDialogState extends State<DeleteFolderDialog> {
                   borderRadius:
                       BorderRadius.only(bottomLeft: Radius.circular(12.0))),
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
               },
               child: Text(
                 'Cancel',
@@ -84,13 +85,12 @@ class _DeleteFolderDialogState extends State<DeleteFolderDialog> {
                     borderRadius:
                         BorderRadius.only(bottomRight: Radius.circular(12.0))),
                 onPressed: () {
-                  FolderCreation.delete(
-                      context: context, drawerProvider: drawerProvider);
+                  FolderCreation.delete(drawerProvider: drawerProvider);
 
                   DeepToast.showToast(
                       description: 'Folder deleted successfully');
 
-                  Navigator.of(context).pop();
+                  Get.back();
                 },
                 child: Text(
                   'Delete',

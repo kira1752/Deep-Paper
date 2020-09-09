@@ -9,14 +9,12 @@ import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dar
 import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
 import 'package:deep_paper/icons/my_icon.dart';
 import 'package:deep_paper/utility/size_helper.dart';
-import 'package:deep_paper/utility/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DeepPaper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SizeConfig.init(context);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<DeepBottomProvider>(
@@ -113,9 +111,7 @@ class __BuildBodyState extends State<_BuildBody> {
   void initState() {
     super.initState();
     _controller =
-        Provider
-            .of<DeepBottomProvider>(context, listen: false)
-            .controller;
+        Provider.of<DeepBottomProvider>(context, listen: false).controller;
   }
 
   @override

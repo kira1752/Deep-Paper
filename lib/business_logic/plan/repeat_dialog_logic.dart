@@ -1,19 +1,17 @@
 import 'package:deep_paper/UI/plan/utility/repeat_type.dart';
 import 'package:deep_paper/business_logic/plan/provider/create_plan_provider.dart';
 import 'package:deep_paper/business_logic/plan/provider/repeat_dialog_provider.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/date_symbols.dart';
-import 'package:provider/provider.dart';
 
 class RepeatDialogLogic {
   RepeatDialogLogic._();
 
-  static void create({@required BuildContext context}) {
-    final createPlanProvider =
-        Provider.of<CreatePlanProvider>(context, listen: false);
-    final repeatDialogProvider =
-        Provider.of<RepeatDialogProvider>(context, listen: false);
+  static void create(
+      {@required CreatePlanProvider createPlanProvider,
+      @required RepeatDialogProvider repeatDialogProvider}) {
     repeatDialogProvider.getTempSelectedDays
         .sort((dayA, dayB) => dayA.compareTo(dayB));
 
@@ -26,7 +24,7 @@ class RepeatDialogLogic {
     createPlanProvider.setSelectedDays =
         repeatDialogProvider.getTempSelectedDays;
 
-    final _locale = Localizations.localeOf(context);
+    final _locale = Localizations.localeOf(Get.context);
     final DateSymbols _dateSymbols = dateTimeSymbolMap()['$_locale'];
 
     final selectedDays =

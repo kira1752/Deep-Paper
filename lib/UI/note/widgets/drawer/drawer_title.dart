@@ -1,5 +1,6 @@
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DrawerTitle extends StatelessWidget {
   final String title;
@@ -12,10 +13,8 @@ class DrawerTitle extends StatelessWidget {
       padding: const EdgeInsets.only(right: 12.0),
       margin: const EdgeInsets.all(18.0),
       child: Text(title,
-          style: Theme.of(context)
-              .textTheme
-              .headline5
-              .copyWith(fontSize: SizeHelper.getTitle)),
+          style:
+              Get.textTheme.headline5.copyWith(fontSize: SizeHelper.getTitle)),
     );
   }
 }

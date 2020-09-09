@@ -6,9 +6,11 @@ import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
 import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
 import 'package:deep_paper/icons/my_icon.dart';
+import 'package:deep_paper/utility/deep_route_string.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class NotePage extends StatelessWidget {
@@ -69,31 +71,22 @@ class NoteFloatingActionButton extends StatelessWidget {
           builder: (context, isVisible, widget) {
             return AnimatedAlign(
               alignment:
-              isVisible ? const Alignment(1.0, 1.5) : Alignment.bottomRight,
+                  isVisible ? const Alignment(1.0, 1.5) : Alignment.bottomRight,
               duration: const Duration(milliseconds: 350),
               curve: isVisible ? Curves.easeIn : Curves.easeOut,
               child: FloatingActionButton.extended(
                 heroTag: null,
                 elevation: 0.0,
-                splashColor: Theme
-                    .of(context)
-                    .accentColor
-                    .withOpacity(0.16),
+                splashColor: Theme.of(context).accentColor.withOpacity(0.16),
                 icon: Icon(
-                  MyIcon.edit,
-                  color: Theme
-                      .of(context)
-                      .accentColor,
+                  MyIcon.edit_3,
+                  color: Theme.of(context).accentColor,
                 ),
                 label: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
                     'Write a note',
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .button
-                        .copyWith(
+                    style: Theme.of(context).textTheme.button.copyWith(
                         letterSpacing: 1.2,
                         fontWeight: FontWeight.w600,
                         color: Colors.white.withOpacity(0.80)),
@@ -104,8 +97,7 @@ class NoteFloatingActionButton extends StatelessWidget {
                   Provider.of<NoteDrawerProvider>(context, listen: false);
 
                   final folder = drawerProvider.getFolder;
-                  Navigator.pushNamed(context, '/NoteCreate',
-                      arguments: folder);
+                  Get.toNamed(DeepRouteString.noteCreate, arguments: folder);
                 },
               ),
             );

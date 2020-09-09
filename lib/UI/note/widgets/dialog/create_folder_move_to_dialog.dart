@@ -132,8 +132,7 @@ class _CreateFolderMoveToDialogState extends State<CreateFolderMoveToDialog> {
                                 bottomRight: Radius.circular(12.0))),
                         onPressed: provider.isNameTyped
                             ? () {
-                                FolderCreation.create(
-                                    context: context, name: folderName);
+                                FolderCreation.create(name: folderName);
 
                                 Navigator.of(context).maybePop();
                               }

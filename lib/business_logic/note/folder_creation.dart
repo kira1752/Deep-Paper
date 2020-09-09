@@ -1,6 +1,7 @@
 import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
 import 'package:deep_paper/data/deep.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart' hide Value;
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:moor/moor.dart';
 import 'package:provider/provider.dart';
@@ -8,8 +9,8 @@ import 'package:provider/provider.dart';
 class FolderCreation {
   FolderCreation._();
 
-  static void create({@required BuildContext context, @required String name}) {
-    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
+  static void create({@required String name}) {
+    final database = Provider.of<DeepPaperDatabase>(Get.context, listen: false);
 
     final nameDirection = Bidi.detectRtlDirectionality(name)
         ? TextDirection.rtl
@@ -20,10 +21,8 @@ class FolderCreation {
   }
 
   static void update(
-      {@required BuildContext context,
-      @required NoteDrawerProvider drawerProvider,
-      @required String name}) {
-    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
+      {@required NoteDrawerProvider drawerProvider, @required String name}) {
+    final database = Provider.of<DeepPaperDatabase>(Get.context, listen: false);
 
     final nameDirection = Bidi.detectRtlDirectionality(name)
         ? TextDirection.rtl
@@ -40,10 +39,9 @@ class FolderCreation {
   }
 
   static void delete({
-    @required BuildContext context,
     @required NoteDrawerProvider drawerProvider,
   }) async {
-    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
+    final database = Provider.of<DeepPaperDatabase>(Get.context, listen: false);
 
     final mainFolder = 'Main folder';
     final folderNameDirection = Bidi.detectRtlDirectionality(mainFolder)

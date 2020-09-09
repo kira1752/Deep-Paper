@@ -11,6 +11,11 @@ class UndoRedo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final detailProvider =
+        Provider.of<NoteDetailProvider>(context, listen: false);
+    final undoRedoProvider =
+        Provider.of<UndoRedoProvider>(context, listen: false);
+
     return Selector<NoteDetailProvider, bool>(
         selector: (context, detailProvider) => detailProvider.isTextTyped,
         builder: (context, isTyped, widget) {
@@ -29,9 +34,10 @@ class UndoRedo extends StatelessWidget {
                         ),
                         onPressed: canUndo
                             ? () => UndoRedoBusinessLogic.undo(
-                                  context: context,
-                                  detailController: detailController,
-                                )
+                          detailProvider: detailProvider,
+                          undoRedoProvider: undoRedoProvider,
+                          detailController: detailController,
+                        )
                             : null,
                       );
                     }),
@@ -47,9 +53,10 @@ class UndoRedo extends StatelessWidget {
                         ),
                         onPressed: canRedo
                             ? () => UndoRedoBusinessLogic.redo(
-                                  context: context,
-                                  detailController: detailController,
-                                )
+                          detailProvider: detailProvider,
+                          undoRedoProvider: undoRedoProvider,
+                          detailController: detailController,
+                        )
                             : null,
                       );
                     }),

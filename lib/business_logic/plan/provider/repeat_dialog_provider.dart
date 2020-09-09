@@ -1,5 +1,5 @@
 import 'package:deep_paper/UI/plan/utility/repeat_type.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
 
 class RepeatDialogProvider with ChangeNotifier {
   RepeatType _tempRepeat;

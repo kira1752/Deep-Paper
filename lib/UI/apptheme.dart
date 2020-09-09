@@ -1,38 +1,29 @@
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AppTheme {
   AppTheme._();
 
-  static TextStyle darkTitleAppBar(BuildContext context) {
-    return Theme.of(context)
-        .textTheme
-        .headline5
-        .copyWith(fontSize: SizeHelper.getTitle);
+  static TextStyle darkTitleAppBar() {
+    return Get.textTheme.headline5.copyWith(fontSize: SizeHelper.getTitle);
   }
 
-  static TextStyle darkTitleFolderAppBar(BuildContext context) {
-    return Theme.of(context)
-        .textTheme
-        .bodyText1
+  static TextStyle darkTitleFolderAppBar() {
+    return Get.textTheme.bodyText1
         .copyWith(fontWeight: FontWeight.w600, fontSize: SizeHelper.getTitle);
   }
 
-  static TextStyle darkTitleTrashAppBar(BuildContext context) {
-    return Theme.of(context)
-        .textTheme
-        .bodyText1
+  static TextStyle darkTitleTrashAppBar() {
+    return Get.textTheme.bodyText1
         .copyWith(fontWeight: FontWeight.w600, fontSize: SizeHelper.getTitle);
   }
 
-  static TextStyle darkTitleSelectionAppBar(BuildContext context) {
-    return Theme.of(context)
-        .textTheme
-        .bodyText1
-        .copyWith(fontSize: SizeHelper.getTitle);
+  static TextStyle darkTitleSelectionAppBar() {
+    return Get.textTheme.bodyText1.copyWith(fontSize: SizeHelper.getTitle);
   }
 
-  static TextStyle darkPopupMenuItem(BuildContext context) {
+  static TextStyle darkPopupMenuItem() {
     return TextStyle(
         fontSize: SizeHelper.getBodyText1,
         color: Colors.white.withOpacity(0.87));

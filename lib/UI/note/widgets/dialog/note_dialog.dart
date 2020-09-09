@@ -13,6 +13,7 @@ import 'package:deep_paper/business_logic/note/provider/selection_provider.dart'
 import 'package:deep_paper/business_logic/note/provider/text_controller_provider.dart';
 import 'package:deep_paper/data/deep.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import 'move_to_folder.dart';
@@ -20,18 +21,13 @@ import 'move_to_folder.dart';
 class DeepDialog {
   DeepDialog._();
 
-  static Future<void> openRestoreDialog(
-      {@required BuildContext context, @required Note data}) {
-    return showDialog(
-        context: context, builder: (context) => RestoreDialog(data: data));
+  static Future<void> openRestoreDialog({@required Note data}) {
+    return Get.dialog(RestoreDialog(data: data));
   }
 
-  static Future<void> openCreateFolderDialog({
-    @required BuildContext context,
-  }) {
-    return showDialog(
-      context: context,
-      builder: (context) => MultiProvider(
+  static Future<void> openCreateFolderDialog() {
+    return Get.dialog(
+      MultiProvider(
         providers: [
           Provider<TextControllerProvider>(
             create: (context) => TextControllerProvider(),
@@ -47,21 +43,17 @@ class DeepDialog {
   }
 
   static Future<void> openCreateFolderMoveToDialog(
-      {@required BuildContext context,
-      @required FolderNoteData currentFolder,
+      {@required FolderNoteData currentFolder,
       @required int drawerIndex,
       @required SelectionProvider selectionProvider,
       @required DeepBottomProvider deepBottomProvider,
       @required FABProvider fabProvider,
       DeepPaperDatabase database}) {
-    return showDialog(
-      context: context,
-      builder: (context) => WillPopScope(
+    return Get.dialog(
+      WillPopScope(
         onWillPop: () async {
-          Navigator.of(context).pop();
-
+          Get.back();
           await MoveToFolder.openMoveToDialog(
-              context: context,
               currentFolder: currentFolder,
               drawerIndex: drawerIndex,
               selectionProvider: selectionProvider,
@@ -87,15 +79,10 @@ class DeepDialog {
     );
   }
 
-  static Future<void> openRenameFolderDialog({
-    @required BuildContext context,
-  }) {
-    final drawerProvider =
-        Provider.of<NoteDrawerProvider>(context, listen: false);
-
-    return showDialog(
-      context: context,
-      builder: (context) => MultiProvider(
+  static Future<void> openRenameFolderDialog(
+      {@required NoteDrawerProvider drawerProvider}) {
+    return Get.dialog(
+      MultiProvider(
         providers: [
           Provider<TextControllerProvider>(
             create: (context) => TextControllerProvider(),
@@ -112,28 +99,20 @@ class DeepDialog {
     );
   }
 
-  static Future<void> openDeleteFolderDialog({@required BuildContext context}) {
-    final drawerProvider =
-        Provider.of<NoteDrawerProvider>(context, listen: false);
-
-    return showDialog(
-        context: context,
-        builder: (context) => DeleteFolderDialog(
-              drawerProvider: drawerProvider,
-            ));
+  static Future<void> openDeleteFolderDialog(
+      {@required NoteDrawerProvider drawerProvider}) {
+    return Get.dialog(DeleteFolderDialog(
+      drawerProvider: drawerProvider,
+    ));
   }
 
-  static Future<void> openNoteInfo(
-      {@required BuildContext context,
-      @required String folderName,
-      @required DateTime created,
-      @required DateTime modified}) {
-    return showDialog(
-        context: context,
-        builder: (context) => NoteInfoDialog(
-              folderName: folderName,
-              created: created,
-              modified: modified,
-            ));
+  static Future<void> openNoteInfo({@required String folderName,
+    @required DateTime created,
+    @required DateTime modified}) {
+    return Get.dialog(NoteInfoDialog(
+      folderName: folderName,
+      created: created,
+      modified: modified,
+    ));
   }
 }

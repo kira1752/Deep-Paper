@@ -1,4 +1,5 @@
 import 'package:deep_paper/UI/plan/widgets/field_base.dart';
+import 'package:deep_paper/UI/transition/widgets/slide_downward_widget.dart';
 import 'package:deep_paper/UI/transition/widgets/slide_right_widget.dart';
 import 'package:deep_paper/business_logic/plan/provider/create_plan_provider.dart';
 import 'package:deep_paper/icons/my_icon.dart';
@@ -15,10 +16,13 @@ class TimeField extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Selector<CreatePlanProvider, bool>(
           selector: (context, provider) => provider.getDate.isEmpty,
-          builder: (context, isEmpty, child) => SlideRightWidget(
-                duration: const Duration(milliseconds: 300),
-                reverseDuration: const Duration(milliseconds: 400),
-                child: isEmpty ? const SizedBox() : _Time(),
+          builder: (context, isEmpty, child) => IgnorePointer(
+                ignoring: isEmpty,
+                child: SlideDownwardWidget(
+                  duration: const Duration(milliseconds: 400),
+                  reverseDuration: const Duration(milliseconds: 400),
+                  child: isEmpty ? const SizedBox() : _Time(),
+                ),
               )),
     );
   }
@@ -62,12 +66,15 @@ class __TimeState extends State<_Time> {
           selector: (context, provider) => provider.getTime,
           builder: (context, time, child) {
             return SlideRightWidget(
-              duration: const Duration(milliseconds: 300),
-              reverseDuration: const Duration(milliseconds: 150),
+              duration: const Duration(milliseconds: 400),
               child: Text(
                 '$time',
                 key: Key('$time'),
-                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(
                     color: Colors.white.withOpacity(.80),
                     fontSize: SizeHelper.getModalTextField),
               ),

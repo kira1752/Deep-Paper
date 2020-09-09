@@ -5,7 +5,7 @@ class IconResource {
   IconResource._();
 
   static final darkSearch = const Icon(
-    Icons.search,
+    MyIcon.search,
     color: Colors.white70,
   );
 
@@ -23,20 +23,20 @@ class IconResource {
       const Icon(Icons.restore, color: Colors.white54);
 
   static final darkOptionsRenameFolder = const Icon(
-    MyIcon.edit,
+    MyIcon.edit_2,
     color: Colors.white54,
   );
 
   static final darkOptionsDelete =
-      const Icon(MyIcon.trash_2, color: Colors.white54);
+      const Icon(MyIcon.trash, color: Colors.white54);
 
   static final darkHamburgerMenu = const Icon(
-    Icons.menu,
+    MyIcon.menu,
     color: Colors.white70,
   );
 
   static final darkOptions = const Icon(
-    Icons.more_vert,
+    MyIcon.more_vertical,
     color: Colors.white70,
   );
 

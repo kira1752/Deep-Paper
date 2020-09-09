@@ -1,8 +1,8 @@
 import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
 import 'package:deep_paper/data/deep.dart';
 import 'package:deep_paper/utility/extension.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart' hide Value;
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:moor/moor.dart';
 import 'package:provider/provider.dart';
@@ -11,8 +11,7 @@ class NoteCreation {
   NoteCreation._();
 
   static Future<int> create(
-      {@required BuildContext context,
-      @required String detail,
+      {@required String detail,
       @required TextDirection detailDirection,
       @required int folderID,
       @required String folderName,
@@ -20,7 +19,7 @@ class NoteCreation {
       @required bool isDeleted,
       @required bool isCopy}) async {
     int noteID;
-    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
+    final database = Provider.of<DeepPaperDatabase>(Get.context, listen: false);
     final detailDirection = Bidi.detectRtlDirectionality(detail)
         ? TextDirection.rtl
         : TextDirection.ltr;
@@ -31,7 +30,6 @@ class NoteCreation {
 
     if (isCopy) {
       copy(
-          context: context,
           detail: detail,
           detailDirection: detailDirection,
           folderID: folderID,
@@ -55,25 +53,22 @@ class NoteCreation {
   }
 
   static Future<void> copySelectedNotes(
-      {@required BuildContext context}) async {
-    final selectedNote =
-        Provider.of<SelectionProvider>(context, listen: false).getSelected;
+      {@required SelectionProvider selectionProvider}) async {
+    final selectedNote = selectionProvider.getSelected;
 
-    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
+    final database = Provider.of<DeepPaperDatabase>(Get.context, listen: false);
 
     await database.noteDao.insertNoteBatch(selectedNote);
   }
 
-  static Future<void> update(
-      {@required BuildContext context,
-      @required int noteID,
-      @required String detail,
-      @required int folderID,
-      @required String folderName,
-      @required DateTime modified,
-      @required bool isDeleted,
-        @required bool isCopy}) async {
-    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
+  static Future<void> update({@required int noteID,
+    @required String detail,
+    @required int folderID,
+    @required String folderName,
+    @required DateTime modified,
+    @required bool isDeleted,
+    @required bool isCopy}) async {
+    final database = Provider.of<DeepPaperDatabase>(Get.context, listen: false);
 
     final detailDirection = Bidi.detectRtlDirectionality(detail)
         ? TextDirection.rtl
@@ -87,7 +82,6 @@ class NoteCreation {
 
     if (isCopy) {
       copy(
-          context: context,
           detail: detail,
           detailDirection: detailDirection,
           folderID: folderID,
@@ -109,14 +103,13 @@ class NoteCreation {
   }
 
   static void copy({
-    @required BuildContext context,
     @required String detail,
     @required TextDirection detailDirection,
     @required int folderID,
     @required String folderName,
     @required TextDirection folderNameDirection,
   }) async {
-    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
+    final database = Provider.of<DeepPaperDatabase>(Get.context, listen: false);
     final detailDirection = Bidi.detectRtlDirectionality(detail)
         ? TextDirection.rtl
         : TextDirection.ltr;
@@ -126,7 +119,6 @@ class NoteCreation {
         : TextDirection.ltr;
 
     if (!detail.isNullEmptyOrWhitespace) {
-      debugPrintSynchronously('create note');
       await database.noteDao.insertNote(NotesCompanion(
           detail: Value(detail),
           detailDirection: Value(detailDirection),
@@ -139,28 +131,25 @@ class NoteCreation {
   }
 
   static void deleteEmptyNote({
-    @required BuildContext context,
     @required int noteID,
   }) {
-    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
+    final database = Provider.of<DeepPaperDatabase>(Get.context, listen: false);
 
     database.noteDao.deleteNote(noteID);
   }
 
-  static Future<void> moveToTrashBatch({@required BuildContext context}) async {
-    final selectedNote =
-        Provider.of<SelectionProvider>(context, listen: false).getSelected;
+  static Future<void> moveToTrashBatch(
+      {@required SelectionProvider selectionProvider}) async {
+    final selectedNote = selectionProvider.getSelected;
 
-    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
+    final database = Provider.of<DeepPaperDatabase>(Get.context, listen: false);
 
     await database.noteDao.moveToTrash(selectedNote);
   }
 
-  static Future<void> moveToFolderBatch(
-      {@required BuildContext context,
-      @required FolderNoteData folder,
-      @required SelectionProvider selectionProvider,
-      @required DeepPaperDatabase database}) async {
+  static Future<void> moveToFolderBatch({@required FolderNoteData folder,
+    @required SelectionProvider selectionProvider,
+    @required DeepPaperDatabase database}) async {
     final selectedNote = selectionProvider.getSelected;
     final folderID = folder.isNotNull ? folder.id : 0;
     final folderName = folder.isNotNull ? folder.name : 'Main folder';

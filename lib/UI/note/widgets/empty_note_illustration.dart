@@ -18,11 +18,13 @@ class _EmptyNoteIllustrationState extends State<EmptyNoteIllustration> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              SvgPicture.asset(
-                Illustration.getNote,
-                fit: BoxFit.contain,
-                width: SizeHelper.setWidth(size: 220.0),
-                height: SizeHelper.setHeight(size: 200.0),
+              RepaintBoundary(
+                child: SvgPicture.asset(
+                  Illustration.getNote,
+                  fit: BoxFit.contain,
+                  width: SizeHelper.setWidth(size: 220.0),
+                  height: SizeHelper.setHeight(size: 200.0),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 24.0),

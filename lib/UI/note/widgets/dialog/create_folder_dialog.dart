@@ -7,6 +7,7 @@ import 'package:deep_paper/utility/extension.dart';
 import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class CreateFolderDialog extends StatefulWidget {
@@ -101,7 +102,7 @@ class _CreateFolderDialogState extends State<CreateFolderDialog> {
                       borderRadius:
                           BorderRadius.only(bottomLeft: Radius.circular(12.0))),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Get.back();
                   },
                   child: Text(
                     'Cancel',
@@ -127,10 +128,9 @@ class _CreateFolderDialogState extends State<CreateFolderDialog> {
                               bottomRight: Radius.circular(12.0))),
                       onPressed: provider.isNameTyped
                           ? () {
-                              FolderCreation.create(
-                                  context: context, name: folderName);
+                        FolderCreation.create(name: folderName);
 
-                              Navigator.of(context).pop();
+                              Get.back();
                             }
                           : null,
                       child: Text(
