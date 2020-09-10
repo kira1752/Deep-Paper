@@ -73,20 +73,24 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
         _detailFocus.requestFocus();
 
         _undoRedoProvider.tempInitialCursorPosition =
-            _detailController.selection.extentOffset;
+            _detailController.selection.baseOffset;
       });
     } else {
       _date = TextFieldLogic.loadDateAsync(_detailProvider.getNote.modified);
     }
 
+    // Save user typing state to Undo queue when user stop typing for
+    // 200 milliseconds
     debounce(_undoRedoProvider.currentTyped, (value) {
       String _value = value;
       if (!_value.isNullEmptyOrWhitespace &&
           _undoRedoProvider.getUndoLastValue() != _value &&
           _undoRedoProvider.getRedoLastValue() != _value) {
         _undoRedoProvider.addUndo();
+        _undoRedoProvider.currentTyped.value = null;
+        _undoRedoProvider.currentCursorPosition.value = null;
       }
-    }, time: const Duration(milliseconds: 500));
+    }, time: const Duration(milliseconds: 1000));
 
     KeyboardVisibility.onChange.listen((visible) {
       if (visible == false) {
@@ -206,13 +210,13 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
                     modified: _detailProvider.getNote.isNull
                         ? DateTime.now()
                         : (_detailProvider.getNote.detail !=
-                        _detailProvider.getDetail
-                        ? DateTime.now()
-                        : _detailProvider.getNote.modified),
+                                _detailProvider.getDetail
+                            ? DateTime.now()
+                            : _detailProvider.getNote.modified),
                     created: _detailProvider.getTempNoteID.isNull
                         ? (_detailProvider.getNote.isNull
-                        ? DateTime.now()
-                        : _detailProvider.getNote.created)
+                            ? DateTime.now()
+                            : _detailProvider.getNote.created)
                         : created);
               });
             },

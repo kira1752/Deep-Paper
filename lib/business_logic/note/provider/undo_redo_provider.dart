@@ -1,7 +1,8 @@
 import 'dart:collection';
 
+import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
+import 'package:get/state_manager.dart';
 
 class UndoRedoProvider with ChangeNotifier {
   RxInt currentCursorPosition = 0.obs;
@@ -28,6 +29,27 @@ class UndoRedoProvider with ChangeNotifier {
   }
 
   int popUndoCursor() {
+    if (currentCursorPosition.value.isNull) {
+      // If user cursor state is already saved because of debounce
+      // then, user click undo button.
+      // pop the latest value from _undoCursor queue and save it to
+      // _redoCursor queue
+
+      _redoCursor.add(_undoCursor.removeLast());
+    } else if (currentCursorPosition.value.isNotNull && _redoCursor.isEmpty) {
+      // If when user typing, then suddenly user tap Undo button
+      // and debounce isn't running properly (not quick enough to save
+      // the cursor state),
+      // save currentCursorPosition to _redoCursor queue
+      if (_undoCursor.isNotEmpty) {
+        if (_undoCursor.last != currentCursorPosition.value) {
+          _redoCursor.add(currentCursorPosition.value);
+        }
+      } else {
+        _redoCursor.add(currentCursorPosition.value);
+      }
+    }
+
     if (_undoCursor.isNotEmpty) {
       if (_undoCursor.last == currentCursorPosition.value) {
         _redoCursor.add(_undoCursor.removeLast());
@@ -37,11 +59,11 @@ class UndoRedoProvider with ChangeNotifier {
         _redoCursor.add(currentCursorPosition.value);
         return currentCursorPosition.value;
       } else {
-        currentCursorPosition.value = 0;
+        currentCursorPosition.value = -1;
         return initialCursorPosition;
       }
     } else {
-      currentCursorPosition.value = 0;
+      currentCursorPosition.value = -1;
       return initialCursorPosition;
     }
   }
@@ -59,6 +81,26 @@ class UndoRedoProvider with ChangeNotifier {
   }
 
   String popUndoValue() {
+    if (currentTyped.value.isNull) {
+      // If user typing state is already saved because of debounce
+      // then, user click undo button.
+      // pop the latest value from _undo queue and save it to
+      // _redo queue
+      _redo.add(_undo.removeLast());
+    } else if (currentTyped.value.isNotNull && _redo.isEmpty) {
+      // If when user typing, then suddenly user tap Undo button
+      // and debounce isn't running properly (not quick enough to save
+      // the typing state),
+      // save currentTyped to _redo queue
+      if (_undo.isNotEmpty) {
+        if (_undo.last != currentTyped.value) {
+          _redo.add(currentTyped.value);
+        }
+      } else {
+        _redo.add(currentTyped.value);
+      }
+    }
+
     if (_undo.isNotEmpty) {
       if (_canRedo != true) {
         _canRedo = true;
@@ -131,16 +173,6 @@ class UndoRedoProvider with ChangeNotifier {
       return initialDetail;
     } else {
       return _redo.last;
-    }
-  }
-
-  void deleteUndoLastValue() {
-    if (_undo.isNotEmpty) {
-      _undo.removeLast();
-    }
-
-    if (_undoCursor.isNotEmpty) {
-      _undoCursor.removeLast();
     }
   }
 
