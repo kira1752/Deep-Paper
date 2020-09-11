@@ -88,7 +88,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
           _undoRedoProvider.getRedoLastValue() != _value) {
         _undoRedoProvider.addUndo();
         _undoRedoProvider.currentTyped.value = null;
-        _undoRedoProvider.currentCursorPosition.value = null;
+        _undoRedoProvider.currentCursorPosition = null;
       }
     }, time: const Duration(milliseconds: 1000));
 

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 class SlideLeftWidget extends StatelessWidget {
   final Widget child;
+  final Duration duration;
+  final Duration reverseDuration;
 
-  SlideLeftWidget({@required this.child});
+  SlideLeftWidget({@required this.child, this.duration, this.reverseDuration});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,8 @@ class SlideLeftWidget extends StatelessWidget {
             ],
           );
         },
-        duration: const Duration(milliseconds: 400),
+        duration: duration ?? const Duration(milliseconds: 400),
+        reverseDuration: reverseDuration ?? const Duration(),
         child: child,
       ),
     );

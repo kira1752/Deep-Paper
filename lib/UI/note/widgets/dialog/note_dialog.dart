@@ -4,6 +4,7 @@ import 'package:deep_paper/UI/note/widgets/dialog/delete_folder_dialog.dart';
 import 'package:deep_paper/UI/note/widgets/dialog/note_info_dialog.dart';
 import 'package:deep_paper/UI/note/widgets/dialog/rename_folder_dialog.dart';
 import 'package:deep_paper/UI/note/widgets/dialog/restore_dialog.dart';
+import 'package:deep_paper/UI/widgets/deep_dialog_route.dart';
 import 'package:deep_paper/business_logic/note/provider/deep_bottom_provider.dart';
 import 'package:deep_paper/business_logic/note/provider/detect_text_direction_provider.dart';
 import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
@@ -22,11 +23,11 @@ class DeepDialog {
   DeepDialog._();
 
   static Future<void> openRestoreDialog({@required Note data}) {
-    return Get.dialog(RestoreDialog(data: data));
+    return DeepDialogRoute.dialog(RestoreDialog(data: data));
   }
 
   static Future<void> openCreateFolderDialog() {
-    return Get.dialog(
+    return DeepDialogRoute.dialog(
       MultiProvider(
         providers: [
           Provider<TextControllerProvider>(
@@ -49,7 +50,7 @@ class DeepDialog {
       @required DeepBottomProvider deepBottomProvider,
       @required FABProvider fabProvider,
       DeepPaperDatabase database}) {
-    return Get.dialog(
+    return DeepDialogRoute.dialog(
       WillPopScope(
         onWillPop: () async {
           Get.back();
@@ -81,7 +82,7 @@ class DeepDialog {
 
   static Future<void> openRenameFolderDialog(
       {@required NoteDrawerProvider drawerProvider}) {
-    return Get.dialog(
+    return DeepDialogRoute.dialog(
       MultiProvider(
         providers: [
           Provider<TextControllerProvider>(
@@ -101,15 +102,16 @@ class DeepDialog {
 
   static Future<void> openDeleteFolderDialog(
       {@required NoteDrawerProvider drawerProvider}) {
-    return Get.dialog(DeleteFolderDialog(
+    return DeepDialogRoute.dialog(DeleteFolderDialog(
       drawerProvider: drawerProvider,
     ));
   }
 
-  static Future<void> openNoteInfo({@required String folderName,
-    @required DateTime created,
-    @required DateTime modified}) {
-    return Get.dialog(NoteInfoDialog(
+  static Future<void> openNoteInfo(
+      {@required String folderName,
+      @required DateTime created,
+      @required DateTime modified}) {
+    return DeepDialogRoute.dialog(NoteInfoDialog(
       folderName: folderName,
       created: created,
       modified: modified,

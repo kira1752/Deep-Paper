@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/state_manager.dart';
 
 class UndoRedoProvider with ChangeNotifier {
-  RxInt currentCursorPosition = 0.obs;
+  int currentCursorPosition = 0;
   int initialCursorPosition;
   int tempInitialCursorPosition;
   String initialDetail;
@@ -25,59 +25,59 @@ class UndoRedoProvider with ChangeNotifier {
 
   void addUndo() {
     _undo.add(currentTyped.value);
-    _undoCursor.add(currentCursorPosition.value);
+    _undoCursor.add(currentCursorPosition);
   }
 
   int popUndoCursor() {
-    if (currentCursorPosition.value.isNull) {
+    if (currentCursorPosition.isNull) {
       // If user cursor state is already saved because of debounce
       // then, user click undo button.
       // pop the latest value from _undoCursor queue and save it to
       // _redoCursor queue
 
       _redoCursor.add(_undoCursor.removeLast());
-    } else if (currentCursorPosition.value.isNotNull && _redoCursor.isEmpty) {
+    } else if (currentCursorPosition.isNotNull && _redoCursor.isEmpty) {
       // If when user typing, then suddenly user tap Undo button
       // and debounce isn't running properly (not quick enough to save
       // the cursor state),
       // save currentCursorPosition to _redoCursor queue
       if (_undoCursor.isNotEmpty) {
-        if (_undoCursor.last != currentCursorPosition.value) {
-          _redoCursor.add(currentCursorPosition.value);
+        if (_undoCursor.last != currentCursorPosition) {
+          _redoCursor.add(currentCursorPosition);
         }
       } else {
-        _redoCursor.add(currentCursorPosition.value);
+        _redoCursor.add(currentCursorPosition);
       }
     }
 
     if (_undoCursor.isNotEmpty) {
-      if (_undoCursor.last == currentCursorPosition.value) {
+      if (_undoCursor.last == currentCursorPosition) {
         _redoCursor.add(_undoCursor.removeLast());
       }
       if (_undoCursor.isNotEmpty) {
-        currentCursorPosition.value = _undoCursor.removeLast();
-        _redoCursor.add(currentCursorPosition.value);
-        return currentCursorPosition.value;
+        currentCursorPosition = _undoCursor.removeLast();
+        _redoCursor.add(currentCursorPosition);
+        return currentCursorPosition;
       } else {
-        currentCursorPosition.value = -1;
+        currentCursorPosition = 0;
         return initialCursorPosition;
       }
     } else {
-      currentCursorPosition.value = -1;
+      currentCursorPosition = 0;
       return initialCursorPosition;
     }
   }
 
   int popRedoCursor() {
-    if (_redoCursor.last == currentCursorPosition.value) {
+    if (_redoCursor.last == currentCursorPosition) {
       _undoCursor.add(_redoCursor.removeLast());
     }
 
     if (_redoCursor.isNotEmpty) {
-      currentCursorPosition.value = _redoCursor.removeLast();
-      _undoCursor.add(currentCursorPosition.value);
+      currentCursorPosition = _redoCursor.removeLast();
+      _undoCursor.add(currentCursorPosition);
     }
-    return currentCursorPosition.value;
+    return currentCursorPosition;
   }
 
   String popUndoValue() {
@@ -178,6 +178,7 @@ class UndoRedoProvider with ChangeNotifier {
 
   void clearRedo() {
     _redo.clear();
+    _redoCursor.clear();
     _canRedo = false;
     notifyListeners();
   }

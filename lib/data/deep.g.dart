@@ -172,15 +172,18 @@ class Note extends DataClass implements Insertable<Note> {
   @override
   String toString() {
     return (StringBuffer('Note(')
-      ..write('id: $id, ')..write('folderID: $folderID, ')..write(
-          'folderName: $folderName, ')..write(
-          'folderNameDirection: $folderNameDirection, ')..write(
-          'detail: $detail, ')..write(
-          'detailDirection: $detailDirection, ')..write(
-          'isDeleted: $isDeleted, ')..write(
-          'containAudio: $containAudio, ')..write(
-          'containImage: $containImage, ')..write(
-          'modified: $modified, ')..write('created: $created')..write(')'))
+          ..write('id: $id, ')
+          ..write('folderID: $folderID, ')
+          ..write('folderName: $folderName, ')
+          ..write('folderNameDirection: $folderNameDirection, ')
+          ..write('detail: $detail, ')
+          ..write('detailDirection: $detailDirection, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('containAudio: $containAudio, ')
+          ..write('containImage: $containImage, ')
+          ..write('modified: $modified, ')
+          ..write('created: $created')
+          ..write(')'))
         .toString();
   }
 

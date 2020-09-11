@@ -21,30 +21,29 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  provider: ^4.1.3
-  get: ^3.8.0
-  scrollable_positioned_list: ^0.1.2
-  moor: ^3.1.0
-  moor_ffi: ^0.5.0
-  path: ^1.6.4
-  path_provider: ^1.6.10
-  tuple: ^1.0.3
-  intl: ^0.16.1
-  fluttertoast: ^7.0.1
-  flutter_keyboard_visibility: ^3.0.0
-  expandable: ^4.1.4
-  transparent_image: ^1.0.0
-  fitted_text_field_container: ^1.3.1+1
-  weekday_selector: ^0.4.0
-  flutter_svg: ^0.18.1
+  provider:
+  get:
+  scrollable_positioned_list:
+  moor:
+  sqlite3_flutter_libs:
+  path_provider:
+  path:
+  tuple:
+  intl:
+  fluttertoast:
+  flutter_keyboard_visibility:
+  expandable:
+  transparent_image:
+  fitted_text_field_container:
+  weekday_selector:
+  flutter_svg:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  moor_generator: ^3.1.0
-  build_runner: ^1.7.4
-  pedantic: ^1.9.0
-  analyzer: 0.39.14
+  moor_generator: # use the latest version
+  build_runner: 1.10.1
+  pedantic:
 
 
 # For information on the generic Dart part of this file, see the

@@ -3,8 +3,8 @@ import 'dart:ui';
 
 import 'package:deep_paper/data/note/folder_note_dao.dart';
 import 'package:deep_paper/data/note/note_dao.dart';
+import 'package:moor/ffi.dart';
 import 'package:moor/moor.dart';
-import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 

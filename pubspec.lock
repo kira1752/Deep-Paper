@@ -9,7 +9,7 @@ packages:
     source: hosted
     version: "6.0.0"
   analyzer:
-    dependency: "direct dev"
+    dependency: transitive
     description:
       name: analyzer
       url: "https://pub.dartlang.org"
@@ -84,7 +84,7 @@ packages:
       name: build_runner_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.1"
+    version: "5.2.0"
   built_collection:
     dependency: transitive
     description:
@@ -258,14 +258,14 @@ packages:
       name: fluttertoast
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.0.4"
+    version: "7.1.0"
   get:
     dependency: "direct main"
     description:
       name: get
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.8.0"
+    version: "3.10.2"
   glob:
     dependency: transitive
     description:
@@ -364,13 +364,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.3.1"
-  moor_ffi:
-    dependency: "direct main"
-    description:
-      name: moor_ffi
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.0"
   moor_generator:
     dependency: "direct dev"
     description:
@@ -503,7 +496,7 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.2+1"
+    version: "4.3.2+2"
   pub_semver:
     dependency: transitive
     description:
@@ -579,6 +572,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.5"
+  sqlite3_flutter_libs:
+    dependency: "direct main"
+    description:
+      name: sqlite3_flutter_libs
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   sqlparser:
     dependency: transitive
     description:

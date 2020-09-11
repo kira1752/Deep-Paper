@@ -46,8 +46,7 @@ class TextFieldLogic {
     }
 
     undoRedoProvider.currentTyped.value = value;
-    undoRedoProvider.currentCursorPosition.value =
-        controller.selection.baseOffset;
+    undoRedoProvider.currentCursorPosition = controller.selection.baseOffset;
   }
 
   static int countAll(String text) {

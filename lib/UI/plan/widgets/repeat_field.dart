@@ -66,23 +66,12 @@ class __RepeatState extends State<_Repeat> {
                 key: Key('$repeatTitle'),
                 overflow: TextOverflow.ellipsis,
                 style: _createPlanProvider.getRepeat == RepeatType.Weekly
-                    ? Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(
-                    color: Theme
-                        .of(context)
-                        .accentColor
-                        .withOpacity(.80),
-                    fontSize: SizeHelper.getModalTextField)
-                    : Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(
-                    color: Colors.white.withOpacity(.80),
-                    fontSize: SizeHelper.getModalTextField),
+                    ? Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: Theme.of(context).accentColor.withOpacity(.80),
+                        fontSize: SizeHelper.getModalTextField)
+                    : Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: Colors.white.withOpacity(.80),
+                        fontSize: SizeHelper.getModalTextField),
               ),
             );
           }),
@@ -94,6 +83,7 @@ class __RepeatState extends State<_Repeat> {
                 child: repeatDays.isEmpty
                     ? const SizedBox()
                     : Padding(
+                  key: Key('$repeatDays'),
                   padding: const EdgeInsetsDirectional.only(top: 6.0),
                   child: Text(
                     '$repeatDays',
@@ -109,32 +99,31 @@ class __RepeatState extends State<_Repeat> {
                 ),
               )),
       trailing: Selector<CreatePlanProvider, bool>(
-        selector: (context, provider) => provider.getRepeat.isNotNull,
-        child: IconButton(
-            icon: const Icon(
-              Icons.cancel,
-              color: Colors.white60,
-            ),
-            onPressed: () {
-              _createPlanProvider.setRepeat = null;
-              _createPlanProvider.setRepeatTitle = 'Repeat';
-              _createPlanProvider.setRepeatDialogType = 'days';
-              _createPlanProvider.setSelectedDaysTitle = '';
-              _createPlanProvider.setNumberOfRepeat = 1;
-              _createPlanProvider.setSelectedDays = [];
-              _createPlanProvider.setWeekDays = [
-                false, // Sunday
-                true, // Monday
-                false, // Tuesday
-                false, // Wednesday
-                false, // Thursday
-                false, // Friday
-                false, // Saturday
-              ];
-            }),
-        builder: (context, valueExist, child) =>
-            valueExist ? child : const SizedBox(),
-      ),
+          selector: (context, provider) => provider.getRepeat.isNotNull,
+          child: IconButton(
+              icon: const Icon(
+                Icons.cancel,
+                color: Colors.white60,
+              ),
+              onPressed: () {
+                _createPlanProvider.setRepeat = null;
+                _createPlanProvider.setRepeatTitle = 'Repeat';
+                _createPlanProvider.setRepeatDialogType = 'days';
+                _createPlanProvider.setSelectedDaysTitle = '';
+                _createPlanProvider.setNumberOfRepeat = 1;
+                _createPlanProvider.setSelectedDays = [];
+                _createPlanProvider.setWeekDays = [
+                  false, // Sunday
+                  true, // Monday
+                  false, // Tuesday
+                  false, // Wednesday
+                  false, // Thursday
+                  false, // Friday
+                  false, // Saturday
+                ];
+              }),
+          builder: (context, valueExist, child) =>
+          valueExist ? child : const SizedBox()),
     );
   }
 }

@@ -14,8 +14,8 @@ class UndoRedoBusinessLogic {
     final cursorOffset = undoRedoProvider.popUndoCursor();
 
     detailController.text = undoRedoProvider.popUndoValue();
-    detailController.selection = TextSelection.fromPosition(
-        TextPosition(offset: cursorOffset, affinity: TextAffinity.downstream));
+    detailController.selection =
+        TextSelection.fromPosition(TextPosition(offset: cursorOffset));
 
     detailProvider.setDetail = detailController.text;
     detailProvider.checkDetailDirection = detailController.text;
@@ -30,17 +30,17 @@ class UndoRedoBusinessLogic {
     final cursorOffset = undoRedoProvider.popRedoCursor();
 
     detailController.text = undoRedoProvider.popRedoValue();
-    detailController.selection = TextSelection.fromPosition(
-        TextPosition(offset: cursorOffset, affinity: TextAffinity.upstream));
+    detailController.selection =
+        TextSelection.fromPosition(TextPosition(offset: cursorOffset));
 
     if (!undoRedoProvider.canRedo()) {
       undoRedoProvider.currentTyped.value = null;
-      undoRedoProvider.currentCursorPosition.value = null;
+      undoRedoProvider.currentCursorPosition = null;
     }
 
     detailProvider.setDetail = detailController.text;
     detailProvider.checkDetailDirection = detailController.text;
     detailProvider.setDetailCountNotify =
-        await TextFieldLogic.countAllAsync(detailProvider.getDetail);
+    await TextFieldLogic.countAllAsync(detailProvider.getDetail);
   }
 }

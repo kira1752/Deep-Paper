@@ -61,13 +61,14 @@ class NoteCreation {
     await database.noteDao.insertNoteBatch(selectedNote);
   }
 
-  static Future<void> update({@required int noteID,
-    @required String detail,
-    @required int folderID,
-    @required String folderName,
-    @required DateTime modified,
-    @required bool isDeleted,
-    @required bool isCopy}) async {
+  static Future<void> update(
+      {@required int noteID,
+      @required String detail,
+      @required int folderID,
+      @required String folderName,
+      @required DateTime modified,
+      @required bool isDeleted,
+      @required bool isCopy}) async {
     final database = Provider.of<DeepPaperDatabase>(Get.context, listen: false);
 
     final detailDirection = Bidi.detectRtlDirectionality(detail)
