@@ -1,8 +1,9 @@
-import 'package:deep_paper/UI/plan/utility/repeat_type.dart';
-import 'package:deep_paper/business_logic/plan/provider/repeat_dialog_provider.dart';
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../../business_logic/plan/provider/repeat_dialog_provider.dart';
+import '../../../utility/size_helper.dart';
+import '../utility/repeat_type.dart';
 
 class RepeatTypeMenu extends StatelessWidget {
   const RepeatTypeMenu();
@@ -73,12 +74,17 @@ class RepeatTypeMenu extends StatelessWidget {
               child: Selector<RepeatDialogProvider, String>(
                 selector: (context, provider) =>
                     provider.getTempRepeatDialogType,
-                builder: (context, repeatTypeTitle, child) => Text(
-                  '$repeatTypeTitle',
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: Colors.white.withOpacity(.80),
-                      fontSize: SizeHelper.getModalTextField),
-                ),
+                builder: (context, repeatTypeTitle, _) =>
+                    Text(
+                      '$repeatTypeTitle',
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(
+                          color: Colors.white.withOpacity(.80),
+                          fontSize: SizeHelper.getModalTextField),
+                    ),
               ),
             ),
             Icon(

@@ -1,19 +1,20 @@
-import 'package:deep_paper/UI/widgets/deep_base_dialog.dart';
-import 'package:deep_paper/business_logic/note/folder_creation.dart';
-import 'package:deep_paper/business_logic/note/provider/detect_text_direction_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/folder_dialog_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/text_controller_provider.dart';
-import 'package:deep_paper/utility/extension.dart';
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../business_logic/note/folder_creation.dart';
+import '../../../../business_logic/note/provider/detect_text_direction_provider.dart';
+import '../../../../business_logic/note/provider/folder_dialog_provider.dart';
+import '../../../../business_logic/note/provider/note_drawer_provider.dart';
+import '../../../../business_logic/note/provider/text_controller_provider.dart';
+import '../../../../utility/extension.dart';
+import '../../../../utility/size_helper.dart';
+import '../../../widgets/deep_base_dialog.dart';
+
 class RenameFolderDialog extends StatefulWidget {
   final NoteDrawerProvider drawerProvider;
 
-  RenameFolderDialog({@required this.drawerProvider});
+  const RenameFolderDialog({@required this.drawerProvider});
 
   @override
   _RenameFolderDialogState createState() => _RenameFolderDialogState();
@@ -51,7 +52,7 @@ class _RenameFolderDialogState extends State<RenameFolderDialog> {
         Padding(
           padding: const EdgeInsets.all(24.0),
           child: Consumer<TextControllerProvider>(
-              builder: (context, textControllerProvider, child) {
+              builder: (context, textControllerProvider, _) {
             textControllerProvider.controller.text = folderName;
 
             textControllerProvider.controller.selection =
@@ -64,53 +65,52 @@ class _RenameFolderDialogState extends State<RenameFolderDialog> {
                 selector: (context, provider) => provider.getDirection
                     ? TextDirection.rtl
                     : TextDirection.ltr,
-                builder: (context, direction, child) {
-                  return TextField(
-                    controller: textControllerProvider.controller,
-                    textDirection: direction,
-                    autofocus: true,
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: Colors.white70,
-                        fontSize: SizeHelper.getModalTextField),
-                    maxLines: 1,
-                    keyboardType: TextInputType.text,
-                    onChanged: (value) {
-                      folderName = value;
-                      Provider.of<FolderDialogProvider>(context, listen: false)
-                              .setIsNameTyped =
-                          !folderName.isNullEmptyOrWhitespace &&
-                              folderName != drawerProvider.getFolder.name;
+                builder: (context, direction, _) => TextField(
+                      controller: textControllerProvider.controller,
+                      textDirection: direction,
+                      autofocus: true,
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
+                          color: Colors.white70,
+                          fontSize: SizeHelper.getModalTextField),
+                      maxLines: 1,
+                      keyboardType: TextInputType.text,
+                      onChanged: (value) {
+                        folderName = value;
+                        Provider.of<FolderDialogProvider>(context,
+                                    listen: false)
+                                .setIsNameTyped =
+                            !folderName.isNullEmptyOrWhitespace &&
+                                folderName != drawerProvider.getFolder.name;
 
-                      Provider.of<DetectTextDirectionProvider>(context,
-                              listen: false)
-                          .checkDirection = folderName;
-                    },
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                          borderSide: BorderSide(
-                              width: 2.0,
-                              color: Theme.of(context)
-                                  .accentColor
-                                  .withOpacity(0.80))),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                          borderSide: BorderSide(
-                              width: 2.0,
-                              color: Theme.of(context)
-                                  .accentColor
-                                  .withOpacity(0.80))),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                          borderSide: BorderSide(
-                              width: 2.0,
-                              color: Theme.of(context)
-                                  .accentColor
-                                  .withOpacity(0.80))),
-                      labelText: 'Folder Name',
-                    ),
-                  );
-                });
+                        Provider.of<DetectTextDirectionProvider>(context,
+                                listen: false)
+                            .checkDirection = folderName;
+                      },
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: BorderSide(
+                                width: 2.0,
+                                color: Theme.of(context)
+                                    .accentColor
+                                    .withOpacity(0.80))),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: BorderSide(
+                                width: 2.0,
+                                color: Theme.of(context)
+                                    .accentColor
+                                    .withOpacity(0.80))),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: BorderSide(
+                                width: 2.0,
+                                color: Theme.of(context)
+                                    .accentColor
+                                    .withOpacity(0.80))),
+                        labelText: 'Folder Name',
+                      ),
+                    ));
           }),
         ),
         Container(
@@ -139,40 +139,43 @@ class _RenameFolderDialogState extends State<RenameFolderDialog> {
                       ),
                     )),
               ),
-              Consumer<FolderDialogProvider>(
-                  builder: (context, provider, widget) {
-                return Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            left:
-                                Divider.createBorderSide(context, width: 1.0))),
-                    child: FlatButton(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        textColor:
-                            Theme.of(context).accentColor.withOpacity(0.87),
-                        shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(12.0))),
-                        onPressed: provider.isNameTyped
-                            ? () {
-                          FolderCreation.update(
-                                    drawerProvider: drawerProvider,
-                                    name: folderName);
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          left: Divider.createBorderSide(context, width: 1.0))),
+                  child: Consumer<FolderDialogProvider>(
+                    builder: (context, provider, renameText) =>
+                        FlatButton(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            textColor:
+                            Theme
+                                .of(context)
+                                .accentColor
+                                .withOpacity(0.87),
+                            shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(12.0))),
+                            onPressed: provider.isNameTyped
+                                ? () {
+                              FolderCreation.update(
+                                  drawerProvider: drawerProvider,
+                                  name: folderName);
 
-                                Get.back();
-                              }
-                            : null,
-                        child: Text(
-                          'Rename',
-                          style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: SizeHelper.getModalButton,
-                          ),
-                        )),
+                              Get.back();
+                            }
+                                : null,
+                            child: renameText),
+                    child: Text(
+                      'Rename',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: SizeHelper.getModalButton,
+                      ),
+                    ),
                   ),
-                );
-              }),
+                ),
+              ),
             ],
           ),
         )

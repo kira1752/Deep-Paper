@@ -1,9 +1,10 @@
-import 'package:deep_paper/business_logic/plan/provider/repeat_dialog_provider.dart';
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:fitted_text_field_container/fitted_text_field_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
+import '../../../business_logic/plan/provider/repeat_dialog_provider.dart';
+import '../../../utility/size_helper.dart';
 
 class NumberRepeatTextField extends StatelessWidget {
   final TextEditingController controller;

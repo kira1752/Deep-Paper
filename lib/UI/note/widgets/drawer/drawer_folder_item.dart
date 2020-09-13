@@ -1,12 +1,12 @@
-import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
-import 'package:deep_paper/data/deep.dart';
-import 'package:deep_paper/utility/extension.dart';
-import 'package:deep_paper/utility/size_helper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
+
+import '../../../../business_logic/note/provider/note_drawer_provider.dart';
+import '../../../../data/deep.dart';
+import '../../../../utility/extension.dart';
+import '../../../../utility/size_helper.dart';
 
 class DrawerFolderItem extends StatelessWidget {
   final FolderNoteData folder;
@@ -15,7 +15,7 @@ class DrawerFolderItem extends StatelessWidget {
   final int index;
   final int total;
 
-  DrawerFolderItem(
+  const DrawerFolderItem(
       {Key key,
       @required this.index,
       @required this.folder,
@@ -39,11 +39,11 @@ class DrawerFolderItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 12.0),
       child: Selector<NoteDrawerProvider, bool>(
-          key: ValueKey<int>(index),
-          selector: (context, drawerProvider) =>
-              drawerProvider.getIndexFolderItem == index,
-          builder: (context, selected, child) {
-            return Material(
+        key: ValueKey<int>(index),
+        selector: (context, drawerProvider) =>
+        drawerProvider.getIndexFolderItem == index,
+        builder: (context, selected, countNotes) =>
+            Material(
               color: selected
                   ? Get.theme.accentColor.withOpacity(0.3)
                   : Colors.transparent,
@@ -74,20 +74,10 @@ class DrawerFolderItem extends StatelessWidget {
                   leading: selected
                       ? Icon(activeIcon, color: Get.theme.accentColor)
                       : Icon(
-                          icon,
-                          color: Colors.white54,
-                        ),
-                  trailing: total == null
-                      ? const SizedBox()
-                      : Padding(
-                          padding:
-                              const EdgeInsets.only(right: 16.0, left: 16.0),
-                          child: Text(
-                            '$total',
-                            style: TextStyle(
-                                fontSize: SizeHelper.getBodyText1,
-                                fontWeight: FontWeight.w600),
-                          )),
+                    icon,
+                    color: Colors.white54,
+                  ),
+                  trailing: total == null ? const SizedBox() : countNotes,
                   title: Text(
                     '$folderName',
                     textDirection: nameDirection,
@@ -100,8 +90,16 @@ class DrawerFolderItem extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   )),
-            );
-          }),
+            ),
+        child: Padding(
+            padding: const EdgeInsets.only(right: 16.0, left: 16.0),
+            child: Text(
+              '$total',
+              style: TextStyle(
+                  fontSize: SizeHelper.getBodyText1,
+                  fontWeight: FontWeight.w600),
+            )),
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+// SizeConfig Utility class
 class SizeConfig {
   static double _screenWidth;
   static double _screenHeight;

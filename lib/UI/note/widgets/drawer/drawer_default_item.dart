@@ -1,9 +1,10 @@
-import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../business_logic/note/provider/note_drawer_provider.dart';
+import '../../../../utility/size_helper.dart';
 
 class DrawerDefaultItem extends StatelessWidget {
   final String title;
@@ -23,16 +24,16 @@ class DrawerDefaultItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Selector<NoteDrawerProvider, bool>(
-        selector: (context, drawerProvider) =>
-            drawerProvider.getIndexDrawerItem == setValue,
-        builder: (context, selected, child) {
-          final drawerProvider =
-              Provider.of<NoteDrawerProvider>(context, listen: false);
+    final drawerProvider =
+    Provider.of<NoteDrawerProvider>(context, listen: false);
 
-          return Padding(
-            padding: const EdgeInsets.only(right: 12.0),
-            child: Material(
+    return Padding(
+      padding: const EdgeInsets.only(right: 12.0),
+      child: Selector<NoteDrawerProvider, bool>(
+        selector: (context, drawerProvider) =>
+        drawerProvider.getIndexDrawerItem == setValue,
+        builder: (context, selected, countNotes) =>
+            Material(
               color: selected
                   ? Get.theme.accentColor.withOpacity(0.3)
                   : Colors.transparent,
@@ -72,20 +73,9 @@ class DrawerDefaultItem extends StatelessWidget {
                     }
                   },
                   leading: selected
-                      ? Icon(activeIcon,
-                      color: Get.theme.accentColor)
+                      ? Icon(activeIcon, color: Get.theme.accentColor)
                       : Icon(icon, color: Colors.white54),
-                  trailing: total == null
-                      ? const SizedBox()
-                      : Padding(
-                          padding: const EdgeInsets.only(right: 16, left: 16),
-                          child: Text(
-                            '$total',
-                            style: TextStyle(
-                                fontSize: SizeHelper.getBodyText1,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
+                  trailing: total == null ? const SizedBox() : countNotes,
                   title: Text(
                     title,
                     style: selected
@@ -98,7 +88,15 @@ class DrawerDefaultItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   )),
             ),
-          );
-        });
+        child: Padding(
+          padding: const EdgeInsets.only(right: 16, left: 16),
+          child: Text(
+            '$total',
+            style: TextStyle(
+                fontSize: SizeHelper.getBodyText1, fontWeight: FontWeight.w600),
+          ),
+        ),
+      ),
+    );
   }
 }

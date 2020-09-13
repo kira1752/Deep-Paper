@@ -1,6 +1,7 @@
-import 'package:deep_paper/utility/sizeconfig.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import '../../utility/sizeconfig.dart';
 
 class ResponsiveWidget extends StatelessWidget {
   final Widget portraitLayout;

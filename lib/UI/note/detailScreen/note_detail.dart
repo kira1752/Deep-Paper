@@ -1,23 +1,24 @@
-import 'package:deep_paper/UI/note/widgets/bottom_menu.dart';
-import 'package:deep_paper/UI/note/widgets/date_character_counts.dart';
-import 'package:deep_paper/UI/note/widgets/dialog/note_dialog.dart';
-import 'package:deep_paper/UI/widgets/deep_keep_alive.dart';
-import 'package:deep_paper/UI/widgets/deep_scroll_behavior.dart';
-import 'package:deep_paper/UI/widgets/deep_toast.dart';
-import 'package:deep_paper/business_logic/note/note_detail_lifecycle.dart';
-import 'package:deep_paper/business_logic/note/note_detail_normal_save.dart';
-import 'package:deep_paper/business_logic/note/provider/note_detail_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/undo_redo_provider.dart';
-import 'package:deep_paper/business_logic/note/text_field_logic.dart';
-import 'package:deep_paper/data/deep.dart';
-import 'package:deep_paper/icons/my_icon.dart';
-import 'package:deep_paper/utility/deep_route_string.dart';
-import 'package:deep_paper/utility/extension.dart';
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart' hide GetDynamicUtils;
 import 'package:provider/provider.dart';
+
+import '../../../business_logic/note/note_detail_lifecycle.dart';
+import '../../../business_logic/note/note_detail_normal_save.dart';
+import '../../../business_logic/note/provider/note_detail_provider.dart';
+import '../../../business_logic/note/provider/undo_redo_provider.dart';
+import '../../../business_logic/note/text_field_logic.dart';
+import '../../../data/deep.dart';
+import '../../../icons/my_icon.dart';
+import '../../../utility/deep_route_string.dart';
+import '../../../utility/extension.dart';
+import '../../../utility/size_helper.dart';
+import '../../widgets/deep_keep_alive.dart';
+import '../../widgets/deep_scroll_behavior.dart';
+import '../../widgets/deep_toast.dart';
+import '../widgets/bottom_menu.dart';
+import '../widgets/date_character_counts.dart';
+import '../widgets/dialog/note_dialog.dart';
 
 class NoteDetail extends StatefulWidget {
   const NoteDetail();
@@ -26,6 +27,7 @@ class NoteDetail extends StatefulWidget {
   _NoteDetailState createState() => _NoteDetailState();
 }
 
+// ignore: prefer_mixin
 class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
   Future<String> _date;
   TextEditingController _detailController;
@@ -103,7 +105,8 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    // Release the resource used by these observer and controller when user exit Note Creation UI
+    // Release the resource used by these observer and controller
+    // when user exit Note Creation UI
     WidgetsBinding.instance.removeObserver(this);
     _detailController.dispose();
     _detailFocus.dispose();
@@ -222,7 +225,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
             },
           ),
           body: ScrollConfiguration(
-            behavior: DeepScrollBehavior(),
+            behavior: const DeepScrollBehavior(),
             child: GestureDetector(
               onTap: () {
                 if (!_detailFocus.hasFocus) {
@@ -288,38 +291,37 @@ class _DetailFieldState extends State<DetailField> {
   Widget build(BuildContext context) {
     return Selector<NoteDetailProvider, TextDirection>(
         selector: (context, provider) =>
-            provider.getDetailDirection ? TextDirection.rtl : TextDirection.ltr,
-        builder: (context, direction, child) {
-          return TextField(
-            controller: widget.detailController,
-            focusNode: widget.detailFocus,
-            showCursor: true,
-            textDirection: direction,
-            strutStyle: const StrutStyle(leading: 0.7),
-            style: Theme
-                .of(context)
-                .textTheme
-                .bodyText1
-                .copyWith(
-                color: Colors.white.withOpacity(.80),
-                fontWeight: FontWeight.normal,
-                fontSize: SizeHelper.getDetail),
-            maxLines: null,
-            keyboardType: TextInputType.multiline,
-            onTap: () {
-              _undoRedoProvider.tempInitialCursorPosition =
-                  widget.detailController.selection.extentOffset;
-            },
-            onChanged: (value) =>
-                TextFieldLogic.detail(
-                    value: value,
-                    detailProvider: _detailProvider,
-                    undoRedoProvider: _undoRedoProvider,
-                    controller: widget.detailController),
-            decoration: const InputDecoration.collapsed(
-                hintText: 'Write your note here...',
-                hintStyle: TextStyle(fontWeight: FontWeight.w500)),
-          );
-        });
+        provider.getDetailDirection ? TextDirection.rtl : TextDirection.ltr,
+        builder: (context, direction, _) =>
+            TextField(
+              controller: widget.detailController,
+              focusNode: widget.detailFocus,
+              showCursor: true,
+              textDirection: direction,
+              strutStyle: const StrutStyle(leading: 0.7),
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(
+                  color: Colors.white.withOpacity(.80),
+                  fontWeight: FontWeight.normal,
+                  fontSize: SizeHelper.getDetail),
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+              onTap: () {
+                _undoRedoProvider.tempInitialCursorPosition =
+                    widget.detailController.selection.extentOffset;
+              },
+              onChanged: (value) =>
+                  TextFieldLogic.detail(
+                      value: value,
+                      detailProvider: _detailProvider,
+                      undoRedoProvider: _undoRedoProvider,
+                      controller: widget.detailController),
+              decoration: const InputDecoration.collapsed(
+                  hintText: 'Write your note here...',
+                  hintStyle: TextStyle(fontWeight: FontWeight.w500)),
+            ));
   }
 }

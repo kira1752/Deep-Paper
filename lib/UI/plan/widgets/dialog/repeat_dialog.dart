@@ -1,15 +1,16 @@
-import 'package:deep_paper/UI/plan/utility/repeat_type.dart';
-import 'package:deep_paper/UI/plan/widgets/day_selector.dart';
-import 'package:deep_paper/UI/plan/widgets/number_repeat_text_field.dart';
-import 'package:deep_paper/UI/plan/widgets/repeat_type_menu.dart';
-import 'package:deep_paper/UI/widgets/deep_expand_base_dialog.dart';
-import 'package:deep_paper/business_logic/plan/provider/create_plan_provider.dart';
-import 'package:deep_paper/business_logic/plan/provider/repeat_dialog_provider.dart';
-import 'package:deep_paper/business_logic/plan/repeat_dialog_logic.dart';
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../business_logic/plan/provider/create_plan_provider.dart';
+import '../../../../business_logic/plan/provider/repeat_dialog_provider.dart';
+import '../../../../business_logic/plan/repeat_dialog_logic.dart';
+import '../../../../utility/size_helper.dart';
+import '../../../widgets/deep_expand_base_dialog.dart';
+import '../../utility/repeat_type.dart';
+import '../day_selector.dart';
+import '../number_repeat_text_field.dart';
+import '../repeat_type_menu.dart';
 
 class RepeatDialog extends StatefulWidget {
   final CreatePlanProvider createPlanProvider;
@@ -75,11 +76,11 @@ class _RepeatDialogState extends State<RepeatDialog> {
         Selector<RepeatDialogProvider, bool>(
           selector: (context, provider) =>
               provider.getTempRepeat == RepeatType.Weekly,
-          builder: (context, showWeekDays, child) => showWeekDays
-              ? DaySelector(
-                  createPlanProvider: _createPlanProvider,
-                )
-              : const SizedBox(),
+          child: DaySelector(
+            createPlanProvider: _createPlanProvider,
+          ),
+          builder: (context, showWeekDays, daySelector) =>
+              showWeekDays ? daySelector : const SizedBox(),
         )
       ],
       actions: [
@@ -109,27 +110,32 @@ class _RepeatDialogState extends State<RepeatDialog> {
             child: Selector<RepeatDialogProvider, bool>(
               selector: (context, provider) =>
                   provider.getTempNumberOfRepeat != 0,
-              builder: (context, canTap, child) => FlatButton(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  textColor: Theme.of(context).accentColor.withOpacity(0.87),
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(12.0))),
-                  onPressed: canTap
-                      ? () {
-                    RepeatDialogLogic.create(
-                        createPlanProvider: _createPlanProvider,
-                        repeatDialogProvider: _repeatDialogProvider);
-                    Get.back();
-                  }
-                      : null,
-                  child: Text(
-                    'Done',
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: SizeHelper.getModalButton,
-                    ),
-                  )),
+              builder: (context, canTap, textDone) =>
+                  FlatButton(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      textColor: Theme
+                          .of(context)
+                          .accentColor
+                          .withOpacity(0.87),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(12.0))),
+                      onPressed: canTap
+                          ? () {
+                        RepeatDialogLogic.create(
+                            createPlanProvider: _createPlanProvider,
+                            repeatDialogProvider: _repeatDialogProvider);
+                        Get.back();
+                      }
+                          : null,
+                      child: textDone),
+              child: Text(
+                'Done',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: SizeHelper.getModalButton,
+                ),
+              ),
             ),
           ),
         )

@@ -1,10 +1,11 @@
-import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
-import 'package:deep_paper/data/deep.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart' hide Value;
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:moor/moor.dart';
 import 'package:provider/provider.dart';
+
+import '../../data/deep.dart';
+import 'provider/note_drawer_provider.dart';
 
 class FolderCreation {
   FolderCreation._();
@@ -38,12 +39,12 @@ class FolderCreation {
     database.noteDao.renameFolderAssociation(drawerProvider.getFolder);
   }
 
-  static void delete({
+  static Future<void> delete({
     @required NoteDrawerProvider drawerProvider,
   }) async {
     final database = Provider.of<DeepPaperDatabase>(Get.context, listen: false);
 
-    final mainFolder = 'Main folder';
+    const mainFolder = 'Main folder';
     final folderNameDirection = Bidi.detectRtlDirectionality(mainFolder)
         ? TextDirection.rtl
         : TextDirection.ltr;

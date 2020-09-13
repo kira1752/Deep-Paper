@@ -1,7 +1,10 @@
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../utility/size_helper.dart';
+
 class PlanDefaultAppBar extends StatelessWidget {
+  const PlanDefaultAppBar();
+
   @override
   Widget build(BuildContext context) {
     return AppBar(

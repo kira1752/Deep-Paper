@@ -1,5 +1,6 @@
-import 'package:deep_paper/data/deep.dart';
 import 'package:flutter/foundation.dart';
+
+import '../../../data/deep.dart';
 
 class SelectionProvider with ChangeNotifier {
   bool _selection = false;

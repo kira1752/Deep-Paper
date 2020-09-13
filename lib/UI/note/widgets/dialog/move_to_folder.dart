@@ -1,21 +1,25 @@
-import 'package:deep_paper/UI/note/widgets/dialog/note_dialog.dart';
-import 'package:deep_paper/UI/widgets/deep_expand_base_dialog.dart';
-import 'package:deep_paper/UI/widgets/deep_scroll_behavior.dart';
-import 'package:deep_paper/UI/widgets/deep_scrollbar.dart';
-import 'package:deep_paper/UI/widgets/deep_toast.dart';
-import 'package:deep_paper/business_logic/note/note_creation.dart';
-import 'package:deep_paper/business_logic/note/provider/deep_bottom_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
-import 'package:deep_paper/data/deep.dart';
-import 'package:deep_paper/icons/my_icon.dart';
-import 'package:deep_paper/utility/extension.dart';
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide GetDynamicUtils;
 import 'package:provider/provider.dart';
 
+import '../../../../business_logic/note/note_creation.dart';
+import '../../../../business_logic/note/provider/deep_bottom_provider.dart';
+import '../../../../business_logic/note/provider/fab_provider.dart';
+import '../../../../business_logic/note/provider/selection_provider.dart';
+import '../../../../data/deep.dart';
+import '../../../../icons/my_icon.dart';
+import '../../../../utility/extension.dart';
+import '../../../../utility/size_helper.dart';
+import '../../../widgets/deep_expand_base_dialog.dart';
+import '../../../widgets/deep_scroll_behavior.dart';
+import '../../../widgets/deep_scrollbar.dart';
+import '../../../widgets/deep_toast.dart';
+import 'note_dialog.dart';
+
+// MoveToFolder Utility class
 class MoveToFolder {
+  MoveToFolder._();
+
   static Future openMoveToDialog(
       {@required FolderNoteData currentFolder,
       @required int drawerIndex,
@@ -26,17 +30,16 @@ class MoveToFolder {
     final database = Provider.of<DeepPaperDatabase>(Get.context, listen: false);
 
     final defaultItemValue =
-    currentFolder.isNotNull || drawerIndex == 0 ? 2 : 1;
+        currentFolder.isNotNull || drawerIndex == 0 ? 2 : 1;
 
     return Get.dialog(FutureProvider(
       create: (context) => database.folderNoteDao.getFolder(),
       child: Consumer<List<FolderNoteData>>(
-        builder: (context, folderList, widget) =>
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 450),
-              child: folderList.isNull
-                  ? const SizedBox()
-                  : _MoveToFolderDialog(
+        builder: (context, folderList, emptyState) => AnimatedSwitcher(
+          duration: const Duration(milliseconds: 450),
+          child: folderList.isNull
+              ? emptyState
+              : _MoveToFolderDialog(
                   defaultItemValue: defaultItemValue,
                   folderList: folderList,
                   currentFolder: currentFolder,
@@ -45,7 +48,8 @@ class MoveToFolder {
                   deepBottomProvider: deepBottomProvider,
                   fabProvider: fabProvider,
                   database: database),
-            ),
+        ),
+        child: const SizedBox(),
       ),
     ));
   }
@@ -61,7 +65,7 @@ class _MoveToFolderDialog extends StatelessWidget {
   final FABProvider fabProvider;
   final DeepPaperDatabase database;
 
-  _MoveToFolderDialog({@required this.defaultItemValue,
+  const _MoveToFolderDialog({@required this.defaultItemValue,
     @required this.folderList,
     @required this.currentFolder,
     @required this.drawerIndex,
@@ -121,7 +125,7 @@ class _MoveToFolderDialog extends StatelessWidget {
       ],
       optionalWidget: DeepScrollbar(
         child: ScrollConfiguration(
-          behavior: DeepScrollBehavior(),
+          behavior: const DeepScrollBehavior(),
           child: ListView.builder(
               cacheExtent: 100.0,
               itemCount: folderList.length + defaultItemValue,

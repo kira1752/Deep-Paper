@@ -1,11 +1,12 @@
-import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
-import 'package:deep_paper/data/deep.dart';
-import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart' hide Value;
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:moor/moor.dart';
 import 'package:provider/provider.dart';
+
+import '../../data/deep.dart';
+import '../../utility/extension.dart';
+import 'provider/selection_provider.dart';
 
 class NoteCreation {
   NoteCreation._();
@@ -29,7 +30,7 @@ class NoteCreation {
         : TextDirection.ltr;
 
     if (isCopy) {
-      copy(
+      await copy(
           detail: detail,
           detailDirection: detailDirection,
           folderID: folderID,
@@ -82,7 +83,7 @@ class NoteCreation {
     final created = await database.noteDao.getCreatedDate(noteID);
 
     if (isCopy) {
-      copy(
+      await copy(
           detail: detail,
           detailDirection: detailDirection,
           folderID: folderID,
@@ -103,7 +104,7 @@ class NoteCreation {
             created: Value(created)));
   }
 
-  static void copy({
+  static Future<void> copy({
     @required String detail,
     @required TextDirection detailDirection,
     @required int folderID,

@@ -1,21 +1,22 @@
-import 'package:deep_paper/UI/note/widgets/drawer/drawer_default_item.dart';
-import 'package:deep_paper/UI/note/widgets/drawer/drawer_folder_item.dart';
-import 'package:deep_paper/UI/note/widgets/drawer/drawer_title.dart';
-import 'package:deep_paper/UI/note/widgets/drawer/folder_add_button.dart';
-import 'package:deep_paper/UI/widgets/deep_scrollbar.dart';
-import 'package:deep_paper/business_logic/note/provider/deep_bottom_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
-import 'package:deep_paper/data/deep.dart';
-import 'package:deep_paper/icons/my_icon.dart';
-import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
+import '../../../../business_logic/note/provider/deep_bottom_provider.dart';
+import '../../../../business_logic/note/provider/fab_provider.dart';
+import '../../../../business_logic/note/provider/selection_provider.dart';
+import '../../../../data/deep.dart';
+import '../../../../icons/my_icon.dart';
+import '../../../../utility/extension.dart';
+import '../../../widgets/deep_scrollbar.dart';
+import 'drawer_default_item.dart';
+import 'drawer_folder_item.dart';
+import 'drawer_title.dart';
+import 'folder_add_button.dart';
+
 class DeepDrawer extends StatefulWidget {
-  DeepDrawer({Key key}) : super(key: key);
+  const DeepDrawer({Key key}) : super(key: key);
 
   @override
   _DeepDrawerState createState() => _DeepDrawerState();
@@ -61,92 +62,96 @@ class _DeepDrawerState extends State<DeepDrawer> {
               StreamProvider(
                   create: (context) => database.folderNoteDao.watchFolder())
             ],
-            child: Consumer<List<Note>>(builder: (context, noteList, widget) {
+                child: Consumer<List<Note>>(builder: (context, noteList, _) {
               return Consumer<List<FolderNoteData>>(
-                  builder: (context, folderList, widget) {
-                return AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 450),
-                  child: folderList.isNull
-                      ? const SizedBox()
-                      : DeepScrollbar(
-                          key: const Key('Note Drawer Scrollbar'),
-                          child: ScrollablePositionedList.builder(
-                              key: const PageStorageKey('Folder ListView'),
-                              physics: const ClampingScrollPhysics(),
-                              itemCount: folderList.length + defaultItemValue,
-                              itemBuilder: (BuildContext context, int index) {
-                                if (index == 0) {
-                                  return DrawerTitle(
-                                      key: ValueKey('$index'), title: 'NOTE');
-                                } else if (index == 1) {
-                                  return DrawerDefaultItem(
-                                    key: ValueKey('$index'),
-                                    title: 'All Notes',
-                                    setValue: 0,
-                                    icon: MyIcon.square_edit,
-                                    activeIcon: MyIcon.square_edit,
-                                    total: noteList.isNull
-                                        ? null
-                                        : noteList
-                                            .where((n) => n.isDeleted == false)
-                                            .length,
-                                  );
-                                } else if (index == 2) {
-                                  return DrawerDefaultItem(
-                                    key: ValueKey('$index'),
-                                    title: 'Trash',
-                                    setValue: 1,
-                                    icon: MyIcon.trash,
-                                    activeIcon: MyIcon.trash,
-                                    total: noteList.isNull
-                                        ? null
-                                        : noteList
-                                            .where((n) => n.isDeleted == true)
-                                            .length,
-                                  );
-                                } else if (index == 3) {
-                                  return FolderAddButton(
-                                    key: ValueKey('$index'),
-                                  );
-                                } else if (index == 4) {
-                                  return DrawerFolderItem(
-                                    key: ValueKey('$index'),
-                                    icon: MyIcon.folder,
-                                    activeIcon: MyIcon.folder,
-                                    index: 0,
-                                    folder: null,
-                                    total: noteList.isNull
-                                        ? null
-                                        : noteList
-                                            .where((n) => n.folderID == 0)
-                                            .where((n) => n.isDeleted == false)
-                                            .length,
-                                  );
-                                } else {
-                                  return DrawerFolderItem(
-                                    key: ValueKey('$index'),
-                                    icon: MyIcon.folder,
-                                    activeIcon: MyIcon.folder,
-                                    index:
-                                        folderList[index - defaultItemValue].id,
-                                    folder:
-                                        folderList[index - defaultItemValue],
-                                    total: noteList.isNull
-                                        ? null
-                                        : noteList
-                                            .where((n) =>
-                                                n.folderID ==
-                                                folderList[index -
-                                                        defaultItemValue]
-                                                    .id)
-                                            .where((n) => n.isDeleted == false)
-                                            .length,
-                                  );
-                                }
-                              }),
-                        ),
-                );
-              });
+                  child: const SizedBox(),
+                  builder: (context, folderList, emptyState) {
+                    return AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 450),
+                      child: folderList.isNull
+                          ? emptyState
+                          : DeepScrollbar(
+                              key: const Key('Note Drawer Scrollbar'),
+                              child: ScrollablePositionedList.builder(
+                                  key: const PageStorageKey('Folder ListView'),
+                                  physics: const ClampingScrollPhysics(),
+                                  itemCount:
+                                      folderList.length + defaultItemValue,
+                                  itemBuilder: (context, index) {
+                                    if (index == 0) {
+                                      return const DrawerTitle();
+                                    } else if (index == 1) {
+                                      return DrawerDefaultItem(
+                                        key: ValueKey('$index'),
+                                        title: 'All Notes',
+                                        setValue: 0,
+                                        icon: MyIcon.square_edit,
+                                        activeIcon: MyIcon.square_edit,
+                                        total: noteList.isNull
+                                            ? null
+                                            : noteList
+                                                .where(
+                                                    (n) => n.isDeleted == false)
+                                                .length,
+                                      );
+                                    } else if (index == 2) {
+                                      return DrawerDefaultItem(
+                                        key: ValueKey('$index'),
+                                        title: 'Trash',
+                                        setValue: 1,
+                                        icon: MyIcon.trash,
+                                        activeIcon: MyIcon.trash,
+                                        total: noteList.isNull
+                                            ? null
+                                            : noteList
+                                                .where(
+                                                    (n) => n.isDeleted == true)
+                                                .length,
+                                      );
+                                    } else if (index == 3) {
+                                      return const FolderAddButton();
+                                    } else if (index == 4) {
+                                      return DrawerFolderItem(
+                                        key: ValueKey('$index'),
+                                        icon: MyIcon.folder,
+                                        activeIcon: MyIcon.folder,
+                                        index: 0,
+                                        folder: null,
+                                        total: noteList.isNull
+                                            ? null
+                                            : noteList
+                                                .where((n) => n.folderID == 0)
+                                                .where(
+                                                    (n) => n.isDeleted == false)
+                                                .length,
+                                      );
+                                    } else {
+                                      return DrawerFolderItem(
+                                        key: ValueKey('$index'),
+                                        icon: MyIcon.folder,
+                                        activeIcon: MyIcon.folder,
+                                        index:
+                                            folderList[index - defaultItemValue]
+                                                .id,
+                                        folder: folderList[
+                                            index - defaultItemValue],
+                                        total: noteList.isNull
+                                            ? null
+                                            : noteList
+                                                .where((n) =>
+                                                    n.folderID ==
+                                                    folderList[index -
+                                                            defaultItemValue]
+                                                        .id)
+                                                .where(
+                                                    (n) => n.isDeleted == false)
+                                                .length,
+                                      );
+                                    }
+                                  }),
+                            ),
+                    );
+                  });
             }),
           )),
         ),

@@ -1,6 +1,7 @@
-import 'package:deep_paper/UI/widgets/deep_scroll_behavior.dart';
-import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/material.dart';
+
+import '../../utility/extension.dart';
+import 'deep_scroll_behavior.dart';
 
 class DeepExpandBaseDialog extends StatelessWidget {
   final Widget title;
@@ -12,7 +13,7 @@ class DeepExpandBaseDialog extends StatelessWidget {
   final double actionsPadding;
   final EdgeInsets insetPadding;
 
-  DeepExpandBaseDialog(
+  const DeepExpandBaseDialog(
       {this.title,
       this.titlePadding,
       this.children,
@@ -47,7 +48,7 @@ class DeepExpandBaseDialog extends StatelessWidget {
           if (children.isNotNull)
             Flexible(
               child: ScrollConfiguration(
-                behavior: DeepScrollBehavior(),
+                behavior: const DeepScrollBehavior(),
                 child: SingleChildScrollView(
                   padding: childrenPadding ??
                       EdgeInsets.fromLTRB(24.0, 24.0, 24.0,

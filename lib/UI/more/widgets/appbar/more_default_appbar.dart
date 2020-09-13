@@ -1,7 +1,10 @@
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../utility/size_helper.dart';
+
 class MoreDefaultAppBar extends StatelessWidget {
+  const MoreDefaultAppBar();
+
   @override
   Widget build(BuildContext context) {
     return AppBar(

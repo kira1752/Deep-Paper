@@ -1,13 +1,15 @@
-import 'package:deep_paper/business_logic/note/provider/note_detail_provider.dart';
-import 'package:deep_paper/business_logic/note/text_field_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../../business_logic/note/provider/note_detail_provider.dart';
+import '../../../business_logic/note/text_field_logic.dart';
+import '../../../utility/extension.dart';
 
 class DateCharacterCounts extends StatelessWidget {
   final Future<String> date;
   final String detail;
 
-  DateCharacterCounts({
+  const DateCharacterCounts({
     @required this.date,
     @required this.detail,
   });
@@ -30,14 +32,11 @@ class DateCharacterCounts extends StatelessWidget {
               create: (context) => TextFieldLogic.countAllAsync(detail),
               builder: (context, widget) {
                 return Consumer<int>(
-                  builder: (context, count, widget) {
-                    if (count == null) {
-                      return _TopCount(key: const Key('null'), initialCount: 0);
-                    } else {
-                      return _TopCount(
-                          key: const Key('available'), initialCount: count);
-                    }
-                  },
+                  builder: (context, count, noTextCount) => count.isNull
+                      ? noTextCount
+                      : _TopCount(
+                          key: const Key('available'), initialCount: count),
+                  child: const _TopCount(key: Key('null'), initialCount: 0),
                 );
               })
         ],
@@ -49,7 +48,7 @@ class DateCharacterCounts extends StatelessWidget {
 class _TopDate extends StatefulWidget {
   final Future<String> date;
 
-  _TopDate({@required this.date});
+  const _TopDate({@required this.date});
 
   @override
   __TopDateState createState() => __TopDateState();
@@ -81,7 +80,7 @@ class __TopDateState extends State<_TopDate> {
 class _TopCount extends StatefulWidget {
   final int initialCount;
 
-  _TopCount({Key key, @required this.initialCount}) : super(key: key);
+  const _TopCount({Key key, @required this.initialCount}) : super(key: key);
 
   @override
   __TopCountState createState() => __TopCountState();
@@ -100,14 +99,13 @@ class __TopCountState extends State<_TopCount> {
   Widget build(BuildContext context) {
     return Selector<NoteDetailProvider, int>(
         selector: (context, provider) => provider.getDetailCount,
-        builder: (context, count, widget) {
-          return Text(
-            '$count characters',
-            style: Theme
-                .of(context)
-                .textTheme
-                .bodyText2,
-          );
-        });
+        builder: (context, count, _) =>
+            Text(
+              '$count characters',
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText2,
+            ));
   }
 }

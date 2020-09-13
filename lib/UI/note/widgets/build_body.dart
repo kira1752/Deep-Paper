@@ -1,16 +1,19 @@
-import 'package:deep_paper/UI/note/widgets/list_view/folder_list_view.dart';
-import 'package:deep_paper/UI/note/widgets/list_view/note_list_view.dart';
-import 'package:deep_paper/UI/note/widgets/list_view/trash_list_view.dart';
-import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
-import 'package:deep_paper/data/deep.dart';
-import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
+import '../../../business_logic/note/provider/fab_provider.dart';
+import '../../../business_logic/note/provider/note_drawer_provider.dart';
+import '../../../data/deep.dart';
+import '../../../utility/extension.dart';
+import 'list_view/folder_list_view.dart';
+import 'list_view/note_list_view.dart';
+import 'list_view/trash_list_view.dart';
+
 class BuildBody extends StatelessWidget {
+  const BuildBody();
+
   @override
   Widget build(BuildContext context) {
     return NotificationListener<ScrollNotification>(
@@ -18,30 +21,28 @@ class BuildBody extends StatelessWidget {
       child: Selector<NoteDrawerProvider, Tuple2<int, bool>>(
         selector: (context, drawerProvider) =>
             Tuple2(drawerProvider.getIndexDrawerItem, drawerProvider.isFolder),
-        builder: (context, data, child) {
+        builder: (context, data, _) {
           if (data.item2 == true) {
             return Scrollbar(
                 child: Selector<NoteDrawerProvider, FolderNoteData>(
                     selector: (context, provider) => provider.getFolder,
-                    builder: (context, folder, widget) {
-                      return FolderListView(
-                        key: Key('${folder.isNotNull ? folder.id : 0}'),
-                        folder: folder,
-                      );
-                    }));
+                    builder: (context, folder, _) => FolderListView(
+                          key: Key('${folder.isNotNull ? folder.id : 0}'),
+                          folder: folder,
+                        )));
           } else {
-            return _showNote(index: data.item1);
+            return _otherNote(index: data.item1);
           }
         },
       ),
     );
   }
 
-  Widget _showNote({int index}) {
+  Widget _otherNote({int index}) {
     if (index == 0) {
-      return Scrollbar(child: NoteListView());
+      return const Scrollbar(child: NoteListView());
     } else {
-      return Scrollbar(child: TrashListView());
+      return const Scrollbar(child: TrashListView());
     }
   }
 

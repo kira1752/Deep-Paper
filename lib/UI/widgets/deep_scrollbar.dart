@@ -19,8 +19,8 @@ const Duration _kDeepScrollbarTimeToFade = Duration(milliseconds: 600);
 /// Dynamically changes to an iOS style Deepscrollbar that looks like
 /// [CupertinoDeepScrollbar] on the iOS platform.
 ///
-/// To add a Deepscrollbar to a [ScrollView], simply wrap the scroll view widget in
-/// a [DeepScrollbar] widget.
+/// To add a DeepScrollbar to a [ScrollView],
+/// simply wrap the scroll view widget in a [DeepScrollbar] widget.
 ///
 /// See also:
 ///
@@ -39,8 +39,9 @@ class DeepScrollbar extends StatefulWidget {
 
   /// The widget below this widget in the tree.
   ///
-  /// The Deepscrollbar will be stacked on top of this child. This child (and its
-  /// subtree) should include a source of [ScrollNotification] notifications.
+  /// The DeepScrollbar will be stacked on top of this child.
+  /// This child (and its subtree)
+  /// should include a source of [ScrollNotification] notifications.
   ///
   /// Typically a [ListView] or [CustomScrollView].
   final Widget child;
@@ -122,8 +123,8 @@ class _DeepScrollbarState extends State<DeepScrollbar>
       return false;
     }
 
-    // iOS sub-delegates to the CupertinoDeepScrollbar instead and doesn't handle
-    // scroll notifications here.
+    // iOS sub-delegates to the Cupertino DeepScrollbar instead
+    // and doesn't handle scroll notifications here.
     if (!_useCupertinoDeepScrollbar &&
         (notification is ScrollUpdateNotification ||
             notification is OverscrollNotification)) {

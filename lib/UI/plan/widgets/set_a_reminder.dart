@@ -1,7 +1,8 @@
-import 'package:deep_paper/UI/transition/widgets/slide_left_widget.dart';
-import 'package:deep_paper/business_logic/plan/provider/create_plan_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../../business_logic/plan/provider/create_plan_provider.dart';
+import '../../transition/widgets/slide_left_widget.dart';
 
 class SetAReminder extends StatelessWidget {
   const SetAReminder();
@@ -23,7 +24,7 @@ class SetAReminder extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          _DeleteButton()
+          const _DeleteButton()
         ],
       ),
     );
@@ -31,6 +32,8 @@ class SetAReminder extends StatelessWidget {
 }
 
 class _DeleteButton extends StatefulWidget {
+  const _DeleteButton();
+
   @override
   __DeleteButtonState createState() => __DeleteButtonState();
 }
@@ -48,32 +51,34 @@ class __DeleteButtonState extends State<_DeleteButton> {
   @override
   Widget build(BuildContext context) {
     return Selector<CreatePlanProvider, bool>(
-        selector: (context, provider) => provider.getDate.isEmpty,
-        child: Material(
-            color: Colors.transparent,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12.0))),
-            child: InkWell(
-              onTap: () {
-                _createPlanProvider.setDate = '';
-              },
-              splashColor: Theme.of(context).accentColor.withOpacity(0.16),
-              borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'DELETE',
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        letterSpacing: 1.2,
-                        color: Theme.of(context).accentColor.withOpacity(0.80),
-                      ),
-                ),
+      selector: (context, provider) => provider.getDate.isEmpty,
+      builder: (context, isEmpty, deleteButton) => IgnorePointer(
+        ignoring: isEmpty,
+        child: SlideLeftWidget(
+            reverseDuration: const Duration(milliseconds: 400),
+            child: isEmpty ? const SizedBox() : deleteButton),
+      ),
+      child: Material(
+          color: Colors.transparent,
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(12.0))),
+          child: InkWell(
+            onTap: () {
+              _createPlanProvider.setDate = '';
+            },
+            splashColor: Theme.of(context).accentColor.withOpacity(0.16),
+            borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'DELETE',
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      letterSpacing: 1.2,
+                      color: Theme.of(context).accentColor.withOpacity(0.80),
+                    ),
               ),
-            )),
-        builder: (context, isEmpty, deleteButton) => IgnorePointer(
-              ignoring: isEmpty,
-              child: SlideLeftWidget(
-                  child: isEmpty ? const SizedBox.shrink() : deleteButton),
-            ));
+            ),
+          )),
+    );
   }
 }

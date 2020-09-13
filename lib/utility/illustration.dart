@@ -1,4 +1,7 @@
+// Illustration Utility class
 class Illustration {
+  Illustration._();
+
   static const String _note = 'assets/svg/note.svg';
   static const String _trash = 'assets/svg/trash.svg';
   static const String _plan = 'assets/svg/plan.svg';

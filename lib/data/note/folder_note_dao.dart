@@ -1,5 +1,6 @@
-import 'package:deep_paper/data/deep.dart';
 import 'package:moor/moor.dart';
+
+import '../deep.dart';
 
 part 'folder_note_dao.g.dart';
 

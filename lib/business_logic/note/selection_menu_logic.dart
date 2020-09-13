@@ -1,15 +1,16 @@
-import 'package:deep_paper/UI/note/widgets/dialog/move_to_folder.dart';
-import 'package:deep_paper/UI/widgets/deep_toast.dart';
-import 'package:deep_paper/business_logic/note/note_creation.dart';
-import 'package:deep_paper/business_logic/note/provider/deep_bottom_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
-import 'package:deep_paper/business_logic/note/trash_management.dart';
-import 'package:deep_paper/data/deep.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+
+import '../../UI/note/widgets/dialog/move_to_folder.dart';
+import '../../UI/widgets/deep_toast.dart';
+import '../../data/deep.dart';
+import 'note_creation.dart';
+import 'provider/deep_bottom_provider.dart';
+import 'provider/fab_provider.dart';
+import 'provider/note_drawer_provider.dart';
+import 'provider/selection_provider.dart';
+import 'trash_management.dart';
 
 class SelectionMenuLogic {
   SelectionMenuLogic._();

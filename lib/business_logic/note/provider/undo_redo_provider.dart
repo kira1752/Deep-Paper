@@ -1,8 +1,9 @@
 import 'dart:collection';
 
-import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/state_manager.dart';
+
+import '../../../utility/extension.dart';
 
 class UndoRedoProvider with ChangeNotifier {
   int currentCursorPosition = 0;
@@ -102,11 +103,6 @@ class UndoRedoProvider with ChangeNotifier {
     }
 
     if (_undo.isNotEmpty) {
-      if (_canRedo != true) {
-        _canRedo = true;
-        notifyListeners();
-      }
-
       if (_undo.last == currentTyped.value) {
         _redo.add(_undo.removeLast());
       }
@@ -114,10 +110,16 @@ class UndoRedoProvider with ChangeNotifier {
       if (_undo.isNotEmpty) {
         currentTyped.value = _undo.removeLast();
         _redo.add(currentTyped.value);
+
+        if (_canRedo != true) {
+          _canRedo = true;
+          notifyListeners();
+        }
         return currentTyped.value;
       } else {
         currentTyped.value = '';
         _canUndo = false;
+
         if (_canRedo != true) {
           _canRedo = true;
         }

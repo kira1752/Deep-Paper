@@ -1,15 +1,16 @@
-import 'package:deep_paper/UI/widgets/deep_base_dialog.dart';
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../utility/size_helper.dart';
+import '../../../widgets/deep_base_dialog.dart';
 
 class NoteInfoDialog extends StatelessWidget {
   final String folderName;
   final DateTime modified;
   final DateTime created;
 
-  NoteInfoDialog(
+  const NoteInfoDialog(
       {@required this.folderName,
       @required this.modified,
       @required this.created});

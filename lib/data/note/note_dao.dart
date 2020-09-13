@@ -1,8 +1,9 @@
 import 'dart:ui';
 
-import 'package:deep_paper/data/deep.dart';
-import 'package:deep_paper/utility/extension.dart';
 import 'package:moor/moor.dart';
+
+import '../../utility/extension.dart';
+import '../deep.dart';
 
 part 'note_dao.g.dart';
 

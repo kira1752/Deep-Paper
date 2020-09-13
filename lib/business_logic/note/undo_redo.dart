@@ -1,7 +1,8 @@
-import 'package:deep_paper/business_logic/note/provider/note_detail_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/undo_redo_provider.dart';
-import 'package:deep_paper/business_logic/note/text_field_logic.dart';
 import 'package:flutter/widgets.dart';
+
+import 'provider/note_detail_provider.dart';
+import 'provider/undo_redo_provider.dart';
+import 'text_field_logic.dart';
 
 class UndoRedoBusinessLogic {
   UndoRedoBusinessLogic._();

@@ -1,11 +1,14 @@
-import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
-import 'package:deep_paper/utility/illustration.dart';
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../business_logic/note/provider/note_drawer_provider.dart';
+import '../../../utility/illustration.dart';
+import '../../../utility/size_helper.dart';
+
 class EmptyTrashIllustration extends StatefulWidget {
+  const EmptyTrashIllustration();
+
   @override
   _EmptyTrashIllustrationState createState() => _EmptyTrashIllustrationState();
 }

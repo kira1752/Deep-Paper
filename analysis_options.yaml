@@ -2,4 +2,11 @@ include: package:pedantic/analysis_options.yaml
 
 linter:
   rules:
-    - prefer_const_constructors
+     prefer_const_constructors: true
+     prefer_const_declarations: true
+     prefer_const_literals_to_create_immutables: true
+     prefer_relative_imports: true
+     directives_ordering: true
+     avoid_field_initializers_in_const_classes: true
+     avoid_unused_constructor_parameters: true
+     avoid_void_async: true

@@ -1,5 +1,6 @@
-import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/material.dart';
+
+import '../../../utility/extension.dart';
 
 class FieldBase extends StatelessWidget {
   final Widget leading;
@@ -11,7 +12,7 @@ class FieldBase extends StatelessWidget {
   final EdgeInsets paddingTrailing;
   final Function onTap;
 
-  FieldBase(
+  const FieldBase(
       {@required this.onTap,
       @required this.leading,
       @required this.title,

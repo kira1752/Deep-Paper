@@ -1,8 +1,9 @@
-import 'package:deep_paper/business_logic/note/provider/note_detail_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/undo_redo_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+
+import 'provider/note_detail_provider.dart';
+import 'provider/undo_redo_provider.dart';
 
 class TextFieldLogic {
   TextFieldLogic._();

@@ -1,10 +1,11 @@
-import 'package:deep_paper/UI/widgets/deep_toast.dart';
-import 'package:deep_paper/business_logic/note/note_creation.dart';
-import 'package:deep_paper/business_logic/note/provider/note_detail_provider.dart';
-import 'package:deep_paper/data/deep.dart';
-import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' hide TextDirection;
+
+import '../../UI/widgets/deep_toast.dart';
+import '../../data/deep.dart';
+import '../../utility/extension.dart';
+import 'note_creation.dart';
+import 'provider/note_detail_provider.dart';
 
 class NoteDetailNormalSave {
   NoteDetailNormalSave._();
@@ -64,8 +65,9 @@ class NoteDetailNormalSave {
           );
         }
       } else {
-        // Same as the usual note update but this run only when there is no note data provided
-        // like when creating new note because of user pressing home button, etc
+        // Same as the usual note update but this run only when there is
+        // no note data provided like when creating new note
+        // because of user pressing home button, etc
         // then user continue editing the note,
         // then pressing back button to access the homepage of DeepPaper app
         if (detailProvider.getTempDetail != detailProvider.getDetail) {
@@ -81,13 +83,14 @@ class NoteDetailNormalSave {
       }
     } else {
       // Create new note when there is no Note data exist in Database
-      // or no Note data created because of user tapping home button or there is a call
+      // or no Note data created
+      // because of user tapping home button or there is a call
       NoteCreation.create(
           detail: detailProvider.getDetail,
           detailDirection:
-              Bidi.detectRtlDirectionality(detailProvider.getDetail)
-                  ? TextDirection.rtl
-                  : TextDirection.ltr,
+          Bidi.detectRtlDirectionality(detailProvider.getDetail)
+              ? TextDirection.rtl
+              : TextDirection.ltr,
           folderID: folderID,
           folderName: folderName,
           folderNameDirection: Bidi.detectRtlDirectionality(folderName)

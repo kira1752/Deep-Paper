@@ -1,24 +1,25 @@
-import 'package:deep_paper/UI/note/widgets/dialog/create_folder_dialog.dart';
-import 'package:deep_paper/UI/note/widgets/dialog/create_folder_move_to_dialog.dart';
-import 'package:deep_paper/UI/note/widgets/dialog/delete_folder_dialog.dart';
-import 'package:deep_paper/UI/note/widgets/dialog/note_info_dialog.dart';
-import 'package:deep_paper/UI/note/widgets/dialog/rename_folder_dialog.dart';
-import 'package:deep_paper/UI/note/widgets/dialog/restore_dialog.dart';
-import 'package:deep_paper/UI/widgets/deep_dialog_route.dart';
-import 'package:deep_paper/business_logic/note/provider/deep_bottom_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/detect_text_direction_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/folder_dialog_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/text_controller_provider.dart';
-import 'package:deep_paper/data/deep.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../business_logic/note/provider/deep_bottom_provider.dart';
+import '../../../../business_logic/note/provider/detect_text_direction_provider.dart';
+import '../../../../business_logic/note/provider/fab_provider.dart';
+import '../../../../business_logic/note/provider/folder_dialog_provider.dart';
+import '../../../../business_logic/note/provider/note_drawer_provider.dart';
+import '../../../../business_logic/note/provider/selection_provider.dart';
+import '../../../../business_logic/note/provider/text_controller_provider.dart';
+import '../../../../data/deep.dart';
+import '../../../widgets/deep_dialog_route.dart';
+import 'create_folder_dialog.dart';
+import 'create_folder_move_to_dialog.dart';
+import 'delete_folder_dialog.dart';
 import 'move_to_folder.dart';
+import 'note_info_dialog.dart';
+import 'rename_folder_dialog.dart';
+import 'restore_dialog.dart';
 
+// DeepDialog Utility class
 class DeepDialog {
   DeepDialog._();
 
@@ -38,7 +39,7 @@ class DeepDialog {
           ChangeNotifierProvider(
               create: (context) => DetectTextDirectionProvider())
         ],
-        child: CreateFolderDialog(),
+        child: const CreateFolderDialog(),
       ),
     );
   }
@@ -74,7 +75,7 @@ class DeepDialog {
             ChangeNotifierProvider(
                 create: (context) => DetectTextDirectionProvider())
           ],
-          child: CreateFolderMoveToDialog(),
+          child: const CreateFolderMoveToDialog(),
         ),
       ),
     );

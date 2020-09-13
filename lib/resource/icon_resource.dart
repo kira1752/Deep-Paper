@@ -1,44 +1,43 @@
-import 'package:deep_paper/icons/my_icon.dart';
 import 'package:flutter/material.dart';
+
+import '../icons/my_icon.dart';
 
 class IconResource {
   IconResource._();
 
-  static final darkSearch = const Icon(
+  static const darkSearch = Icon(
     MyIcon.search,
     color: Colors.white70,
   );
 
-  static final darkClose = const Icon(
+  static const darkClose = Icon(
     MyIcon.x,
     color: Colors.white70,
   );
 
-  static final darkOptionsMoveTo = const Icon(
+  static const darkOptionsMoveTo = Icon(
     MyIcon.arrow_up_right,
     color: Colors.white54,
   );
 
-  static final darkOptionsRestore =
-      const Icon(Icons.restore, color: Colors.white54);
+  static const darkOptionsRestore = Icon(Icons.restore, color: Colors.white54);
 
-  static final darkOptionsRenameFolder = const Icon(
+  static const darkOptionsRenameFolder = Icon(
     MyIcon.edit_2,
     color: Colors.white54,
   );
 
-  static final darkOptionsDelete =
-      const Icon(MyIcon.trash, color: Colors.white54);
+  static const darkOptionsDelete = Icon(MyIcon.trash, color: Colors.white54);
 
-  static final darkHamburgerMenu = const Icon(
+  static const darkHamburgerMenu = Icon(
     MyIcon.menu,
     color: Colors.white70,
   );
 
-  static final darkOptions = const Icon(
+  static const darkOptions = Icon(
     MyIcon.more_vertical,
     color: Colors.white70,
   );
 
-  static final darkOptionsCopy = const Icon(MyIcon.copy, color: Colors.white60);
+  static const darkOptionsCopy = Icon(MyIcon.copy, color: Colors.white60);
 }

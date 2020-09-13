@@ -1,18 +1,20 @@
-import 'package:deep_paper/UI/widgets/deep_scroll_behavior.dart';
-import 'package:deep_paper/icons/my_icon.dart';
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 import 'package:moor/moor.dart' hide Column;
 
+import '../../../icons/my_icon.dart';
+import '../../../utility/size_helper.dart';
+import '../../widgets/deep_scroll_behavior.dart';
+
+// BottomModal Utility class
 class BottomModal {
   BottomModal._();
 
   static Future openAddMenu() {
     return Get.bottomSheet(
       ScrollConfiguration(
-        behavior: DeepScrollBehavior(),
+        behavior: const DeepScrollBehavior(),
         child: ListView(
           physics: const ClampingScrollPhysics(),
           shrinkWrap: true,
@@ -98,7 +100,7 @@ class BottomModal {
       @required void Function() noteInfo}) {
     return Get.bottomSheet(
       ScrollConfiguration(
-        behavior: DeepScrollBehavior(),
+        behavior: const DeepScrollBehavior(),
         child: ListView(
           physics: const ClampingScrollPhysics(),
           shrinkWrap: true,

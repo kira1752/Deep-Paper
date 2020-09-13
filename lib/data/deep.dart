@@ -1,17 +1,19 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:deep_paper/data/note/folder_note_dao.dart';
-import 'package:deep_paper/data/note/note_dao.dart';
 import 'package:moor/ffi.dart';
 import 'package:moor/moor.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
+import 'note/folder_note_dao.dart';
+import 'note/note_dao.dart';
+
 part 'deep.g.dart';
 
 class TextDirectionConverter extends TypeConverter<TextDirection, String> {
   const TextDirectionConverter();
+
   @override
   TextDirection mapToDart(String fromDb) {
     if (fromDb == null) {

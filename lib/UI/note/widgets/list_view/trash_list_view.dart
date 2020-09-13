@@ -1,30 +1,32 @@
-import 'package:deep_paper/UI/note/widgets/dialog/note_dialog.dart';
-import 'package:deep_paper/UI/note/widgets/empty_trash_illustration.dart';
-import 'package:deep_paper/UI/note/widgets/note_card.dart';
-import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
-import 'package:deep_paper/data/deep.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
+import '../../../../business_logic/note/provider/note_drawer_provider.dart';
+import '../../../../data/deep.dart';
+import '../dialog/note_dialog.dart';
+import '../empty_trash_illustration.dart';
+import '../note_card.dart';
 
 class TrashListView extends StatelessWidget {
+  const TrashListView();
+
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
     return StreamProvider<List<Note>>(
       create: (context) => database.noteDao.watchAllDeletedNotes(),
-      child: Consumer<List<Note>>(builder: (context, data, child) {
-        return AnimatedSwitcher(
-            duration: const Duration(milliseconds: 450),
-            child: data.isNull
-                ? const SizedBox()
-                : data.isEmpty
-                    ? EmptyTrashIllustration()
-                    : _TrashIsExist(data: data));
-      }),
+      child: Consumer<List<Note>>(
+          child: const EmptyTrashIllustration(),
+          builder: (context, data, illustration) {
+            return AnimatedSwitcher(
+                duration: const Duration(milliseconds: 450),
+                child: data.isNull
+                    ? const SizedBox()
+                    : data.isEmpty ? illustration : _TrashIsExist(data: data));
+          }),
     );
   }
 }
@@ -32,7 +34,7 @@ class TrashListView extends StatelessWidget {
 class _TrashIsExist extends StatefulWidget {
   final List<Note> data;
 
-  _TrashIsExist({@required this.data});
+  const _TrashIsExist({@required this.data});
 
   @override
   __TrashIsExistState createState() => __TrashIsExistState();
@@ -52,8 +54,10 @@ class __TrashIsExistState extends State<_TrashIsExist> {
 
   @override
   Widget build(BuildContext context) {
-    return ScrollablePositionedList.builder(
+    return ListView.builder(
         physics: const ClampingScrollPhysics(),
+        cacheExtent: 100,
+        semanticChildCount: widget.data.length,
         itemCount: widget.data.length,
         itemBuilder: (context, index) {
           return NoteCard(

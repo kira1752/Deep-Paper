@@ -1,11 +1,12 @@
-import 'package:deep_paper/UI/plan/widgets/field_base.dart';
-import 'package:deep_paper/UI/transition/widgets/slide_downward_widget.dart';
-import 'package:deep_paper/UI/transition/widgets/slide_right_widget.dart';
-import 'package:deep_paper/business_logic/plan/provider/create_plan_provider.dart';
-import 'package:deep_paper/icons/my_icon.dart';
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../../business_logic/plan/provider/create_plan_provider.dart';
+import '../../../icons/my_icon.dart';
+import '../../../utility/size_helper.dart';
+import '../../transition/widgets/slide_downward_widget.dart';
+import '../../transition/widgets/slide_right_widget.dart';
+import 'field_base.dart';
 
 class TimeField extends StatelessWidget {
   const TimeField();
@@ -15,20 +16,23 @@ class TimeField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Selector<CreatePlanProvider, bool>(
-          selector: (context, provider) => provider.getDate.isEmpty,
-          builder: (context, isEmpty, child) => IgnorePointer(
-                ignoring: isEmpty,
-                child: SlideDownwardWidget(
-                  duration: const Duration(milliseconds: 400),
-                  reverseDuration: const Duration(milliseconds: 400),
-                  child: isEmpty ? const SizedBox() : _Time(),
-                ),
-              )),
+        selector: (context, provider) => provider.getDate.isEmpty,
+        builder: (context, isEmpty, time) => IgnorePointer(
+          ignoring: isEmpty,
+          child: SlideDownwardWidget(
+            reverseDuration: const Duration(milliseconds: 400),
+            child: isEmpty ? const SizedBox() : time,
+          ),
+        ),
+        child: const _Time(),
+      ),
     );
   }
 }
 
 class _Time extends StatefulWidget {
+  const _Time();
+
   @override
   __TimeState createState() => __TimeState();
 }
@@ -64,22 +68,20 @@ class __TimeState extends State<_Time> {
       ),
       title: Selector<CreatePlanProvider, String>(
           selector: (context, provider) => provider.getTime,
-          builder: (context, time, child) {
-            return SlideRightWidget(
-              duration: const Duration(milliseconds: 400),
-              child: Text(
-                '$time',
-                key: Key('$time'),
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(
-                    color: Colors.white.withOpacity(.80),
-                    fontSize: SizeHelper.getModalTextField),
-              ),
-            );
-          }),
+          builder: (context, time, _) =>
+              SlideRightWidget(
+                child: Text(
+                  '$time',
+                  key: Key('$time'),
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(
+                      color: Colors.white.withOpacity(.80),
+                      fontSize: SizeHelper.getModalTextField),
+                ),
+              )),
     );
   }
 

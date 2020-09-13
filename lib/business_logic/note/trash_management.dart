@@ -1,8 +1,9 @@
-import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
-import 'package:deep_paper/data/deep.dart';
 import 'package:get/get.dart' hide Value;
 import 'package:moor/moor.dart';
 import 'package:provider/provider.dart';
+
+import '../../data/deep.dart';
+import 'provider/selection_provider.dart';
 
 class TrashManagement {
   TrashManagement._();

@@ -1,10 +1,12 @@
-import 'package:deep_paper/UI/plan/widgets/dialog/repeat_dialog.dart';
-import 'package:deep_paper/UI/widgets/deep_dialog_route.dart';
-import 'package:deep_paper/business_logic/plan/provider/create_plan_provider.dart';
-import 'package:deep_paper/business_logic/plan/provider/repeat_dialog_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../business_logic/plan/provider/create_plan_provider.dart';
+import '../../../../business_logic/plan/provider/repeat_dialog_provider.dart';
+import '../../../widgets/deep_dialog_route.dart';
+import 'repeat_dialog.dart';
+
+// PlanDialog Utility class
 class PlanDialog {
   PlanDialog._();
 

@@ -34,7 +34,7 @@ class SlideRightWidget extends StatelessWidget {
             ),
           );
         },
-        layoutBuilder: (Widget currentChild, List<Widget> previousChildren) {
+        layoutBuilder: (currentChild, previousChildren) {
           return Stack(
             children: <Widget>[
               ...previousChildren,

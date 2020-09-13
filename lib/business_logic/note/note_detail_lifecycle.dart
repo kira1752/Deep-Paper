@@ -1,9 +1,9 @@
-import 'package:deep_paper/business_logic/note/provider/note_detail_provider.dart';
-import 'package:deep_paper/utility/extension.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
+import '../../utility/extension.dart';
 import 'note_creation.dart';
+import 'provider/note_detail_provider.dart';
 
 class NoteDetailLifecycle {
   static Future<void> check(
@@ -34,7 +34,8 @@ class NoteDetailLifecycle {
       } else {
         if (detailProvider.getDetail.isNullEmptyOrWhitespace) {
           // If note data exist, but detail text is empty
-          // when user tap home button, the empty data will deleted automatically
+          // when user tap home button,
+          // the empty data will deleted automatically
           NoteCreation.deleteEmptyNote(
               noteID: detailProvider.getNote.isNull
                   ? detailProvider.getTempNoteID
@@ -59,7 +60,8 @@ class NoteDetailLifecycle {
           }
         } else {
           // Same as above but this run only when there is no note data provided
-          // like when creating new note because of user pressing home button, etc
+          // like when creating new note
+          // because of user pressing home button, etc
           // then user continue editing the note,
           // then pressing home button again, etc
           if (detailProvider.getTempDetail != detailProvider.getDetail) {

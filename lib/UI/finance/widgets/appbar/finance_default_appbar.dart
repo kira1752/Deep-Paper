@@ -1,7 +1,10 @@
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../utility/size_helper.dart';
+
 class FinanceDefaultAppBar extends StatelessWidget {
+  const FinanceDefaultAppBar();
+
   @override
   Widget build(BuildContext context) {
     return AppBar(

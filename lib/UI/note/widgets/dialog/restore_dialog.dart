@@ -1,15 +1,16 @@
-import 'package:deep_paper/UI/widgets/deep_base_dialog.dart';
-import 'package:deep_paper/UI/widgets/deep_toast.dart';
-import 'package:deep_paper/business_logic/note/trash_management.dart';
-import 'package:deep_paper/data/deep.dart';
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../../business_logic/note/trash_management.dart';
+import '../../../../data/deep.dart';
+import '../../../../utility/size_helper.dart';
+import '../../../widgets/deep_base_dialog.dart';
+import '../../../widgets/deep_toast.dart';
 
 class RestoreDialog extends StatelessWidget {
   final Note data;
 
-  RestoreDialog({@required this.data});
+  const RestoreDialog({@required this.data});
 
   @override
   Widget build(BuildContext context) {

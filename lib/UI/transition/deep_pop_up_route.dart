@@ -7,19 +7,17 @@ class DeepPopUpRoute extends PageRouteBuilder {
           opaque: false,
           settings: settings,
           pageBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
+            context,
+            animation,
+            secondaryAnimation,
           ) {
             final widget = page(context);
             return widget;
           },
-          transitionsBuilder: (
-            BuildContext context,
-            Animation<double> primaryRouteAnimation,
-            Animation<double> secondaryRouteAnimation,
-            Widget child,
-          ) {
+          transitionsBuilder: (context,
+              primaryRouteAnimation,
+              secondaryRouteAnimation,
+              child,) {
             final Animatable<double> _fastOutSlowInTween =
                 CurveTween(curve: Curves.fastOutSlowIn);
             final Animatable<double> _easeInTween =

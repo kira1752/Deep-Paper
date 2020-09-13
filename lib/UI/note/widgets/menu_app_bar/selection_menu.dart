@@ -1,39 +1,40 @@
-import 'package:deep_paper/UI/apptheme.dart';
-import 'package:deep_paper/business_logic/note/provider/deep_bottom_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/note_drawer_provider.dart';
-import 'package:deep_paper/business_logic/note/provider/selection_provider.dart';
-import 'package:deep_paper/business_logic/note/selection_menu_logic.dart';
-import 'package:deep_paper/icons/my_icon.dart';
-import 'package:deep_paper/resource/icon_resource.dart';
-import 'package:deep_paper/resource/string_resource.dart';
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../business_logic/note/provider/deep_bottom_provider.dart';
+import '../../../../business_logic/note/provider/fab_provider.dart';
+import '../../../../business_logic/note/provider/note_drawer_provider.dart';
+import '../../../../business_logic/note/provider/selection_provider.dart';
+import '../../../../business_logic/note/selection_menu_logic.dart';
+import '../../../../icons/my_icon.dart';
+import '../../../../resource/icon_resource.dart';
+import '../../../../resource/string_resource.dart';
+import '../../../../utility/size_helper.dart';
+import '../../../app_theme.dart';
+
 class SelectionMenu extends StatelessWidget {
+  const SelectionMenu();
+
   @override
   Widget build(BuildContext context) {
     return Selector<NoteDrawerProvider, bool>(
       selector: (context, provider) => provider.getIndexDrawerItem == 1,
-      builder: (context, value, child) {
-        if (value) {
-          return _TrashMenu();
-        } else {
-          return _NormalSelectionMenu();
-        }
-      },
+      builder: (context, showTrashSelection, normalSelectionMenu) =>
+          showTrashSelection ? _TrashMenu : normalSelectionMenu,
+      child: const _NormalSelectionMenu(),
     );
   }
 }
 
 class _TrashMenu extends StatelessWidget {
+  const _TrashMenu();
+
   @override
   Widget build(BuildContext context) {
     final selectionProvider =
-        Provider.of<SelectionProvider>(context, listen: false);
+    Provider.of<SelectionProvider>(context, listen: false);
     final deepBottomProvider =
-        Provider.of<DeepBottomProvider>(context, listen: false);
+    Provider.of<DeepBottomProvider>(context, listen: false);
     final fabProvider = Provider.of<FABProvider>(context, listen: false);
 
     return PopupMenuButton(
@@ -48,7 +49,8 @@ class _TrashMenu extends StatelessWidget {
         },
         shape:
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-        itemBuilder: (context) => [
+        itemBuilder: (context) =>
+        [
           PopupMenuItem(
               value: 0,
               child: ListTile(
@@ -79,6 +81,8 @@ class _TrashMenu extends StatelessWidget {
 }
 
 class _NormalSelectionMenu extends StatelessWidget {
+  const _NormalSelectionMenu();
+
   @override
   Widget build(BuildContext context) {
     final deepBottomProvider =
@@ -102,7 +106,8 @@ class _NormalSelectionMenu extends StatelessWidget {
         },
         shape:
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-        itemBuilder: (context) => [
+        itemBuilder: (context) =>
+        [
           PopupMenuItem(
               value: 0,
               child: ListTile(

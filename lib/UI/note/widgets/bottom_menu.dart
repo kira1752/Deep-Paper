@@ -1,8 +1,9 @@
-import 'package:deep_paper/UI/note/widgets/bottom_modal.dart';
-import 'package:deep_paper/UI/note/widgets/undo_redo.dart';
-import 'package:deep_paper/icons/my_icon.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import '../../../icons/my_icon.dart';
+import 'bottom_modal.dart';
+import 'undo_redo.dart';
 
 class BottomMenu extends StatelessWidget {
   final TextEditingController detailController;
@@ -10,7 +11,7 @@ class BottomMenu extends StatelessWidget {
   final void Function() onCopy;
   final void Function() noteInfo;
 
-  BottomMenu(
+  const BottomMenu(
       {@required this.detailController,
       @required this.onDelete,
       @required this.onCopy,
@@ -52,13 +53,13 @@ class BottomMenu extends StatelessWidget {
                     color: Theme.of(context).accentColor.withOpacity(0.80),
                   ),
                   onPressed: () async {
-                    if (FocusScope.of(context).hasFocus) {
+                    if (FocusScope
+                        .of(context)
+                        .hasFocus) {
                       FocusScope.of(context).unfocus();
                     }
                     await BottomModal.openOptionsMenu(
-                        onDelete: onDelete,
-                        onCopy: onCopy,
-                        noteInfo: noteInfo);
+                        onDelete: onDelete, onCopy: onCopy, noteInfo: noteInfo);
                   },
                 )
               ],

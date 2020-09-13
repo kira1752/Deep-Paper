@@ -1,9 +1,10 @@
-import 'package:deep_paper/data/deep.dart';
-import 'package:deep_paper/resource/string_resource.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../../data/deep.dart';
+import '../../../resource/string_resource.dart';
+
 class NoteDrawerProvider with ChangeNotifier {
-  String _titleFragment = StringResource.noteAppBar;
+  String _titleFragment = StringResource.note;
   int _indexDrawerItem = 0;
   int _indexFolderItem;
   List<Note> _noteList;
@@ -12,7 +13,9 @@ class NoteDrawerProvider with ChangeNotifier {
   bool _isFolder = false;
 
   String get getTitleFragment => _titleFragment;
+
   int get getIndexDrawerItem => _indexDrawerItem;
+
   int get getIndexFolderItem => _indexFolderItem;
   List<Note> get getNoteList => _noteList;
   FolderNoteData get getFolder => _folder;

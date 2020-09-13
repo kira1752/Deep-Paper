@@ -1,14 +1,15 @@
-import 'package:deep_paper/UI/plan/utility/repeat_type.dart';
-import 'package:deep_paper/UI/plan/widgets/dialog/plan_dialog.dart';
-import 'package:deep_paper/UI/plan/widgets/field_base.dart';
-import 'package:deep_paper/UI/transition/widgets/slide_downward_widget.dart';
-import 'package:deep_paper/UI/transition/widgets/slide_right_widget.dart';
-import 'package:deep_paper/business_logic/plan/provider/create_plan_provider.dart';
-import 'package:deep_paper/icons/my_icon.dart';
-import 'package:deep_paper/utility/extension.dart';
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../../business_logic/plan/provider/create_plan_provider.dart';
+import '../../../icons/my_icon.dart';
+import '../../../utility/extension.dart';
+import '../../../utility/size_helper.dart';
+import '../../transition/widgets/slide_downward_widget.dart';
+import '../../transition/widgets/slide_right_widget.dart';
+import '../utility/repeat_type.dart';
+import 'dialog/plan_dialog.dart';
+import 'field_base.dart';
 
 class RepeatField extends StatelessWidget {
   const RepeatField();
@@ -19,12 +20,12 @@ class RepeatField extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Selector<CreatePlanProvider, bool>(
           selector: (context, provider) => provider.getDate.isEmpty,
-          builder: (context, isEmpty, child) => IgnorePointer(
+          child: const SizedBox(),
+          builder: (context, isEmpty, emptyState) => IgnorePointer(
                 ignoring: isEmpty,
                 child: SlideDownwardWidget(
-                  duration: const Duration(milliseconds: 400),
                   reverseDuration: const Duration(milliseconds: 400),
-                  child: isEmpty ? const SizedBox() : _Repeat(),
+                  child: isEmpty ? emptyState : const _Repeat(),
                 ),
               )),
     );
@@ -32,6 +33,8 @@ class RepeatField extends StatelessWidget {
 }
 
 class _Repeat extends StatefulWidget {
+  const _Repeat();
+
   @override
   __RepeatState createState() => __RepeatState();
 }
@@ -58,30 +61,39 @@ class __RepeatState extends State<_Repeat> {
       ),
       title: Selector<CreatePlanProvider, String>(
           selector: (context, provider) => provider.getRepeatTitle,
-          builder: (context, repeatTitle, child) {
-            return SlideRightWidget(
-              duration: const Duration(milliseconds: 400),
-              child: Text(
-                '$repeatTitle',
-                key: Key('$repeatTitle'),
-                overflow: TextOverflow.ellipsis,
-                style: _createPlanProvider.getRepeat == RepeatType.Weekly
-                    ? Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: Theme.of(context).accentColor.withOpacity(.80),
-                        fontSize: SizeHelper.getModalTextField)
-                    : Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: Colors.white.withOpacity(.80),
-                        fontSize: SizeHelper.getModalTextField),
-              ),
-            );
-          }),
+          builder: (context, repeatTitle, _) =>
+              SlideRightWidget(
+                child: Text(
+                  '$repeatTitle',
+                  key: Key('$repeatTitle'),
+                  overflow: TextOverflow.ellipsis,
+                  style: _createPlanProvider.getRepeat == RepeatType.Weekly
+                      ? Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(
+                      color: Theme
+                          .of(context)
+                          .accentColor
+                          .withOpacity(.80),
+                      fontSize: SizeHelper.getModalTextField)
+                      : Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(
+                      color: Colors.white.withOpacity(.80),
+                      fontSize: SizeHelper.getModalTextField),
+                ),
+              )),
       subtitle: Selector<CreatePlanProvider, String>(
           selector: (context, provider) => provider.getSelectedDaysTitle,
-          builder: (context, repeatDays, child) =>
+          child: const SizedBox(),
+          builder: (context, repeatDays, emptyState) =>
               SlideRightWidget(
-                duration: const Duration(milliseconds: 400),
                 child: repeatDays.isEmpty
-                    ? const SizedBox()
+                    ? emptyState
                     : Padding(
                   key: Key('$repeatDays'),
                   padding: const EdgeInsetsDirectional.only(top: 6.0),
@@ -99,31 +111,32 @@ class __RepeatState extends State<_Repeat> {
                 ),
               )),
       trailing: Selector<CreatePlanProvider, bool>(
-          selector: (context, provider) => provider.getRepeat.isNotNull,
-          child: IconButton(
-              icon: const Icon(
-                Icons.cancel,
-                color: Colors.white60,
-              ),
-              onPressed: () {
-                _createPlanProvider.setRepeat = null;
-                _createPlanProvider.setRepeatTitle = 'Repeat';
-                _createPlanProvider.setRepeatDialogType = 'days';
-                _createPlanProvider.setSelectedDaysTitle = '';
-                _createPlanProvider.setNumberOfRepeat = 1;
-                _createPlanProvider.setSelectedDays = [];
-                _createPlanProvider.setWeekDays = [
-                  false, // Sunday
-                  true, // Monday
-                  false, // Tuesday
-                  false, // Wednesday
-                  false, // Thursday
-                  false, // Friday
-                  false, // Saturday
-                ];
-              }),
-          builder: (context, valueExist, child) =>
-          valueExist ? child : const SizedBox()),
+        selector: (context, provider) => provider.getRepeat.isNotNull,
+        builder: (context, valueExist, cancelIcon) =>
+        valueExist ? cancelIcon : const SizedBox(),
+        child: IconButton(
+            icon: const Icon(
+              Icons.cancel,
+              color: Colors.white60,
+            ),
+            onPressed: () {
+              _createPlanProvider.setRepeat = null;
+              _createPlanProvider.setRepeatTitle = 'Repeat';
+              _createPlanProvider.setRepeatDialogType = 'days';
+              _createPlanProvider.setSelectedDaysTitle = '';
+              _createPlanProvider.setNumberOfRepeat = 1;
+              _createPlanProvider.setSelectedDays = [];
+              _createPlanProvider.setWeekDays = [
+                false, // Sunday
+                true, // Monday
+                false, // Tuesday
+                false, // Wednesday
+                false, // Thursday
+                false, // Friday
+                false, // Saturday
+              ];
+            }),
+      ),
     );
   }
 }

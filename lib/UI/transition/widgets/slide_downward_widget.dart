@@ -5,7 +5,7 @@ class SlideDownwardWidget extends StatelessWidget {
   final Duration duration;
   final Duration reverseDuration;
 
-  SlideDownwardWidget(
+  const SlideDownwardWidget(
       {@required this.child, this.duration, this.reverseDuration});
 
   @override
@@ -34,7 +34,7 @@ class SlideDownwardWidget extends StatelessWidget {
             ),
           );
         },
-        layoutBuilder: (Widget currentChild, List<Widget> previousChildren) {
+        layoutBuilder: (currentChild, previousChildren) {
           return Stack(
             children: <Widget>[
               ...previousChildren,

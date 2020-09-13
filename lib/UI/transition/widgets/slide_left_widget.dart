@@ -5,7 +5,8 @@ class SlideLeftWidget extends StatelessWidget {
   final Duration duration;
   final Duration reverseDuration;
 
-  SlideLeftWidget({@required this.child, this.duration, this.reverseDuration});
+  const SlideLeftWidget(
+      {@required this.child, this.duration, this.reverseDuration});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class SlideLeftWidget extends StatelessWidget {
             ),
           );
         },
-        layoutBuilder: (Widget currentChild, List<Widget> previousChildren) {
+        layoutBuilder: (currentChild, previousChildren) {
           return Stack(
             children: <Widget>[
               ...previousChildren,

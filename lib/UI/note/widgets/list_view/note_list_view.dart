@@ -1,15 +1,17 @@
-import 'package:deep_paper/UI/note/widgets/empty_note_illustration.dart';
-import 'package:deep_paper/UI/note/widgets/note_card.dart';
-import 'package:deep_paper/business_logic/note/provider/fab_provider.dart';
-import 'package:deep_paper/data/deep.dart';
-import 'package:deep_paper/utility/deep_route_string.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
+import '../../../../business_logic/note/provider/fab_provider.dart';
+import '../../../../data/deep.dart';
+import '../../../../utility/deep_route_string.dart';
+import '../empty_note_illustration.dart';
+import '../note_card.dart';
 
 class NoteListView extends StatelessWidget {
+  const NoteListView();
+
   @override
   Widget build(BuildContext context) {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
@@ -17,31 +19,35 @@ class NoteListView extends StatelessWidget {
 
     return StreamProvider<List<Note>>(
       create: (context) => database.noteDao.watchAllNotes(),
-      child: Consumer<List<Note>>(builder: (context, data, child) {
-        return AnimatedSwitcher(
-          duration: const Duration(milliseconds: 450),
-          child: data.isNull
-              ? const SizedBox()
-              : data.isEmpty
-                  ? EmptyNoteIllustration()
-                  : ScrollablePositionedList.builder(
-                      physics: const ClampingScrollPhysics(),
-                      itemCount: data.length,
-                      itemBuilder: (context, index) {
-                        return NoteCard(
-                          key: ValueKey<int>(index),
-                          index: index,
-                          note: data[index],
-                          onTap: () {
-                            Get.toNamed(DeepRouteString.noteDetail,
-                                    arguments: data[index])
-                                .then((value) =>
-                                    fabProvider.setScrollDown = false);
-                          },
-                        );
-                      }),
-        );
-      }),
+      child: Consumer<List<Note>>(
+          child: const EmptyNoteIllustration(),
+          builder: (context, data, illustration) {
+            return AnimatedSwitcher(
+              duration: const Duration(milliseconds: 450),
+              child: data.isNull
+                  ? const SizedBox()
+                  : data.isEmpty
+                      ? illustration
+                      : ListView.builder(
+                          physics: const ClampingScrollPhysics(),
+                          cacheExtent: 100,
+                          semanticChildCount: data.length,
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            return NoteCard(
+                              key: ValueKey<int>(index),
+                              index: index,
+                              note: data[index],
+                              onTap: () {
+                                Get.toNamed(DeepRouteString.noteDetail,
+                                        arguments: data[index])
+                                    .then((value) =>
+                                        fabProvider.setScrollDown = false);
+                              },
+                            );
+                          }),
+            );
+          }),
     );
   }
 }

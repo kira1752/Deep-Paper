@@ -1,14 +1,12 @@
-import 'package:deep_paper/utility/illustration.dart';
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class EmptyNoteIllustration extends StatefulWidget {
-  @override
-  _EmptyNoteIllustrationState createState() => _EmptyNoteIllustrationState();
-}
+import '../../../utility/illustration.dart';
+import '../../../utility/size_helper.dart';
 
-class _EmptyNoteIllustrationState extends State<EmptyNoteIllustration> {
+class EmptyNoteIllustration extends StatelessWidget {
+  const EmptyNoteIllustration();
+
   @override
   Widget build(BuildContext context) {
     return Padding(

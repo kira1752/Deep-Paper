@@ -1,7 +1,8 @@
-import 'package:deep_paper/UI/deep_material_app.dart';
-import 'package:deep_paper/utility/illustration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'UI/deep_material_app.dart';
+import 'utility/illustration.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,5 +23,5 @@ Future<void> main() async {
       ExactAssetPicture(SvgPicture.svgStringDecoder, Illustration.getFinance),
       null);
 
-  runApp(DeepMaterialApp());
+  runApp(const DeepMaterialApp());
 }

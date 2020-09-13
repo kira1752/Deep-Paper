@@ -1,10 +1,11 @@
-import 'package:deep_paper/UI/note/widgets/dialog/note_dialog.dart';
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../utility/size_helper.dart';
+import '../dialog/note_dialog.dart';
+
 class FolderAddButton extends StatelessWidget {
-  FolderAddButton({Key key}) : super(key: key);
+  const FolderAddButton();
 
   @override
   Widget build(BuildContext context) {

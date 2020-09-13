@@ -1,6 +1,7 @@
-import 'package:deep_paper/data/deep.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
+
+import '../../../data/deep.dart';
 
 class NoteDetailProvider with ChangeNotifier {
   bool _isTextTyped = false;

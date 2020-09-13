@@ -1,7 +1,9 @@
-import 'package:deep_paper/utility/size_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../utility/size_helper.dart';
+
+// AppTheme Utility class
 class AppTheme {
   AppTheme._();
 
@@ -64,13 +66,13 @@ class AppTheme {
         canvasColor: const Color(0xff17181c),
         textTheme: TextTheme(
             headline5: TextStyle(
-              fontFamilyFallback: ['Noto Color Emoji'],
+              fontFamilyFallback: const ['Noto Color Emoji'],
               letterSpacing: 1.2,
               color: Colors.white.withOpacity(0.80),
               fontWeight: FontWeight.w600,
             ),
             headline6: TextStyle(
-              fontFamilyFallback: ['Noto Color Emoji'],
+              fontFamilyFallback: const ['Noto Color Emoji'],
               wordSpacing: 1.0,
               color: Colors.white.withOpacity(0.80),
             ),
@@ -83,7 +85,7 @@ class AppTheme {
               color: Colors.white54,
             ),
             caption: TextStyle(
-                fontFamilyFallback: ['Noto Color Emoji'],
+                fontFamilyFallback: const ['Noto Color Emoji'],
                 color: Colors.white.withOpacity(.80),
                 fontWeight: FontWeight.w600,
                 fontSize: SizeHelper.getFolder)));
