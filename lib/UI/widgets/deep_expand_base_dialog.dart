@@ -29,7 +29,7 @@ class DeepExpandBaseDialog extends StatelessWidget {
       child: Dialog(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(12.0))),
-        insetAnimationDuration: const Duration(milliseconds: 400),
+        insetAnimationDuration: const Duration(milliseconds: 300),
         insetAnimationCurve: Curves.easeOutQuad,
         insetPadding: insetPadding ??
             const EdgeInsets.symmetric(
