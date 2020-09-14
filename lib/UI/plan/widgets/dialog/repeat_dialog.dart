@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../business_logic/plan/provider/create_plan_provider.dart';
 import '../../../../business_logic/plan/provider/repeat_dialog_provider.dart';
-import '../../../../business_logic/plan/repeat_dialog_logic.dart';
+import '../../../../business_logic/plan/repeat_dialog_logic.dart'
+    as repeat_dialog_logic;
 import '../../../../utility/size_helper.dart';
 import '../../../widgets/deep_expand_base_dialog.dart';
 import '../../utility/repeat_type.dart';
@@ -92,7 +92,7 @@ class _RepeatDialogState extends State<RepeatDialog> {
                   borderRadius:
                       BorderRadius.only(bottomLeft: Radius.circular(12.0))),
               onPressed: () {
-                Get.back();
+                Navigator.pop(context);
               },
               child: Text(
                 'Cancel',
@@ -109,7 +109,7 @@ class _RepeatDialogState extends State<RepeatDialog> {
                     left: Divider.createBorderSide(context, width: 1.0))),
             child: Selector<RepeatDialogProvider, bool>(
               selector: (context, provider) =>
-                  provider.getTempNumberOfRepeat != 0,
+              provider.getTempNumberOfRepeat != 0,
               builder: (context, canTap, textDone) =>
                   FlatButton(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -122,10 +122,11 @@ class _RepeatDialogState extends State<RepeatDialog> {
                               bottomRight: Radius.circular(12.0))),
                       onPressed: canTap
                           ? () {
-                        RepeatDialogLogic.create(
+                        repeat_dialog_logic.create(
+                            locale: Localizations.localeOf(context),
                             createPlanProvider: _createPlanProvider,
                             repeatDialogProvider: _repeatDialogProvider);
-                        Get.back();
+                        Navigator.pop(context);
                       }
                           : null,
                       child: textDone),

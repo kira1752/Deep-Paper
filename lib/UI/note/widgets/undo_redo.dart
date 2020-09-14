@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../business_logic/note/provider/note_detail_provider.dart';
 import '../../../business_logic/note/provider/undo_redo_provider.dart';
-import '../../../business_logic/note/undo_redo.dart';
+import '../../../business_logic/note/undo_redo.dart' as undo_redo;
 
 class UndoRedo extends StatelessWidget {
   final TextEditingController detailController;
@@ -20,31 +20,26 @@ class UndoRedo extends StatelessWidget {
     return Selector<NoteDetailProvider, bool>(
       selector: (context, detailProvider) => detailProvider.isTextTyped,
       builder: (context, isTyped, undoRedoButton) =>
-      isTyped ? undoRedoButton : const SizedBox(),
+          isTyped ? undoRedoButton : const SizedBox(),
       child: Row(
         children: [
           Selector<UndoRedoProvider, bool>(
             selector: (context, provider) => provider.canUndo(),
-            builder: (context, canUndo, _) =>
-                IconButton(
-                  icon: Icon(
-                    Icons.undo,
-                    color: canUndo
-                        ? Theme
-                        .of(context)
-                        .accentColor
-                        .withOpacity(0.80)
-                        : Colors.white38,
-                  ),
-                  onPressed: canUndo
-                      ? () =>
-                      UndoRedoBusinessLogic.undo(
+            builder: (context, canUndo, _) => IconButton(
+              icon: Icon(
+                Icons.undo,
+                color: canUndo
+                    ? Theme.of(context).accentColor.withOpacity(0.80)
+                    : Colors.white38,
+              ),
+              onPressed: canUndo
+                  ? () => undo_redo.undo(
                         detailProvider: detailProvider,
                         undoRedoProvider: undoRedoProvider,
                         detailController: detailController,
                       )
-                      : null,
-                ),
+                  : null,
+            ),
           ),
           Selector<UndoRedoProvider, bool>(
               selector: (context, provider) => provider.canRedo(),
@@ -61,7 +56,7 @@ class UndoRedo extends StatelessWidget {
                     ),
                     onPressed: canRedo
                         ? () =>
-                        UndoRedoBusinessLogic.redo(
+                        undo_redo.redo(
                           detailProvider: detailProvider,
                           undoRedoProvider: undoRedoProvider,
                           detailController: detailController,

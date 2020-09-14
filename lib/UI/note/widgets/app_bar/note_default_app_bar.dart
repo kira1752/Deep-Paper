@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart' hide TextDirection;
+import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
 import '../../../../business_logic/note/provider/deep_bottom_provider.dart';
@@ -9,7 +9,7 @@ import '../../../../business_logic/note/provider/selection_provider.dart';
 import '../../../../resource/icon_resource.dart';
 import '../../../../resource/string_resource.dart';
 import '../../../../utility/extension.dart';
-import '../../../app_theme.dart';
+import '../../../app_theme.dart' as app_theme;
 import '../menu_app_bar/menu.dart';
 import '../menu_app_bar/selection_menu.dart';
 import '../search_note_button.dart';
@@ -33,23 +33,22 @@ class NoteDefaultAppBar extends StatelessWidget {
       ],
       leading: Selector<SelectionProvider, bool>(
         selector: (context, provider) => provider.getSelection,
-        builder: (context, selection, noteMenu) =>
-        selection
+        builder: (context, selection, noteMenu) => selection
             ? IconButton(
-            icon: IconResource.darkClose,
-            onPressed: () {
-              final deepBottomProvider =
-              Provider.of<DeepBottomProvider>(context, listen: false);
-              final selectionProvider =
-              Provider.of<SelectionProvider>(context, listen: false);
-              final fabProvider =
-              Provider.of<FABProvider>(context, listen: false);
+                icon: IconResource.darkClose,
+                onPressed: () {
+                  final deepBottomProvider =
+                      Provider.of<DeepBottomProvider>(context, listen: false);
+                  final selectionProvider =
+                      Provider.of<SelectionProvider>(context, listen: false);
+                  final fabProvider =
+                      Provider.of<FABProvider>(context, listen: false);
 
-              deepBottomProvider.setSelection = false;
-              selectionProvider.setSelection = false;
-              fabProvider.setScrollDown = false;
-              selectionProvider.getSelected.clear();
-            })
+                  deepBottomProvider.setSelection = false;
+                  selectionProvider.setSelection = false;
+                  fabProvider.setScrollDown = false;
+                  selectionProvider.getSelected.clear();
+                })
             : noteMenu,
         child: IconButton(
             tooltip: StringResource.tooltipNoteHamburgerMenu,
@@ -67,7 +66,8 @@ class NoteDefaultAppBar extends StatelessWidget {
           builder: (context, count, _) =>
               Text(
                   StringResource.selectionAppBar(count),
-                  style: AppTheme.darkTitleSelectionAppBar()),
+                  style:
+                  app_theme.darkTitleSelectionAppBar(context: context)),
         )
             : titleAppBar,
         child: Selector<NoteDrawerProvider, String>(
@@ -78,14 +78,14 @@ class NoteDefaultAppBar extends StatelessWidget {
             Provider.of<NoteDrawerProvider>(context, listen: false);
 
             return Text(StringResource.titleAppBar(title),
-                textDirection: Bidi.detectRtlDirectionality(title)
+                textDirection: intl.Bidi.detectRtlDirectionality(title)
                     ? TextDirection.rtl
                     : TextDirection.ltr,
                 style: title == StringResource.note
-                    ? AppTheme.darkTitleAppBar()
+                    ? app_theme.darkTitleAppBar(context: context)
                     : drawerProvider.getFolder.isNotNull
-                    ? AppTheme.darkTitleFolderAppBar()
-                    : AppTheme.darkTitleTrashAppBar());
+                    ? app_theme.darkTitleFolderAppBar(context: context)
+                    : app_theme.darkTitleTrashAppBar(context: context));
           },
         ),
       ),

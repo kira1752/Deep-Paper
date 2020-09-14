@@ -1,7 +1,9 @@
 import 'dart:ui';
 
+import 'package:intl/intl.dart' as intl;
 import 'package:moor/moor.dart';
 
+import '../../resource/string_resource.dart';
 import '../../utility/extension.dart';
 import '../deep.dart';
 
@@ -30,9 +32,9 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
   Stream<List<Note>> watchNoteInsideFolder(FolderNoteData folder) {
     final folderID = folder.isNotNull ? folder.id : 0;
     return (select(notes)
-      ..where((n) => n.folderID.equals(folderID))..where((n) =>
-          n.isDeleted.equals(false))
-      ..orderBy([(n) => OrderingTerm.desc(n.modified)]))
+          ..where((n) => n.folderID.equals(folderID))
+          ..where((n) => n.isDeleted.equals(false))
+          ..orderBy([(n) => OrderingTerm.desc(n.modified)]))
         .watch();
   }
 
@@ -113,21 +115,17 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
       ..go();
   }
 
-  void deleteNotesInsideFolderForever(FolderNoteData folder) {
-    delete(notes)
-      ..where((n) => n.folderID.equals(folder.id))
-      ..go();
-  }
-
-  void deleteFolderRelationWhenNoteInTrash(FolderNoteData folder,
-      String mainFolder, TextDirection folderNameDirection) {
+  void moveNoteToTrash(FolderNoteData folder,) {
     (update(notes)
-      ..where((n) => n.folderID.equals(folder.id))..where((n) =>
-          n.isDeleted.equals(true)))
-        .write(NotesCompanion(
-        folderID: const Value(0),
-        folderName: Value(mainFolder),
-        folderNameDirection: Value(folderNameDirection)));
+      ..where((n) => n.folderID.equals(folder.id))).write(
+        NotesCompanion(
+            folderID: const Value(0),
+            folderName: const Value(StringResource.mainFolder),
+            isDeleted: const Value(true),
+            folderNameDirection: Value(
+                intl.Bidi.detectRtlDirectionality(StringResource.mainFolder)
+                    ? TextDirection.rtl
+                    : TextDirection.ltr)));
   }
 
   void deleteNote(int noteID) {

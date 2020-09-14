@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../business_logic/note/folder_creation.dart';
+import '../../../../business_logic/note/folder_creation.dart'
+    as folder_creation;
 import '../../../../business_logic/note/provider/detect_text_direction_provider.dart';
 import '../../../../business_logic/note/provider/folder_dialog_provider.dart';
 import '../../../../business_logic/note/provider/text_controller_provider.dart';
+import '../../../../data/deep.dart';
 import '../../../../utility/extension.dart';
 import '../../../../utility/size_helper.dart';
 import '../../../widgets/deep_base_dialog.dart';
@@ -105,7 +105,7 @@ class _CreateFolderDialogState extends State<CreateFolderDialog> {
                       borderRadius:
                           BorderRadius.only(bottomLeft: Radius.circular(12.0))),
                   onPressed: () {
-                    Get.back();
+                    Navigator.pop(context);
                   },
                   child: Text(
                     'Cancel',
@@ -134,9 +134,13 @@ class _CreateFolderDialogState extends State<CreateFolderDialog> {
                                   bottomRight: Radius.circular(12.0))),
                           onPressed: provider.isNameTyped
                               ? () {
-                            FolderCreation.create(name: folderName);
+                            final database = Provider.of<DeepPaperDatabase>(
+                                context,
+                                listen: false);
+                            folder_creation.create(
+                                name: folderName, database: database);
 
-                            Get.back();
+                            Navigator.pop(context);
                           }
                               : null,
                           child: createText),

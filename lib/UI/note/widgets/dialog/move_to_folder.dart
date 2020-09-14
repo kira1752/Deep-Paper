@@ -1,58 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide GetDynamicUtils;
 import 'package:provider/provider.dart';
 
-import '../../../../business_logic/note/note_creation.dart';
+import '../../../../business_logic/note/note_creation.dart' as note_creation;
 import '../../../../business_logic/note/provider/deep_bottom_provider.dart';
 import '../../../../business_logic/note/provider/fab_provider.dart';
 import '../../../../business_logic/note/provider/selection_provider.dart';
 import '../../../../data/deep.dart';
 import '../../../../icons/my_icon.dart';
+import '../../../../resource/string_resource.dart';
 import '../../../../utility/extension.dart';
 import '../../../../utility/size_helper.dart';
 import '../../../widgets/deep_expand_base_dialog.dart';
 import '../../../widgets/deep_scroll_behavior.dart';
 import '../../../widgets/deep_scrollbar.dart';
 import '../../../widgets/deep_toast.dart';
-import 'note_dialog.dart';
+import 'note_dialog.dart' as note_dialog;
 
-// MoveToFolder Utility class
-class MoveToFolder {
-  MoveToFolder._();
+Future openMoveToDialog(
+    {@required BuildContext context,
+    @required FolderNoteData currentFolder,
+    @required int drawerIndex,
+    @required SelectionProvider selectionProvider,
+    @required DeepBottomProvider deepBottomProvider,
+    @required FABProvider fabProvider,
+    @required DeepPaperDatabase database}) {
+  final defaultItemValue = currentFolder.isNotNull || drawerIndex == 0 ? 2 : 1;
 
-  static Future openMoveToDialog(
-      {@required FolderNoteData currentFolder,
-      @required int drawerIndex,
-      @required SelectionProvider selectionProvider,
-      @required DeepBottomProvider deepBottomProvider,
-      @required FABProvider fabProvider,
-      @required DeepPaperDatabase database}) {
-    final database = Provider.of<DeepPaperDatabase>(Get.context, listen: false);
-
-    final defaultItemValue =
-        currentFolder.isNotNull || drawerIndex == 0 ? 2 : 1;
-
-    return Get.dialog(FutureProvider(
-      create: (context) => database.folderNoteDao.getFolder(),
-      child: Consumer<List<FolderNoteData>>(
-        builder: (context, folderList, emptyState) => AnimatedSwitcher(
-          duration: const Duration(milliseconds: 450),
-          child: folderList.isNull
-              ? emptyState
-              : _MoveToFolderDialog(
-                  defaultItemValue: defaultItemValue,
-                  folderList: folderList,
-                  currentFolder: currentFolder,
-                  drawerIndex: drawerIndex,
-                  selectionProvider: selectionProvider,
-                  deepBottomProvider: deepBottomProvider,
-                  fabProvider: fabProvider,
-                  database: database),
-        ),
-        child: const SizedBox(),
-      ),
-    ));
-  }
+  return showDialog(
+      context: context,
+      builder: (context) => FutureProvider(
+            create: (context) => database.folderNoteDao.getFolder(),
+            child: Consumer<List<FolderNoteData>>(
+              builder: (context, folderList, emptyState) => AnimatedSwitcher(
+                duration: const Duration(milliseconds: 450),
+                child: folderList.isNull
+                    ? emptyState
+                    : _MoveToFolderDialog(
+                        defaultItemValue: defaultItemValue,
+                        folderList: folderList,
+                        currentFolder: currentFolder,
+                        drawerIndex: drawerIndex,
+                        selectionProvider: selectionProvider,
+                        deepBottomProvider: deepBottomProvider,
+                        fabProvider: fabProvider,
+                        database: database),
+              ),
+              child: const SizedBox(),
+            ),
+          ));
 }
 
 class _MoveToFolderDialog extends StatelessWidget {
@@ -112,7 +107,7 @@ class _MoveToFolderDialog extends StatelessWidget {
                       bottomLeft: Radius.circular(12.0),
                       bottomRight: Radius.circular(12.0))),
               onPressed: () {
-                Get.back();
+                Navigator.pop(context);
               },
               child: Text(
                 'Close',
@@ -140,8 +135,10 @@ class _MoveToFolderDialog extends StatelessWidget {
                     child: ListTile(
                       shape: const StadiumBorder(),
                       onTap: () {
-                        Get.back();
-                        DeepDialog.openCreateFolderMoveToDialog(
+                        Navigator.pop(context);
+                        note_dialog.openCreateFolderMoveToDialog(
+                            context: context,
+                            database: database,
                             currentFolder: currentFolder,
                             drawerIndex: drawerIndex,
                             selectionProvider: selectionProvider,
@@ -172,12 +169,12 @@ class _MoveToFolderDialog extends StatelessWidget {
                       child: ListTile(
                         shape: const StadiumBorder(),
                         onTap: () {
-                          NoteCreation.moveToFolderBatch(
+                          note_creation.moveToFolderBatch(
                               folder: null,
                               selectionProvider: selectionProvider,
                               database: database);
 
-                          Get.back();
+                          Navigator.pop(context);
 
                           DeepToast.showToast(
                               description: 'Note moved successfully');
@@ -192,7 +189,7 @@ class _MoveToFolderDialog extends StatelessWidget {
                           color: Colors.white70,
                         ),
                         title: Text(
-                          'Main folder',
+                          StringResource.mainFolder,
                           style: Theme
                               .of(context)
                               .textTheme
@@ -213,12 +210,12 @@ class _MoveToFolderDialog extends StatelessWidget {
                       child: ListTile(
                         shape: const StadiumBorder(),
                         onTap: () {
-                          NoteCreation.moveToFolderBatch(
+                          note_creation.moveToFolderBatch(
                               folder: folder,
                               selectionProvider: selectionProvider,
                               database: database);
 
-                          Get.back();
+                          Navigator.pop(context);
 
                           DeepToast.showToast(
                               description: 'Note moved successfully');
@@ -255,12 +252,12 @@ class _MoveToFolderDialog extends StatelessWidget {
                       child: ListTile(
                         shape: const StadiumBorder(),
                         onTap: () {
-                          NoteCreation.moveToFolderBatch(
+                          note_creation.moveToFolderBatch(
                               folder: null,
                               selectionProvider: selectionProvider,
                               database: database);
 
-                          Get.back();
+                          Navigator.pop(context);
 
                           DeepToast.showToast(
                               description: 'Note moved successfully');
@@ -275,7 +272,7 @@ class _MoveToFolderDialog extends StatelessWidget {
                           color: Colors.white70,
                         ),
                         title: Text(
-                          'Main folder',
+                          StringResource.mainFolder,
                           style: Theme
                               .of(context)
                               .textTheme
@@ -295,12 +292,12 @@ class _MoveToFolderDialog extends StatelessWidget {
                       child: ListTile(
                         shape: const StadiumBorder(),
                         onTap: () {
-                          NoteCreation.moveToFolderBatch(
+                          note_creation.moveToFolderBatch(
                               folder: folder,
                               selectionProvider: selectionProvider,
                               database: database);
 
-                          Get.back();
+                          Navigator.pop(context);
 
                           DeepToast.showToast(
                               description: 'Note moved successfully');
@@ -336,12 +333,12 @@ class _MoveToFolderDialog extends StatelessWidget {
                     child: ListTile(
                       shape: const StadiumBorder(),
                       onTap: () {
-                        NoteCreation.moveToFolderBatch(
+                        note_creation.moveToFolderBatch(
                             folder: folder,
                             selectionProvider: selectionProvider,
                             database: database);
 
-                        Get.back();
+                        Navigator.pop(context);
 
                         DeepToast.showToast(
                             description: 'Note moved successfully');

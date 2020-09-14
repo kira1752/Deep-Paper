@@ -2,46 +2,41 @@ import 'package:flutter/widgets.dart';
 
 import 'provider/note_detail_provider.dart';
 import 'provider/undo_redo_provider.dart';
-import 'text_field_logic.dart';
+import 'text_field_logic.dart' as text_field_logic;
 
-class UndoRedoBusinessLogic {
-  UndoRedoBusinessLogic._();
+Future<void> undo({
+  @required UndoRedoProvider undoRedoProvider,
+  @required NoteDetailProvider detailProvider,
+  @required TextEditingController detailController,
+}) async {
+  final cursorOffset = undoRedoProvider.popUndoCursor();
 
-  static Future<void> undo({
-    @required UndoRedoProvider undoRedoProvider,
-    @required NoteDetailProvider detailProvider,
-    @required TextEditingController detailController,
-  }) async {
-    final cursorOffset = undoRedoProvider.popUndoCursor();
+  detailController.text = undoRedoProvider.popUndoValue();
+  detailController.selection =
+      TextSelection.fromPosition(TextPosition(offset: cursorOffset));
 
-    detailController.text = undoRedoProvider.popUndoValue();
-    detailController.selection =
-        TextSelection.fromPosition(TextPosition(offset: cursorOffset));
+  detailProvider.setDetail = detailController.text;
+  detailProvider.checkDetailDirection = detailController.text;
+  detailProvider.setDetailCountNotify =
+      await text_field_logic.countAllAsync(detailProvider.getDetail);
+}
 
-    detailProvider.setDetail = detailController.text;
-    detailProvider.checkDetailDirection = detailController.text;
-    detailProvider.setDetailCountNotify =
-        await TextFieldLogic.countAllAsync(detailProvider.getDetail);
+Future<void> redo({@required UndoRedoProvider undoRedoProvider,
+  @required NoteDetailProvider detailProvider,
+  @required TextEditingController detailController}) async {
+  final cursorOffset = undoRedoProvider.popRedoCursor();
+
+  detailController.text = undoRedoProvider.popRedoValue();
+  detailController.selection =
+      TextSelection.fromPosition(TextPosition(offset: cursorOffset));
+
+  if (!undoRedoProvider.canRedo()) {
+    undoRedoProvider.currentTyped = null;
+    undoRedoProvider.currentCursorPosition = null;
   }
 
-  static Future<void> redo(
-      {@required UndoRedoProvider undoRedoProvider,
-      @required NoteDetailProvider detailProvider,
-      @required TextEditingController detailController}) async {
-    final cursorOffset = undoRedoProvider.popRedoCursor();
-
-    detailController.text = undoRedoProvider.popRedoValue();
-    detailController.selection =
-        TextSelection.fromPosition(TextPosition(offset: cursorOffset));
-
-    if (!undoRedoProvider.canRedo()) {
-      undoRedoProvider.currentTyped.value = null;
-      undoRedoProvider.currentCursorPosition = null;
-    }
-
-    detailProvider.setDetail = detailController.text;
-    detailProvider.checkDetailDirection = detailController.text;
-    detailProvider.setDetailCountNotify =
-    await TextFieldLogic.countAllAsync(detailProvider.getDetail);
-  }
+  detailProvider.setDetail = detailController.text;
+  detailProvider.checkDetailDirection = detailController.text;
+  detailProvider.setDetailCountNotify =
+  await text_field_logic.countAllAsync(detailProvider.getDetail);
 }

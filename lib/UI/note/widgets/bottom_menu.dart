@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../icons/my_icon.dart';
@@ -38,12 +37,10 @@ class BottomMenu extends StatelessWidget {
                     color: Theme.of(context).accentColor.withOpacity(0.80),
                   ),
                   onPressed: () async {
-                    if (FocusScope
-                        .of(context)
-                        .hasFocus) {
+                    if (FocusScope.of(context).hasFocus) {
                       FocusScope.of(context).unfocus();
                     }
-                    await BottomModal.openAddMenu();
+                    await openAddMenu(context: context);
                   },
                 ),
                 UndoRedo(detailController: detailController),
@@ -58,8 +55,11 @@ class BottomMenu extends StatelessWidget {
                         .hasFocus) {
                       FocusScope.of(context).unfocus();
                     }
-                    await BottomModal.openOptionsMenu(
-                        onDelete: onDelete, onCopy: onCopy, noteInfo: noteInfo);
+                    await openOptionsMenu(
+                        context: context,
+                        onDelete: onDelete,
+                        onCopy: onCopy,
+                        noteInfo: noteInfo);
                   },
                 )
               ],

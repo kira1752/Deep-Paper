@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../business_logic/note/folder_creation.dart';
+import '../../../../business_logic/note/folder_creation.dart'
+    as folder_creation;
 import '../../../../business_logic/note/provider/note_drawer_provider.dart';
+import '../../../../data/deep.dart';
+import '../../../../resource/string_resource.dart';
 import '../../../../utility/size_helper.dart';
 import '../../../widgets/deep_base_dialog.dart';
 import '../../../widgets/deep_toast.dart';
@@ -48,11 +51,13 @@ class _DeleteFolderDialogState extends State<DeleteFolderDialog> {
       ),
       children: [
         Text(
-          'All notes inside this folder will be deleted.',
-          style: TextStyle(
-              fontFamily: 'Roboto',
-              fontSize: SizeHelper.getModalDescription,
-              color: Colors.white.withOpacity(0.87)),
+          StringResource.deleteFolderDescription,
+          strutStyle: const StrutStyle(leading: 0.5),
+          style: Theme
+              .of(context)
+              .textTheme
+              .bodyText1
+              .copyWith(fontSize: SizeHelper.getModalDescription),
         ),
       ],
       actions: <Widget>[
@@ -64,7 +69,7 @@ class _DeleteFolderDialogState extends State<DeleteFolderDialog> {
                   borderRadius:
                       BorderRadius.only(bottomLeft: Radius.circular(12.0))),
               onPressed: () {
-                Get.back();
+                Navigator.pop(context);
               },
               child: Text(
                 'Cancel',
@@ -86,12 +91,16 @@ class _DeleteFolderDialogState extends State<DeleteFolderDialog> {
                     borderRadius:
                         BorderRadius.only(bottomRight: Radius.circular(12.0))),
                 onPressed: () {
-                  FolderCreation.delete(drawerProvider: drawerProvider);
+                  final database =
+                  Provider.of<DeepPaperDatabase>(context, listen: false);
+
+                  folder_creation.delete(
+                      database: database, drawerProvider: drawerProvider);
 
                   DeepToast.showToast(
                       description: 'Folder deleted successfully');
 
-                  Get.back();
+                  Navigator.pop(context);
                 },
                 child: Text(
                   'Delete',

@@ -22,7 +22,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   provider:
-  get:
   scrollable_positioned_list:
   moor:
   sqlite3_flutter_libs:

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../business_logic/note/trash_management.dart';
+import '../../../../business_logic/note/trash_management.dart'
+    as trash_management;
 import '../../../../data/deep.dart';
+import '../../../../resource/string_resource.dart';
 import '../../../../utility/size_helper.dart';
 import '../../../widgets/deep_base_dialog.dart';
 import '../../../widgets/deep_toast.dart';
@@ -34,11 +36,13 @@ class RestoreDialog extends StatelessWidget {
       ),
       children: [
         Text(
-          'Restore this note to access all of its content.',
-          style: TextStyle(
-              fontFamily: 'Roboto',
-              fontSize: SizeHelper.getModalDescription,
-              color: Colors.white.withOpacity(0.87)),
+          StringResource.restoreNoteDescription,
+          strutStyle: const StrutStyle(leading: 0.5),
+          style: Theme
+              .of(context)
+              .textTheme
+              .bodyText1
+              .copyWith(fontSize: SizeHelper.getModalDescription),
         ),
       ],
       actions: [
@@ -50,7 +54,7 @@ class RestoreDialog extends StatelessWidget {
                   borderRadius:
                       BorderRadius.only(bottomLeft: Radius.circular(12.0))),
               onPressed: () {
-                Get.back();
+                Navigator.pop(context);
               },
               child: Text(
                 'Cancel',
@@ -72,12 +76,15 @@ class RestoreDialog extends StatelessWidget {
                     borderRadius:
                         BorderRadius.only(bottomRight: Radius.circular(12.0))),
                 onPressed: () {
-                  TrashManagement.restore(data: data);
+                  final database =
+                  Provider.of<DeepPaperDatabase>(context, listen: false);
+
+                  trash_management.restore(data: data, database: database);
 
                   DeepToast.showToast(
                       description: 'Note restored successfully');
 
-                  Get.back();
+                  Navigator.pop(context);
                 },
                 child: Text(
                   'Restore',

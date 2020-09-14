@@ -1,11 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../business_logic/note/provider/fab_provider.dart';
 import '../../../../data/deep.dart';
 import '../../../../utility/deep_route_string.dart';
+import '../../../../utility/extension.dart';
 import '../empty_note_illustration.dart';
 import '../note_card.dart';
 
@@ -39,7 +38,8 @@ class NoteListView extends StatelessWidget {
                               index: index,
                               note: data[index],
                               onTap: () {
-                                Get.toNamed(DeepRouteString.noteDetail,
+                                Navigator.pushNamed(
+                                        context, DeepRouteString.noteDetail,
                                         arguments: data[index])
                                     .then((value) =>
                                         fabProvider.setScrollDown = false);

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 
 import '../../../../utility/size_helper.dart';
 import '../../../widgets/deep_base_dialog.dart';
@@ -46,7 +45,7 @@ class NoteInfoDialog extends StatelessWidget {
                       bottomLeft: Radius.circular(12.0),
                       bottomRight: Radius.circular(12.0))),
               onPressed: () async {
-                Get.back();
+                Navigator.pop(context);
               },
               child: Text(
                 'Close',
@@ -134,7 +133,7 @@ class NoteInfoDialog extends StatelessWidget {
               Expanded(
                 flex: 6,
                 child: Text(
-                  "${DateFormat.yMMMd("en_US").add_jm().format(created)}",
+                  "${intl.DateFormat.yMMMd("en_US").add_jm().format(created)}",
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -175,8 +174,9 @@ class NoteInfoDialog extends StatelessWidget {
             Expanded(
               flex: 6,
               child: Text(
-                "${DateFormat.yMMMd("en_US").add_jm().format(modified)}",
-                style: Theme.of(context)
+                "${intl.DateFormat.yMMMd("en_US").add_jm().format(modified)}",
+                style: Theme
+                    .of(context)
                     .textTheme
                     .bodyText1
                     .copyWith(fontSize: SizeHelper.getBodyText1),

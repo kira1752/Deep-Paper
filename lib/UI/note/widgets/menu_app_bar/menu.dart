@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../business_logic/note/default_menu_logic.dart';
+import '../../../../business_logic/note/folder_menu.dart' as folder_menu;
 import '../../../../business_logic/note/provider/note_drawer_provider.dart';
-import '../../../../business_logic/note/trash_management.dart';
+import '../../../../business_logic/note/trash_management.dart'
+    as trash_management;
+import '../../../../data/deep.dart';
 import '../../../../resource/icon_resource.dart';
 import '../../../../resource/string_resource.dart';
 import '../../../../utility/size_helper.dart';
-import '../../../app_theme.dart';
+import '../../../app_theme.dart' as app_theme;
 import '../../../widgets/deep_toast.dart';
 
 class Menu extends StatelessWidget {
@@ -36,8 +38,8 @@ class FolderMenu extends StatelessWidget {
         tooltip: StringResource.tooltipFolderMenu,
         icon: IconResource.darkOptions,
         onSelected: (choice) {
-          DefaultMenuLogic.menuFolderSelected(
-              drawerProvider: drawerProvider, choice: choice);
+          folder_menu.menuFolderSelected(
+              context: context, drawerProvider: drawerProvider, choice: choice);
         },
         shape:
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
@@ -49,7 +51,7 @@ class FolderMenu extends StatelessWidget {
                 leading: IconResource.darkOptionsRenameFolder,
                 title: Text(
                   StringResource.renameFolder,
-                  style: AppTheme.darkPopupMenuItem(),
+                  style: app_theme.darkPopupMenuItem(),
                 ),
               )),
           PopupMenuItem(
@@ -58,7 +60,7 @@ class FolderMenu extends StatelessWidget {
                 leading: IconResource.darkOptionsDelete,
                 title: Text(
                   StringResource.deleteFolder,
-                  style: AppTheme.darkPopupMenuItem(),
+                  style: app_theme.darkPopupMenuItem(),
                 ),
               )),
         ]);
@@ -79,7 +81,10 @@ class TrashMenu extends StatelessWidget {
           tooltip: StringResource.tooltipTrashMenu,
           icon: IconResource.darkOptions,
           onSelected: (choice) {
-            if (choice == 0) TrashManagement.empty();
+            final database =
+            Provider.of<DeepPaperDatabase>(context, listen: false);
+
+            if (choice == 0) trash_management.empty(database: database);
 
             DeepToast.showToast(
                 description: StringResource.trashEmptiedSuccessfully);

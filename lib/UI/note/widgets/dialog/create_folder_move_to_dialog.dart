@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../business_logic/note/folder_creation.dart';
+import '../../../../business_logic/note/folder_creation.dart'
+    as folder_creation;
 import '../../../../business_logic/note/provider/detect_text_direction_provider.dart';
 import '../../../../business_logic/note/provider/folder_dialog_provider.dart';
 import '../../../../business_logic/note/provider/text_controller_provider.dart';
+import '../../../../data/deep.dart';
 import '../../../../utility/extension.dart';
 import '../../../../utility/size_helper.dart';
 import '../../../widgets/deep_base_dialog.dart';
@@ -139,9 +141,14 @@ class _CreateFolderMoveToDialogState extends State<CreateFolderMoveToDialog> {
                                     bottomRight: Radius.circular(12.0))),
                             onPressed: provider.isNameTyped
                                 ? () {
-                              FolderCreation.create(name: folderName);
+                              final database = Provider.of<DeepPaperDatabase>(
+                                  context,
+                                  listen: false);
 
-                              Navigator.of(context).maybePop();
+                              folder_creation.create(
+                                  name: folderName, database: database);
+
+                              Navigator.maybePop(context);
                             }
                                 : null,
                             child: createText),

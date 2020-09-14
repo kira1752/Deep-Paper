@@ -5,12 +5,14 @@ import '../../../../business_logic/note/provider/deep_bottom_provider.dart';
 import '../../../../business_logic/note/provider/fab_provider.dart';
 import '../../../../business_logic/note/provider/note_drawer_provider.dart';
 import '../../../../business_logic/note/provider/selection_provider.dart';
-import '../../../../business_logic/note/selection_menu_logic.dart';
+import '../../../../business_logic/note/selection_menu_logic.dart'
+    as selection_menu_logic;
+import '../../../../data/deep.dart';
 import '../../../../icons/my_icon.dart';
 import '../../../../resource/icon_resource.dart';
 import '../../../../resource/string_resource.dart';
 import '../../../../utility/size_helper.dart';
-import '../../../app_theme.dart';
+import '../../../app_theme.dart' as app_theme;
 
 class SelectionMenu extends StatelessWidget {
   const SelectionMenu();
@@ -41,7 +43,11 @@ class _TrashMenu extends StatelessWidget {
         tooltip: StringResource.tooltipSelectionMenu,
         icon: IconResource.darkOptions,
         onSelected: (choice) {
-          SelectionMenuLogic.menuTrashSelected(
+          final database =
+          Provider.of<DeepPaperDatabase>(context, listen: false);
+
+          selection_menu_logic.menuTrashSelected(
+              database: database,
               selectionProvider: selectionProvider,
               deepBottomProvider: deepBottomProvider,
               fabProvider: fabProvider,
@@ -92,12 +98,15 @@ class _NormalSelectionMenu extends StatelessWidget {
     final fabProvider = Provider.of<FABProvider>(context, listen: false);
     final drawerProvider =
     Provider.of<NoteDrawerProvider>(context, listen: false);
+    final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
     return PopupMenuButton(
         tooltip: StringResource.tooltipSelectionMenu,
         icon: IconResource.darkOptions,
         onSelected: (choice) {
-          SelectionMenuLogic.menuSelectionSelected(
+          selection_menu_logic.menuSelectionSelected(
+              context: context,
+              database: database,
               deepBottomProvider: deepBottomProvider,
               selectionProvider: selectionProvider,
               fabProvider: fabProvider,
@@ -114,7 +123,7 @@ class _NormalSelectionMenu extends StatelessWidget {
                 leading: IconResource.darkOptionsDelete,
                 title: Text(
                   StringResource.delete,
-                  style: AppTheme.darkPopupMenuItem(),
+                  style: app_theme.darkPopupMenuItem(),
                 ),
               )),
           PopupMenuItem(
@@ -123,7 +132,7 @@ class _NormalSelectionMenu extends StatelessWidget {
                 leading: IconResource.darkOptionsMoveTo,
                 title: Text(
                   StringResource.moveTo,
-                  style: AppTheme.darkPopupMenuItem(),
+                  style: app_theme.darkPopupMenuItem(),
                 ),
               )),
           PopupMenuItem(
@@ -132,7 +141,7 @@ class _NormalSelectionMenu extends StatelessWidget {
                 leading: IconResource.darkOptionsCopy,
                 title: Text(
                   StringResource.copy,
-                  style: AppTheme.darkPopupMenuItem(),
+                  style: app_theme.darkPopupMenuItem(),
                 ),
               )),
         ]);

@@ -8,7 +8,7 @@ import '../../../utility/size_helper.dart';
 import '../../transition/widgets/slide_downward_widget.dart';
 import '../../transition/widgets/slide_right_widget.dart';
 import '../utility/repeat_type.dart';
-import 'dialog/plan_dialog.dart';
+import 'dialog/plan_dialog.dart' as plan_dialog;
 import 'field_base.dart';
 
 class RepeatField extends StatelessWidget {
@@ -53,7 +53,8 @@ class __RepeatState extends State<_Repeat> {
   Widget build(BuildContext context) {
     return FieldBase(
       onTap: () {
-        PlanDialog.openRepeatDialog(createPlanProvider: _createPlanProvider);
+        plan_dialog.openRepeatDialog(
+            context: context, createPlanProvider: _createPlanProvider);
       },
       leading: const Icon(
         MyIcon.repeat,
@@ -61,30 +62,18 @@ class __RepeatState extends State<_Repeat> {
       ),
       title: Selector<CreatePlanProvider, String>(
           selector: (context, provider) => provider.getRepeatTitle,
-          builder: (context, repeatTitle, _) =>
-              SlideRightWidget(
+          builder: (context, repeatTitle, _) => SlideRightWidget(
                 child: Text(
                   '$repeatTitle',
                   key: Key('$repeatTitle'),
                   overflow: TextOverflow.ellipsis,
                   style: _createPlanProvider.getRepeat == RepeatType.Weekly
-                      ? Theme
-                      .of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(
-                      color: Theme
-                          .of(context)
-                          .accentColor
-                          .withOpacity(.80),
-                      fontSize: SizeHelper.getModalTextField)
-                      : Theme
-                      .of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(
-                      color: Colors.white.withOpacity(.80),
-                      fontSize: SizeHelper.getModalTextField),
+                      ? Theme.of(context).textTheme.bodyText1.copyWith(
+                          color: Theme.of(context).accentColor.withOpacity(.80),
+                          fontSize: SizeHelper.getModalTextField)
+                      : Theme.of(context).textTheme.bodyText1.copyWith(
+                          color: Colors.white.withOpacity(.80),
+                          fontSize: SizeHelper.getModalTextField),
                 ),
               )),
       subtitle: Selector<CreatePlanProvider, String>(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../utility/size_helper.dart';
 import '../../widgets/deep_scroll_behavior.dart';
@@ -10,7 +9,9 @@ import 'set_a_reminder.dart';
 import 'time_field.dart';
 
 class CreatePlanPage extends StatelessWidget {
-  const CreatePlanPage();
+  final BuildContext mainContext;
+
+  const CreatePlanPage({@required this.mainContext});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class CreatePlanPage extends StatelessWidget {
       children: [
         Container(
           margin: EdgeInsets.only(
-              top: Get.mediaQuery.padding.top + 40, bottom: 8.0),
+              top: MediaQuery.of(mainContext).padding.top + 40, bottom: 8.0),
           color: Theme.of(context).canvasColor,
           child: Container(
             height: 8,
@@ -68,7 +69,7 @@ class CreatePlanPage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                             textColor: Colors.white.withOpacity(0.87),
                             onPressed: () {
-                              Get.back();
+                              Navigator.pop(context);
                             },
                             child: Text(
                               'Cancel',

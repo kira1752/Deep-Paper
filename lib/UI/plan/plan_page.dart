@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../business_logic/note/provider/fab_provider.dart';
 import '../../icons/my_icon.dart';
 import '../../utility/size_helper.dart';
-import 'plan_detail/create_plan.dart';
+import 'plan_detail/create_plan.dart' as create_plan;
 import 'widgets/appbar/plan_default_appbar.dart';
 import 'widgets/empty_plan_illustration.dart';
 
@@ -19,13 +19,17 @@ class PlanPage extends StatelessWidget {
           preferredSize: Size.fromHeight(SizeHelper.setHeight(size: 56)),
           child: const PlanDefaultAppBar()),
       body: const EmptyPlanIllustration(),
-      floatingActionButton: const PlanFloatingActionButton(),
+      floatingActionButton: PlanFloatingActionButton(
+        mainContext: context,
+      ),
     );
   }
 }
 
 class PlanFloatingActionButton extends StatelessWidget {
-  const PlanFloatingActionButton();
+  final BuildContext mainContext;
+
+  const PlanFloatingActionButton({@required this.mainContext});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +68,7 @@ class PlanFloatingActionButton extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            CreatePlan.show();
+            create_plan.show(context: context, mainContext: mainContext);
           },
         ),
       ),

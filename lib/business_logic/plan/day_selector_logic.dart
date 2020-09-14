@@ -1,26 +1,22 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
 
 import 'provider/repeat_dialog_provider.dart';
 
-class DaySelectorLogic {
-  DaySelectorLogic._();
-
-  static void onChanged(
-      {@required RepeatDialogProvider repeatDialogProvider,
-      @required int day,
-      @required List<bool> weekDays}) {
-    if (weekDays.where((day) => day == true).length == 1) {
-      if (weekDays[day % 7] != true) {
-        repeatDialogProvider.setTempWeekDays = day;
-        repeatDialogProvider.addSelectedDay = day;
-      }
-    } else {
+void onChanged(
+    {@required RepeatDialogProvider repeatDialogProvider,
+    @required int day,
+    @required List<bool> weekDays}) {
+  if (weekDays.where((day) => day == true).length == 1) {
+    if (weekDays[day % 7] != true) {
       repeatDialogProvider.setTempWeekDays = day;
-      if (repeatDialogProvider.getTempWeekDays[day % 7] == true) {
-        repeatDialogProvider.addSelectedDay = day;
-      } else {
-        repeatDialogProvider.removeSelectedDay = day;
-      }
+      repeatDialogProvider.addSelectedDay = day;
+    }
+  } else {
+    repeatDialogProvider.setTempWeekDays = day;
+    if (repeatDialogProvider.getTempWeekDays[day % 7] == true) {
+      repeatDialogProvider.addSelectedDay = day;
+    } else {
+      repeatDialogProvider.removeSelectedDay = day;
     }
   }
 }

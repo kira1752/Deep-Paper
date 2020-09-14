@@ -1,5 +1,6 @@
-import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
+import 'dart:ui';
+
+import 'package:flutter/foundation.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/date_symbols.dart';
 
@@ -7,75 +8,70 @@ import '../../UI/plan/utility/repeat_type.dart';
 import 'provider/create_plan_provider.dart';
 import 'provider/repeat_dialog_provider.dart';
 
-class RepeatDialogLogic {
-  RepeatDialogLogic._();
+void create(
+    {@required Locale locale,
+    @required CreatePlanProvider createPlanProvider,
+    @required RepeatDialogProvider repeatDialogProvider}) {
+  repeatDialogProvider.getTempSelectedDays
+      .sort((dayA, dayB) => dayA.compareTo(dayB));
 
-  static void create(
-      {@required CreatePlanProvider createPlanProvider,
-      @required RepeatDialogProvider repeatDialogProvider}) {
-    repeatDialogProvider.getTempSelectedDays
-        .sort((dayA, dayB) => dayA.compareTo(dayB));
+  createPlanProvider.setNumberOfRepeat =
+      repeatDialogProvider.getTempNumberOfRepeat;
+  createPlanProvider.setRepeatDialogType =
+      repeatDialogProvider.getTempRepeatDialogType;
+  createPlanProvider.setRepeat = repeatDialogProvider.getTempRepeat;
+  createPlanProvider.setWeekDays = repeatDialogProvider.getTempWeekDays;
+  createPlanProvider.setSelectedDays = repeatDialogProvider.getTempSelectedDays;
 
-    createPlanProvider.setNumberOfRepeat =
-        repeatDialogProvider.getTempNumberOfRepeat;
-    createPlanProvider.setRepeatDialogType =
-        repeatDialogProvider.getTempRepeatDialogType;
-    createPlanProvider.setRepeat = repeatDialogProvider.getTempRepeat;
-    createPlanProvider.setWeekDays = repeatDialogProvider.getTempWeekDays;
-    createPlanProvider.setSelectedDays =
-        repeatDialogProvider.getTempSelectedDays;
+  final DateSymbols _dateSymbols = dateTimeSymbolMap()['$locale'];
 
-    final _locale = Localizations.localeOf(Get.context);
-    final DateSymbols _dateSymbols = dateTimeSymbolMap()['$_locale'];
+  final selectedDays =
+      List.generate(createPlanProvider.getSelectedDays.length, (index) {
+    final selectedDay = createPlanProvider.getSelectedDays[index];
+    return _dateSymbols.STANDALONEWEEKDAYS[selectedDay % 7];
+  });
 
-    final selectedDays =
-        List.generate(createPlanProvider.getSelectedDays.length, (index) {
-      final selectedDay = createPlanProvider.getSelectedDays[index];
-      return _dateSymbols.STANDALONEWEEKDAYS[selectedDay % 7];
-    });
-
-    if (createPlanProvider.getNumberOfRepeat == 1) {
-      switch (createPlanProvider.getRepeat) {
-        case RepeatType.Daily:
-          createPlanProvider.setRepeatTitle = 'Daily';
-          createPlanProvider.setSelectedDaysTitle = '';
-          break;
-        case RepeatType.Weekly:
-          createPlanProvider.setRepeatTitle = 'Weekly';
-          createPlanProvider.setSelectedDaysTitle = selectedDays.join(', ');
-          break;
-        case RepeatType.Monthly:
-          createPlanProvider.setRepeatTitle = 'Monthly';
-          createPlanProvider.setSelectedDaysTitle = '';
-          break;
-        case RepeatType.Yearly:
-          createPlanProvider.setRepeatTitle = 'Yearly';
-          createPlanProvider.setSelectedDaysTitle = '';
-          break;
-      }
-    } else {
-      switch (createPlanProvider.getRepeat) {
-        case RepeatType.Daily:
-          createPlanProvider.setRepeatTitle =
-              'Every ${createPlanProvider.getNumberOfRepeat} days';
-          createPlanProvider.setSelectedDaysTitle = '';
-          break;
-        case RepeatType.Weekly:
-          createPlanProvider.setRepeatTitle =
-              'Every ${createPlanProvider.getNumberOfRepeat} weeks';
-          createPlanProvider.setSelectedDaysTitle = selectedDays.join(', ');
-          break;
-        case RepeatType.Monthly:
-          createPlanProvider.setRepeatTitle =
-              'Every ${createPlanProvider.getNumberOfRepeat} months';
-          createPlanProvider.setSelectedDaysTitle = '';
-          break;
-        case RepeatType.Yearly:
-          createPlanProvider.setRepeatTitle =
-              'Every ${createPlanProvider.getNumberOfRepeat} years';
-          createPlanProvider.setSelectedDaysTitle = '';
-          break;
-      }
+  if (createPlanProvider.getNumberOfRepeat == 1) {
+    switch (createPlanProvider.getRepeat) {
+      case RepeatType.Daily:
+        createPlanProvider.setRepeatTitle = 'Daily';
+        createPlanProvider.setSelectedDaysTitle = '';
+        break;
+      case RepeatType.Weekly:
+        createPlanProvider.setRepeatTitle = 'Weekly';
+        createPlanProvider.setSelectedDaysTitle = selectedDays.join(', ');
+        break;
+      case RepeatType.Monthly:
+        createPlanProvider.setRepeatTitle = 'Monthly';
+        createPlanProvider.setSelectedDaysTitle = '';
+        break;
+      case RepeatType.Yearly:
+        createPlanProvider.setRepeatTitle = 'Yearly';
+        createPlanProvider.setSelectedDaysTitle = '';
+        break;
+    }
+  } else {
+    switch (createPlanProvider.getRepeat) {
+      case RepeatType.Daily:
+        createPlanProvider.setRepeatTitle =
+            'Every ${createPlanProvider.getNumberOfRepeat} days';
+        createPlanProvider.setSelectedDaysTitle = '';
+        break;
+      case RepeatType.Weekly:
+        createPlanProvider.setRepeatTitle =
+            'Every ${createPlanProvider.getNumberOfRepeat} weeks';
+        createPlanProvider.setSelectedDaysTitle = selectedDays.join(', ');
+        break;
+      case RepeatType.Monthly:
+        createPlanProvider.setRepeatTitle =
+            'Every ${createPlanProvider.getNumberOfRepeat} months';
+        createPlanProvider.setSelectedDaysTitle = '';
+        break;
+      case RepeatType.Yearly:
+        createPlanProvider.setRepeatTitle =
+            'Every ${createPlanProvider.getNumberOfRepeat} years';
+        createPlanProvider.setSelectedDaysTitle = '';
+        break;
     }
   }
 }

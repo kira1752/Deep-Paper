@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../../business_logic/note/provider/deep_bottom_provider.dart';
@@ -41,9 +40,9 @@ class NotePage extends StatelessWidget {
 
   Future<bool> exitSelectionOrExitApp(BuildContext context) async {
     final providerSelection =
-    Provider.of<SelectionProvider>(context, listen: false);
+        Provider.of<SelectionProvider>(context, listen: false);
     final providerDeepBottom =
-    Provider.of<DeepBottomProvider>(context, listen: false);
+        Provider.of<DeepBottomProvider>(context, listen: false);
     final fabProvider = Provider.of<FABProvider>(context, listen: false);
 
     final selection = providerSelection.getSelection;
@@ -112,7 +111,8 @@ class NoteFloatingActionButton extends StatelessWidget {
             Provider.of<NoteDrawerProvider>(context, listen: false);
 
             final folder = drawerProvider.getFolder;
-            Get.toNamed(DeepRouteString.noteCreate, arguments: folder);
+            Navigator.pushNamed(context, DeepRouteString.noteCreate,
+                arguments: folder);
           },
         ),
       ),

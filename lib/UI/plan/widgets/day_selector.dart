@@ -3,7 +3,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:weekday_selector/weekday_selector.dart';
 
-import '../../../business_logic/plan/day_selector_logic.dart';
+import '../../../business_logic/plan/day_selector_logic.dart'
+    as day_selector_logic;
 import '../../../business_logic/plan/provider/create_plan_provider.dart';
 import '../../../business_logic/plan/provider/repeat_dialog_provider.dart';
 
@@ -55,7 +56,7 @@ class _DaySelectorState extends State<DaySelector> {
                   side: BorderSide(
                       width: 2.0, color: Theme.of(context).canvasColor)),
               onChanged: (day) {
-                DaySelectorLogic.onChanged(
+                day_selector_logic.onChanged(
                     repeatDialogProvider: _repeatDialogProvider,
                     day: day,
                     weekDays: weekDays);

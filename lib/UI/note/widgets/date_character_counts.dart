@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../business_logic/note/provider/note_detail_provider.dart';
-import '../../../business_logic/note/text_field_logic.dart';
+import '../../../business_logic/note/text_field_logic.dart' as text_field_logic;
 import '../../../utility/extension.dart';
 
 class DateCharacterCounts extends StatelessWidget {
@@ -29,7 +29,7 @@ class DateCharacterCounts extends StatelessWidget {
             ),
           ),
           FutureProvider<int>(
-              create: (context) => TextFieldLogic.countAllAsync(detail),
+              create: (context) => text_field_logic.countAllAsync(detail),
               builder: (context, widget) {
                 return Consumer<int>(
                   builder: (context, count, noTextCount) => count.isNull

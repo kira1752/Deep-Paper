@@ -1,11 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../business_logic/note/provider/note_drawer_provider.dart';
 import '../../../../data/deep.dart';
-import '../dialog/note_dialog.dart';
+import '../../../../utility/extension.dart';
+import '../dialog/note_dialog.dart' as note_dialog;
 import '../empty_trash_illustration.dart';
 import '../note_card.dart';
 
@@ -65,7 +64,8 @@ class __TrashIsExistState extends State<_TrashIsExist> {
             index: index,
             note: widget.data[index],
             onTap: () {
-              DeepDialog.openRestoreDialog(data: widget.data[index]);
+              note_dialog.openRestoreDialog(
+                  context: context, data: widget.data[index]);
             },
           );
         });
