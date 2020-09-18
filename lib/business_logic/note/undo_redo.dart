@@ -31,7 +31,7 @@ Future<void> redo({@required UndoRedoProvider undoRedoProvider,
       TextSelection.fromPosition(TextPosition(offset: cursorOffset));
 
   if (!undoRedoProvider.canRedo()) {
-    undoRedoProvider.currentTyped = null;
+    undoRedoProvider.currentTyped.value = null;
     undoRedoProvider.currentCursorPosition = null;
   }
 

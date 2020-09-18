@@ -5,13 +5,10 @@ import 'package:weekday_selector/weekday_selector.dart';
 
 import '../../../business_logic/plan/day_selector_logic.dart'
     as day_selector_logic;
-import '../../../business_logic/plan/provider/create_plan_provider.dart';
 import '../../../business_logic/plan/provider/repeat_dialog_provider.dart';
 
 class DaySelector extends StatefulWidget {
-  final CreatePlanProvider createPlanProvider;
-
-  const DaySelector({@required this.createPlanProvider});
+  const DaySelector();
 
   @override
   _DaySelectorState createState() => _DaySelectorState();
@@ -19,19 +16,12 @@ class DaySelector extends StatefulWidget {
 
 class _DaySelectorState extends State<DaySelector> {
   RepeatDialogProvider _repeatDialogProvider;
-  CreatePlanProvider _createPlanProvider;
 
   @override
   void initState() {
     super.initState();
     _repeatDialogProvider =
         Provider.of<RepeatDialogProvider>(context, listen: false);
-    _createPlanProvider = widget.createPlanProvider;
-
-    _repeatDialogProvider.initiateTempSelectedDays =
-        _createPlanProvider.getSelectedDays.isEmpty
-            ? [1]
-            : _createPlanProvider.getSelectedDays;
   }
 
   @override

@@ -30,6 +30,9 @@ class RepeatDialogProvider with ChangeNotifier {
   set initiateTempRepeatDialogType(String repeatDialogType) =>
       _tempRepeatDialogType = repeatDialogType;
 
+  set initiateTempSelectedDays(List<int> selectedDays) =>
+      _tempSelectedDays.addAll(selectedDays);
+
   set setTempRepeat(RepeatType newRepeat) => _tempRepeat = newRepeat;
 
   set setTempRepeatDialogType(String newValue) {
@@ -50,9 +53,6 @@ class RepeatDialogProvider with ChangeNotifier {
       notifyListeners();
     }
   }
-
-  set initiateTempSelectedDays(List<int> selectedDays) =>
-      _tempSelectedDays.addAll(selectedDays);
 
   set addSelectedDay(int day) {
     _tempSelectedDays.add(day);

@@ -9,7 +9,7 @@ class UndoRedoProvider with ChangeNotifier {
   int initialCursorPosition;
   int tempInitialCursorPosition;
   String initialDetail;
-  String currentTyped = '';
+  ValueNotifier<String> currentTyped = ValueNotifier('');
 
   final Queue<String> _undo = Queue();
   final Queue<String> _redo = Queue();
@@ -24,7 +24,7 @@ class UndoRedoProvider with ChangeNotifier {
   }
 
   void addUndo() {
-    _undo.add(currentTyped);
+    _undo.add(currentTyped.value);
     _undoCursor.add(currentCursorPosition);
   }
 
@@ -81,42 +81,42 @@ class UndoRedoProvider with ChangeNotifier {
   }
 
   String popUndoValue() {
-    if (currentTyped.isNull) {
+    if (currentTyped.value.isNull) {
       // If user typing state is already saved because of debounce
       // then, user click undo button.
       // pop the latest value from _undo queue and save it to
       // _redo queue
       _redo.add(_undo.removeLast());
-    } else if (currentTyped.isNotNull && _redo.isEmpty) {
+    } else if (currentTyped.value.isNotNull && _redo.isEmpty) {
       // If when user typing, then suddenly user tap Undo button
       // and debounce isn't running properly (not quick enough to save
       // the typing state),
       // save currentTyped to _redo queue
       if (_undo.isNotEmpty) {
-        if (_undo.last != currentTyped) {
-          _redo.add(currentTyped);
+        if (_undo.last != currentTyped.value) {
+          _redo.add(currentTyped.value);
         }
       } else {
-        _redo.add(currentTyped);
+        _redo.add(currentTyped.value);
       }
     }
 
     if (_undo.isNotEmpty) {
-      if (_undo.last == currentTyped) {
+      if (_undo.last == currentTyped.value) {
         _redo.add(_undo.removeLast());
       }
 
       if (_undo.isNotEmpty) {
-        currentTyped = _undo.removeLast();
-        _redo.add(currentTyped);
+        currentTyped.value = _undo.removeLast();
+        _redo.add(currentTyped.value);
 
         if (_canRedo != true) {
           _canRedo = true;
           notifyListeners();
         }
-        return currentTyped;
+        return currentTyped.value;
       } else {
-        currentTyped = '';
+        currentTyped.value = '';
         _canUndo = false;
 
         if (_canRedo != true) {
@@ -127,7 +127,7 @@ class UndoRedoProvider with ChangeNotifier {
         return initialDetail;
       }
     } else {
-      currentTyped = '';
+      currentTyped.value = '';
       _canUndo = false;
       if (_canRedo != true) {
         _canRedo = true;
@@ -139,13 +139,13 @@ class UndoRedoProvider with ChangeNotifier {
   }
 
   String popRedoValue() {
-    if (_redo.last == currentTyped) {
+    if (_redo.last == currentTyped.value) {
       _undo.add(_redo.removeLast());
     }
 
     if (_redo.isNotEmpty) {
-      currentTyped = _redo.removeLast();
-      _undo.add(currentTyped);
+      currentTyped.value = _redo.removeLast();
+      _undo.add(currentTyped.value);
     }
 
     if (_canUndo == false) {
@@ -158,7 +158,7 @@ class UndoRedoProvider with ChangeNotifier {
       notifyListeners();
     }
 
-    return currentTyped;
+    return currentTyped.value;
   }
 
   String getUndoLastValue() {

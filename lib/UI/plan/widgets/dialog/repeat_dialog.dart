@@ -43,6 +43,10 @@ class _RepeatDialogState extends State<RepeatDialog> {
         _createPlanProvider.getRepeatDialogType;
     _repeatDialogProvider.initiateTempNumberOfRepeat =
         _createPlanProvider.getNumberOfRepeat;
+    _repeatDialogProvider.initiateTempSelectedDays =
+        _createPlanProvider.getSelectedDays.isEmpty
+            ? [1]
+            : _createPlanProvider.getSelectedDays;
   }
 
   @override
@@ -75,12 +79,10 @@ class _RepeatDialogState extends State<RepeatDialog> {
         ),
         Selector<RepeatDialogProvider, bool>(
           selector: (context, provider) =>
-              provider.getTempRepeat == RepeatType.Weekly,
-          child: DaySelector(
-            createPlanProvider: _createPlanProvider,
-          ),
+          provider.getTempRepeat == RepeatType.Weekly,
+          child: const DaySelector(),
           builder: (context, showWeekDays, daySelector) =>
-              showWeekDays ? daySelector : const SizedBox(),
+          showWeekDays ? daySelector : const SizedBox(),
         )
       ],
       actions: [
@@ -126,6 +128,7 @@ class _RepeatDialogState extends State<RepeatDialog> {
                             locale: Localizations.localeOf(context),
                             createPlanProvider: _createPlanProvider,
                             repeatDialogProvider: _repeatDialogProvider);
+
                         Navigator.pop(context);
                       }
                           : null,

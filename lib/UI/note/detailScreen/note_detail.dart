@@ -48,12 +48,12 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
   void _whenUserTyping() {
     if (_debounce?.isActive ?? false) _debounce.cancel();
     _debounce = Timer(const Duration(milliseconds: 1000), () {
-      final _value = _undoRedoProvider.currentTyped;
+      final _value = _undoRedoProvider.currentTyped.value;
       if (!_value.isNullEmptyOrWhitespace &&
           _undoRedoProvider.getUndoLastValue() != _value &&
           _undoRedoProvider.getRedoLastValue() != _value) {
         _undoRedoProvider.addUndo();
-        _undoRedoProvider.currentTyped = null;
+        _undoRedoProvider.currentTyped.value = null;
         _undoRedoProvider.currentCursorPosition = null;
       }
     });
@@ -82,7 +82,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
     if (_detailProvider.getNote.isNull) {
       _date = text_field_logic.loadDateAsync(null);
 
-      Future.delayed(const Duration(milliseconds: 500), () {
+      Future.delayed(const Duration(milliseconds: 400), () {
         _detailFocus.requestFocus();
 
         _undoRedoProvider.tempInitialCursorPosition =
@@ -94,7 +94,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
 
     // Save user typing state to Undo queue when user stop typing for
     // 1000 milliseconds
-    _detailController.addListener(_whenUserTyping);
+    _undoRedoProvider.currentTyped.addListener(_whenUserTyping);
 
     KeyboardVisibility.onChange.listen((visible) {
       if (visible == false) {
@@ -111,11 +111,10 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
     // when user exit Note Creation UI
     WidgetsBinding.instance.removeObserver(this);
 
-    _detailController.removeListener(_whenUserTyping);
-
+    _debounce?.cancel();
+    _undoRedoProvider.currentTyped.dispose();
     _detailController.dispose();
     _detailFocus.dispose();
-    _debounce?.cancel();
     super.dispose();
   }
 
@@ -222,13 +221,13 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
                     modified: _detailProvider.getNote.isNull
                         ? DateTime.now()
                         : (_detailProvider.getNote.detail !=
-                        _detailProvider.getDetail
-                        ? DateTime.now()
-                        : _detailProvider.getNote.modified),
+                                _detailProvider.getDetail
+                            ? DateTime.now()
+                            : _detailProvider.getNote.modified),
                     created: _detailProvider.getTempNoteID.isNull
                         ? (_detailProvider.getNote.isNull
-                        ? DateTime.now()
-                        : _detailProvider.getNote.created)
+                            ? DateTime.now()
+                            : _detailProvider.getNote.created)
                         : created);
               });
             },
@@ -275,7 +274,8 @@ class DetailField extends StatefulWidget {
   final TextEditingController detailController;
   final FocusNode detailFocus;
 
-  const DetailField({@required this.detailController, @required this.detailFocus});
+  const DetailField(
+      {@required this.detailController, @required this.detailFocus});
 
   @override
   _DetailFieldState createState() => _DetailFieldState();

@@ -23,13 +23,18 @@ void create(
   createPlanProvider.setWeekDays = repeatDialogProvider.getTempWeekDays;
   createPlanProvider.setSelectedDays = repeatDialogProvider.getTempSelectedDays;
 
+  debugPrintSynchronously(
+      'selected days: ${createPlanProvider.getSelectedDays}');
+
   final DateSymbols _dateSymbols = dateTimeSymbolMap()['$locale'];
 
   final selectedDays =
       List.generate(createPlanProvider.getSelectedDays.length, (index) {
-    final selectedDay = createPlanProvider.getSelectedDays[index];
+    var selectedDay = createPlanProvider.getSelectedDays[index];
     return _dateSymbols.STANDALONEWEEKDAYS[selectedDay % 7];
   });
+
+  debugPrintSynchronously('string: $selectedDays');
 
   if (createPlanProvider.getNumberOfRepeat == 1) {
     switch (createPlanProvider.getRepeat) {

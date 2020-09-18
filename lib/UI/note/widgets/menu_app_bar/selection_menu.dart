@@ -22,7 +22,7 @@ class SelectionMenu extends StatelessWidget {
     return Selector<NoteDrawerProvider, bool>(
       selector: (context, provider) => provider.getIndexDrawerItem == 1,
       builder: (context, showTrashSelection, normalSelectionMenu) =>
-          showTrashSelection ? _TrashMenu : normalSelectionMenu,
+          showTrashSelection ? const _TrashMenu() : normalSelectionMenu,
       child: const _NormalSelectionMenu(),
     );
   }

@@ -43,7 +43,7 @@ Future<void> detail(
     undoRedoProvider.setCanUndo = true;
   }
 
-  undoRedoProvider.currentTyped = value;
+  undoRedoProvider.currentTyped.value = value;
   undoRedoProvider.currentCursorPosition = controller.selection.baseOffset;
 }
 
