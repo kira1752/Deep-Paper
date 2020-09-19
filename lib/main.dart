@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'UI/deep_material_app.dart';
 import 'utility/illustration.dart';
@@ -23,5 +24,5 @@ Future<void> main() async {
       ExactAssetPicture(SvgPicture.svgStringDecoder, Illustration.getFinance),
       null);
 
-  runApp(const DeepMaterialApp());
+  runApp(const ProviderScope(child: DeepMaterialApp()));
 }

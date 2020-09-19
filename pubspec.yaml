@@ -36,6 +36,8 @@ dependencies:
   fitted_text_field_container:
   weekday_selector:
   flutter_svg:
+  hooks_riverpod:
+  flutter_hooks:
 
 dev_dependencies:
   flutter_test:
@@ -43,7 +45,6 @@ dev_dependencies:
   moor_generator: # use the latest version
   build_runner: 1.10.1
   pedantic:
-  effective_dart:
 
 
 # For information on the generic Dart part of this file, see the
@@ -92,4 +93,4 @@ flutter:
   #         weight: 700
   #
   # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+  # see https://flutter.dev/custom-fo

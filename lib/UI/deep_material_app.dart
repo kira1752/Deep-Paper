@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../business_logic/note/provider/note_detail_provider.dart';
 import '../business_logic/note/provider/undo_redo_provider.dart';
+import '../business_logic/note/text_field_logic.dart' as text_field_logic;
 import '../data/deep.dart';
 import '../utility/deep_route_string.dart';
 import 'app_theme.dart' as app_theme;
@@ -49,9 +50,11 @@ class DeepMaterialApp extends StatelessWidget {
                           create: (context) => NoteDetailProvider())
                     ],
                     child: NoteDetail(
-                        folderID: folderID,
-                        folderName: folderName,
-                        note: null)),
+                      folderID: folderID,
+                      folderName: folderName,
+                      note: null,
+                      date: text_field_logic.loadDateAsync(null),
+                    )),
                 settings: settings,
               );
               break;
@@ -72,6 +75,7 @@ class DeepMaterialApp extends StatelessWidget {
                             note: note,
                             folderID: folderID,
                             folderName: folderName,
+                            date: text_field_logic.loadDateAsync(note.modified),
                           )),
                   settings: settings);
               break;
