@@ -78,4 +78,8 @@ class NoteDetailProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  set initialDetailDirection(String text) {
+    _isDetailRTL = Bidi.detectRtlDirectionality(text);
+  }
 }

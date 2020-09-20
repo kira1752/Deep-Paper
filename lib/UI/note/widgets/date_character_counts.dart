@@ -62,7 +62,10 @@ class __TopDateState extends State<_TopDate> {
         builder: (context, widget) => Consumer<String>(
               builder: (context, date, widget) {
                 if (date == null) {
-                  return const SizedBox.shrink();
+                  return Text(
+                    'Loading date...',
+                    style: Theme.of(context).textTheme.bodyText2,
+                  );
                 } else {
                   return Text(
                     '$date',

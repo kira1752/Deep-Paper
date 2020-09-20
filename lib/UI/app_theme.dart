@@ -10,8 +10,7 @@ TextStyle darkTitleAppBar({@required BuildContext context}) {
 }
 
 TextStyle darkTitleFolderAppBar({@required BuildContext context}) {
-  return Theme
-      .of(context)
+  return Theme.of(context)
       .textTheme
       .bodyText1
       .copyWith(fontWeight: FontWeight.w600, fontSize: SizeHelper.getTitle);
@@ -42,7 +41,7 @@ ThemeData dark() {
   return ThemeData.dark().copyWith(
       pageTransitionsTheme: const PageTransitionsTheme(builders: {
         TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-        TargetPlatform.iOS: CupertinoPageTransitionsBuilder()
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
       }),
       visualDensity: VisualDensity.adaptivePlatformDensity,
       dividerColor: Colors.white.withOpacity(.10),

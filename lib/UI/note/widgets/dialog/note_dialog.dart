@@ -7,7 +7,7 @@ import '../../../../business_logic/note/provider/fab_provider.dart';
 import '../../../../business_logic/note/provider/folder_dialog_provider.dart';
 import '../../../../business_logic/note/provider/note_drawer_provider.dart';
 import '../../../../business_logic/note/provider/selection_provider.dart';
-import '../../../../business_logic/note/provider/text_controller_provider.dart';
+import '../../../../business_logic/provider/text_controller_provider.dart';
 import '../../../../data/deep.dart';
 import 'create_folder_dialog.dart';
 import 'create_folder_move_to_dialog.dart';

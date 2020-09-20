@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:provider/provider.dart';
 
 import '../../../business_logic/note/note_debounce.dart';
+import '../../../business_logic/note/note_detail_initstate.dart';
 import '../../../business_logic/note/note_detail_lifecycle.dart' as lifecycle;
 import '../../../business_logic/note/note_detail_normal_save.dart' as save;
 import '../../../business_logic/note/provider/note_detail_provider.dart';
@@ -57,35 +57,13 @@ class NoteDetail extends HookWidget {
     final debounce = useMemoized(() => NoteDetailDebounce());
 
     useEffect(() {
-      detailProvider.setNote = note;
-      final detail = (detailProvider.getNote?.detail) ?? '';
-      undoRedoProvider.initialDetail = detail;
-      detailProvider.setDetail = detail;
-      detailProvider.setTempDetail = detail;
-
-      detailController.text = detail;
-
-      if (detailProvider.getNote.isNull) {
-        Future.delayed(const Duration(milliseconds: 400), () {
-          detailFocus.requestFocus();
-
-          undoRedoProvider.tempInitialCursorPosition =
-              detailController.selection.baseOffset;
-        });
-      }
-
-      // Save user typing state to Undo queue when user stop typing for
-      // 1000 milliseconds
-      undoRedoProvider.currentTyped
-          .addListener(() => debounce.run(undoRedoProvider));
-
-      KeyboardVisibility.onChange.listen((visible) {
-        if (visible == false) {
-          if (detailFocus.hasFocus) {
-            detailFocus.unfocus();
-          }
-        }
-      });
+      init(
+          note: note,
+          undoRedoProvider: undoRedoProvider,
+          detailProvider: detailProvider,
+          detailController: detailController,
+          detailFocus: detailFocus,
+          debounce: debounce);
       return () => dispose(debounce, undoRedoProvider);
     }, const []);
 
@@ -123,10 +101,7 @@ class NoteDetail extends HookWidget {
               leading: IconButton(
                 icon: Icon(
                   MyIcon.arrow_left,
-                  color: Theme
-                      .of(context)
-                      .accentColor
-                      .withOpacity(0.80),
+                  color: Theme.of(context).accentColor.withOpacity(0.80),
                 ),
                 onPressed: () {
                   Navigator.maybePop(context);
@@ -261,7 +236,7 @@ class _DetailFieldState extends State<DetailField> {
 
     _undoRedoProvider = Provider.of<UndoRedoProvider>(context, listen: false);
 
-    _detailProvider.checkDetailDirection = _detailProvider.getDetail;
+    _detailProvider.initialDetailDirection = _detailProvider.getDetail;
   }
 
   @override

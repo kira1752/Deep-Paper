@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../business_logic/note/provider/detect_text_direction_provider.dart';
-import '../../../business_logic/note/provider/text_controller_provider.dart';
+import '../../../business_logic/provider/text_controller_provider.dart';
 import '../../../utility/size_helper.dart';
 
 class PlanNameField extends StatelessWidget {

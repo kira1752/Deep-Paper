@@ -10,7 +10,7 @@ import '../utility/deep_route_string.dart';
 import 'app_theme.dart' as app_theme;
 import 'deep_paper.dart';
 import 'note/detailScreen/note_detail.dart';
-import 'note/note_page.dart';
+import 'transition/deep_route.dart';
 
 // ignore: public_member_api_docs
 class DeepMaterialApp extends StatelessWidget {
@@ -32,7 +32,7 @@ class DeepMaterialApp extends StatelessWidget {
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case DeepRouteString.deepPaper:
-              return MaterialPageRoute(
+              return DeepRoute(
                 builder: (context) => const DeepPaper(),
                 settings: settings,
               );
@@ -41,7 +41,8 @@ class DeepMaterialApp extends StatelessWidget {
               final folderName = folder?.name;
               final folderID = folder?.id;
 
-              return MaterialPageRoute(
+              return DeepRoute(
+                maintainState: false,
                 builder: (context) => MultiProvider(
                     providers: [
                       ChangeNotifierProvider(
@@ -63,8 +64,10 @@ class DeepMaterialApp extends StatelessWidget {
               final folderID = note.folderID;
               final folderName = note.folderName;
 
-              return MaterialPageRoute(
-                  builder: (context) => MultiProvider(
+              return DeepRoute(
+                  maintainState: false,
+                  builder: (context) =>
+                      MultiProvider(
                           providers: [
                             ChangeNotifierProvider(
                                 create: (context) => UndoRedoProvider()),
@@ -79,12 +82,8 @@ class DeepMaterialApp extends StatelessWidget {
                           )),
                   settings: settings);
               break;
-            case DeepRouteString.notePage:
-              return MaterialPageRoute(
-                  builder: (context) => const NotePage(), settings: settings);
-              break;
             default:
-              return MaterialPageRoute(
+              return DeepRoute(
                   builder: (context) => const DeepPaper(), settings: settings);
               break;
           }
