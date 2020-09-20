@@ -185,8 +185,8 @@ class NoteDetail extends HookWidget {
                 }
                 detailController.selection =
                     TextSelection.fromPosition(TextPosition(
-                      offset: detailProvider.getDetail.length,
-                    ));
+                  offset: detailProvider.getDetail.length,
+                ));
 
                 if (!undoRedoProvider.canUndo()) {
                   undoRedoProvider.tempInitialCursorPosition =

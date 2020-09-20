@@ -24,8 +24,7 @@ TextStyle darkTitleTrashAppBar({@required BuildContext context}) {
 }
 
 TextStyle darkTitleSelectionAppBar({@required BuildContext context}) {
-  return Theme
-      .of(context)
+  return Theme.of(context)
       .textTheme
       .bodyText1
       .copyWith(fontSize: SizeHelper.getTitle);

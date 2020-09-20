@@ -91,7 +91,7 @@ class __TopCountState extends State<_TopCount> {
   void initState() {
     super.initState();
     final detailProvider =
-    Provider.of<NoteDetailProvider>(context, listen: false);
+        Provider.of<NoteDetailProvider>(context, listen: false);
     detailProvider.setDetailCount = widget.initialCount;
   }
 
