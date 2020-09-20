@@ -69,10 +69,7 @@ class __TopDateState extends State<_TopDate> {
                 } else {
                   return Text(
                     '$date',
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .bodyText2,
+                    style: Theme.of(context).textTheme.bodyText2,
                   );
                 }
               },

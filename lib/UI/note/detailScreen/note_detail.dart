@@ -165,13 +165,13 @@ class NoteDetail extends HookWidget {
                     modified: detailProvider.getNote.isNull
                         ? DateTime.now()
                         : (detailProvider.getNote.detail !=
-                        detailProvider.getDetail
-                        ? DateTime.now()
-                        : detailProvider.getNote.modified),
+                                detailProvider.getDetail
+                            ? DateTime.now()
+                            : detailProvider.getNote.modified),
                     created: detailProvider.getTempNoteID.isNull
                         ? (detailProvider.getNote.isNull
-                        ? DateTime.now()
-                        : detailProvider.getNote.created)
+                            ? DateTime.now()
+                            : detailProvider.getNote.created)
                         : created);
               });
             },

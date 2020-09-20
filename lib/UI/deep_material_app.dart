@@ -66,8 +66,7 @@ class DeepMaterialApp extends StatelessWidget {
 
               return DeepRoute(
                   maintainState: false,
-                  builder: (context) =>
-                      MultiProvider(
+                  builder: (context) => MultiProvider(
                           providers: [
                             ChangeNotifierProvider(
                                 create: (context) => UndoRedoProvider()),
