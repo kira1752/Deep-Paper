@@ -1,14 +1,16 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' as intl;
 
-import '../../UI/widgets/deep_toast.dart';
+import '../../UI/widgets/deep_snack_bar.dart';
 import '../../data/deep.dart';
+import '../../resource/icon_resource.dart';
 import '../../utility/extension.dart';
 import 'note_creation.dart' as note_creation;
 import 'provider/note_detail_provider.dart';
 
 void run(
-    {@required int noteID,
+    {@required BuildContext context,
+    @required int noteID,
     @required Note note,
     @required DeepPaperDatabase database,
     @required NoteDetailProvider detailProvider,
@@ -23,7 +25,10 @@ void run(
       note_creation.deleteEmptyNote(
           database: database, noteID: note.isNull ? noteID : note.id);
 
-      DeepToast.showToast(description: 'Empty note deleted');
+      showSnack(
+          context: context,
+          icon: info(context: context),
+          description: 'Empty note deleted');
     } else if (note.isNotNull) {
       // if there is any changes happen in note
       // update note data

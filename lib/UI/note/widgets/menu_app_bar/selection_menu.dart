@@ -5,14 +5,13 @@ import '../../../../business_logic/note/provider/deep_bottom_provider.dart';
 import '../../../../business_logic/note/provider/fab_provider.dart';
 import '../../../../business_logic/note/provider/note_drawer_provider.dart';
 import '../../../../business_logic/note/provider/selection_provider.dart';
-import '../../../../business_logic/note/selection_menu_logic.dart'
-    as selection_menu_logic;
+import '../../../../business_logic/note/selection_menu_logic.dart';
 import '../../../../data/deep.dart';
 import '../../../../icons/my_icon.dart';
 import '../../../../resource/icon_resource.dart';
 import '../../../../resource/string_resource.dart';
 import '../../../../utility/size_helper.dart';
-import '../../../app_theme.dart' as app_theme;
+import '../../../app_theme.dart';
 
 class SelectionMenu extends StatelessWidget {
   const SelectionMenu();
@@ -34,55 +33,59 @@ class _TrashMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selectionProvider =
-    Provider.of<SelectionProvider>(context, listen: false);
+        Provider.of<SelectionProvider>(context, listen: false);
     final deepBottomProvider =
-    Provider.of<DeepBottomProvider>(context, listen: false);
+        Provider.of<DeepBottomProvider>(context, listen: false);
     final fabProvider = Provider.of<FABProvider>(context, listen: false);
 
     return PopupMenuButton(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12.0))),
         tooltip: StringResource.tooltipSelectionMenu,
-        icon: IconResource.darkOptions,
+        icon: options(context: context),
         onSelected: (choice) {
           final database =
-          Provider.of<DeepPaperDatabase>(context, listen: false);
+              Provider.of<DeepPaperDatabase>(context, listen: false);
 
-          selection_menu_logic.menuTrashSelected(
+          menuTrashSelected(
+              context: context,
               database: database,
               selectionProvider: selectionProvider,
               deepBottomProvider: deepBottomProvider,
               fabProvider: fabProvider,
               choice: choice);
         },
-        shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-        itemBuilder: (context) =>
-        [
-          PopupMenuItem(
-              value: 0,
-              child: ListTile(
-                leading: IconResource.darkOptionsRestore,
-                title: Text(
-                  StringResource.restore,
-                  style: TextStyle(
-                      fontSize: SizeHelper.getBodyText1,
-                      color: Colors.white.withOpacity(0.87)),
-                ),
-              )),
-          PopupMenuItem(
-              value: 1,
-              child: ListTile(
-                leading: Icon(
-                  MyIcon.trash,
-                  color: Colors.white.withOpacity(0.60),
-                ),
-                title: Text(
-                  'Delete forever',
-                  style: TextStyle(
-                      fontSize: SizeHelper.getBodyText1,
-                      color: Colors.white.withOpacity(0.87)),
-                ),
-              ))
-        ]);
+        itemBuilder: (context) => [
+              PopupMenuItem(
+                  value: 0,
+                  child: ListTile(
+                    leading: optionRestore(context: context),
+                    title: Text(
+                      StringResource.restore,
+                      style: TextStyle(
+                        fontSize: SizeHelper.getBodyText1,
+                        color:
+                            themeColorOpacity(context: context, opacity: .87),
+                      ),
+                    ),
+                  )),
+              PopupMenuItem(
+                  value: 1,
+                  child: ListTile(
+                    leading: Icon(
+                      MyIcon.trash,
+                      color: themeColorOpacity(context: context, opacity: .6),
+                    ),
+                    title: Text(
+                      'Delete forever',
+                      style: TextStyle(
+                        fontSize: SizeHelper.getBodyText1,
+                        color:
+                            themeColorOpacity(context: context, opacity: .87),
+                      ),
+                    ),
+                  ))
+            ]);
   }
 }
 
@@ -101,10 +104,12 @@ class _NormalSelectionMenu extends StatelessWidget {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
     return PopupMenuButton(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12.0))),
         tooltip: StringResource.tooltipSelectionMenu,
-        icon: IconResource.darkOptions,
+        icon: options(context: context),
         onSelected: (choice) {
-          selection_menu_logic.menuSelectionSelected(
+          menuSelectionSelected(
               context: context,
               database: database,
               deepBottomProvider: deepBottomProvider,
@@ -113,35 +118,33 @@ class _NormalSelectionMenu extends StatelessWidget {
               drawerProvider: drawerProvider,
               choice: choice);
         },
-        shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
         itemBuilder: (context) =>
         [
           PopupMenuItem(
               value: 0,
               child: ListTile(
-                leading: IconResource.darkOptionsDelete,
+                leading: optionDelete(context: context),
                 title: Text(
                   StringResource.delete,
-                  style: app_theme.darkPopupMenuItem(),
+                  style: menuItemStyle(context: context),
                 ),
               )),
           PopupMenuItem(
               value: 1,
               child: ListTile(
-                leading: IconResource.darkOptionsMoveTo,
+                leading: optionMoveTo(context: context),
                 title: Text(
                   StringResource.moveTo,
-                  style: app_theme.darkPopupMenuItem(),
+                  style: menuItemStyle(context: context),
                 ),
               )),
           PopupMenuItem(
               value: 2,
               child: ListTile(
-                leading: IconResource.darkOptionsCopy,
+                leading: optionCopy(context: context),
                 title: Text(
                   StringResource.copy,
-                  style: app_theme.darkPopupMenuItem(),
+                  style: menuItemStyle(context: context),
                 ),
               )),
         ]);

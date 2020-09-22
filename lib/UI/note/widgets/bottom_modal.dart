@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../icons/my_icon.dart';
 import '../../../utility/size_helper.dart';
+import '../../app_theme.dart';
 import '../../widgets/deep_scroll_behavior.dart';
 
 Future openAddMenu({@required BuildContext context}) {
@@ -23,16 +24,15 @@ Future openAddMenu({@required BuildContext context}) {
             shape: const StadiumBorder(),
             child: ListTile(
               shape: const StadiumBorder(),
-              leading: const Icon(
+              leading: Icon(
                 MyIcon.camera,
-                color: Colors.white70,
+                color: themeColorOpacity(context: context, opacity: .7),
               ),
               title: Text(
                 'Take photo',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(fontSize: SizeHelper.getModalButton),
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                    color: themeColorOpacity(context: context, opacity: .7),
+                    fontSize: SizeHelper.getModalButton),
               ),
             ),
           ),
@@ -41,16 +41,19 @@ Future openAddMenu({@required BuildContext context}) {
             shape: const StadiumBorder(),
             child: ListTile(
               shape: const StadiumBorder(),
-              leading: const Icon(
+              leading: Icon(
                 MyIcon.image,
-                color: Colors.white70,
+                color: themeColorOpacity(context: context, opacity: .7),
               ),
               title: Text(
                 'Choose image',
-                style: Theme.of(context)
+                style: Theme
+                    .of(context)
                     .textTheme
                     .bodyText1
-                    .copyWith(fontSize: SizeHelper.getModalButton),
+                    .copyWith(
+                    color: themeColorOpacity(context: context, opacity: .7),
+                    fontSize: SizeHelper.getModalButton),
               ),
             ),
           ),
@@ -59,16 +62,19 @@ Future openAddMenu({@required BuildContext context}) {
             shape: const StadiumBorder(),
             child: ListTile(
               shape: const StadiumBorder(),
-              leading: const Icon(
+              leading: Icon(
                 MyIcon.mic,
-                color: Colors.white70,
+                color: themeColorOpacity(context: context, opacity: .7),
               ),
               title: Text(
                 'Recording',
-                style: Theme.of(context)
+                style: Theme
+                    .of(context)
                     .textTheme
                     .bodyText1
-                    .copyWith(fontSize: SizeHelper.getModalButton),
+                    .copyWith(
+                    color: themeColorOpacity(context: context, opacity: .7),
+                    fontSize: SizeHelper.getModalButton),
               ),
             ),
           ),
@@ -77,16 +83,19 @@ Future openAddMenu({@required BuildContext context}) {
             shape: const StadiumBorder(),
             child: ListTile(
               shape: const StadiumBorder(),
-              leading: const Icon(
+              leading: Icon(
                 MyIcon.music,
-                color: Colors.white70,
+                color: themeColorOpacity(context: context, opacity: .7),
               ),
               title: Text(
                 'Choose audio',
-                style: Theme.of(context)
+                style: Theme
+                    .of(context)
                     .textTheme
                     .bodyText1
-                    .copyWith(fontSize: SizeHelper.getModalButton),
+                    .copyWith(
+                    color: themeColorOpacity(context: context, opacity: .7),
+                    fontSize: SizeHelper.getModalButton),
               ),
             ),
           )
@@ -120,16 +129,19 @@ Future openOptionsMenu(
             child: ListTile(
               shape: const StadiumBorder(),
               onTap: onDelete,
-              leading: const Icon(
+              leading: Icon(
                 MyIcon.trash,
-                color: Colors.white70,
+                color: themeColorOpacity(context: context, opacity: .7),
               ),
               title: Text(
                 'Delete',
-                style: Theme.of(context)
+                style: Theme
+                    .of(context)
                     .textTheme
                     .bodyText1
-                    .copyWith(fontSize: SizeHelper.getModalButton),
+                    .copyWith(
+                    color: themeColorOpacity(context: context, opacity: .7),
+                    fontSize: SizeHelper.getModalButton),
               ),
             ),
           ),
@@ -139,16 +151,19 @@ Future openOptionsMenu(
             child: ListTile(
               shape: const StadiumBorder(),
               onTap: onCopy,
-              leading: const Icon(
+              leading: Icon(
                 MyIcon.copy,
-                color: Colors.white70,
+                color: themeColorOpacity(context: context, opacity: .7),
               ),
               title: Text(
                 'Make a copy',
-                style: Theme.of(context)
+                style: Theme
+                    .of(context)
                     .textTheme
                     .bodyText1
-                    .copyWith(fontSize: SizeHelper.getModalButton),
+                    .copyWith(
+                    color: themeColorOpacity(context: context, opacity: .7),
+                    fontSize: SizeHelper.getModalButton),
               ),
             ),
           ),
@@ -158,16 +173,19 @@ Future openOptionsMenu(
             child: ListTile(
               shape: const StadiumBorder(),
               onTap: noteInfo,
-              leading: const Icon(
+              leading: Icon(
                 MyIcon.info,
-                color: Colors.white70,
+                color: themeColorOpacity(context: context, opacity: .7),
               ),
               title: Text(
                 'Note info',
-                style: Theme.of(context)
+                style: Theme
+                    .of(context)
                     .textTheme
                     .bodyText1
-                    .copyWith(fontSize: SizeHelper.getModalButton),
+                    .copyWith(
+                    color: themeColorOpacity(context: context, opacity: .7),
+                    fontSize: SizeHelper.getModalButton),
               ),
             ),
           ),

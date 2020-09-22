@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../business_logic/plan/provider/repeat_dialog_provider.dart';
 import '../../../utility/size_helper.dart';
+import '../../app_theme.dart';
 
 class NumberRepeatTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -27,7 +28,7 @@ class NumberRepeatTextField extends StatelessWidget {
           showCursor: true,
           textInputAction: TextInputAction.done,
           style: Theme.of(context).textTheme.bodyText1.copyWith(
-              color: Colors.white.withOpacity(.80),
+              color: themeColorOpacity(context: context, opacity: .8),
               fontSize: SizeHelper.getModalTextField),
           inputFormatters: [
             FilteringTextInputFormatter.allow(RegExp('[0-9]')),

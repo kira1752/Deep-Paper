@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../business_logic/note/provider/note_drawer_provider.dart';
 import '../../../utility/illustration.dart';
 import '../../../utility/size_helper.dart';
+import '../../app_theme.dart';
 
 class EmptyTrashIllustration extends StatefulWidget {
   const EmptyTrashIllustration();
@@ -50,7 +51,7 @@ class _EmptyTrashIllustrationState extends State<EmptyTrashIllustration> {
                     maxLines: null,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.white70,
+                        color: themeColorOpacity(context: context, opacity: .7),
                         height: 1.5,
                         fontSize: SizeHelper.getHeadline5,
                         fontWeight: FontWeight.bold),

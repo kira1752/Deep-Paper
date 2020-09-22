@@ -2,37 +2,49 @@ import 'package:flutter/material.dart';
 
 import '../utility/size_helper.dart';
 
-TextStyle darkTitleAppBar({@required BuildContext context}) {
-  return Theme.of(context)
-      .textTheme
-      .headline5
-      .copyWith(fontSize: SizeHelper.getTitle);
+/// Set theme color [Opacity].
+/// It works for [Light] and [Dark] theme.
+/// This method will return color according to [ThemeData] with alpha channel.
+Color themeColorOpacity(
+    {@required BuildContext context, @required double opacity}) {
+  final isDark = Theme.of(context).brightness == Brightness.dark;
+
+  return isDark
+      ? Colors.white.withOpacity(opacity)
+      : Colors.black.withOpacity(opacity);
 }
 
-TextStyle darkTitleFolderAppBar({@required BuildContext context}) {
-  return Theme.of(context)
-      .textTheme
-      .bodyText1
-      .copyWith(fontWeight: FontWeight.w600, fontSize: SizeHelper.getTitle);
+TextStyle appBarStyle({@required BuildContext context}) {
+  return Theme.of(context).textTheme.headline5.copyWith(
+      color: themeColorOpacity(context: context, opacity: .8),
+      fontSize: SizeHelper.getTitle);
 }
 
-TextStyle darkTitleTrashAppBar({@required BuildContext context}) {
-  return Theme.of(context)
-      .textTheme
-      .bodyText1
-      .copyWith(fontWeight: FontWeight.w600, fontSize: SizeHelper.getTitle);
+TextStyle folderAppBarStyle({@required BuildContext context}) {
+  return Theme.of(context).textTheme.bodyText1.copyWith(
+      color: themeColorOpacity(context: context, opacity: .7),
+      fontWeight: FontWeight.w600,
+      fontSize: SizeHelper.getTitle);
 }
 
-TextStyle darkTitleSelectionAppBar({@required BuildContext context}) {
-  return Theme.of(context)
-      .textTheme
-      .bodyText1
-      .copyWith(fontSize: SizeHelper.getTitle);
+TextStyle trashAppBarStyle({@required BuildContext context}) {
+  return Theme.of(context).textTheme.bodyText1.copyWith(
+      color: themeColorOpacity(context: context, opacity: .7),
+      fontWeight: FontWeight.w600,
+      fontSize: SizeHelper.getTitle);
 }
 
-TextStyle darkPopupMenuItem() {
-  return TextStyle(
-      fontSize: SizeHelper.getBodyText1, color: Colors.white.withOpacity(0.87));
+TextStyle selectionAppBarStyle({@required BuildContext context}) {
+  return Theme.of(context).textTheme.bodyText1.copyWith(
+      color: themeColorOpacity(context: context, opacity: .7),
+      fontSize: SizeHelper.getTitle);
+}
+
+TextStyle menuItemStyle({@required BuildContext context}) {
+  return Theme.of(context).textTheme.bodyText1.copyWith(
+        fontSize: SizeHelper.getBodyText1,
+        color: themeColorOpacity(context: context, opacity: .87),
+      );
 }
 
 ThemeData dark() {
@@ -46,6 +58,10 @@ ThemeData dark() {
       timePickerTheme: const TimePickerThemeData(
         backgroundColor: Color(0xff202125),
       ),
+      tooltipTheme: const TooltipThemeData(
+          decoration: BoxDecoration(
+        color: Color(0xff202125),
+      )),
       popupMenuTheme: PopupMenuThemeData(
           color: const Color(0xff202125),
           textStyle: TextStyle(color: Colors.white.withOpacity(0.80))),
@@ -59,6 +75,7 @@ ThemeData dark() {
       dialogTheme: const DialogTheme(
         backgroundColor: Color(0xff202125),
       ),
+      dialogBackgroundColor: const Color(0xff202125),
       cardColor: const Color(0xff1d1d1f),
 // Color(0xff1d2025), backup color
       highlightColor: const Color(0x424242),
@@ -73,10 +90,9 @@ ThemeData dark() {
       textSelectionHandleColor: const Color(0xffffb348),
       canvasColor: const Color(0xff17181c),
       textTheme: TextTheme(
-          headline5: TextStyle(
-            fontFamilyFallback: const ['Noto Color Emoji'],
+          headline5: const TextStyle(
+            fontFamilyFallback: ['Noto Color Emoji'],
             letterSpacing: 1.2,
-            color: Colors.white.withOpacity(0.80),
             fontWeight: FontWeight.w600,
           ),
           headline6: TextStyle(

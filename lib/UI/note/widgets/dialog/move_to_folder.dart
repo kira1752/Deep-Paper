@@ -7,13 +7,15 @@ import '../../../../business_logic/note/provider/fab_provider.dart';
 import '../../../../business_logic/note/provider/selection_provider.dart';
 import '../../../../data/deep.dart';
 import '../../../../icons/my_icon.dart';
+import '../../../../resource/icon_resource.dart';
 import '../../../../resource/string_resource.dart';
 import '../../../../utility/extension.dart';
 import '../../../../utility/size_helper.dart';
+import '../../../app_theme.dart';
 import '../../../widgets/deep_expand_base_dialog.dart';
 import '../../../widgets/deep_scroll_behavior.dart';
 import '../../../widgets/deep_scrollbar.dart';
-import '../../../widgets/deep_toast.dart';
+import '../../../widgets/deep_snack_bar.dart';
 import 'note_dialog.dart' as note_dialog;
 
 Future openMoveToDialog(
@@ -60,14 +62,15 @@ class _MoveToFolderDialog extends StatelessWidget {
   final FABProvider fabProvider;
   final DeepPaperDatabase database;
 
-  const _MoveToFolderDialog({@required this.defaultItemValue,
-    @required this.folderList,
-    @required this.currentFolder,
-    @required this.drawerIndex,
-    @required this.selectionProvider,
-    @required this.deepBottomProvider,
-    @required this.fabProvider,
-    @required this.database});
+  const _MoveToFolderDialog(
+      {@required this.defaultItemValue,
+      @required this.folderList,
+      @required this.currentFolder,
+      @required this.drawerIndex,
+      @required this.selectionProvider,
+      @required this.deepBottomProvider,
+      @required this.fabProvider,
+      @required this.database});
 
   @override
   Widget build(BuildContext context) {
@@ -80,18 +83,15 @@ class _MoveToFolderDialog extends StatelessWidget {
             border: Border(
                 bottom: BorderSide(
                     width: 2.0,
-                    color: Theme
-                        .of(context)
-                        .accentColor
-                        .withOpacity(.20)))),
+                    color: Theme.of(context).accentColor.withOpacity(.20)))),
         child: Text(
           'Select folder',
           textAlign: TextAlign.center,
-          style: Theme
-              .of(context)
-              .textTheme
-              .bodyText1
-              .copyWith(fontSize: SizeHelper.getTitle),
+          style: TextStyle(
+            fontSize: SizeHelper.getHeadline6,
+            fontWeight: FontWeight.w600,
+            color: themeColorOpacity(context: context, opacity: .87),
+          ),
         ),
       ),
       actions: [
@@ -112,7 +112,6 @@ class _MoveToFolderDialog extends StatelessWidget {
               child: Text(
                 'Close',
                 style: TextStyle(
-                  fontFamily: 'Roboto',
                   fontSize: SizeHelper.getModalButton,
                 ),
               )),
@@ -145,9 +144,9 @@ class _MoveToFolderDialog extends StatelessWidget {
                             deepBottomProvider: deepBottomProvider,
                             fabProvider: fabProvider);
                       },
-                      leading: const Icon(
+                      leading: Icon(
                         MyIcon.plus,
-                        color: Colors.white70,
+                        color: themeColorOpacity(context: context, opacity: .7),
                       ),
                       title: Text(
                         'New folder',
@@ -156,7 +155,8 @@ class _MoveToFolderDialog extends StatelessWidget {
                             .textTheme
                             .bodyText1
                             .copyWith(
-                            color: Colors.white70,
+                            color: themeColorOpacity(
+                                context: context, opacity: .7),
                             fontSize: SizeHelper.getModalButton),
                       ),
                     ),
@@ -176,7 +176,9 @@ class _MoveToFolderDialog extends StatelessWidget {
 
                           Navigator.pop(context);
 
-                          DeepToast.showToast(
+                          showSnack(
+                              context: context,
+                              icon: successful(context: context),
                               description: 'Note moved successfully');
 
                           deepBottomProvider.setSelection = false;
@@ -184,9 +186,10 @@ class _MoveToFolderDialog extends StatelessWidget {
                           fabProvider.setScrollDown = false;
                           selectionProvider.getSelected.clear();
                         },
-                        leading: const Icon(
+                        leading: Icon(
                           MyIcon.folder,
-                          color: Colors.white70,
+                          color:
+                          themeColorOpacity(context: context, opacity: .7),
                         ),
                         title: Text(
                           StringResource.mainFolder,
@@ -195,7 +198,8 @@ class _MoveToFolderDialog extends StatelessWidget {
                               .textTheme
                               .bodyText1
                               .copyWith(
-                              color: Colors.white70,
+                              color: themeColorOpacity(
+                                  context: context, opacity: .7),
                               fontSize: SizeHelper.getModalButton),
                         ),
                       ),
@@ -217,7 +221,9 @@ class _MoveToFolderDialog extends StatelessWidget {
 
                           Navigator.pop(context);
 
-                          DeepToast.showToast(
+                          showSnack(
+                              context: context,
+                              icon: successful(context: context),
                               description: 'Note moved successfully');
 
                           deepBottomProvider.setSelection = false;
@@ -225,9 +231,10 @@ class _MoveToFolderDialog extends StatelessWidget {
                           fabProvider.setScrollDown = false;
                           selectionProvider.getSelected.clear();
                         },
-                        leading: const Icon(
+                        leading: Icon(
                           MyIcon.folder,
-                          color: Colors.white70,
+                          color:
+                          themeColorOpacity(context: context, opacity: .7),
                         ),
                         title: Text(
                           '${folder.name}',
@@ -236,7 +243,8 @@ class _MoveToFolderDialog extends StatelessWidget {
                               .textTheme
                               .bodyText1
                               .copyWith(
-                              color: Colors.white70,
+                              color: themeColorOpacity(
+                                  context: context, opacity: .7),
                               fontSize: SizeHelper.getModalButton),
                         ),
                       ),
@@ -259,7 +267,9 @@ class _MoveToFolderDialog extends StatelessWidget {
 
                           Navigator.pop(context);
 
-                          DeepToast.showToast(
+                          showSnack(
+                              context: context,
+                              icon: successful(context: context),
                               description: 'Note moved successfully');
 
                           deepBottomProvider.setSelection = false;
@@ -267,9 +277,10 @@ class _MoveToFolderDialog extends StatelessWidget {
                           fabProvider.setScrollDown = false;
                           selectionProvider.getSelected.clear();
                         },
-                        leading: const Icon(
+                        leading: Icon(
                           MyIcon.folder,
-                          color: Colors.white70,
+                          color:
+                          themeColorOpacity(context: context, opacity: .87),
                         ),
                         title: Text(
                           StringResource.mainFolder,
@@ -278,7 +289,8 @@ class _MoveToFolderDialog extends StatelessWidget {
                               .textTheme
                               .bodyText1
                               .copyWith(
-                              color: Colors.white70,
+                              color: themeColorOpacity(
+                                  context: context, opacity: .87),
                               fontSize: SizeHelper.getModalButton),
                         ),
                       ),
@@ -299,7 +311,9 @@ class _MoveToFolderDialog extends StatelessWidget {
 
                           Navigator.pop(context);
 
-                          DeepToast.showToast(
+                          showSnack(
+                              context: context,
+                              icon: successful(context: context),
                               description: 'Note moved successfully');
 
                           deepBottomProvider.setSelection = false;
@@ -307,9 +321,10 @@ class _MoveToFolderDialog extends StatelessWidget {
                           fabProvider.setScrollDown = false;
                           selectionProvider.getSelected.clear();
                         },
-                        leading: const Icon(
+                        leading: Icon(
                           MyIcon.folder,
-                          color: Colors.white70,
+                          color:
+                          themeColorOpacity(context: context, opacity: .87),
                         ),
                         title: Text(
                           '${folder.name}',
@@ -318,7 +333,8 @@ class _MoveToFolderDialog extends StatelessWidget {
                               .textTheme
                               .bodyText1
                               .copyWith(
-                              color: Colors.white70,
+                              color: themeColorOpacity(
+                                  context: context, opacity: .7),
                               fontSize: SizeHelper.getModalButton),
                         ),
                       ),
@@ -340,7 +356,9 @@ class _MoveToFolderDialog extends StatelessWidget {
 
                         Navigator.pop(context);
 
-                        DeepToast.showToast(
+                        showSnack(
+                            context: context,
+                            icon: successful(context: context),
                             description: 'Note moved successfully');
 
                         deepBottomProvider.setSelection = false;
@@ -348,9 +366,9 @@ class _MoveToFolderDialog extends StatelessWidget {
                         fabProvider.setScrollDown = false;
                         selectionProvider.getSelected.clear();
                       },
-                      leading: const Icon(
+                      leading: Icon(
                         MyIcon.folder,
-                        color: Colors.white70,
+                        color: themeColorOpacity(context: context, opacity: .7),
                       ),
                       title: Text(
                         '${folder.name}',
@@ -359,7 +377,8 @@ class _MoveToFolderDialog extends StatelessWidget {
                             .textTheme
                             .bodyText1
                             .copyWith(
-                            color: Colors.white70,
+                            color: themeColorOpacity(
+                                context: context, opacity: .7),
                             fontSize: SizeHelper.getModalButton),
                       ),
                     ),

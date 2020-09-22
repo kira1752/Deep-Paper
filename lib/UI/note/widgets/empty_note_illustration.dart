@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../utility/illustration.dart';
 import '../../../utility/size_helper.dart';
+import '../../app_theme.dart';
 
 class EmptyNoteIllustration extends StatelessWidget {
   const EmptyNoteIllustration();
@@ -35,7 +36,8 @@ class EmptyNoteIllustration extends StatelessWidget {
                       TextSpan(
                         text: 'Feel excited today?\n',
                         style: Theme.of(context).textTheme.headline6.copyWith(
-                            color: Colors.white70,
+                            color: themeColorOpacity(
+                                context: context, opacity: .7),
                             height: 2.0,
                             fontSize: SizeHelper.getHeadline5,
                             fontWeight: FontWeight.bold),
@@ -43,10 +45,11 @@ class EmptyNoteIllustration extends StatelessWidget {
                       TextSpan(
                         text: 'Start writing all your ideas here',
                         style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Colors.white70,
-                            height: 1.5,
-                            fontSize: SizeHelper.getBodyText1,
-                            fontWeight: FontWeight.w500),
+                              color: themeColorOpacity(
+                                  context: context, opacity: .7),
+                              height: 1.5,
+                              fontSize: SizeHelper.getBodyText1,
+                            ),
                       )
                     ]),
                     textAlign: TextAlign.center,

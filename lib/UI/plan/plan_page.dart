@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../business_logic/note/provider/fab_provider.dart';
 import '../../icons/my_icon.dart';
 import '../../utility/size_helper.dart';
+import '../app_theme.dart';
 import 'plan_detail/create_plan.dart' as create_plan;
 import 'widgets/appbar/plan_default_appbar.dart';
 import 'widgets/empty_plan_illustration.dart';
@@ -52,7 +53,6 @@ class PlanFloatingActionButton extends StatelessWidget {
         child: FloatingActionButton.extended(
           heroTag: null,
           splashColor: Theme.of(context).accentColor.withOpacity(0.16),
-          elevation: 0.0,
           icon: Icon(
             MyIcon.edit_3,
             color: Theme.of(context).accentColor,
@@ -62,9 +62,10 @@ class PlanFloatingActionButton extends StatelessWidget {
             child: Text(
               'Write a plan',
               style: Theme.of(context).textTheme.button.copyWith(
-                  letterSpacing: 1.2,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white.withOpacity(0.80)),
+                    letterSpacing: 1.2,
+                    fontWeight: FontWeight.w600,
+                    color: themeColorOpacity(context: context, opacity: .8),
+                  ),
             ),
           ),
           onPressed: () {

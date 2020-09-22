@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../utility/size_helper.dart';
+import '../../../app_theme.dart';
 
 class MoreDefaultAppBar extends StatelessWidget {
   const MoreDefaultAppBar();
@@ -13,10 +13,7 @@ class MoreDefaultAppBar extends StatelessWidget {
       elevation: 0.0,
       title: Text(
         'MORE',
-        style: Theme.of(context)
-            .textTheme
-            .headline5
-            .copyWith(fontSize: SizeHelper.getTitle),
+        style: appBarStyle(context: context),
       ),
     );
   }

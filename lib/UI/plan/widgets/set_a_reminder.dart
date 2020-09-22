@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../business_logic/plan/provider/create_plan_provider.dart';
+import '../../app_theme.dart';
 import '../../transition/widgets/slide_left_widget.dart';
 
 class SetAReminder extends StatelessWidget {
@@ -18,7 +19,7 @@ class SetAReminder extends StatelessWidget {
             child: Text(
               'SET A REMINDER',
               style: Theme.of(context).textTheme.bodyText1.copyWith(
-                    color: Colors.white.withOpacity(.80),
+                color: themeColorOpacity(context: context, opacity: .8),
                     letterSpacing: 1.2,
                   ),
             ),

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../business_logic/plan/provider/create_plan_provider.dart';
 import '../../../icons/my_icon.dart';
 import '../../../utility/size_helper.dart';
+import '../../app_theme.dart';
 import '../../transition/widgets/slide_downward_widget.dart';
 import '../../transition/widgets/slide_right_widget.dart';
 import 'field_base.dart';
@@ -62,23 +63,18 @@ class __TimeState extends State<_Time> {
       onTap: () {
         _showTimePicker(context);
       },
-      leading: const Icon(
+      leading: Icon(
         MyIcon.clock,
-        color: Colors.white70,
+        color: themeColorOpacity(context: context, opacity: .7),
       ),
       title: Selector<CreatePlanProvider, String>(
           selector: (context, provider) => provider.getTime,
-          builder: (context, time, _) =>
-              SlideRightWidget(
+          builder: (context, time, _) => SlideRightWidget(
                 child: Text(
                   '$time',
                   key: Key('$time'),
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(
-                      color: Colors.white.withOpacity(.80),
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: themeColorOpacity(context: context, opacity: .8),
                       fontSize: SizeHelper.getModalTextField),
                 ),
               )),

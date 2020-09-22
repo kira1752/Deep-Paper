@@ -13,13 +13,15 @@ import '../../../business_logic/note/provider/undo_redo_provider.dart';
 import '../../../business_logic/note/text_field_logic.dart' as text_field_logic;
 import '../../../data/deep.dart';
 import '../../../icons/my_icon.dart';
+import '../../../resource/icon_resource.dart';
 import '../../../resource/string_resource.dart';
 import '../../../utility/deep_hooks.dart';
 import '../../../utility/extension.dart';
 import '../../../utility/size_helper.dart';
+import '../../app_theme.dart';
 import '../../widgets/deep_keep_alive.dart';
 import '../../widgets/deep_scroll_behavior.dart';
-import '../../widgets/deep_toast.dart';
+import '../../widgets/deep_snack_bar.dart';
 import '../widgets/bottom_menu.dart';
 import '../widgets/date_character_counts.dart';
 import '../widgets/dialog/note_dialog.dart' as note_dialog;
@@ -75,137 +77,143 @@ class NoteDetail extends HookWidget {
             folderID: folderID ?? 0,
             folderName: folderName ?? StringResource.mainFolder));
 
-    return Theme(
-      data: Theme.of(context).copyWith(
-        bottomSheetTheme: const BottomSheetThemeData(
-          modalBackgroundColor: Color(0xff202020),
-        ),
-      ),
-      child: WillPopScope(
-        onWillPop: () async {
-          save.run(
-              database: database,
-              noteID: detailProvider.getTempNoteID,
-              note: detailProvider.getNote,
-              detailProvider: detailProvider,
-              folderID: folderID ?? 0,
-              folderName: folderName ?? StringResource.mainFolder,
-              isDeleted: detailProvider.getIsDeleted,
-              isCopy: detailProvider.getIsCopy);
+    return WillPopScope(
+      onWillPop: () async {
+        save.run(
+            context: context,
+            database: database,
+            noteID: detailProvider.getTempNoteID,
+            note: detailProvider.getNote,
+            detailProvider: detailProvider,
+            folderID: folderID ?? 0,
+            folderName: folderName ?? StringResource.mainFolder,
+            isDeleted: detailProvider.getIsDeleted,
+            isCopy: detailProvider.getIsCopy);
 
-          return true;
-        },
-        child: Scaffold(
-          appBar: AppBar(
-              elevation: 0.0,
-              leading: IconButton(
-                icon: Icon(
-                  MyIcon.arrow_left,
-                  color: Theme.of(context).accentColor.withOpacity(0.80),
-                ),
-                onPressed: () {
-                  Navigator.maybePop(context);
-                },
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+            elevation: 0.0,
+            leading: IconButton(
+              icon: Icon(
+                MyIcon.arrow_left,
+                color: Theme.of(context).accentColor.withOpacity(0.80),
               ),
-              bottom: PreferredSize(
-                  preferredSize: const Size.fromHeight(56),
-                  child: DateCharacterCounts(
-                      date: date, detail: detailProvider.getDetail))),
-          bottomNavigationBar: BottomMenu(
-            detailController: detailController,
-            onDelete: () {
-              if (!detailProvider.getDetail.isNullEmptyOrWhitespace) {
-                detailProvider.setIsDeleted = true;
+              onPressed: () {
+                Navigator.maybePop(context);
+              },
+            ),
+            bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(56),
+                child: DateCharacterCounts(
+                    date: date, detail: detailProvider.getDetail))),
+        bottomNavigationBar: BottomMenu(
+          detailController: detailController,
+          onDelete: () {
+            if (!detailProvider.getDetail.isNullEmptyOrWhitespace) {
+              detailProvider.setIsDeleted = true;
 
-                Navigator.pop(context);
-                Future.delayed(const Duration(milliseconds: 400), () {
-                  Navigator.maybePop(context);
-                  DeepToast.showToast(description: 'Note moved to Trash Bin');
-                });
-              } else if (detailProvider.getTempNoteID.isNull &&
-                  detailProvider.getNote.isNull) {
-                Navigator.pop(context);
-                Future.delayed(const Duration(milliseconds: 400), () {
-                  Navigator.maybePop(context);
-                  DeepToast.showToast(description: 'Empty note deleted');
-                });
-              } else {
-                Navigator.pop(context);
-                Future.delayed(const Duration(milliseconds: 400), () {
-                  Navigator.maybePop(context);
-                });
-              }
-            },
-            onCopy: () {
-              if (detailProvider.getDetail.isNullEmptyOrWhitespace) {
-                Navigator.pop(context);
+              Navigator.pop(context);
+              Future.delayed(const Duration(milliseconds: 400), () {
+                Navigator.maybePop(context);
+                showSnack(
+                    context: context,
+                    icon: info(context: context),
+                    description: 'Note moved to Trash Bin');
+              });
+            } else if (detailProvider.getTempNoteID.isNull &&
+                detailProvider.getNote.isNull) {
+              Navigator.pop(context);
+              Future.delayed(const Duration(milliseconds: 400), () {
+                Navigator.maybePop(context);
+                showSnack(
+                    context: context,
+                    icon: info(context: context),
+                    description: 'Empty note deleted');
+              });
+            } else {
+              Navigator.pop(context);
+              Future.delayed(const Duration(milliseconds: 400), () {
+                Navigator.maybePop(context);
+              });
+            }
+          },
+          onCopy: () {
+            if (detailProvider.getDetail.isNullEmptyOrWhitespace) {
+              Navigator.pop(context);
 
-                DeepToast.showToast(description: 'Cannot copy empty note');
-              } else {
-                detailProvider.setIsCopy = true;
-
-                Navigator.pop(context);
-
-                Future.delayed(const Duration(milliseconds: 400), () {
-                  Navigator.maybePop(context);
-                  DeepToast.showToast(description: 'Note copied successfully');
-                });
-              }
-            },
-            noteInfo: () async {
-              final created = await database.noteDao
-                  .getCreatedDate(detailProvider.getTempNoteID);
+              showSnack(
+                  context: context,
+                  icon: info(context: context),
+                  description: 'Cannot copy empty note');
+            } else {
+              detailProvider.setIsCopy = true;
 
               Navigator.pop(context);
 
               Future.delayed(const Duration(milliseconds: 400), () {
-                note_dialog.openNoteInfo(
+                Navigator.maybePop(context);
+                showSnack(
                     context: context,
-                    folderName: folderName ?? StringResource.mainFolder,
-                    modified: detailProvider.getNote.isNull
-                        ? DateTime.now()
-                        : (detailProvider.getNote.detail !=
-                                detailProvider.getDetail
-                            ? DateTime.now()
-                            : detailProvider.getNote.modified),
-                    created: detailProvider.getTempNoteID.isNull
-                        ? (detailProvider.getNote.isNull
-                            ? DateTime.now()
-                            : detailProvider.getNote.created)
-                        : created);
+                    icon: successful(context: context),
+                    description: 'Note copied successfully');
               });
-            },
-          ),
-          body: ScrollConfiguration(
-            behavior: const DeepScrollBehavior(),
-            child: GestureDetector(
-              onTap: () {
-                if (!detailFocus.hasFocus) {
-                  detailFocus.requestFocus();
-                }
-                detailController.selection =
-                    TextSelection.fromPosition(TextPosition(
-                  offset: detailProvider.getDetail.length,
-                ));
+            }
+          },
+          noteInfo: () async {
+            final created = await database.noteDao
+                .getCreatedDate(detailProvider.getTempNoteID);
 
-                if (!undoRedoProvider.canUndo()) {
-                  undoRedoProvider.tempInitialCursorPosition =
-                      detailProvider.getDetail.length;
-                }
-              },
-              child: ListView(
-                children: <Widget>[
-                  DeepKeepAlive(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(18, 0, 16, 16),
-                      child: DetailField(
-                        detailController: detailController,
-                        detailFocus: detailFocus,
-                      ),
+            Navigator.pop(context);
+
+            Future.delayed(const Duration(milliseconds: 400), () {
+              note_dialog.openNoteInfo(
+                  context: context,
+                  folderName: folderName ?? StringResource.mainFolder,
+                  modified: detailProvider.getNote.isNull
+                      ? DateTime.now()
+                      : (detailProvider.getNote.detail !=
+                              detailProvider.getDetail
+                          ? DateTime.now()
+                          : detailProvider.getNote.modified),
+                  created: detailProvider.getTempNoteID.isNull
+                      ? (detailProvider.getNote.isNull
+                          ? DateTime.now()
+                          : detailProvider.getNote.created)
+                      : created);
+            });
+          },
+        ),
+        body: ScrollConfiguration(
+          behavior: const DeepScrollBehavior(),
+          child: GestureDetector(
+            onTap: () {
+              if (!detailFocus.hasFocus) {
+                detailFocus.requestFocus();
+              }
+              detailController.selection =
+                  TextSelection.fromPosition(TextPosition(
+                offset: detailProvider.getDetail.length,
+              ));
+
+              if (!undoRedoProvider.canUndo()) {
+                undoRedoProvider.tempInitialCursorPosition =
+                    detailProvider.getDetail.length;
+              }
+            },
+            child: ListView(
+              children: <Widget>[
+                DeepKeepAlive(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(18, 0, 16, 16),
+                    child: DetailField(
+                      detailController: detailController,
+                      detailFocus: detailFocus,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -256,7 +264,7 @@ class _DetailFieldState extends State<DetailField> {
                   .textTheme
                   .bodyText1
                   .copyWith(
-                  color: Colors.white.withOpacity(.80),
+                  color: themeColorOpacity(context: context, opacity: .8),
                   fontWeight: FontWeight.normal,
                   fontSize: SizeHelper.getDetail),
               maxLines: null,

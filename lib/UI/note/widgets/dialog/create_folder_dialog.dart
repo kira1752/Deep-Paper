@@ -9,6 +9,7 @@ import '../../../../business_logic/provider/text_controller_provider.dart';
 import '../../../../data/deep.dart';
 import '../../../../utility/extension.dart';
 import '../../../../utility/size_helper.dart';
+import '../../../app_theme.dart';
 import '../../../widgets/deep_base_dialog.dart';
 
 class CreateFolderDialog extends StatefulWidget {
@@ -30,10 +31,10 @@ class _CreateFolderDialogState extends State<CreateFolderDialog> {
           'Create folder',
           textAlign: TextAlign.center,
           style: TextStyle(
-              fontFamily: 'Roboto',
-              fontSize: SizeHelper.getHeadline6,
-              fontWeight: FontWeight.w600,
-              color: Colors.white.withOpacity(0.87)),
+            fontSize: SizeHelper.getHeadline6,
+            fontWeight: FontWeight.w600,
+            color: themeColorOpacity(context: context, opacity: .87),
+          ),
         ),
       ),
       Padding(
@@ -49,7 +50,8 @@ class _CreateFolderDialogState extends State<CreateFolderDialog> {
                           textDirection: direction,
                           autofocus: true,
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.white70,
+                              color: themeColorOpacity(
+                                  context: context, opacity: .7),
                               fontSize: SizeHelper.getModalTextField),
                           maxLines: 1,
                           keyboardType: TextInputType.text,
@@ -100,7 +102,7 @@ class _CreateFolderDialogState extends State<CreateFolderDialog> {
             Expanded(
               child: FlatButton(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  textColor: Colors.white.withOpacity(0.87),
+                  textColor: themeColorOpacity(context: context, opacity: .87),
                   shape: const RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.only(bottomLeft: Radius.circular(12.0))),
@@ -110,7 +112,6 @@ class _CreateFolderDialogState extends State<CreateFolderDialog> {
                   child: Text(
                     'Cancel',
                     style: TextStyle(
-                      fontFamily: 'Roboto',
                       fontSize: SizeHelper.getModalButton,
                     ),
                   )),
@@ -147,7 +148,6 @@ class _CreateFolderDialogState extends State<CreateFolderDialog> {
                   child: Text(
                     'Create',
                     style: TextStyle(
-                      fontFamily: 'Roboto',
                       fontSize: SizeHelper.getModalButton,
                     ),
                   ),

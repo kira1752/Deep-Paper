@@ -4,10 +4,12 @@ import 'package:provider/provider.dart';
 import '../../../../business_logic/note/trash_management.dart'
     as trash_management;
 import '../../../../data/deep.dart';
+import '../../../../resource/icon_resource.dart';
 import '../../../../resource/string_resource.dart';
 import '../../../../utility/size_helper.dart';
+import '../../../app_theme.dart';
 import '../../../widgets/deep_base_dialog.dart';
-import '../../../widgets/deep_toast.dart';
+import '../../../widgets/deep_snack_bar.dart';
 
 class RestoreDialog extends StatelessWidget {
   final Note data;
@@ -28,38 +30,36 @@ class RestoreDialog extends StatelessWidget {
         child: Text(
           'Restore note',
           textAlign: TextAlign.center,
-          style: Theme.of(context)
-              .textTheme
-              .bodyText1
-              .copyWith(fontSize: SizeHelper.getTitle),
+          style: TextStyle(
+            fontSize: SizeHelper.getHeadline6,
+            fontWeight: FontWeight.w600,
+            color: themeColorOpacity(context: context, opacity: .87),
+          ),
         ),
       ),
       children: [
         Text(
           StringResource.restoreNoteDescription,
           strutStyle: const StrutStyle(leading: 0.5),
-          style: Theme
-              .of(context)
-              .textTheme
-              .bodyText1
-              .copyWith(fontSize: SizeHelper.getModalDescription),
+          style: Theme.of(context).textTheme.bodyText1.copyWith(
+              color: themeColorOpacity(context: context, opacity: .7),
+              fontSize: SizeHelper.getModalDescription),
         ),
       ],
       actions: [
         Expanded(
           child: FlatButton(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              textColor: Colors.white.withOpacity(0.87),
+              textColor: themeColorOpacity(context: context, opacity: .87),
               shape: const RoundedRectangleBorder(
                   borderRadius:
-                      BorderRadius.only(bottomLeft: Radius.circular(12.0))),
+                  BorderRadius.only(bottomLeft: Radius.circular(12.0))),
               onPressed: () {
                 Navigator.pop(context);
               },
               child: Text(
                 'Cancel',
                 style: TextStyle(
-                  fontFamily: 'Roboto',
                   fontSize: SizeHelper.getModalButton,
                 ),
               )),
@@ -81,15 +81,16 @@ class RestoreDialog extends StatelessWidget {
 
                   trash_management.restore(data: data, database: database);
 
-                  DeepToast.showToast(
-                      description: 'Note restored successfully');
-
                   Navigator.pop(context);
+
+                  showSnack(
+                      context: context,
+                      icon: successful(context: context),
+                      description: 'Note restored successfully');
                 },
                 child: Text(
                   'Restore',
                   style: TextStyle(
-                    fontFamily: 'Roboto',
                     fontSize: SizeHelper.getModalButton,
                   ),
                 )),

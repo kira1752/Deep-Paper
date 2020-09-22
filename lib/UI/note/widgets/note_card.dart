@@ -7,6 +7,7 @@ import '../../../business_logic/note/provider/selection_provider.dart';
 import '../../../data/deep.dart';
 import '../../../icons/my_icon.dart';
 import '../../../utility/size_helper.dart';
+import '../../app_theme.dart';
 
 class NoteCard extends StatefulWidget {
   final int index;
@@ -36,76 +37,63 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
     return Selector<SelectionProvider, bool>(
       selector: (context, provider) =>
           provider.getSelected.containsKey(widget.index),
-      builder: (context, selected, noteCardContent) =>
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Material(
-              color: selectionProvider.getSelection && selected
-                  ? Theme
-                  .of(context)
-                  .accentColor
-                  .withOpacity(0.12)
-                  : Theme
-                  .of(context)
-                  .cardColor
-                  .withOpacity(.87),
-              animationDuration: const Duration(milliseconds: 300),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                  side: selectionProvider.getSelection && selected
-                      ? BorderSide(
-                      color: Theme
-                          .of(context)
-                          .accentColor
-                          .withOpacity(0.54),
+      builder: (context, selected, noteCardContent) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Material(
+          color: selectionProvider.getSelection && selected
+              ? Theme.of(context).accentColor.withOpacity(0.12)
+              : Theme.of(context).cardColor.withOpacity(.87),
+          animationDuration: const Duration(milliseconds: 300),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+              side: selectionProvider.getSelection && selected
+                  ? BorderSide(
+                      color: Theme.of(context).accentColor.withOpacity(0.54),
                       width: 3.0)
-                      : BorderSide.none),
-              child: InkWell(
-                  borderRadius: BorderRadius.circular(12.0),
-                  splashColor: Theme
-                      .of(context)
-                      .accentColor
-                      .withOpacity(.16),
-                  onTap: () {
-                    if (!selected && selectionProvider.getSelection) {
-                      selectionProvider.setSelected(
-                          key: widget.index, note: widget.note);
-                    } else if (selected && selectionProvider.getSelection) {
-                      selectionProvider.remove(key: widget.index);
+                  : BorderSide.none),
+          child: InkWell(
+              borderRadius: BorderRadius.circular(12.0),
+              splashColor: Theme.of(context).accentColor.withOpacity(.16),
+              onTap: () {
+                if (!selected && selectionProvider.getSelection) {
+                  selectionProvider.setSelected(
+                      key: widget.index, note: widget.note);
+                } else if (selected && selectionProvider.getSelection) {
+                  selectionProvider.remove(key: widget.index);
 
-                      if (selectionProvider.getSelected.isEmpty) {
-                        deepBottomProvider.setSelection = false;
-                        selectionProvider.setSelection = false;
-                        fabProvider.setScrollDown = false;
-                      }
-                    } else {
-                      widget.onTap();
-                    }
-                  },
-                  onLongPress: () {
-                    if (!selectionProvider.getSelection) {
-                      selectionProvider.setSelected(
-                          key: widget.index, note: widget.note);
+                  if (selectionProvider.getSelected.isEmpty) {
+                    deepBottomProvider.setSelection = false;
+                    selectionProvider.setSelection = false;
+                    fabProvider.setScrollDown = false;
+                  }
+                } else {
+                  widget.onTap();
+                }
+              },
+              onLongPress: () {
+                if (!selectionProvider.getSelection) {
+                  selectionProvider.setSelected(
+                      key: widget.index, note: widget.note);
 
-                      deepBottomProvider.setSelection = true;
+                  deepBottomProvider.setSelection = true;
 
-                      selectionProvider.setSelection = true;
-                    } else if (!selected && selectionProvider.getSelection) {
-                      selectionProvider.setSelected(
-                          key: widget.index, note: widget.note);
-                    } else if (selected && selectionProvider.getSelection) {
-                      selectionProvider.remove(key: widget.index);
+                  selectionProvider.setSelection = true;
+                } else if (!selected && selectionProvider.getSelection) {
+                  selectionProvider.setSelected(
+                      key: widget.index, note: widget.note);
+                } else if (selected && selectionProvider.getSelection) {
+                  selectionProvider.remove(key: widget.index);
 
-                      if (selectionProvider.getSelected.isEmpty) {
-                        deepBottomProvider.setSelection = false;
-                        selectionProvider.setSelection = false;
-                        fabProvider.setScrollDown = false;
-                      }
-                    }
-                  },
-                  child: noteCardContent),
-            ),
-          ),
+                  if (selectionProvider.getSelected.isEmpty) {
+                    deepBottomProvider.setSelection = false;
+                    selectionProvider.setSelection = false;
+                    fabProvider.setScrollDown = false;
+                  }
+                }
+              },
+              child: noteCardContent),
+        ),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -116,12 +104,9 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
                 '${widget.note.detail}',
                 textDirection: widget.note.detailDirection,
                 strutStyle: const StrutStyle(leading: 0.7),
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(
-                    color: Colors.white70, fontSize: SizeHelper.getDetail),
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                    color: themeColorOpacity(context: context, opacity: .7),
+                    fontSize: SizeHelper.getDetail),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -136,14 +121,16 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
                           padding: const EdgeInsets.only(right: 8.0),
                           child: Icon(
                             MyIcon.image,
-                            color: Colors.white70,
+                            color: themeColorOpacity(
+                                context: context, opacity: .7),
                             size: SizeHelper.setIconSize(size: 20.0),
                           ),
                         ),
                       if (widget.note.containAudio)
                         Icon(
                           Icons.mic_none,
-                          color: Colors.white70,
+                          color:
+                          themeColorOpacity(context: context, opacity: .7),
                           size: SizeHelper.setIconSize(size: 20.0),
                         )
                     ],
@@ -161,7 +148,7 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
                         color: Theme
                             .of(context)
                             .accentColor
-                            .withOpacity(.70),
+                            .withOpacity(.7),
                       ),
                     ),
                     AnimatedSize(
@@ -174,7 +161,11 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
                         style: Theme
                             .of(context)
                             .textTheme
-                            .caption,
+                            .caption
+                            .copyWith(
+                          color: themeColorOpacity(
+                              context: context, opacity: .7),
+                        ),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),

@@ -5,6 +5,7 @@ import '../../../business_logic/plan/provider/create_plan_provider.dart';
 import '../../../icons/my_icon.dart';
 import '../../../utility/extension.dart';
 import '../../../utility/size_helper.dart';
+import '../../app_theme.dart';
 import '../../transition/widgets/slide_downward_widget.dart';
 import '../../transition/widgets/slide_right_widget.dart';
 import '../utility/repeat_type.dart';
@@ -56,9 +57,9 @@ class __RepeatState extends State<_Repeat> {
         plan_dialog.openRepeatDialog(
             context: context, createPlanProvider: _createPlanProvider);
       },
-      leading: const Icon(
+      leading: Icon(
         MyIcon.repeat,
-        color: Colors.white70,
+        color: themeColorOpacity(context: context, opacity: .7),
       ),
       title: Selector<CreatePlanProvider, String>(
           selector: (context, provider) => provider.getRepeatTitle,
@@ -69,11 +70,12 @@ class __RepeatState extends State<_Repeat> {
                   overflow: TextOverflow.ellipsis,
                   style: _createPlanProvider.getRepeat == RepeatType.Weekly
                       ? Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: Theme.of(context).accentColor.withOpacity(.80),
+                      color: Theme.of(context).accentColor.withOpacity(.8),
                           fontSize: SizeHelper.getModalTextField)
                       : Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: Colors.white.withOpacity(.80),
-                          fontSize: SizeHelper.getModalTextField),
+                      color:
+                      themeColorOpacity(context: context, opacity: .8),
+                      fontSize: SizeHelper.getModalTextField),
                 ),
               )),
       subtitle: Selector<CreatePlanProvider, String>(
@@ -94,7 +96,8 @@ class __RepeatState extends State<_Repeat> {
                         .textTheme
                         .bodyText2
                         .copyWith(
-                        color: Colors.white60,
+                        color: themeColorOpacity(
+                            context: context, opacity: .6),
                         fontSize: SizeHelper.getBodyText2),
                   ),
                 ),
@@ -104,9 +107,9 @@ class __RepeatState extends State<_Repeat> {
         builder: (context, valueExist, cancelIcon) =>
         valueExist ? cancelIcon : const SizedBox(),
         child: IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.cancel,
-              color: Colors.white60,
+              color: themeColorOpacity(context: context, opacity: .6),
             ),
             onPressed: () {
               _createPlanProvider.setRepeat = null;

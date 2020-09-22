@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../utility/size_helper.dart';
+import '../../../app_theme.dart';
 import '../dialog/note_dialog.dart' as note_dialog;
 
 class FolderAddButton extends StatelessWidget {
@@ -11,10 +12,9 @@ class FolderAddButton extends StatelessWidget {
     return ListTile(
         title: Text(
           'FOLDERS',
-          style: Theme.of(context)
-              .textTheme
-              .bodyText1
-              .copyWith(fontSize: SizeHelper.getBodyText1),
+          style: Theme.of(context).textTheme.bodyText1.copyWith(
+              color: themeColorOpacity(context: context, opacity: .7),
+              fontSize: SizeHelper.getBodyText1),
         ),
         trailing: RepaintBoundary(
           child: FlatButton(
@@ -35,7 +35,7 @@ class FolderAddButton extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    color: Colors.white.withOpacity(0.87),
+                    color: themeColorOpacity(context: context, opacity: .87),
                     fontSize: SizeHelper.getAddButton),
               )),
         ));

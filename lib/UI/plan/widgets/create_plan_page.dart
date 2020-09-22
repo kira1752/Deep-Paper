@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../utility/size_helper.dart';
+import '../../app_theme.dart';
 import '../../widgets/deep_scroll_behavior.dart';
 import 'date_field.dart';
 import 'plan_name_field.dart';
@@ -67,7 +68,8 @@ class CreatePlanPage extends StatelessWidget {
                       Expanded(
                         child: FlatButton(
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            textColor: Colors.white.withOpacity(0.87),
+                            textColor: themeColorOpacity(
+                                context: context, opacity: .87),
                             onPressed: () {
                               Navigator.pop(context);
                             },

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../business_logic/note/provider/note_detail_provider.dart';
 import '../../../business_logic/note/text_field_logic.dart' as text_field_logic;
 import '../../../utility/extension.dart';
+import '../../app_theme.dart';
 
 class DateCharacterCounts extends StatelessWidget {
   final Future<String> date;
@@ -25,7 +26,9 @@ class DateCharacterCounts extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
               '|',
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    color: themeColorOpacity(context: context, opacity: .54),
+                  ),
             ),
           ),
           FutureProvider<int>(
@@ -64,12 +67,26 @@ class __TopDateState extends State<_TopDate> {
                 if (date == null) {
                   return Text(
                     'Loading date...',
-                    style: Theme.of(context).textTheme.bodyText2,
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText2
+                        .copyWith(
+                      color:
+                      themeColorOpacity(context: context, opacity: .54),
+                    ),
                   );
                 } else {
                   return Text(
                     '$date',
-                    style: Theme.of(context).textTheme.bodyText2,
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText2
+                        .copyWith(
+                      color:
+                      themeColorOpacity(context: context, opacity: .54),
+                    ),
                   );
                 }
               },
@@ -105,7 +122,10 @@ class __TopCountState extends State<_TopCount> {
               style: Theme
                   .of(context)
                   .textTheme
-                  .bodyText2,
+                  .bodyText2
+                  .copyWith(
+                color: themeColorOpacity(context: context, opacity: .54),
+              ),
             ));
   }
 }

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../business_logic/plan/provider/repeat_dialog_provider.dart';
 import '../../../utility/size_helper.dart';
+import '../../app_theme.dart';
 import '../utility/repeat_type.dart';
 
 class RepeatTypeMenu extends StatelessWidget {
@@ -20,7 +21,7 @@ class RepeatTypeMenu extends StatelessWidget {
             child: Text(
               'days',
               style: Theme.of(context).textTheme.bodyText1.copyWith(
-                  color: Colors.white.withOpacity(.80),
+                  color: themeColorOpacity(context: context, opacity: .8),
                   fontSize: SizeHelper.getModalTextField),
             )),
         PopupMenuItem(
@@ -28,7 +29,7 @@ class RepeatTypeMenu extends StatelessWidget {
             child: Text(
               'weeks',
               style: Theme.of(context).textTheme.bodyText1.copyWith(
-                  color: Colors.white.withOpacity(.80),
+                  color: themeColorOpacity(context: context, opacity: .8),
                   fontSize: SizeHelper.getModalTextField),
             )),
         PopupMenuItem(
@@ -36,7 +37,7 @@ class RepeatTypeMenu extends StatelessWidget {
             child: Text(
               'months',
               style: Theme.of(context).textTheme.bodyText1.copyWith(
-                  color: Colors.white.withOpacity(.80),
+                  color: themeColorOpacity(context: context, opacity: .8),
                   fontSize: SizeHelper.getModalTextField),
             )),
         PopupMenuItem(
@@ -44,7 +45,7 @@ class RepeatTypeMenu extends StatelessWidget {
             child: Text(
               'years',
               style: Theme.of(context).textTheme.bodyText1.copyWith(
-                  color: Colors.white.withOpacity(.80),
+                  color: themeColorOpacity(context: context, opacity: .8),
                   fontSize: SizeHelper.getModalTextField),
             )),
       ],
@@ -74,22 +75,17 @@ class RepeatTypeMenu extends StatelessWidget {
               child: Selector<RepeatDialogProvider, String>(
                 selector: (context, provider) =>
                     provider.getTempRepeatDialogType,
-                builder: (context, repeatTypeTitle, _) =>
-                    Text(
-                      '$repeatTypeTitle',
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(
-                          color: Colors.white.withOpacity(.80),
-                          fontSize: SizeHelper.getModalTextField),
-                    ),
+                builder: (context, repeatTypeTitle, _) => Text(
+                  '$repeatTypeTitle',
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: themeColorOpacity(context: context, opacity: .8),
+                      fontSize: SizeHelper.getModalTextField),
+                ),
               ),
             ),
             Icon(
               Icons.arrow_drop_down,
-              color: Colors.white.withOpacity(0.80),
+              color: themeColorOpacity(context: context, opacity: .8),
             )
           ],
         ),

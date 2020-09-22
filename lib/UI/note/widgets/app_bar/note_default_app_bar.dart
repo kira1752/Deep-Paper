@@ -9,7 +9,7 @@ import '../../../../business_logic/note/provider/selection_provider.dart';
 import '../../../../resource/icon_resource.dart';
 import '../../../../resource/string_resource.dart';
 import '../../../../utility/extension.dart';
-import '../../../app_theme.dart' as app_theme;
+import '../../../app_theme.dart';
 import '../menu_app_bar/menu.dart';
 import '../menu_app_bar/selection_menu.dart';
 import '../search_note_button.dart';
@@ -35,7 +35,7 @@ class NoteDefaultAppBar extends StatelessWidget {
         selector: (context, provider) => provider.getSelection,
         builder: (context, selection, noteMenu) => selection
             ? IconButton(
-                icon: IconResource.darkClose,
+            icon: close(context: context),
                 onPressed: () {
                   final deepBottomProvider =
                       Provider.of<DeepBottomProvider>(context, listen: false);
@@ -52,7 +52,7 @@ class NoteDefaultAppBar extends StatelessWidget {
             : noteMenu,
         child: IconButton(
             tooltip: StringResource.tooltipNoteHamburgerMenu,
-            icon: IconResource.darkHamburgerMenu,
+            icon: hamburgerMenu(context: context),
             onPressed: () {
               Scaffold.of(context).openDrawer();
             }),
@@ -66,8 +66,7 @@ class NoteDefaultAppBar extends StatelessWidget {
           builder: (context, count, _) =>
               Text(
                   StringResource.selectionAppBar(count),
-                  style:
-                  app_theme.darkTitleSelectionAppBar(context: context)),
+                  style: selectionAppBarStyle(context: context)),
         )
             : titleAppBar,
         child: Selector<NoteDrawerProvider, String>(
@@ -82,10 +81,10 @@ class NoteDefaultAppBar extends StatelessWidget {
                     ? TextDirection.rtl
                     : TextDirection.ltr,
                 style: title == StringResource.note
-                    ? app_theme.darkTitleAppBar(context: context)
+                    ? appBarStyle(context: context)
                     : drawerProvider.getFolder.isNotNull
-                    ? app_theme.darkTitleFolderAppBar(context: context)
-                    : app_theme.darkTitleTrashAppBar(context: context));
+                    ? folderAppBarStyle(context: context)
+                    : trashAppBarStyle(context: context));
           },
         ),
       ),

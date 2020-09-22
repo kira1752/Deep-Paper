@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../business_logic/note/provider/note_drawer_provider.dart';
 import '../../../../utility/size_helper.dart';
+import '../../../app_theme.dart';
 
 class DrawerDefaultItem extends StatelessWidget {
   final String title;
@@ -71,18 +72,22 @@ class DrawerDefaultItem extends StatelessWidget {
               },
               leading: selected
                   ? Icon(activeIcon, color: Theme.of(context).accentColor)
-                  : Icon(icon, color: Colors.white54),
+                  : Icon(
+                      icon,
+                      color: themeColorOpacity(context: context, opacity: .54),
+                    ),
               trailing: total == null ? const SizedBox() : countNotes,
               title: Text(
                 title,
                 style: selected
                     ? Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: Colors.white.withOpacity(0.87),
+                        color:
+                            themeColorOpacity(context: context, opacity: .87),
                         fontSize: SizeHelper.getDrawerMenuText)
-                    : Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(fontSize: SizeHelper.getDrawerMenuText),
+                    : Theme.of(context).textTheme.bodyText1.copyWith(
+                        color:
+                            themeColorOpacity(context: context, opacity: .87),
+                        fontSize: SizeHelper.getDrawerMenuText),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               )),
@@ -92,7 +97,9 @@ class DrawerDefaultItem extends StatelessWidget {
           child: Text(
             '$total',
             style: TextStyle(
-                fontSize: SizeHelper.getBodyText1, fontWeight: FontWeight.w600),
+                color: themeColorOpacity(context: context, opacity: .54),
+                fontSize: SizeHelper.getBodyText1,
+                fontWeight: FontWeight.w600),
           ),
         ),
       ),

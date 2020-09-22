@@ -1,43 +1,95 @@
 import 'package:flutter/material.dart';
 
+import '../UI/app_theme.dart';
 import '../icons/my_icon.dart';
 
-class IconResource {
-  IconResource._();
-
-  static const darkSearch = Icon(
-    MyIcon.search,
-    color: Colors.white70,
-  );
-
-  static const darkClose = Icon(
+Icon close({@required BuildContext context}) {
+  return Icon(
     MyIcon.x,
-    color: Colors.white70,
+    color: themeColorOpacity(context: context, opacity: .7),
   );
+}
 
-  static const darkOptionsMoveTo = Icon(
+Icon search({@required BuildContext context}) {
+  return Icon(
+    MyIcon.search,
+    color: themeColorOpacity(context: context, opacity: .7),
+  );
+}
+
+Icon optionMoveTo({@required BuildContext context}) {
+  return Icon(
     MyIcon.arrow_up_right,
-    color: Colors.white54,
+    color: themeColorOpacity(context: context, opacity: .54),
   );
+}
 
-  static const darkOptionsRestore = Icon(Icons.restore, color: Colors.white54);
+Icon optionRestore({@required BuildContext context}) {
+  return Icon(
+    Icons.restore,
+    color: themeColorOpacity(context: context, opacity: .54),
+  );
+}
 
-  static const darkOptionsRenameFolder = Icon(
+Icon optionRenameFolder({@required BuildContext context}) {
+  return Icon(
     MyIcon.edit_2,
-    color: Colors.white54,
+    color: themeColorOpacity(context: context, opacity: .54),
   );
+}
 
-  static const darkOptionsDelete = Icon(MyIcon.trash, color: Colors.white54);
+Icon optionDelete({@required BuildContext context}) {
+  return Icon(
+    MyIcon.trash,
+    color: themeColorOpacity(context: context, opacity: .54),
+  );
+}
 
-  static const darkHamburgerMenu = Icon(
+Icon optionCopy({@required BuildContext context}) {
+  return Icon(
+    MyIcon.copy,
+    color: themeColorOpacity(context: context, opacity: .54),
+  );
+}
+
+Icon hamburgerMenu({@required BuildContext context}) {
+  return Icon(
     MyIcon.menu,
-    color: Colors.white70,
+    color: themeColorOpacity(context: context, opacity: .7),
   );
+}
 
-  static const darkOptions = Icon(
+Icon options({@required BuildContext context}) {
+  return Icon(
     MyIcon.more_vertical,
-    color: Colors.white70,
+    color: themeColorOpacity(context: context, opacity: .7),
   );
+}
 
-  static const darkOptionsCopy = Icon(MyIcon.copy, color: Colors.white60);
+Icon successful({@required BuildContext context}) {
+  final isDark = Theme.of(context).brightness == Brightness.dark;
+
+  return isDark
+      ? const Icon(
+          Icons.check,
+          color: Color(0xFF81C784),
+        )
+      : const Icon(
+          Icons.check,
+          color: Colors.green,
+        );
+}
+
+Icon info({@required BuildContext context}) {
+  final isDark = Theme.of(context).brightness == Brightness.dark;
+
+  return isDark
+      ? const Icon(
+          MyIcon.info,
+          color: Color(0xFF64B5F6),
+        )
+      : const Icon(
+          Icons.check,
+          color: Colors.blue,
+        );
 }

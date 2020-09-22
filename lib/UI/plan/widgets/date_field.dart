@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../business_logic/plan/provider/create_plan_provider.dart';
 import '../../../icons/my_icon.dart';
 import '../../../utility/size_helper.dart';
+import '../../app_theme.dart';
 import '../../transition/widgets/slide_right_widget.dart';
 import 'field_base.dart';
 
@@ -19,7 +20,10 @@ class DateField extends StatelessWidget {
         onTap: () {
           _showDatePicker(context);
         },
-        leading: const Icon(MyIcon.calendar_1, color: Colors.white70),
+        leading: Icon(
+          MyIcon.calendar_1,
+          color: themeColorOpacity(context: context, opacity: .7),
+        ),
         title: Selector<CreatePlanProvider, bool>(
           selector: (context, provider) => provider.getDate.isEmpty,
           builder: (context, isEmpty, date) => SlideRightWidget(
@@ -27,7 +31,7 @@ class DateField extends StatelessWidget {
                 ? Text(
                     'Set date',
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: Colors.white.withOpacity(.80),
+                        color: themeColorOpacity(context: context, opacity: .8),
                         fontSize: SizeHelper.getModalTextField),
                   )
                 : date,
@@ -39,7 +43,8 @@ class DateField extends StatelessWidget {
                       '$date',
                       key: Key('$date'),
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: Colors.white.withOpacity(.80),
+                          color:
+                          themeColorOpacity(context: context, opacity: .8),
                           fontSize: SizeHelper.getModalTextField),
                     ),
                   )),

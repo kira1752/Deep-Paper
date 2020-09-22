@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../utility/illustration.dart';
 import '../../../utility/size_helper.dart';
+import '../../app_theme.dart';
 
 class EmptyPlanIllustration extends StatelessWidget {
   const EmptyPlanIllustration();
@@ -33,7 +34,8 @@ class EmptyPlanIllustration extends StatelessWidget {
                       TextSpan(
                         text: 'Too busy tomorrow?\n',
                         style: Theme.of(context).textTheme.headline6.copyWith(
-                            color: Colors.white70,
+                            color: themeColorOpacity(
+                                context: context, opacity: .7),
                             height: 2.0,
                             fontSize: SizeHelper.getHeadline5,
                             fontWeight: FontWeight.bold),
@@ -41,10 +43,11 @@ class EmptyPlanIllustration extends StatelessWidget {
                       TextSpan(
                         text: 'Plan your day here efficiently',
                         style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Colors.white70,
-                            height: 1.5,
-                            fontSize: SizeHelper.getBodyText1,
-                            fontWeight: FontWeight.w500),
+                              color: themeColorOpacity(
+                                  context: context, opacity: .7),
+                              height: 1.5,
+                              fontSize: SizeHelper.getBodyText1,
+                            ),
                       )
                     ]),
                     textAlign: TextAlign.center,

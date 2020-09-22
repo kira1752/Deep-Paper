@@ -8,9 +8,10 @@ import '../../business_logic/note/provider/selection_provider.dart';
 import '../../icons/my_icon.dart';
 import '../../utility/deep_route_string.dart';
 import '../../utility/size_helper.dart';
+import '../app_theme.dart';
 import 'widgets/app_bar/note_default_app_bar.dart';
 import 'widgets/build_body.dart';
-import 'widgets/drawer/deep_drawer.dart';
+import 'widgets/drawer/note_drawer.dart';
 
 class NotePage extends StatelessWidget {
   const NotePage();
@@ -23,7 +24,7 @@ class NotePage extends StatelessWidget {
       },
       child: Scaffold(
           resizeToAvoidBottomInset: false,
-          drawer: const DeepDrawer(key: Key('Note Drawer')),
+          drawer: const NoteDrawer(key: Key('Note Drawer')),
           appBar: PreferredSize(
               preferredSize: Size.fromHeight(SizeHelper.setHeight(size: 56)),
               child: const NoteDefaultAppBar()),
@@ -81,7 +82,6 @@ class NoteFloatingActionButton extends StatelessWidget {
             ),
         child: FloatingActionButton.extended(
           heroTag: null,
-          elevation: 0.0,
           splashColor: Theme
               .of(context)
               .accentColor
@@ -101,9 +101,10 @@ class NoteFloatingActionButton extends StatelessWidget {
                   .textTheme
                   .button
                   .copyWith(
-                  letterSpacing: 1.2,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white.withOpacity(0.80)),
+                letterSpacing: 1.2,
+                fontWeight: FontWeight.w600,
+                color: themeColorOpacity(context: context, opacity: .8),
+              ),
             ),
           ),
           onPressed: () {

@@ -7,6 +7,7 @@ import '../../../../data/deep.dart';
 import '../../../../resource/string_resource.dart';
 import '../../../../utility/extension.dart';
 import '../../../../utility/size_helper.dart';
+import '../../../app_theme.dart';
 
 class DrawerFolderItem extends StatelessWidget {
   final FolderNoteData folder;
@@ -72,21 +73,28 @@ class DrawerFolderItem extends StatelessWidget {
               leading: selected
                   ? Icon(activeIcon, color: Theme.of(context).accentColor)
                   : Icon(
-                      icon,
-                      color: Colors.white54,
+                icon,
+                      color: themeColorOpacity(context: context, opacity: .54),
                     ),
               trailing: total == null ? const SizedBox() : countNotes,
               title: Text(
                 '$folderName',
                 textDirection: nameDirection,
                 style: selected
-                    ? Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: Colors.white.withOpacity(0.87),
-                        fontSize: SizeHelper.getDrawerMenuText)
-                    : Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(fontSize: SizeHelper.getDrawerMenuText),
+                    ? Theme
+                    .of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(
+                    color: Colors.white.withOpacity(0.87),
+                    fontSize: SizeHelper.getDrawerMenuText)
+                    : Theme
+                    .of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(
+                    color: themeColorOpacity(context: context, opacity: .7),
+                    fontSize: SizeHelper.getDrawerMenuText),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               )),
@@ -96,6 +104,7 @@ class DrawerFolderItem extends StatelessWidget {
             child: Text(
               '$total',
               style: TextStyle(
+                  color: themeColorOpacity(context: context, opacity: .54),
                   fontSize: SizeHelper.getBodyText1,
                   fontWeight: FontWeight.w600),
             )),

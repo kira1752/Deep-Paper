@@ -29,7 +29,6 @@ dependencies:
   path:
   tuple:
   intl:
-  fluttertoast:
   flutter_keyboard_visibility:
   expandable:
   transparent_image:
@@ -38,6 +37,7 @@ dependencies:
   flutter_svg:
   hooks_riverpod:
   flutter_hooks:
+  overlay_support:
 
 dev_dependencies:
   flutter_test:

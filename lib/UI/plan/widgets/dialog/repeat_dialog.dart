@@ -6,6 +6,7 @@ import '../../../../business_logic/plan/provider/repeat_dialog_provider.dart';
 import '../../../../business_logic/plan/repeat_dialog_logic.dart'
     as repeat_dialog_logic;
 import '../../../../utility/size_helper.dart';
+import '../../../app_theme.dart';
 import '../../../widgets/deep_expand_base_dialog.dart';
 import '../../utility/repeat_type.dart';
 import '../day_selector.dart';
@@ -62,10 +63,9 @@ class _RepeatDialogState extends State<RepeatDialog> {
           top: 16.0, right: 24.0, left: 24.0, bottom: 32.0),
       title: Text(
         'Repeat every ...',
-        style: Theme.of(context)
-            .textTheme
-            .bodyText1
-            .copyWith(fontSize: SizeHelper.getTitle),
+        style: Theme.of(context).textTheme.bodyText1.copyWith(
+            color: themeColorOpacity(context: context, opacity: .7),
+            fontSize: SizeHelper.getTitle),
       ),
       children: [
         Padding(
@@ -89,17 +89,16 @@ class _RepeatDialogState extends State<RepeatDialog> {
         Expanded(
           child: FlatButton(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              textColor: Colors.white.withOpacity(0.87),
+              textColor: themeColorOpacity(context: context, opacity: .87),
               shape: const RoundedRectangleBorder(
                   borderRadius:
-                      BorderRadius.only(bottomLeft: Radius.circular(12.0))),
+                  BorderRadius.only(bottomLeft: Radius.circular(12.0))),
               onPressed: () {
                 Navigator.pop(context);
               },
               child: Text(
                 'Cancel',
                 style: TextStyle(
-                  fontFamily: 'Roboto',
                   fontSize: SizeHelper.getModalButton,
                 ),
               )),

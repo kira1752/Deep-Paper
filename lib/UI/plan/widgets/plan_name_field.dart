@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../business_logic/note/provider/detect_text_direction_provider.dart';
 import '../../../business_logic/provider/text_controller_provider.dart';
 import '../../../utility/size_helper.dart';
+import '../../app_theme.dart';
 
 class PlanNameField extends StatelessWidget {
   const PlanNameField();
@@ -30,7 +31,7 @@ class PlanNameField extends StatelessWidget {
                     controller: textControllerProvider.controller,
                     textDirection: direction,
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: Colors.white70,
+                        color: themeColorOpacity(context: context, opacity: .7),
                         fontSize: SizeHelper.getPlanTitle),
                     maxLines: null,
                     keyboardType: TextInputType.text,

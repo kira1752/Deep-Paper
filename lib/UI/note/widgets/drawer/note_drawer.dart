@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -9,20 +8,21 @@ import '../../../../business_logic/note/provider/selection_provider.dart';
 import '../../../../data/deep.dart';
 import '../../../../icons/my_icon.dart';
 import '../../../../utility/extension.dart';
+import '../../../widgets/deep_drawer.dart';
 import '../../../widgets/deep_scrollbar.dart';
 import 'drawer_default_item.dart';
 import 'drawer_folder_item.dart';
 import 'drawer_title.dart';
 import 'folder_add_button.dart';
 
-class DeepDrawer extends StatefulWidget {
-  const DeepDrawer({Key key}) : super(key: key);
+class NoteDrawer extends StatefulWidget {
+  const NoteDrawer({Key key}) : super(key: key);
 
   @override
-  _DeepDrawerState createState() => _DeepDrawerState();
+  _NoteDrawerState createState() => _NoteDrawerState();
 }
 
-class _DeepDrawerState extends State<DeepDrawer> {
+class _NoteDrawerState extends State<NoteDrawer> {
   @override
   void initState() {
     super.initState();
@@ -51,18 +51,16 @@ class _DeepDrawerState extends State<DeepDrawer> {
     const defaultItemValue = 5;
 
     return RepaintBoundary(
-      child: Drawer(
-        child: Container(
-          color: Theme.of(context).canvasColor,
-          child: SafeArea(
-              child: MultiProvider(
+      child: SafeArea(
+        child: DeepDrawer(
+          child: MultiProvider(
             providers: [
               FutureProvider<List<Note>>(
                   create: (context) => database.noteDao.getAllNotes()),
               StreamProvider(
                   create: (context) => database.folderNoteDao.watchFolder())
             ],
-                child: Consumer<List<Note>>(builder: (context, noteList, _) {
+            child: Consumer<List<Note>>(builder: (context, noteList, _) {
               return Consumer<List<FolderNoteData>>(
                   child: const SizedBox(),
                   builder: (context, folderList, emptyState) {
@@ -153,7 +151,7 @@ class _DeepDrawerState extends State<DeepDrawer> {
                     );
                   });
             }),
-          )),
+          ),
         ),
       ),
     );

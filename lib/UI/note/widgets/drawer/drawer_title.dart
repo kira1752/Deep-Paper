@@ -13,7 +13,7 @@ class DrawerTitle extends StatelessWidget {
         margin: const EdgeInsets.all(18.0),
         child: Text(
           StringResource.note,
-          style: app_theme.darkTitleAppBar(context: context),
+          style: app_theme.appBarStyle(context: context),
         ));
   }
 }

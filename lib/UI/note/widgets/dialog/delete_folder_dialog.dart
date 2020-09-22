@@ -5,10 +5,12 @@ import '../../../../business_logic/note/folder_creation.dart'
     as folder_creation;
 import '../../../../business_logic/note/provider/note_drawer_provider.dart';
 import '../../../../data/deep.dart';
+import '../../../../resource/icon_resource.dart';
 import '../../../../resource/string_resource.dart';
 import '../../../../utility/size_helper.dart';
+import '../../../app_theme.dart';
 import '../../../widgets/deep_base_dialog.dart';
-import '../../../widgets/deep_toast.dart';
+import '../../../widgets/deep_snack_bar.dart';
 
 class DeleteFolderDialog extends StatefulWidget {
   final NoteDrawerProvider drawerProvider;
@@ -43,38 +45,36 @@ class _DeleteFolderDialogState extends State<DeleteFolderDialog> {
         child: Text(
           'Delete folder',
           textAlign: TextAlign.center,
-          style: Theme.of(context)
-              .textTheme
-              .bodyText1
-              .copyWith(fontSize: SizeHelper.getTitle),
+          style: TextStyle(
+            fontSize: SizeHelper.getHeadline6,
+            fontWeight: FontWeight.w600,
+            color: themeColorOpacity(context: context, opacity: .87),
+          ),
         ),
       ),
       children: [
         Text(
           StringResource.deleteFolderDescription,
           strutStyle: const StrutStyle(leading: 0.5),
-          style: Theme
-              .of(context)
-              .textTheme
-              .bodyText1
-              .copyWith(fontSize: SizeHelper.getModalDescription),
+          style: Theme.of(context).textTheme.bodyText1.copyWith(
+              color: themeColorOpacity(context: context, opacity: .7),
+              fontSize: SizeHelper.getModalDescription),
         ),
       ],
       actions: <Widget>[
         Expanded(
           child: FlatButton(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              textColor: Colors.white.withOpacity(0.87),
+              textColor: themeColorOpacity(context: context, opacity: .87),
               shape: const RoundedRectangleBorder(
                   borderRadius:
-                      BorderRadius.only(bottomLeft: Radius.circular(12.0))),
+                  BorderRadius.only(bottomLeft: Radius.circular(12.0))),
               onPressed: () {
                 Navigator.pop(context);
               },
               child: Text(
                 'Cancel',
                 style: TextStyle(
-                  fontFamily: 'Roboto',
                   fontSize: SizeHelper.getModalButton,
                 ),
               )),
@@ -97,15 +97,16 @@ class _DeleteFolderDialogState extends State<DeleteFolderDialog> {
                   folder_creation.delete(
                       database: database, drawerProvider: drawerProvider);
 
-                  DeepToast.showToast(
-                      description: 'Folder deleted successfully');
-
                   Navigator.pop(context);
+
+                  showSnack(
+                      context: context,
+                      icon: successful(context: context),
+                      description: 'Folder deleted successfully');
                 },
                 child: Text(
                   'Delete',
                   style: TextStyle(
-                    fontFamily: 'Roboto',
                     fontSize: SizeHelper.getModalButton,
                   ),
                 )),

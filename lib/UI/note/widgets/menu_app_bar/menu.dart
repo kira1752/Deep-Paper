@@ -9,8 +9,8 @@ import '../../../../data/deep.dart';
 import '../../../../resource/icon_resource.dart';
 import '../../../../resource/string_resource.dart';
 import '../../../../utility/size_helper.dart';
-import '../../../app_theme.dart' as app_theme;
-import '../../../widgets/deep_toast.dart';
+import '../../../app_theme.dart';
+import '../../../widgets/deep_snack_bar.dart';
 
 class Menu extends StatelessWidget {
   const Menu();
@@ -35,32 +35,32 @@ class FolderMenu extends StatelessWidget {
     final drawerProvider =
     Provider.of<NoteDrawerProvider>(context, listen: false);
     return PopupMenuButton(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12.0))),
         tooltip: StringResource.tooltipFolderMenu,
-        icon: IconResource.darkOptions,
+        icon: options(context: context),
         onSelected: (choice) {
           folder_menu.menuFolderSelected(
               context: context, drawerProvider: drawerProvider, choice: choice);
         },
-        shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
         itemBuilder: (context) =>
         [
           PopupMenuItem(
               value: 0,
               child: ListTile(
-                leading: IconResource.darkOptionsRenameFolder,
+                leading: optionRenameFolder(context: context),
                 title: Text(
                   StringResource.renameFolder,
-                  style: app_theme.darkPopupMenuItem(),
+                  style: menuItemStyle(context: context),
                 ),
               )),
           PopupMenuItem(
               value: 1,
               child: ListTile(
-                leading: IconResource.darkOptionsDelete,
+                leading: optionDelete(context: context),
                 title: Text(
                   StringResource.deleteFolder,
-                  style: app_theme.darkPopupMenuItem(),
+                  style: menuItemStyle(context: context),
                 ),
               )),
         ]);
@@ -78,30 +78,34 @@ class TrashMenu extends StatelessWidget {
       builder: (context, showTrashMenu, trashMenu) =>
           Visibility(visible: showTrashMenu, child: trashMenu),
       child: PopupMenuButton(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(12.0))),
           tooltip: StringResource.tooltipTrashMenu,
-          icon: IconResource.darkOptions,
+          icon: options(context: context),
           onSelected: (choice) {
             final database =
             Provider.of<DeepPaperDatabase>(context, listen: false);
 
             if (choice == 0) trash_management.empty(database: database);
 
-            DeepToast.showToast(
+            showSnack(
+                context: context,
+                icon: successful(context: context),
                 description: StringResource.trashEmptiedSuccessfully);
           },
-          shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
           itemBuilder: (context) {
             return [
               PopupMenuItem(
                   value: 0,
                   child: ListTile(
-                    leading: IconResource.darkOptionsDelete,
+                    leading: optionDelete(context: context),
                     title: Text(
                       StringResource.emptyTrashBin,
                       style: TextStyle(
-                          fontSize: SizeHelper.getBodyText1,
-                          color: Colors.white.withOpacity(0.87)),
+                        fontSize: SizeHelper.getBodyText1,
+                        color:
+                        themeColorOpacity(context: context, opacity: .87),
+                      ),
                     ),
                   ))
             ];

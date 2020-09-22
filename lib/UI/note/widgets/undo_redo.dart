@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../business_logic/note/provider/note_detail_provider.dart';
 import '../../../business_logic/note/provider/undo_redo_provider.dart';
 import '../../../business_logic/note/undo_redo.dart' as undo_redo;
+import '../../app_theme.dart';
 
 class UndoRedo extends StatelessWidget {
   final TextEditingController detailController;
@@ -30,7 +31,7 @@ class UndoRedo extends StatelessWidget {
                 Icons.undo,
                 color: canUndo
                     ? Theme.of(context).accentColor.withOpacity(0.80)
-                    : Colors.white38,
+                    : themeColorOpacity(context: context, opacity: .38),
               ),
               onPressed: canUndo
                   ? () => undo_redo.undo(
@@ -52,7 +53,7 @@ class UndoRedo extends StatelessWidget {
                           .of(context)
                           .accentColor
                           .withOpacity(0.80)
-                          : Colors.white38,
+                          : themeColorOpacity(context: context, opacity: .38),
                     ),
                     onPressed: canRedo
                         ? () =>

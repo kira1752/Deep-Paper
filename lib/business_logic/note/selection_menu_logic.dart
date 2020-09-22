@@ -1,8 +1,9 @@
 import 'package:flutter/widgets.dart';
 
 import '../../UI/note/widgets/dialog/move_to_folder.dart' as move_to_folder;
-import '../../UI/widgets/deep_toast.dart';
+import '../../UI/widgets/deep_snack_bar.dart';
 import '../../data/deep.dart';
+import '../../resource/icon_resource.dart';
 import 'note_creation.dart' as note_creation;
 import 'provider/deep_bottom_provider.dart';
 import 'provider/fab_provider.dart';
@@ -11,7 +12,8 @@ import 'provider/selection_provider.dart';
 import 'trash_management.dart' as trash_management;
 
 void menuTrashSelected(
-    {@required DeepPaperDatabase database,
+    {@required BuildContext context,
+    @required DeepPaperDatabase database,
     @required DeepBottomProvider deepBottomProvider,
     @required SelectionProvider selectionProvider,
     @required FABProvider fabProvider,
@@ -21,7 +23,10 @@ void menuTrashSelected(
       trash_management.restoreBatch(
           database: database, selectionProvider: selectionProvider);
 
-      DeepToast.showToast(description: 'Note restored successfully');
+      showSnack(
+          context: context,
+          icon: successful(context: context),
+          description: 'Note restored successfully');
 
       deepBottomProvider.setSelection = false;
       selectionProvider.setSelection = false;
@@ -34,7 +39,10 @@ void menuTrashSelected(
       trash_management.deleteBatch(
           database: database, selectionProvider: selectionProvider);
 
-      DeepToast.showToast(description: 'Note deleted successfully');
+      showSnack(
+          context: context,
+          icon: successful(context: context),
+          description: 'Note deleted successfully');
 
       deepBottomProvider.setSelection = false;
       selectionProvider.setSelection = false;
@@ -60,7 +68,10 @@ Future<void> menuSelectionSelected({@required BuildContext context,
       await note_creation.moveToTrashBatch(
           database: database, selectionProvider: selectionProvider);
 
-      await DeepToast.showToast(description: 'Note moved to Trash Bin');
+      showSnack(
+          context: context,
+          icon: info(context: context),
+          description: 'Note moved to Trash Bin');
 
       deepBottomProvider.setSelection = false;
       selectionProvider.setSelection = false;
@@ -86,7 +97,10 @@ Future<void> menuSelectionSelected({@required BuildContext context,
       await note_creation.copySelectedNotes(
           database: database, selectionProvider: selectionProvider);
 
-      await DeepToast.showToast(description: 'Note copied successfully');
+      showSnack(
+          context: context,
+          icon: successful(context: context),
+          description: 'Note copied successfully');
 
       deepBottomProvider.setSelection = false;
       selectionProvider.setSelection = false;
