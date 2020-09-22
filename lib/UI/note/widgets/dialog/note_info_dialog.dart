@@ -80,11 +80,7 @@ class NoteInfoDialog extends StatelessWidget {
                   child: Text(
                     ':',
                     textAlign: TextAlign.center,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: themeColorOpacity(context: context, opacity: .7),
                         fontSize: SizeHelper.getBodyText1),
                   ),

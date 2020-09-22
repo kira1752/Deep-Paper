@@ -120,16 +120,16 @@ class __BuildBodyState extends State<_BuildBody> {
       children: <Widget>[
         DeepKeepAlive(
             child: MultiProvider(
-              providers: [
-                ChangeNotifierProvider<NoteDrawerProvider>(
-                  create: (context) => NoteDrawerProvider(),
-                ),
-                ChangeNotifierProvider<SelectionProvider>(
-                  create: (context) => SelectionProvider(),
-                )
-              ],
-              child: const NotePage(),
-            )),
+          providers: [
+            ChangeNotifierProvider<NoteDrawerProvider>(
+              create: (context) => NoteDrawerProvider(),
+            ),
+            ChangeNotifierProvider<SelectionProvider>(
+              create: (context) => SelectionProvider(),
+            )
+          ],
+          child: const NotePage(),
+        )),
         const DeepKeepAlive(child: PlanPage()),
         const DeepKeepAlive(child: FinancePage()),
         const DeepKeepAlive(child: MorePage())

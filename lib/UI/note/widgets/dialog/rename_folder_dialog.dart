@@ -128,7 +128,7 @@ class _RenameFolderDialogState extends State<RenameFolderDialog> {
                 child: FlatButton(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     textColor:
-                    themeColorOpacity(context: context, opacity: .87),
+                        themeColorOpacity(context: context, opacity: .87),
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(12.0))),

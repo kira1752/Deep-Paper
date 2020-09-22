@@ -33,7 +33,7 @@ class FolderMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final drawerProvider =
-    Provider.of<NoteDrawerProvider>(context, listen: false);
+        Provider.of<NoteDrawerProvider>(context, listen: false);
     return PopupMenuButton(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(12.0))),
@@ -43,27 +43,26 @@ class FolderMenu extends StatelessWidget {
           folder_menu.menuFolderSelected(
               context: context, drawerProvider: drawerProvider, choice: choice);
         },
-        itemBuilder: (context) =>
-        [
-          PopupMenuItem(
-              value: 0,
-              child: ListTile(
-                leading: optionRenameFolder(context: context),
-                title: Text(
-                  StringResource.renameFolder,
-                  style: menuItemStyle(context: context),
-                ),
-              )),
-          PopupMenuItem(
-              value: 1,
-              child: ListTile(
-                leading: optionDelete(context: context),
-                title: Text(
-                  StringResource.deleteFolder,
-                  style: menuItemStyle(context: context),
-                ),
-              )),
-        ]);
+        itemBuilder: (context) => [
+              PopupMenuItem(
+                  value: 0,
+                  child: ListTile(
+                    leading: optionRenameFolder(context: context),
+                    title: Text(
+                      StringResource.renameFolder,
+                      style: menuItemStyle(context: context),
+                    ),
+                  )),
+              PopupMenuItem(
+                  value: 1,
+                  child: ListTile(
+                    leading: optionDelete(context: context),
+                    title: Text(
+                      StringResource.deleteFolder,
+                      style: menuItemStyle(context: context),
+                    ),
+                  )),
+            ]);
   }
 }
 

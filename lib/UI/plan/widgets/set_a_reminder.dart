@@ -19,7 +19,7 @@ class SetAReminder extends StatelessWidget {
             child: Text(
               'SET A REMINDER',
               style: Theme.of(context).textTheme.bodyText1.copyWith(
-                color: themeColorOpacity(context: context, opacity: .8),
+                    color: themeColorOpacity(context: context, opacity: .8),
                     letterSpacing: 1.2,
                   ),
             ),

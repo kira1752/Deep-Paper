@@ -67,14 +67,10 @@ class __TopDateState extends State<_TopDate> {
                 if (date == null) {
                   return Text(
                     'Loading date...',
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .bodyText2
-                        .copyWith(
-                      color:
-                      themeColorOpacity(context: context, opacity: .54),
-                    ),
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                          color:
+                              themeColorOpacity(context: context, opacity: .54),
+                        ),
                   );
                 } else {
                   return Text(

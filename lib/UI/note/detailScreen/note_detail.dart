@@ -251,19 +251,14 @@ class _DetailFieldState extends State<DetailField> {
   Widget build(BuildContext context) {
     return Selector<NoteDetailProvider, TextDirection>(
         selector: (context, provider) =>
-        provider.getDetailDirection ? TextDirection.rtl : TextDirection.ltr,
-        builder: (context, direction, _) =>
-            TextField(
+            provider.getDetailDirection ? TextDirection.rtl : TextDirection.ltr,
+        builder: (context, direction, _) => TextField(
               controller: widget.detailController,
               focusNode: widget.detailFocus,
               showCursor: true,
               textDirection: direction,
               strutStyle: const StrutStyle(leading: 0.7),
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
                   color: themeColorOpacity(context: context, opacity: .8),
                   fontWeight: FontWeight.normal,
                   fontSize: SizeHelper.getDetail),
@@ -273,12 +268,11 @@ class _DetailFieldState extends State<DetailField> {
                 _undoRedoProvider.tempInitialCursorPosition =
                     widget.detailController.selection.extentOffset;
               },
-              onChanged: (value) =>
-                  text_field_logic.detail(
-                      value: value,
-                      detailProvider: _detailProvider,
-                      undoRedoProvider: _undoRedoProvider,
-                      controller: widget.detailController),
+              onChanged: (value) => text_field_logic.detail(
+                  value: value,
+                  detailProvider: _detailProvider,
+                  undoRedoProvider: _undoRedoProvider,
+                  controller: widget.detailController),
               decoration: const InputDecoration.collapsed(
                   hintText: 'Write your note here...',
                   hintStyle: TextStyle(fontWeight: FontWeight.w500)),

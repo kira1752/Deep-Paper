@@ -44,24 +44,19 @@ class UndoRedo extends StatelessWidget {
           ),
           Selector<UndoRedoProvider, bool>(
               selector: (context, provider) => provider.canRedo(),
-              builder: (context, canRedo, _) =>
-                  IconButton(
+              builder: (context, canRedo, _) => IconButton(
                     icon: Icon(
                       Icons.redo,
                       color: canRedo
-                          ? Theme
-                          .of(context)
-                          .accentColor
-                          .withOpacity(0.80)
+                          ? Theme.of(context).accentColor.withOpacity(0.80)
                           : themeColorOpacity(context: context, opacity: .38),
                     ),
                     onPressed: canRedo
-                        ? () =>
-                        undo_redo.redo(
-                          detailProvider: detailProvider,
-                          undoRedoProvider: undoRedoProvider,
-                          detailController: detailController,
-                        )
+                        ? () => undo_redo.redo(
+                              detailProvider: detailProvider,
+                              undoRedoProvider: undoRedoProvider,
+                              detailController: detailController,
+                            )
                         : null,
                   )),
         ],

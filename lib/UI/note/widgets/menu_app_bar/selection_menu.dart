@@ -95,12 +95,12 @@ class _NormalSelectionMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deepBottomProvider =
-    Provider.of<DeepBottomProvider>(context, listen: false);
+        Provider.of<DeepBottomProvider>(context, listen: false);
     final selectionProvider =
-    Provider.of<SelectionProvider>(context, listen: false);
+        Provider.of<SelectionProvider>(context, listen: false);
     final fabProvider = Provider.of<FABProvider>(context, listen: false);
     final drawerProvider =
-    Provider.of<NoteDrawerProvider>(context, listen: false);
+        Provider.of<NoteDrawerProvider>(context, listen: false);
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
 
     return PopupMenuButton(
@@ -118,35 +118,34 @@ class _NormalSelectionMenu extends StatelessWidget {
               drawerProvider: drawerProvider,
               choice: choice);
         },
-        itemBuilder: (context) =>
-        [
-          PopupMenuItem(
-              value: 0,
-              child: ListTile(
-                leading: optionDelete(context: context),
-                title: Text(
-                  StringResource.delete,
-                  style: menuItemStyle(context: context),
-                ),
-              )),
-          PopupMenuItem(
-              value: 1,
-              child: ListTile(
-                leading: optionMoveTo(context: context),
-                title: Text(
-                  StringResource.moveTo,
-                  style: menuItemStyle(context: context),
-                ),
-              )),
-          PopupMenuItem(
-              value: 2,
-              child: ListTile(
-                leading: optionCopy(context: context),
-                title: Text(
-                  StringResource.copy,
-                  style: menuItemStyle(context: context),
-                ),
-              )),
-        ]);
+        itemBuilder: (context) => [
+              PopupMenuItem(
+                  value: 0,
+                  child: ListTile(
+                    leading: optionDelete(context: context),
+                    title: Text(
+                      StringResource.delete,
+                      style: menuItemStyle(context: context),
+                    ),
+                  )),
+              PopupMenuItem(
+                  value: 1,
+                  child: ListTile(
+                    leading: optionMoveTo(context: context),
+                    title: Text(
+                      StringResource.moveTo,
+                      style: menuItemStyle(context: context),
+                    ),
+                  )),
+              PopupMenuItem(
+                  value: 2,
+                  child: ListTile(
+                    leading: optionCopy(context: context),
+                    title: Text(
+                      StringResource.copy,
+                      style: menuItemStyle(context: context),
+                    ),
+                  )),
+            ]);
   }
 }

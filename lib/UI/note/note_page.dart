@@ -67,44 +67,34 @@ class NoteFloatingActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepaintBoundary(
       child:
-      Selector3<NoteDrawerProvider, SelectionProvider, FABProvider, bool>(
+          Selector3<NoteDrawerProvider, SelectionProvider, FABProvider, bool>(
         selector: (context, drawerProvider, selectionProvider, fabProvider) =>
-        (drawerProvider.getIndexDrawerItem != 1
-            ? fabProvider.getScrollDown
-            : true),
-        builder: (context, isNotVisible, fab) =>
-            AnimatedAlign(
-              alignment:
+            (drawerProvider.getIndexDrawerItem != 1
+                ? fabProvider.getScrollDown
+                : true),
+        builder: (context, isNotVisible, fab) => AnimatedAlign(
+          alignment:
               isNotVisible ? const Alignment(1.0, 1.5) : Alignment.bottomRight,
-              duration: const Duration(milliseconds: 350),
-              curve: isNotVisible ? Curves.easeIn : Curves.easeOut,
-              child: IgnorePointer(ignoring: isNotVisible, child: fab),
-            ),
+          duration: const Duration(milliseconds: 350),
+          curve: isNotVisible ? Curves.easeIn : Curves.easeOut,
+          child: IgnorePointer(ignoring: isNotVisible, child: fab),
+        ),
         child: FloatingActionButton.extended(
           heroTag: null,
-          splashColor: Theme
-              .of(context)
-              .accentColor
-              .withOpacity(0.16),
+          splashColor: Theme.of(context).accentColor.withOpacity(0.16),
           icon: Icon(
             MyIcon.edit_3,
-            color: Theme
-                .of(context)
-                .accentColor,
+            color: Theme.of(context).accentColor,
           ),
           label: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
               'Write a note',
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .button
-                  .copyWith(
-                letterSpacing: 1.2,
-                fontWeight: FontWeight.w600,
-                color: themeColorOpacity(context: context, opacity: .8),
-              ),
+              style: Theme.of(context).textTheme.button.copyWith(
+                    letterSpacing: 1.2,
+                    fontWeight: FontWeight.w600,
+                    color: themeColorOpacity(context: context, opacity: .8),
+                  ),
             ),
           ),
           onPressed: () {

@@ -44,7 +44,7 @@ class DateField extends StatelessWidget {
                       key: Key('$date'),
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color:
-                          themeColorOpacity(context: context, opacity: .8),
+                              themeColorOpacity(context: context, opacity: .8),
                           fontSize: SizeHelper.getModalTextField),
                     ),
                   )),

@@ -130,7 +130,7 @@ class _NoteCardState extends State<NoteCard> with TickerProviderStateMixin {
                         Icon(
                           Icons.mic_none,
                           color:
-                          themeColorOpacity(context: context, opacity: .7),
+                              themeColorOpacity(context: context, opacity: .7),
                           size: SizeHelper.setIconSize(size: 20.0),
                         )
                     ],

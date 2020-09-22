@@ -79,10 +79,10 @@ class _RepeatDialogState extends State<RepeatDialog> {
         ),
         Selector<RepeatDialogProvider, bool>(
           selector: (context, provider) =>
-          provider.getTempRepeat == RepeatType.Weekly,
+              provider.getTempRepeat == RepeatType.Weekly,
           child: const DaySelector(),
           builder: (context, showWeekDays, daySelector) =>
-          showWeekDays ? daySelector : const SizedBox(),
+              showWeekDays ? daySelector : const SizedBox(),
         )
       ],
       actions: [

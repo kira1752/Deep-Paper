@@ -53,7 +53,7 @@ class RestoreDialog extends StatelessWidget {
               textColor: themeColorOpacity(context: context, opacity: .87),
               shape: const RoundedRectangleBorder(
                   borderRadius:
-                  BorderRadius.only(bottomLeft: Radius.circular(12.0))),
+                      BorderRadius.only(bottomLeft: Radius.circular(12.0))),
               onPressed: () {
                 Navigator.pop(context);
               },

@@ -122,29 +122,25 @@ class _CreateFolderDialogState extends State<CreateFolderDialog> {
                     border: Border(
                         left: Divider.createBorderSide(context, width: 1.0))),
                 child: Consumer<FolderDialogProvider>(
-                  builder: (context, provider, createText) =>
-                      FlatButton(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          textColor:
-                          Theme
-                              .of(context)
-                              .accentColor
-                              .withOpacity(0.87),
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(12.0))),
-                          onPressed: provider.isNameTyped
-                              ? () {
-                            final database = Provider.of<DeepPaperDatabase>(
-                                context,
-                                listen: false);
-                            folder_creation.create(
-                                name: folderName, database: database);
+                  builder: (context, provider, createText) => FlatButton(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      textColor:
+                          Theme.of(context).accentColor.withOpacity(0.87),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(12.0))),
+                      onPressed: provider.isNameTyped
+                          ? () {
+                              final database = Provider.of<DeepPaperDatabase>(
+                                  context,
+                                  listen: false);
+                              folder_creation.create(
+                                  name: folderName, database: database);
 
-                            Navigator.pop(context);
-                          }
-                              : null,
-                          child: createText),
+                              Navigator.pop(context);
+                            }
+                          : null,
+                      child: createText),
                   child: Text(
                     'Create',
                     style: TextStyle(

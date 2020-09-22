@@ -98,10 +98,7 @@ class _MoveToFolderDialog extends StatelessWidget {
         Expanded(
           child: FlatButton(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              textColor: Theme
-                  .of(context)
-                  .accentColor
-                  .withOpacity(0.87),
+              textColor: Theme.of(context).accentColor.withOpacity(0.87),
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(12.0),

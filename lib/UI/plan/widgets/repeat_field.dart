@@ -70,12 +70,12 @@ class __RepeatState extends State<_Repeat> {
                   overflow: TextOverflow.ellipsis,
                   style: _createPlanProvider.getRepeat == RepeatType.Weekly
                       ? Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: Theme.of(context).accentColor.withOpacity(.8),
+                          color: Theme.of(context).accentColor.withOpacity(.8),
                           fontSize: SizeHelper.getModalTextField)
                       : Theme.of(context).textTheme.bodyText1.copyWith(
-                      color:
-                      themeColorOpacity(context: context, opacity: .8),
-                      fontSize: SizeHelper.getModalTextField),
+                          color:
+                              themeColorOpacity(context: context, opacity: .8),
+                          fontSize: SizeHelper.getModalTextField),
                 ),
               )),
       subtitle: Selector<CreatePlanProvider, String>(

@@ -73,7 +73,7 @@ class DrawerFolderItem extends StatelessWidget {
               leading: selected
                   ? Icon(activeIcon, color: Theme.of(context).accentColor)
                   : Icon(
-                icon,
+                      icon,
                       color: themeColorOpacity(context: context, opacity: .54),
                     ),
               trailing: total == null ? const SizedBox() : countNotes,

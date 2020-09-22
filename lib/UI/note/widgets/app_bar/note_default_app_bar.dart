@@ -35,7 +35,7 @@ class NoteDefaultAppBar extends StatelessWidget {
         selector: (context, provider) => provider.getSelection,
         builder: (context, selection, noteMenu) => selection
             ? IconButton(
-            icon: close(context: context),
+                icon: close(context: context),
                 onPressed: () {
                   final deepBottomProvider =
                       Provider.of<DeepBottomProvider>(context, listen: false);
