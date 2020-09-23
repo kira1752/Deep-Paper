@@ -7,7 +7,6 @@ import '../../../utility/extension.dart';
 class UndoRedoProvider with ChangeNotifier {
   int currentCursorPosition = 0;
   int initialCursorPosition;
-  int tempInitialCursorPosition;
   String initialDetail;
   ValueNotifier<String> currentTyped = ValueNotifier('');
 

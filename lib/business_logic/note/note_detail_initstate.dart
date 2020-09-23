@@ -27,7 +27,7 @@ void init(
     Future.delayed(const Duration(milliseconds: 400), () {
       detailFocus.requestFocus();
 
-      undoRedoProvider.tempInitialCursorPosition =
+      undoRedoProvider.currentCursorPosition =
           detailController.selection.baseOffset;
     });
   }

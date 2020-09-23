@@ -20,35 +20,35 @@ Icon search({@required BuildContext context}) {
 Icon optionMoveTo({@required BuildContext context}) {
   return Icon(
     MyIcon.arrow_up_right,
-    color: themeColorOpacity(context: context, opacity: .54),
+    color: themeColorOpacity(context: context, opacity: .7),
   );
 }
 
 Icon optionRestore({@required BuildContext context}) {
   return Icon(
     Icons.restore,
-    color: themeColorOpacity(context: context, opacity: .54),
+    color: themeColorOpacity(context: context, opacity: .7),
   );
 }
 
 Icon optionRenameFolder({@required BuildContext context}) {
   return Icon(
     MyIcon.edit_2,
-    color: themeColorOpacity(context: context, opacity: .54),
+    color: themeColorOpacity(context: context, opacity: .7),
   );
 }
 
 Icon optionDelete({@required BuildContext context}) {
   return Icon(
     MyIcon.trash,
-    color: themeColorOpacity(context: context, opacity: .54),
+    color: themeColorOpacity(context: context, opacity: .7),
   );
 }
 
 Icon optionCopy({@required BuildContext context}) {
   return Icon(
     MyIcon.copy,
-    color: themeColorOpacity(context: context, opacity: .54),
+    color: themeColorOpacity(context: context, opacity: .7),
   );
 }
 

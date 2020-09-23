@@ -10,11 +10,11 @@ import 'provider/undo_redo_provider.dart';
 Future<void> detail(
     {@required String value,
     @required NoteDetailProvider detailProvider,
-  @required UndoRedoProvider undoRedoProvider,
-  @required TextEditingController controller}) async {
+    @required UndoRedoProvider undoRedoProvider,
+    @required TextEditingController controller}) async {
   detailProvider.setDetail = value;
   detailProvider.setDetailCountNotify =
-  await countAllAsync(detailProvider.getDetail);
+      await countAllAsync(detailProvider.getDetail);
 
 // check if "Undo Redo" can redo
 // if the result is true, clear all stored value inside "Redo queue"
@@ -33,7 +33,7 @@ Future<void> detail(
 
   if (!undoRedoProvider.canUndo() && !undoRedoProvider.canRedo()) {
     undoRedoProvider.initialCursorPosition =
-        undoRedoProvider.tempInitialCursorPosition;
+        undoRedoProvider.currentCursorPosition;
   }
 
 // Check Detail text direction

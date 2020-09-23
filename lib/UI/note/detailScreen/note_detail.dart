@@ -98,7 +98,7 @@ class NoteDetail extends HookWidget {
             leading: IconButton(
               icon: Icon(
                 MyIcon.arrow_left,
-                color: Theme.of(context).accentColor.withOpacity(0.80),
+                color: Theme.of(context).accentColor.withOpacity(0.8),
               ),
               onPressed: () {
                 Navigator.maybePop(context);
@@ -198,7 +198,7 @@ class NoteDetail extends HookWidget {
               ));
 
               if (!undoRedoProvider.canUndo()) {
-                undoRedoProvider.tempInitialCursorPosition =
+                undoRedoProvider.currentCursorPosition =
                     detailProvider.getDetail.length;
               }
             },
@@ -265,7 +265,7 @@ class _DetailFieldState extends State<DetailField> {
               maxLines: null,
               keyboardType: TextInputType.multiline,
               onTap: () {
-                _undoRedoProvider.tempInitialCursorPosition =
+                _undoRedoProvider.currentCursorPosition =
                     widget.detailController.selection.extentOffset;
               },
               onChanged: (value) => text_field_logic.detail(
