@@ -38,9 +38,8 @@ class NoteDetail extends HookWidget {
       @required this.note,
       @required this.date});
 
-  void dispose(NoteDetailDebounce debounce, UndoRedoProvider undoRedoProvider) {
-    debounce.dispose();
-    undoRedoProvider.currentTyped.dispose();
+  void dispose(NoteDetailDebounce debounce) {
+    debounce.cancel();
   }
 
   @override
@@ -54,19 +53,21 @@ class NoteDetail extends HookWidget {
     final detailProvider = useMemoized(
         () => Provider.of<NoteDetailProvider>(context, listen: false));
 
+    final debounceProvider = useMemoized(
+        () => Provider.of<NoteDetailDebounce>(context, listen: false));
+
     final detailController = useTextEditingController();
     final detailFocus = useFocusNode();
-    final debounce = useMemoized(() => NoteDetailDebounce());
 
     useEffect(() {
       init(
-          note: note,
-          undoRedoProvider: undoRedoProvider,
-          detailProvider: detailProvider,
-          detailController: detailController,
-          detailFocus: detailFocus,
-          debounce: debounce);
-      return () => dispose(debounce, undoRedoProvider);
+        note: note,
+        undoRedoProvider: undoRedoProvider,
+        detailProvider: detailProvider,
+        detailController: detailController,
+        detailFocus: detailFocus,
+      );
+      return () => dispose(debounceProvider);
     }, const []);
 
     useWidgetsBindingObserver(
@@ -198,7 +199,7 @@ class NoteDetail extends HookWidget {
               ));
 
               if (!undoRedoProvider.canUndo()) {
-                undoRedoProvider.currentCursorPosition =
+                undoRedoProvider.tempInitCursor =
                     detailProvider.getDetail.length;
               }
             },
@@ -207,7 +208,7 @@ class NoteDetail extends HookWidget {
                 DeepKeepAlive(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(18, 0, 16, 16),
-                    child: DetailField(
+                    child: _DetailField(
                       detailController: detailController,
                       detailFocus: detailFocus,
                     ),
@@ -222,57 +223,60 @@ class NoteDetail extends HookWidget {
   }
 }
 
-class DetailField extends StatefulWidget {
+class _DetailField extends HookWidget {
   final TextEditingController detailController;
   final FocusNode detailFocus;
 
-  const DetailField(
+  const _DetailField(
       {@required this.detailController, @required this.detailFocus});
 
   @override
-  _DetailFieldState createState() => _DetailFieldState();
-}
-
-class _DetailFieldState extends State<DetailField> {
-  NoteDetailProvider _detailProvider;
-  UndoRedoProvider _undoRedoProvider;
-
-  @override
-  void initState() {
-    super.initState();
-    _detailProvider = Provider.of<NoteDetailProvider>(context, listen: false);
-
-    _undoRedoProvider = Provider.of<UndoRedoProvider>(context, listen: false);
-
-    _detailProvider.initialDetailDirection = _detailProvider.getDetail;
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final undoRedoProvider = useMemoized(
+            () => Provider.of<UndoRedoProvider>(context, listen: false));
+
+    final detailProvider = useMemoized(
+            () => Provider.of<NoteDetailProvider>(context, listen: false));
+
+    final debounceProvider = useMemoized(
+            () => Provider.of<NoteDetailDebounce>(context, listen: false));
+
+    useEffect(() {
+      detailProvider.initialDetailDirection = detailProvider.getDetail;
+      return;
+    });
+
     return Selector<NoteDetailProvider, TextDirection>(
         selector: (context, provider) =>
-            provider.getDetailDirection ? TextDirection.rtl : TextDirection.ltr,
-        builder: (context, direction, _) => TextField(
-              controller: widget.detailController,
-              focusNode: widget.detailFocus,
+        provider.getDetailDirection ? TextDirection.rtl : TextDirection.ltr,
+        builder: (context, direction, _) =>
+            TextField(
+              controller: detailController,
+              focusNode: detailFocus,
               showCursor: true,
               textDirection: direction,
               strutStyle: const StrutStyle(leading: 0.7),
-              style: Theme.of(context).textTheme.bodyText1.copyWith(
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(
                   color: themeColorOpacity(context: context, opacity: .8),
                   fontWeight: FontWeight.normal,
                   fontSize: SizeHelper.getDetail),
               maxLines: null,
               keyboardType: TextInputType.multiline,
               onTap: () {
-                _undoRedoProvider.currentCursorPosition =
-                    widget.detailController.selection.extentOffset;
+                undoRedoProvider.tempInitCursor =
+                    detailController.selection.extentOffset;
               },
-              onChanged: (value) => text_field_logic.detail(
-                  value: value,
-                  detailProvider: _detailProvider,
-                  undoRedoProvider: _undoRedoProvider,
-                  controller: widget.detailController),
+              onChanged: (value) =>
+                  text_field_logic.detail(
+                      value: value,
+                      detailProvider: detailProvider,
+                      undoRedoProvider: undoRedoProvider,
+                      debounceProvider: debounceProvider,
+                      controller: detailController),
               decoration: const InputDecoration.collapsed(
                   hintText: 'Write your note here...',
                   hintStyle: TextStyle(fontWeight: FontWeight.w500)),

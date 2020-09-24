@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../business_logic/note/note_debounce.dart';
 import '../business_logic/note/provider/note_detail_provider.dart';
 import '../business_logic/note/provider/undo_redo_provider.dart';
 import '../business_logic/note/text_field_logic.dart' as text_field_logic;
@@ -48,7 +49,10 @@ class DeepMaterialApp extends StatelessWidget {
                       ChangeNotifierProvider(
                           create: (context) => UndoRedoProvider()),
                       ChangeNotifierProvider(
-                          create: (context) => NoteDetailProvider())
+                          create: (context) => NoteDetailProvider()),
+                      Provider(
+                        create: (context) => NoteDetailDebounce(),
+                      )
                     ],
                     child: NoteDetail(
                       folderID: folderID,
@@ -71,7 +75,10 @@ class DeepMaterialApp extends StatelessWidget {
                             ChangeNotifierProvider(
                                 create: (context) => UndoRedoProvider()),
                             ChangeNotifierProvider(
-                                create: (context) => NoteDetailProvider())
+                                create: (context) => NoteDetailProvider()),
+                            Provider(
+                              create: (context) => NoteDetailDebounce(),
+                            )
                           ],
                           child: NoteDetail(
                             note: note,

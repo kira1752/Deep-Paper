@@ -21,9 +21,10 @@ Future<void> undo({
       await text_field_logic.countAllAsync(detailProvider.getDetail);
 }
 
-Future<void> redo({@required UndoRedoProvider undoRedoProvider,
-  @required NoteDetailProvider detailProvider,
-  @required TextEditingController detailController}) async {
+Future<void> redo(
+    {@required UndoRedoProvider undoRedoProvider,
+    @required NoteDetailProvider detailProvider,
+    @required TextEditingController detailController}) async {
   final cursorOffset = undoRedoProvider.popRedoCursor();
 
   detailController.text = undoRedoProvider.popRedoValue();
@@ -31,12 +32,12 @@ Future<void> redo({@required UndoRedoProvider undoRedoProvider,
       TextSelection.fromPosition(TextPosition(offset: cursorOffset));
 
   if (!undoRedoProvider.canRedo()) {
-    undoRedoProvider.currentTyped.value = null;
+    undoRedoProvider.currentTyped = null;
     undoRedoProvider.currentCursorPosition = null;
   }
 
   detailProvider.setDetail = detailController.text;
   detailProvider.checkDetailDirection = detailController.text;
   detailProvider.setDetailCountNotify =
-  await text_field_logic.countAllAsync(detailProvider.getDetail);
+      await text_field_logic.countAllAsync(detailProvider.getDetail);
 }

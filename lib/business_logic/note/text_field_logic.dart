@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'note_debounce.dart';
 import 'provider/note_detail_provider.dart';
 import 'provider/undo_redo_provider.dart';
 
@@ -11,6 +12,7 @@ Future<void> detail(
     {@required String value,
     @required NoteDetailProvider detailProvider,
     @required UndoRedoProvider undoRedoProvider,
+    @required NoteDetailDebounce debounceProvider,
     @required TextEditingController controller}) async {
   detailProvider.setDetail = value;
   detailProvider.setDetailCountNotify =
@@ -32,8 +34,7 @@ Future<void> detail(
   }
 
   if (!undoRedoProvider.canUndo() && !undoRedoProvider.canRedo()) {
-    undoRedoProvider.initialCursorPosition =
-        undoRedoProvider.currentCursorPosition;
+    undoRedoProvider.initialCursorPosition = undoRedoProvider.tempInitCursor;
   }
 
 // Check Detail text direction
@@ -45,8 +46,11 @@ Future<void> detail(
     undoRedoProvider.setCanUndo = true;
   }
 
-  undoRedoProvider.currentTyped.value = value;
+  undoRedoProvider.currentTyped = value;
   undoRedoProvider.currentCursorPosition = controller.selection.baseOffset;
+
+  // Save undo state in 1 second
+  debounceProvider.run(undoRedoProvider);
 }
 
 int countAll(String text) {

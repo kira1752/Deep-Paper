@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../business_logic/note/note_debounce.dart';
 import '../../../business_logic/note/provider/note_detail_provider.dart';
 import '../../../business_logic/note/provider/undo_redo_provider.dart';
 import '../../../business_logic/note/undo_redo.dart' as undo_redo;
@@ -18,6 +19,9 @@ class UndoRedo extends StatelessWidget {
     final undoRedoProvider =
         Provider.of<UndoRedoProvider>(context, listen: false);
 
+    final debounceProvider =
+        Provider.of<NoteDetailDebounce>(context, listen: false);
+
     return Selector<NoteDetailProvider, bool>(
       selector: (context, detailProvider) => detailProvider.isTextTyped,
       builder: (context, isTyped, undoRedoButton) =>
@@ -34,11 +38,14 @@ class UndoRedo extends StatelessWidget {
                     : themeColorOpacity(context: context, opacity: .38),
               ),
               onPressed: canUndo
-                  ? () => undo_redo.undo(
+                  ? () {
+                      debounceProvider.cancel();
+                      undo_redo.undo(
                         detailProvider: detailProvider,
                         undoRedoProvider: undoRedoProvider,
                         detailController: detailController,
-                      )
+                      );
+                    }
                   : null,
             ),
           ),
@@ -52,11 +59,15 @@ class UndoRedo extends StatelessWidget {
                           : themeColorOpacity(context: context, opacity: .38),
                     ),
                     onPressed: canRedo
-                        ? () => undo_redo.redo(
-                              detailProvider: detailProvider,
-                              undoRedoProvider: undoRedoProvider,
-                              detailController: detailController,
-                            )
+                        ? () {
+                      debounceProvider.cancel();
+
+                      undo_redo.redo(
+                        detailProvider: detailProvider,
+                        undoRedoProvider: undoRedoProvider,
+                        detailController: detailController,
+                      );
+                    }
                         : null,
                   )),
         ],
