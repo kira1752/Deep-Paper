@@ -3,21 +3,20 @@ import 'dart:collection';
 import 'package:flutter/widgets.dart';
 
 import '../../../utility/extension.dart';
+import '../undo_model.dart';
 
 class UndoRedoProvider with ChangeNotifier {
   int currentCursorPosition = 0;
-  int initialCursorPosition;
+  String currentTyped = '';
 
   /// To store temp value of cursor when user tapping text field
   /// or when user creating new note
   int tempInitCursor;
+  int initialCursorPosition;
   String initialDetail;
-  String currentTyped = '';
 
-  final Queue<String> _undo = Queue();
-  final Queue<String> _redo = Queue();
-  final Queue<int> _undoCursor = Queue();
-  final Queue<int> _redoCursor = Queue();
+  final ListQueue<UndoModel> _undo = ListQueue();
+  final ListQueue<UndoModel> _redo = ListQueue();
   bool _canUndo = false;
   bool _canRedo = false;
 
@@ -27,63 +26,14 @@ class UndoRedoProvider with ChangeNotifier {
   }
 
   void addUndo() {
-    _undo.add(currentTyped);
-    _undoCursor.add(currentCursorPosition);
+    final model = UndoModel(
+        currentTyped: currentTyped,
+        currentCursorPosition: currentCursorPosition);
+
+    _undo.add(model);
   }
 
-  int popUndoCursor() {
-    if (currentCursorPosition.isNull) {
-      // If user cursor state is already saved because of debounce
-      // then, user click undo button.
-      // pop the latest value from _undoCursor queue and save it to
-      // _redoCursor queue
-
-      _redoCursor.add(_undoCursor.removeLast());
-    } else if (currentCursorPosition.isNotNull && _redoCursor.isEmpty) {
-      // If when user typing, then suddenly user tap Undo button
-      // and debounce isn't running properly (not quick enough to save
-      // the cursor state),
-      // save currentCursorPosition to _redoCursor queue
-      if (_undoCursor.isNotEmpty) {
-        if (_undoCursor.last != currentCursorPosition) {
-          _redoCursor.add(currentCursorPosition);
-        }
-      } else {
-        _redoCursor.add(currentCursorPosition);
-      }
-    }
-
-    if (_undoCursor.isNotEmpty) {
-      if (_undoCursor.last == currentCursorPosition) {
-        _redoCursor.add(_undoCursor.removeLast());
-      }
-      if (_undoCursor.isNotEmpty) {
-        currentCursorPosition = _undoCursor.removeLast();
-        _redoCursor.add(currentCursorPosition);
-        return currentCursorPosition;
-      } else {
-        currentCursorPosition = 0;
-        return initialCursorPosition;
-      }
-    } else {
-      currentCursorPosition = 0;
-      return initialCursorPosition;
-    }
-  }
-
-  int popRedoCursor() {
-    if (_redoCursor.last == currentCursorPosition) {
-      _undoCursor.add(_redoCursor.removeLast());
-    }
-
-    if (_redoCursor.isNotEmpty) {
-      currentCursorPosition = _redoCursor.removeLast();
-      _undoCursor.add(currentCursorPosition);
-    }
-    return currentCursorPosition;
-  }
-
-  String popUndoValue() {
+  UndoModel popUndoValue() {
     if (currentTyped.isNull) {
       // If user typing state is already saved because of debounce
       // then, user click undo button.
@@ -96,30 +46,47 @@ class UndoRedoProvider with ChangeNotifier {
       // the typing state),
       // save currentTyped to _redo queue
       if (_undo.isNotEmpty) {
-        if (_undo.last != currentTyped) {
-          _redo.add(currentTyped);
+        if (_undo.last.currentTyped != currentTyped) {
+          final model = UndoModel(
+              currentTyped: currentTyped,
+              currentCursorPosition: currentCursorPosition);
+
+          _redo.add(model);
         }
       } else {
-        _redo.add(currentTyped);
+        final model = UndoModel(
+            currentTyped: currentTyped,
+            currentCursorPosition: currentCursorPosition);
+
+        _redo.add(model);
       }
     }
 
     if (_undo.isNotEmpty) {
-      if (_undo.last == currentTyped) {
+      if (_undo.last.currentTyped == currentTyped) {
         _redo.add(_undo.removeLast());
       }
 
       if (_undo.isNotEmpty) {
-        currentTyped = _undo.removeLast();
-        _redo.add(currentTyped);
+        final model = _undo.removeLast();
+
+        currentTyped = model.currentTyped;
+        currentCursorPosition = model.currentCursorPosition;
+
+        _redo.add(model);
 
         if (_canRedo != true) {
           _canRedo = true;
           notifyListeners();
         }
-        return currentTyped;
+        return model;
       } else {
-        currentTyped = '';
+        final model = UndoModel(
+            currentTyped: initialDetail,
+            currentCursorPosition: initialCursorPosition);
+
+        currentTyped = null;
+        currentCursorPosition = null;
         _canUndo = false;
 
         if (_canRedo != true) {
@@ -127,28 +94,38 @@ class UndoRedoProvider with ChangeNotifier {
         }
 
         notifyListeners();
-        return initialDetail;
+        return model;
       }
     } else {
-      currentTyped = '';
+      final model = UndoModel(
+          currentTyped: initialDetail,
+          currentCursorPosition: initialCursorPosition);
+
+      currentTyped = null;
+      currentCursorPosition = null;
       _canUndo = false;
+
       if (_canRedo != true) {
         _canRedo = true;
       }
 
       notifyListeners();
-      return initialDetail;
+      return model;
     }
   }
 
-  String popRedoValue() {
-    if (_redo.last == currentTyped) {
+  UndoModel popRedoValue() {
+    UndoModel model;
+    if (_redo.last.currentTyped == currentTyped) {
       _undo.add(_redo.removeLast());
     }
 
     if (_redo.isNotEmpty) {
-      currentTyped = _redo.removeLast();
-      _undo.add(currentTyped);
+      model = _redo.removeLast();
+      currentTyped = model.currentTyped;
+      currentCursorPosition = model.currentCursorPosition;
+
+      _undo.add(model);
     }
 
     if (_canUndo == false) {
@@ -161,28 +138,27 @@ class UndoRedoProvider with ChangeNotifier {
       notifyListeners();
     }
 
-    return currentTyped;
+    return model;
   }
 
-  String getUndoLastValue() {
+  String getUndoCurrentTyped() {
     if (_undo.isEmpty) {
       return initialDetail;
     } else {
-      return _undo.last;
+      return _undo.last.currentTyped;
     }
   }
 
-  String getRedoLastValue() {
+  String getRedoCurrentTyped() {
     if (_redo.isEmpty) {
       return initialDetail;
     } else {
-      return _redo.last;
+      return _redo.last.currentTyped;
     }
   }
 
   void clearRedo() {
     _redo.clear();
-    _redoCursor.clear();
     _canRedo = false;
     notifyListeners();
   }

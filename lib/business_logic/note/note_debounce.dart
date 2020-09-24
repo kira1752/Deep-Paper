@@ -11,8 +11,8 @@ class NoteDetailDebounce {
     _debounce = Timer(const Duration(milliseconds: 1000), () {
       final value = undoRedoProvider.currentTyped;
       if (!value.isNullEmptyOrWhitespace &&
-          undoRedoProvider.getUndoLastValue() != value &&
-          undoRedoProvider.getRedoLastValue() != value) {
+          undoRedoProvider.getUndoCurrentTyped() != value &&
+          undoRedoProvider.getRedoCurrentTyped() != value) {
         undoRedoProvider.addUndo();
         undoRedoProvider.currentTyped = null;
         undoRedoProvider.currentCursorPosition = null;

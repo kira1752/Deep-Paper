@@ -9,11 +9,11 @@ Future<void> undo({
   @required NoteDetailProvider detailProvider,
   @required TextEditingController detailController,
 }) async {
-  final cursorOffset = undoRedoProvider.popUndoCursor();
+  final undoModel = undoRedoProvider.popUndoValue();
 
-  detailController.text = undoRedoProvider.popUndoValue();
-  detailController.selection =
-      TextSelection.fromPosition(TextPosition(offset: cursorOffset));
+  detailController.text = undoModel.currentTyped;
+  detailController.selection = TextSelection.fromPosition(
+      TextPosition(offset: undoModel.currentCursorPosition));
 
   detailProvider.setDetail = detailController.text;
   detailProvider.checkDetailDirection = detailController.text;
@@ -25,11 +25,11 @@ Future<void> redo(
     {@required UndoRedoProvider undoRedoProvider,
     @required NoteDetailProvider detailProvider,
     @required TextEditingController detailController}) async {
-  final cursorOffset = undoRedoProvider.popRedoCursor();
+  final undoModel = undoRedoProvider.popRedoValue();
 
-  detailController.text = undoRedoProvider.popRedoValue();
-  detailController.selection =
-      TextSelection.fromPosition(TextPosition(offset: cursorOffset));
+  detailController.text = undoModel.currentTyped;
+  detailController.selection = TextSelection.fromPosition(
+      TextPosition(offset: undoModel.currentCursorPosition));
 
   if (!undoRedoProvider.canRedo()) {
     undoRedoProvider.currentTyped = null;
@@ -39,5 +39,5 @@ Future<void> redo(
   detailProvider.setDetail = detailController.text;
   detailProvider.checkDetailDirection = detailController.text;
   detailProvider.setDetailCountNotify =
-      await text_field_logic.countAllAsync(detailProvider.getDetail);
+  await text_field_logic.countAllAsync(detailProvider.getDetail);
 }
