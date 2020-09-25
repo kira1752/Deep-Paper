@@ -1,9 +1,9 @@
-import 'package:deep_paper/resource/string_resource.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import '../../data/deep.dart';
+import '../../resource/string_resource.dart';
 import '../../utility/extension.dart';
 import 'provider/note_detail_provider.dart';
 import 'provider/undo_history_provider.dart';

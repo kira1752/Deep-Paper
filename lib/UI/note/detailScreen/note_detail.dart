@@ -48,7 +48,8 @@ class NoteDetail extends HookWidget {
           detailProvider: context.read<NoteDetailProvider>(),
           detailController: detailController,
           detailFocus: detailFocus,
-          folderName: folderName);
+          folderName: folderName,
+          folderID: folderID);
       return;
     }, const []);
 
@@ -82,10 +83,7 @@ class NoteDetail extends HookWidget {
             leading: IconButton(
               icon: Icon(
                 MyIcon.arrow_left,
-                color: Theme
-                    .of(context)
-                    .accentColor
-                    .withOpacity(0.8),
+                color: Theme.of(context).accentColor.withOpacity(0.8),
               ),
               onPressed: () {
                 Navigator.maybePop(context);
