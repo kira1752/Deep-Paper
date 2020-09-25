@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-class DeepRoute<T> extends MaterialPageRoute<T>
-    with MaterialRouteTransitionMixin<T> {
+class DeepRoute<T> extends PageRoute<T> with MaterialRouteTransitionMixin<T> {
   DeepRoute({
     @required this.builder,
     RouteSettings settings,
@@ -10,17 +9,16 @@ class DeepRoute<T> extends MaterialPageRoute<T>
   })  : assert(builder != null),
         assert(maintainState != null),
         assert(fullscreenDialog != null),
-        assert(opaque),
-        super(
-            builder: builder,
-            settings: settings,
-            fullscreenDialog: fullscreenDialog);
+        super(settings: settings, fullscreenDialog: fullscreenDialog);
 
   @override
   final WidgetBuilder builder;
 
   @override
   final bool maintainState;
+
+  @override
+  bool get opaque => false;
 
   @override
   String get debugLabel => '${super.debugLabel}(${settings.name})';

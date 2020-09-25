@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 
 import '../../../business_logic/note/provider/note_detail_provider.dart';
@@ -34,13 +35,11 @@ class DateCharacterCounts extends StatelessWidget {
           FutureProvider<int>(
               create: (context) => text_field_logic.countAllAsync(detail),
               builder: (context, widget) {
-                return Consumer<int>(
-                  builder: (context, count, noTextCount) => count.isNull
-                      ? noTextCount
-                      : _TopCount(
-                          key: const Key('available'), initialCount: count),
-                  child: const _TopCount(key: Key('null'), initialCount: 0),
-                );
+                var count = context.watch<int>();
+                return count.isNull
+                    ? const _TopCount(key: Key('null'), initialCount: 0)
+                    : _TopCount(
+                        key: const Key('available'), initialCount: count);
               })
         ],
       ),
@@ -48,80 +47,68 @@ class DateCharacterCounts extends StatelessWidget {
   }
 }
 
-class _TopDate extends StatefulWidget {
+class _TopDate extends StatelessWidget {
   final Future<String> date;
 
   const _TopDate({@required this.date});
 
   @override
-  __TopDateState createState() => __TopDateState();
-}
-
-class __TopDateState extends State<_TopDate> {
-  @override
   Widget build(BuildContext context) {
     return FutureProvider<String>(
-        create: (context) => widget.date,
-        builder: (context, widget) => Consumer<String>(
-              builder: (context, date, widget) {
-                if (date == null) {
-                  return Text(
-                    'Loading date...',
-                    style: Theme.of(context).textTheme.bodyText2.copyWith(
-                          color:
-                              themeColorOpacity(context: context, opacity: .54),
-                        ),
-                  );
-                } else {
-                  return Text(
-                    '$date',
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .bodyText2
-                        .copyWith(
-                      color:
-                      themeColorOpacity(context: context, opacity: .54),
-                    ),
-                  );
-                }
-              },
-            ));
+        create: (context) => date,
+        builder: (context, widget) {
+          var date = context.watch<String>();
+          return date.isNull
+              ? Text(
+            'Loading date...',
+            style: Theme
+                .of(context)
+                .textTheme
+                .bodyText2
+                .copyWith(
+              color:
+              themeColorOpacity(context: context, opacity: .54),
+            ),
+          )
+              : Text(
+            date.toString(),
+            style: Theme
+                .of(context)
+                .textTheme
+                .bodyText2
+                .copyWith(
+              color:
+              themeColorOpacity(context: context, opacity: .54),
+            ),
+          );
+        });
   }
 }
 
-class _TopCount extends StatefulWidget {
+class _TopCount extends HookWidget {
   final int initialCount;
 
   const _TopCount({Key key, @required this.initialCount}) : super(key: key);
 
   @override
-  __TopCountState createState() => __TopCountState();
-}
-
-class __TopCountState extends State<_TopCount> {
-  @override
-  void initState() {
-    super.initState();
-    final detailProvider =
-        Provider.of<NoteDetailProvider>(context, listen: false);
-    detailProvider.setDetailCount = widget.initialCount;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Selector<NoteDetailProvider, int>(
-        selector: (context, provider) => provider.getDetailCount,
-        builder: (context, count, _) =>
-            Text(
-              '$count characters',
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText2
-                  .copyWith(
-                color: themeColorOpacity(context: context, opacity: .54),
-              ),
-            ));
+    useEffect(() {
+      context
+          .read<NoteDetailProvider>()
+          .setDetailCount = initialCount;
+      return;
+    }, const []);
+
+    return Text(
+      '${context.select((NoteDetailProvider value) =>
+      value.getDetailCount)} characters',
+      style: Theme
+          .of(context)
+          .textTheme
+          .bodyText2
+          .copyWith(
+        color: themeColorOpacity(context: context, opacity: .54),
+      ),
+    );
   }
 }

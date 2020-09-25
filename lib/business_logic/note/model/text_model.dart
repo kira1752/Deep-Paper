@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 
-class UndoModel {
+class TextModel {
   String currentTyped;
   int currentCursorPosition;
 
-  UndoModel(
+  TextModel(
       {@required this.currentTyped, @required this.currentCursorPosition});
 }

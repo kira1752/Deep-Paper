@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../business_logic/note/bottom_menu_logic.dart';
+import '../../../business_logic/note/provider/note_detail_provider.dart';
 import '../../../icons/my_icon.dart';
 import 'bottom_modal.dart';
 import 'undo_redo.dart';
 
 class BottomMenu extends StatelessWidget {
-  final TextEditingController detailController;
-  final void Function() onDelete;
-  final void Function() onCopy;
-  final void Function() noteInfo;
-
-  const BottomMenu(
-      {@required this.detailController,
-      @required this.onDelete,
-      @required this.onCopy,
-      @required this.noteInfo});
+  const BottomMenu();
 
   @override
   Widget build(BuildContext context) {
@@ -43,23 +37,25 @@ class BottomMenu extends StatelessWidget {
                     await openAddMenu(context: context);
                   },
                 ),
-                UndoRedo(detailController: detailController),
+                const UndoRedo(),
                 IconButton(
                   icon: Icon(
                     Icons.more_vert,
                     color: Theme.of(context).accentColor.withOpacity(0.80),
                   ),
                   onPressed: () async {
-                    if (FocusScope
-                        .of(context)
-                        .hasFocus) {
+                    if (FocusScope.of(context).hasFocus) {
                       FocusScope.of(context).unfocus();
                     }
                     await openOptionsMenu(
                         context: context,
-                        onDelete: onDelete,
-                        onCopy: onCopy,
-                        noteInfo: noteInfo);
+                        onDelete: () => onDelete(context: context),
+                        onCopy: () => onCopy(context: context),
+                        noteInfo: () => noteInfo(
+                              context: context,
+                              folderName:
+                                  context.read<NoteDetailProvider>().folderName,
+                            ));
                   },
                 )
               ],

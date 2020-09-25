@@ -1,26 +1,34 @@
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 
 import '../../../data/deep.dart';
 
 class NoteDetailProvider with ChangeNotifier {
   bool _isTextTyped = false;
-  bool _isDetailRTL = false;
+  TextDirection _detailDirection;
   bool _isCopy = false;
   bool _isDeleted = false;
   int _detailCount;
   int _tempNoteID;
   String _detail = '';
   String _tempDetail = '';
+  String _folderName;
+  int _folderID;
   Note _note;
 
   bool get isTextTyped => _isTextTyped;
 
-  bool get getDetailDirection => _isDetailRTL;
+  TextDirection get detailDirection => _detailDirection;
 
   bool get getIsCopy => _isCopy;
 
   bool get getIsDeleted => _isDeleted;
+
+  String get folderName => _folderName;
+
+  int get folderID => _folderID;
 
   /// Use this to get the latest value of [DetailField]
   String get getDetail => _detail;
@@ -48,6 +56,10 @@ class NoteDetailProvider with ChangeNotifier {
 
   set setDetailCount(int value) => _detailCount = value;
 
+  set folderName(String name) => _folderName = name;
+
+  set folderID(int id) => _folderID = id;
+
   set setNote(Note newNote) => _note = newNote;
 
   set setTempNoteID(int newNoteID) => _tempNoteID = newNoteID;
@@ -63,7 +75,7 @@ class NoteDetailProvider with ChangeNotifier {
     }
   }
 
-  set setTextState(bool state) {
+  set isTextTyped(bool state) {
     if (_isTextTyped != state) {
       _isTextTyped = state;
       notifyListeners();
@@ -71,15 +83,19 @@ class NoteDetailProvider with ChangeNotifier {
   }
 
   set checkDetailDirection(String text) {
-    final newIsRTL = Bidi.detectRtlDirectionality(text);
+    final newIsRTL = intl.Bidi.detectRtlDirectionality(text)
+        ? TextDirection.rtl
+        : TextDirection.ltr;
 
-    if (_isDetailRTL != newIsRTL) {
-      _isDetailRTL = newIsRTL;
+    if (_detailDirection != newIsRTL) {
+      _detailDirection = newIsRTL;
       notifyListeners();
     }
   }
 
   set initialDetailDirection(String text) {
-    _isDetailRTL = Bidi.detectRtlDirectionality(text);
+    _detailDirection = intl.Bidi.detectRtlDirectionality(text)
+        ? TextDirection.rtl
+        : TextDirection.ltr;
   }
 }

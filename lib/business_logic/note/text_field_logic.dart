@@ -6,12 +6,14 @@ import 'package:intl/intl.dart' as intl;
 
 import 'note_debounce.dart';
 import 'provider/note_detail_provider.dart';
-import 'provider/undo_redo_provider.dart';
+import 'provider/undo_history_provider.dart';
+import 'provider/undo_state_provider.dart';
 
 Future<void> detail(
     {@required String value,
     @required NoteDetailProvider detailProvider,
-    @required UndoRedoProvider undoRedoProvider,
+    @required UndoHistoryProvider undoHistory,
+    @required UndoStateProvider undoState,
     @required NoteDetailDebounce debounceProvider,
     @required TextEditingController controller}) async {
   detailProvider.setDetail = value;
@@ -24,17 +26,18 @@ Future<void> detail(
 // this used for case when user doing undo, then continue typing their text,
 // omitting user previous changes before doing undo
 // replacing them with text typed by user after doing undo
-  if (undoRedoProvider.canRedo()) {
-    undoRedoProvider.clearRedo();
+  if (undoState.canRedo) {
+    undoHistory.clearRedo();
+    undoState.toggleRedo();
   }
 
 // Turn on Undo Redo
   if (detailProvider.isTextTyped == false) {
-    detailProvider.setTextState = true;
+    detailProvider.isTextTyped = true;
   }
 
-  if (!undoRedoProvider.canUndo() && !undoRedoProvider.canRedo()) {
-    undoRedoProvider.initialCursorPosition = undoRedoProvider.tempInitCursor;
+  if (undoHistory.isUndoEmpty() && undoHistory.isRedoEmpty()) {
+    undoHistory.initialCursorPosition = undoHistory.tempInitCursor;
   }
 
 // Check Detail text direction
@@ -42,15 +45,15 @@ Future<void> detail(
 
 // Turn on Undo function when textField typed for the first time
 // and not only contains whitespace
-  if (undoRedoProvider.canUndo() == false) {
-    undoRedoProvider.setCanUndo = true;
+  if (!undoState.canUndo) {
+    undoState.toggleUndo();
   }
 
-  undoRedoProvider.currentTyped = value;
-  undoRedoProvider.currentCursorPosition = controller.selection.baseOffset;
+  undoHistory.currentTyped = value;
+  undoHistory.currentCursorPosition = controller.selection.baseOffset;
 
   // Save undo state in 1 second
-  debounceProvider.run(undoRedoProvider);
+  debounceProvider.run(undoHistory);
 }
 
 int countAll(String text) {

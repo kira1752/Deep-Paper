@@ -1,3 +1,4 @@
+import 'package:deep_paper/resource/string_resource.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -5,20 +6,23 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import '../../data/deep.dart';
 import '../../utility/extension.dart';
 import 'provider/note_detail_provider.dart';
-import 'provider/undo_redo_provider.dart';
+import 'provider/undo_history_provider.dart';
 
-void init({
-  @required Note note,
-  @required UndoRedoProvider undoRedoProvider,
-  @required NoteDetailProvider detailProvider,
-  @required TextEditingController detailController,
-  @required FocusNode detailFocus,
-}) {
+void init(
+    {@required Note note,
+    @required UndoHistoryProvider undoHistoryProvider,
+    @required NoteDetailProvider detailProvider,
+    @required TextEditingController detailController,
+    @required FocusNode detailFocus,
+    @required String folderName,
+    @required int folderID}) {
   detailProvider.setNote = note;
   final detail = (detailProvider.getNote?.detail) ?? '';
-  undoRedoProvider.initialDetail = detail;
+  undoHistoryProvider.initialDetail = detail;
   detailProvider.setDetail = detail;
   detailProvider.setTempDetail = detail;
+  detailProvider.folderName = folderName ?? StringResource.mainFolder;
+  detailProvider.folderID = folderID ?? 0;
 
   detailController.text = detail;
 
@@ -26,7 +30,8 @@ void init({
     Future.delayed(const Duration(milliseconds: 400), () {
       detailFocus.requestFocus();
 
-      undoRedoProvider.tempInitCursor = detailController.selection.baseOffset;
+      undoHistoryProvider.tempInitCursor =
+          detailController.selection.baseOffset;
     });
   }
 

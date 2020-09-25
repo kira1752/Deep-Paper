@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import '../../utility/extension.dart';
-import 'provider/undo_redo_provider.dart';
+import 'provider/undo_history_provider.dart';
 
 class NoteDetailDebounce {
   Timer _debounce;
 
-  void run(UndoRedoProvider undoRedoProvider) {
+  void run(UndoHistoryProvider undoRedoProvider) {
     if (_debounce?.isActive ?? false) _debounce.cancel();
     _debounce = Timer(const Duration(milliseconds: 1000), () {
       final value = undoRedoProvider.currentTyped;

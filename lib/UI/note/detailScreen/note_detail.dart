@@ -9,22 +9,20 @@ import '../../../business_logic/note/note_detail_initstate.dart';
 import '../../../business_logic/note/note_detail_lifecycle.dart' as lifecycle;
 import '../../../business_logic/note/note_detail_normal_save.dart' as save;
 import '../../../business_logic/note/provider/note_detail_provider.dart';
-import '../../../business_logic/note/provider/undo_redo_provider.dart';
+import '../../../business_logic/note/provider/undo_history_provider.dart';
+import '../../../business_logic/note/provider/undo_state_provider.dart';
 import '../../../business_logic/note/text_field_logic.dart' as text_field_logic;
+import '../../../business_logic/provider/TextControllerValue.dart';
+import '../../../business_logic/provider/text_controller_focus_node_value.dart';
 import '../../../data/deep.dart';
 import '../../../icons/my_icon.dart';
-import '../../../resource/icon_resource.dart';
-import '../../../resource/string_resource.dart';
 import '../../../utility/deep_hooks.dart';
-import '../../../utility/extension.dart';
 import '../../../utility/size_helper.dart';
 import '../../app_theme.dart';
 import '../../widgets/deep_keep_alive.dart';
 import '../../widgets/deep_scroll_behavior.dart';
-import '../../widgets/deep_snack_bar.dart';
 import '../widgets/bottom_menu.dart';
 import '../widgets/date_character_counts.dart';
-import '../widgets/dialog/note_dialog.dart' as note_dialog;
 
 class NoteDetail extends HookWidget {
   final int folderID;
@@ -38,58 +36,43 @@ class NoteDetail extends HookWidget {
       @required this.note,
       @required this.date});
 
-  void dispose(NoteDetailDebounce debounce) {
-    debounce.cancel();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final database = useMemoized(
-        () => Provider.of<DeepPaperDatabase>(context, listen: false));
-
-    final undoRedoProvider = useMemoized(
-        () => Provider.of<UndoRedoProvider>(context, listen: false));
-
-    final detailProvider = useMemoized(
-        () => Provider.of<NoteDetailProvider>(context, listen: false));
-
-    final debounceProvider = useMemoized(
-        () => Provider.of<NoteDetailDebounce>(context, listen: false));
-
     final detailController = useTextEditingController();
     final detailFocus = useFocusNode();
 
     useEffect(() {
       init(
-        note: note,
-        undoRedoProvider: undoRedoProvider,
-        detailProvider: detailProvider,
-        detailController: detailController,
-        detailFocus: detailFocus,
-      );
-      return () => dispose(debounceProvider);
+          note: note,
+          undoHistoryProvider: context.read<UndoHistoryProvider>(),
+          detailProvider: context.read<NoteDetailProvider>(),
+          detailController: detailController,
+          detailFocus: detailFocus,
+          folderName: folderName);
+      return;
     }, const []);
 
     useWidgetsBindingObserver(
         lifecycle: (state) => lifecycle.check(
-            database: database,
+            database: context.read<DeepPaperDatabase>(),
             state: state,
-            detailProvider: detailProvider,
-            folderID: folderID ?? 0,
-            folderName: folderName ?? StringResource.mainFolder));
+            detailProvider: context.read<NoteDetailProvider>(),
+            folderID: context.read<NoteDetailProvider>().folderID,
+            folderName: context.read<NoteDetailProvider>().folderName));
 
     return WillPopScope(
       onWillPop: () async {
         save.run(
-            context: context,
-            database: database,
-            noteID: detailProvider.getTempNoteID,
-            note: detailProvider.getNote,
-            detailProvider: detailProvider,
-            folderID: folderID ?? 0,
-            folderName: folderName ?? StringResource.mainFolder,
-            isDeleted: detailProvider.getIsDeleted,
-            isCopy: detailProvider.getIsCopy);
+          context: context,
+          database: context.read<DeepPaperDatabase>(),
+          noteID: context.read<NoteDetailProvider>().getTempNoteID,
+          note: context.read<NoteDetailProvider>().getNote,
+          detailProvider: context.read<NoteDetailProvider>(),
+          folderID: context.read<NoteDetailProvider>().folderID,
+          folderName: context.read<NoteDetailProvider>().folderName,
+          isDeleted: context.read<NoteDetailProvider>().getIsDeleted,
+          isCopy: context.read<NoteDetailProvider>().getIsCopy,
+        );
 
         return true;
       },
@@ -99,7 +82,10 @@ class NoteDetail extends HookWidget {
             leading: IconButton(
               icon: Icon(
                 MyIcon.arrow_left,
-                color: Theme.of(context).accentColor.withOpacity(0.8),
+                color: Theme
+                    .of(context)
+                    .accentColor
+                    .withOpacity(0.8),
               ),
               onPressed: () {
                 Navigator.maybePop(context);
@@ -108,83 +94,14 @@ class NoteDetail extends HookWidget {
             bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(56),
                 child: DateCharacterCounts(
-                    date: date, detail: detailProvider.getDetail))),
-        bottomNavigationBar: BottomMenu(
-          detailController: detailController,
-          onDelete: () {
-            if (!detailProvider.getDetail.isNullEmptyOrWhitespace) {
-              detailProvider.setIsDeleted = true;
-
-              Navigator.pop(context);
-              Future.delayed(const Duration(milliseconds: 400), () {
-                Navigator.maybePop(context);
-                showSnack(
-                    context: context,
-                    icon: info(context: context),
-                    description: 'Note moved to Trash Bin');
-              });
-            } else if (detailProvider.getTempNoteID.isNull &&
-                detailProvider.getNote.isNull) {
-              Navigator.pop(context);
-              Future.delayed(const Duration(milliseconds: 400), () {
-                Navigator.maybePop(context);
-                showSnack(
-                    context: context,
-                    icon: info(context: context),
-                    description: 'Empty note deleted');
-              });
-            } else {
-              Navigator.pop(context);
-              Future.delayed(const Duration(milliseconds: 400), () {
-                Navigator.maybePop(context);
-              });
-            }
-          },
-          onCopy: () {
-            if (detailProvider.getDetail.isNullEmptyOrWhitespace) {
-              Navigator.pop(context);
-
-              showSnack(
-                  context: context,
-                  icon: info(context: context),
-                  description: 'Cannot copy empty note');
-            } else {
-              detailProvider.setIsCopy = true;
-
-              Navigator.pop(context);
-
-              Future.delayed(const Duration(milliseconds: 400), () {
-                Navigator.maybePop(context);
-                showSnack(
-                    context: context,
-                    icon: successful(context: context),
-                    description: 'Note copied successfully');
-              });
-            }
-          },
-          noteInfo: () async {
-            final created = await database.noteDao
-                .getCreatedDate(detailProvider.getTempNoteID);
-
-            Navigator.pop(context);
-
-            Future.delayed(const Duration(milliseconds: 400), () {
-              note_dialog.openNoteInfo(
-                  context: context,
-                  folderName: folderName ?? StringResource.mainFolder,
-                  modified: detailProvider.getNote.isNull
-                      ? DateTime.now()
-                      : (detailProvider.getNote.detail !=
-                              detailProvider.getDetail
-                          ? DateTime.now()
-                          : detailProvider.getNote.modified),
-                  created: detailProvider.getTempNoteID.isNull
-                      ? (detailProvider.getNote.isNull
-                          ? DateTime.now()
-                          : detailProvider.getNote.created)
-                      : created);
-            });
-          },
+                  date: date,
+                  detail: context
+                      .read<NoteDetailProvider>()
+                      .getDetail,
+                ))),
+        bottomNavigationBar: Provider(
+          create: (context) => TextControllerValue(detailController),
+          child: const BottomMenu(),
         ),
         body: ScrollConfiguration(
           behavior: const DeepScrollBehavior(),
@@ -195,12 +112,20 @@ class NoteDetail extends HookWidget {
               }
               detailController.selection =
                   TextSelection.fromPosition(TextPosition(
-                offset: detailProvider.getDetail.length,
-              ));
+                    offset: context
+                        .read<NoteDetailProvider>()
+                        .getDetail
+                        .length,
+                  ));
 
-              if (!undoRedoProvider.canUndo()) {
-                undoRedoProvider.tempInitCursor =
-                    detailProvider.getDetail.length;
+              if (context.read<UndoHistoryProvider>().isUndoEmpty()) {
+                context
+                    .read<UndoHistoryProvider>()
+                    .tempInitCursor =
+                    context
+                        .read<NoteDetailProvider>()
+                        .getDetail
+                        .length;
               }
             },
             child: ListView(
@@ -208,9 +133,11 @@ class NoteDetail extends HookWidget {
                 DeepKeepAlive(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(18, 0, 16, 16),
-                    child: _DetailField(
-                      detailController: detailController,
-                      detailFocus: detailFocus,
+                    child: Provider(
+                      create: (_) =>
+                          TextControllerFocusNodeValue(
+                              detailController, detailFocus),
+                      child: const _DetailField(),
                     ),
                   ),
                 ),
@@ -224,62 +151,64 @@ class NoteDetail extends HookWidget {
 }
 
 class _DetailField extends HookWidget {
-  final TextEditingController detailController;
-  final FocusNode detailFocus;
-
-  const _DetailField(
-      {@required this.detailController, @required this.detailFocus});
+  const _DetailField();
 
   @override
   Widget build(BuildContext context) {
-    final undoRedoProvider = useMemoized(
-            () => Provider.of<UndoRedoProvider>(context, listen: false));
-
-    final detailProvider = useMemoized(
-            () => Provider.of<NoteDetailProvider>(context, listen: false));
-
-    final debounceProvider = useMemoized(
-            () => Provider.of<NoteDetailDebounce>(context, listen: false));
-
     useEffect(() {
-      detailProvider.initialDetailDirection = detailProvider.getDetail;
+      context
+          .read<NoteDetailProvider>()
+          .initialDetailDirection =
+          context
+              .read<NoteDetailProvider>()
+              .getDetail;
       return;
     });
 
-    return Selector<NoteDetailProvider, TextDirection>(
-        selector: (context, provider) =>
-        provider.getDetailDirection ? TextDirection.rtl : TextDirection.ltr,
-        builder: (context, direction, _) =>
-            TextField(
-              controller: detailController,
-              focusNode: detailFocus,
-              showCursor: true,
-              textDirection: direction,
-              strutStyle: const StrutStyle(leading: 0.7),
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(
-                  color: themeColorOpacity(context: context, opacity: .8),
-                  fontWeight: FontWeight.normal,
-                  fontSize: SizeHelper.getDetail),
-              maxLines: null,
-              keyboardType: TextInputType.multiline,
-              onTap: () {
-                undoRedoProvider.tempInitCursor =
-                    detailController.selection.extentOffset;
-              },
-              onChanged: (value) =>
-                  text_field_logic.detail(
-                      value: value,
-                      detailProvider: detailProvider,
-                      undoRedoProvider: undoRedoProvider,
-                      debounceProvider: debounceProvider,
-                      controller: detailController),
-              decoration: const InputDecoration.collapsed(
-                  hintText: 'Write your note here...',
-                  hintStyle: TextStyle(fontWeight: FontWeight.w500)),
-            ));
+    return TextField(
+      controller:
+      context
+          .read<TextControllerFocusNodeValue>()
+          .textEditingController,
+      focusNode: context
+          .read<TextControllerFocusNodeValue>()
+          .focusNode,
+      showCursor: true,
+      textDirection:
+      context.select((NoteDetailProvider value) => value.detailDirection),
+      strutStyle: const StrutStyle(leading: 0.7),
+      style: Theme
+          .of(context)
+          .textTheme
+          .bodyText1
+          .copyWith(
+          color: themeColorOpacity(context: context, opacity: .8),
+          fontWeight: FontWeight.normal,
+          fontSize: SizeHelper.getDetail),
+      maxLines: null,
+      keyboardType: TextInputType.multiline,
+      onTap: () {
+        context
+            .read<UndoHistoryProvider>()
+            .tempInitCursor = context
+            .read<TextControllerFocusNodeValue>()
+            .textEditingController
+            .selection
+            .extentOffset;
+      },
+      onChanged: (value) =>
+          text_field_logic.detail(
+              value: value,
+              detailProvider: context.read<NoteDetailProvider>(),
+              undoHistory: context.read<UndoHistoryProvider>(),
+              undoState: context.read<UndoStateProvider>(),
+              debounceProvider: context.read<NoteDetailDebounce>(),
+              controller: context
+                  .read<TextControllerFocusNodeValue>()
+                  .textEditingController),
+      decoration: const InputDecoration.collapsed(
+          hintText: 'Write your note here...',
+          hintStyle: TextStyle(fontWeight: FontWeight.w500)),
+    );
   }
 }

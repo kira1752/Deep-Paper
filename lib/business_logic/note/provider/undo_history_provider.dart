@@ -1,11 +1,10 @@
 import 'dart:collection';
 
-import 'package:flutter/widgets.dart';
-
 import '../../../utility/extension.dart';
-import '../undo_model.dart';
+import '../model/text_model.dart';
+import 'undo_state_provider.dart';
 
-class UndoRedoProvider with ChangeNotifier {
+class UndoHistoryProvider {
   int currentCursorPosition = 0;
   String currentTyped = '';
 
@@ -14,26 +13,22 @@ class UndoRedoProvider with ChangeNotifier {
   int tempInitCursor;
   int initialCursorPosition;
   String initialDetail;
+  UndoStateProvider undoStateProvider;
 
-  final ListQueue<UndoModel> _undo = ListQueue();
-  final ListQueue<UndoModel> _redo = ListQueue();
-  bool _canUndo = false;
-  bool _canRedo = false;
+  final Queue<TextModel> _undo = Queue();
+  final Queue<TextModel> _redo = Queue();
 
-  set setCanUndo(bool value) {
-    _canUndo = value;
-    notifyListeners();
-  }
+  UndoHistoryProvider(this.undoStateProvider);
 
   void addUndo() {
-    final model = UndoModel(
+    final model = TextModel(
         currentTyped: currentTyped,
         currentCursorPosition: currentCursorPosition);
 
     _undo.add(model);
   }
 
-  UndoModel popUndoValue() {
+  TextModel undo() {
     if (currentTyped.isNull) {
       // If user typing state is already saved because of debounce
       // then, user click undo button.
@@ -47,14 +42,14 @@ class UndoRedoProvider with ChangeNotifier {
       // save currentTyped to _redo queue
       if (_undo.isNotEmpty) {
         if (_undo.last.currentTyped != currentTyped) {
-          final model = UndoModel(
+          final model = TextModel(
               currentTyped: currentTyped,
               currentCursorPosition: currentCursorPosition);
 
           _redo.add(model);
         }
       } else {
-        final model = UndoModel(
+        final model = TextModel(
             currentTyped: currentTyped,
             currentCursorPosition: currentCursorPosition);
 
@@ -73,49 +68,53 @@ class UndoRedoProvider with ChangeNotifier {
         currentTyped = model.currentTyped;
         currentCursorPosition = model.currentCursorPosition;
 
+        if (undoStateProvider.canRedo == false) {
+          undoStateProvider.toggleRedo();
+        }
+
         _redo.add(model);
 
-        if (_canRedo != true) {
-          _canRedo = true;
-          notifyListeners();
-        }
         return model;
       } else {
-        final model = UndoModel(
+        final model = TextModel(
             currentTyped: initialDetail,
             currentCursorPosition: initialCursorPosition);
 
         currentTyped = null;
         currentCursorPosition = null;
-        _canUndo = false;
 
-        if (_canRedo != true) {
-          _canRedo = true;
+        if (undoStateProvider.canUndo) {
+          undoStateProvider.toggleUndo();
         }
 
-        notifyListeners();
+        if (undoStateProvider.canRedo == false) {
+          undoStateProvider.toggleRedo();
+        }
+
         return model;
       }
     } else {
-      final model = UndoModel(
+      final model = TextModel(
           currentTyped: initialDetail,
           currentCursorPosition: initialCursorPosition);
 
       currentTyped = null;
       currentCursorPosition = null;
-      _canUndo = false;
 
-      if (_canRedo != true) {
-        _canRedo = true;
+      if (undoStateProvider.canUndo) {
+        undoStateProvider.toggleUndo();
       }
 
-      notifyListeners();
+      if (undoStateProvider.canRedo == false) {
+        undoStateProvider.toggleRedo();
+      }
+
       return model;
     }
   }
 
-  UndoModel popRedoValue() {
-    UndoModel model;
+  TextModel redo() {
+    TextModel model;
     if (_redo.last.currentTyped == currentTyped) {
       _undo.add(_redo.removeLast());
     }
@@ -128,14 +127,12 @@ class UndoRedoProvider with ChangeNotifier {
       _undo.add(model);
     }
 
-    if (_canUndo == false) {
-      _canUndo = true;
-      notifyListeners();
+    if (undoStateProvider.canUndo == false) {
+      undoStateProvider.toggleUndo();
     }
 
-    if (_redo.isEmpty) {
-      _canRedo = false;
-      notifyListeners();
+    if (_redo.isEmpty && undoStateProvider.canRedo) {
+      undoStateProvider.toggleRedo();
     }
 
     return model;
@@ -159,15 +156,17 @@ class UndoRedoProvider with ChangeNotifier {
 
   void clearRedo() {
     _redo.clear();
-    _canRedo = false;
-    notifyListeners();
   }
 
-  bool canUndo() {
-    return _canUndo;
+  bool isUndoEmptyAndCheckLength() {
+    return _undo.isEmpty && _undo.length != 1;
   }
 
-  bool canRedo() {
-    return _canRedo;
+  bool isUndoEmpty() {
+    return _undo.isEmpty;
+  }
+
+  bool isRedoEmpty() {
+    return _redo.isEmpty;
   }
 }

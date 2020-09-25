@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:provider/provider.dart';
 
+import '../business_logic/note/model/undo_model.dart';
 import '../business_logic/note/note_debounce.dart';
 import '../business_logic/note/provider/note_detail_provider.dart';
-import '../business_logic/note/provider/undo_redo_provider.dart';
+import '../business_logic/note/provider/undo_history_provider.dart';
+import '../business_logic/note/provider/undo_state_provider.dart';
 import '../business_logic/note/text_field_logic.dart' as text_field_logic;
 import '../data/deep.dart';
 import '../utility/deep_route_string.dart';
@@ -13,7 +16,6 @@ import 'deep_paper.dart';
 import 'note/detailScreen/note_detail.dart';
 import 'transition/deep_route.dart';
 
-// ignore: public_member_api_docs
 class DeepMaterialApp extends StatelessWidget {
   const DeepMaterialApp();
 
@@ -34,7 +36,7 @@ class DeepMaterialApp extends StatelessWidget {
           switch (settings.name) {
             case DeepRouteString.deepPaper:
               return DeepRoute(
-                builder: (context) => const DeepPaper(),
+                builder: (_) => const DeepPaper(),
                 settings: settings,
               );
             case DeepRouteString.noteCreate:
@@ -43,16 +45,21 @@ class DeepMaterialApp extends StatelessWidget {
               final folderID = folder?.id;
 
               return DeepRoute(
-                maintainState: false,
-                builder: (context) => MultiProvider(
+                builder: (_) => MultiProvider(
                     providers: [
-                      ChangeNotifierProvider(
-                          create: (context) => UndoRedoProvider()),
-                      ChangeNotifierProvider(
-                          create: (context) => NoteDetailProvider()),
-                      Provider(
-                        create: (context) => NoteDetailDebounce(),
-                      )
+                      Provider<NoteDetailDebounce>(
+                        create: (_) => NoteDetailDebounce(),
+                        dispose: (_, debounce) => debounce.cancel(),
+                      ),
+                      StateNotifierProvider<UndoStateProvider, UndoModel>(
+                        create: (_) => UndoStateProvider(),
+                      ),
+                      ProxyProvider<UndoStateProvider, UndoHistoryProvider>(
+                        update: (_, undoStateProvider, __) =>
+                            UndoHistoryProvider(undoStateProvider),
+                      ),
+                      ChangeNotifierProvider<NoteDetailProvider>(
+                          create: (_) => NoteDetailProvider()),
                     ],
                     child: NoteDetail(
                       folderID: folderID,
@@ -69,16 +76,23 @@ class DeepMaterialApp extends StatelessWidget {
               final folderName = note.folderName;
 
               return DeepRoute(
-                  maintainState: false,
-                  builder: (context) => MultiProvider(
+                  builder: (_) =>
+                      MultiProvider(
                           providers: [
-                            ChangeNotifierProvider(
-                                create: (context) => UndoRedoProvider()),
-                            ChangeNotifierProvider(
-                                create: (context) => NoteDetailProvider()),
-                            Provider(
-                              create: (context) => NoteDetailDebounce(),
-                            )
+                            Provider<NoteDetailDebounce>(
+                              create: (_) => NoteDetailDebounce(),
+                              dispose: (_, debounce) => debounce.cancel(),
+                            ),
+                            StateNotifierProvider<UndoStateProvider, UndoModel>(
+                              create: (_) => UndoStateProvider(),
+                            ),
+                            ProxyProvider<UndoStateProvider,
+                                UndoHistoryProvider>(
+                              update: (_, undoStateProvider, __) =>
+                                  UndoHistoryProvider(undoStateProvider),
+                            ),
+                            ChangeNotifierProvider<NoteDetailProvider>(
+                                create: (_) => NoteDetailProvider()),
                           ],
                           child: NoteDetail(
                             note: note,
@@ -90,7 +104,7 @@ class DeepMaterialApp extends StatelessWidget {
               break;
             default:
               return DeepRoute(
-                  builder: (context) => const DeepPaper(), settings: settings);
+                  builder: (_) => const DeepPaper(), settings: settings);
               break;
           }
         },

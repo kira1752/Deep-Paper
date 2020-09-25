@@ -1,77 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../business_logic/note/model/undo_model.dart';
 import '../../../business_logic/note/note_debounce.dart';
 import '../../../business_logic/note/provider/note_detail_provider.dart';
-import '../../../business_logic/note/provider/undo_redo_provider.dart';
+import '../../../business_logic/note/provider/undo_history_provider.dart';
+import '../../../business_logic/note/provider/undo_state_provider.dart';
 import '../../../business_logic/note/undo_redo.dart' as undo_redo;
+import '../../../business_logic/provider/TextControllerValue.dart';
 import '../../app_theme.dart';
 
 class UndoRedo extends StatelessWidget {
-  final TextEditingController detailController;
-
-  const UndoRedo({@required this.detailController});
+  const UndoRedo();
 
   @override
   Widget build(BuildContext context) {
-    final detailProvider =
-        Provider.of<NoteDetailProvider>(context, listen: false);
-    final undoRedoProvider =
-        Provider.of<UndoRedoProvider>(context, listen: false);
+    return context.select((NoteDetailProvider provider) => provider.isTextTyped)
+        ? const UndoRedoButton()
+        : const SizedBox();
+  }
+}
 
-    final debounceProvider =
-        Provider.of<NoteDetailDebounce>(context, listen: false);
+class UndoRedoButton extends StatelessWidget {
+  const UndoRedoButton();
 
-    return Selector<NoteDetailProvider, bool>(
-      selector: (context, detailProvider) => detailProvider.isTextTyped,
-      builder: (context, isTyped, undoRedoButton) =>
-          isTyped ? undoRedoButton : const SizedBox(),
-      child: Row(
-        children: [
-          Selector<UndoRedoProvider, bool>(
-            selector: (context, provider) => provider.canUndo(),
-            builder: (context, canUndo, _) => IconButton(
-              icon: Icon(
-                Icons.undo,
-                color: canUndo
-                    ? Theme.of(context).accentColor.withOpacity(0.80)
-                    : themeColorOpacity(context: context, opacity: .38),
-              ),
-              onPressed: canUndo
-                  ? () {
-                      debounceProvider.cancel();
-                      undo_redo.undo(
-                        detailProvider: detailProvider,
-                        undoRedoProvider: undoRedoProvider,
-                        detailController: detailController,
-                      );
-                    }
-                  : null,
-            ),
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        IconButton(
+          icon: Icon(
+            Icons.undo,
+            color: context.select((UndoModel value) => value.canUndo)
+                ? Theme.of(context).accentColor.withOpacity(0.80)
+                : themeColorOpacity(context: context, opacity: .38),
           ),
-          Selector<UndoRedoProvider, bool>(
-              selector: (context, provider) => provider.canRedo(),
-              builder: (context, canRedo, _) => IconButton(
-                    icon: Icon(
-                      Icons.redo,
-                      color: canRedo
-                          ? Theme.of(context).accentColor.withOpacity(0.80)
-                          : themeColorOpacity(context: context, opacity: .38),
-                    ),
-                    onPressed: canRedo
-                        ? () {
-                      debounceProvider.cancel();
-
-                      undo_redo.redo(
-                        detailProvider: detailProvider,
-                        undoRedoProvider: undoRedoProvider,
-                        detailController: detailController,
-                      );
-                    }
-                        : null,
-                  )),
-        ],
-      ),
+          onPressed: context.select((UndoModel value) => value.canUndo)
+              ? () {
+                  context.read<NoteDetailDebounce>().cancel();
+                  undo_redo.undo(
+                    detailProvider: context.read<NoteDetailProvider>(),
+                    undoStateProvider: context.read<UndoStateProvider>(),
+                    undoHistoryProvider: context.read<UndoHistoryProvider>(),
+                    detailController: context.read<TextControllerValue>().value,
+                  );
+                }
+              : null,
+        ),
+        IconButton(
+          icon: Icon(
+            Icons.redo,
+            color: context.select((UndoModel value) => value.canRedo)
+                ? Theme.of(context).accentColor.withOpacity(0.80)
+                : themeColorOpacity(context: context, opacity: .38),
+          ),
+          onPressed: context.select((UndoModel value) => value.canRedo)
+              ? () {
+                  context.read<NoteDetailDebounce>().cancel();
+                  undo_redo.redo(
+                    detailProvider: context.read<NoteDetailProvider>(),
+                    undoStateProvider: context.read<UndoStateProvider>(),
+                    undoHistoryProvider: context.read<UndoHistoryProvider>(),
+                    detailController: context.read<TextControllerValue>().value,
+                  );
+                }
+              : null,
+        )
+      ],
     );
   }
 }

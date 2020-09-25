@@ -1,15 +1,17 @@
 import 'package:flutter/widgets.dart';
 
 import 'provider/note_detail_provider.dart';
-import 'provider/undo_redo_provider.dart';
+import 'provider/undo_history_provider.dart';
+import 'provider/undo_state_provider.dart';
 import 'text_field_logic.dart' as text_field_logic;
 
 Future<void> undo({
-  @required UndoRedoProvider undoRedoProvider,
+  @required UndoHistoryProvider undoHistoryProvider,
+  @required UndoStateProvider undoStateProvider,
   @required NoteDetailProvider detailProvider,
   @required TextEditingController detailController,
 }) async {
-  final undoModel = undoRedoProvider.popUndoValue();
+  final undoModel = undoHistoryProvider.undo();
 
   detailController.text = undoModel.currentTyped;
   detailController.selection = TextSelection.fromPosition(
@@ -21,19 +23,19 @@ Future<void> undo({
       await text_field_logic.countAllAsync(detailProvider.getDetail);
 }
 
-Future<void> redo(
-    {@required UndoRedoProvider undoRedoProvider,
-    @required NoteDetailProvider detailProvider,
-    @required TextEditingController detailController}) async {
-  final undoModel = undoRedoProvider.popRedoValue();
+Future<void> redo({@required UndoHistoryProvider undoHistoryProvider,
+  @required UndoStateProvider undoStateProvider,
+  @required NoteDetailProvider detailProvider,
+  @required TextEditingController detailController}) async {
+  final undoModel = undoHistoryProvider.redo();
 
   detailController.text = undoModel.currentTyped;
   detailController.selection = TextSelection.fromPosition(
       TextPosition(offset: undoModel.currentCursorPosition));
 
-  if (!undoRedoProvider.canRedo()) {
-    undoRedoProvider.currentTyped = null;
-    undoRedoProvider.currentCursorPosition = null;
+  if (!undoHistoryProvider.isRedoEmpty()) {
+    undoHistoryProvider.currentTyped = null;
+    undoHistoryProvider.currentCursorPosition = null;
   }
 
   detailProvider.setDetail = detailController.text;
