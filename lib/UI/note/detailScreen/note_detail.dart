@@ -1,11 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 
 import '../../../business_logic/note/note_debounce.dart';
-import '../../../business_logic/note/note_detail_initstate.dart';
+import '../../../business_logic/note/note_detail_initstate.dart' as note_detail;
 import '../../../business_logic/note/note_detail_lifecycle.dart' as lifecycle;
 import '../../../business_logic/note/note_detail_normal_save.dart' as save;
 import '../../../business_logic/note/provider/note_detail_provider.dart';
@@ -16,51 +13,53 @@ import '../../../business_logic/provider/TextControllerValue.dart';
 import '../../../business_logic/provider/text_controller_focus_node_value.dart';
 import '../../../data/deep.dart';
 import '../../../icons/my_icon.dart';
-import '../../../utility/deep_hooks.dart';
+import '../../../utility/extension.dart';
 import '../../../utility/size_helper.dart';
 import '../../app_theme.dart';
+import '../../transition/widgets/slide_downward_widget.dart';
 import '../../widgets/deep_keep_alive.dart';
 import '../../widgets/deep_scroll_behavior.dart';
 import '../widgets/bottom_menu.dart';
 import '../widgets/date_character_counts.dart';
 
-class NoteDetail extends HookWidget {
-  final int folderID;
-  final String folderName;
-  final Note note;
-  final Future<String> date;
+class NoteDetail extends StatefulWidget {
+  const NoteDetail();
 
-  const NoteDetail(
-      {@required this.folderID,
-      @required this.folderName,
-      @required this.note,
-      @required this.date});
+  @override
+  _NoteDetailState createState() => _NoteDetailState();
+}
+
+class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
+  TextEditingController detailController;
+  FocusNode detailFocus;
+
+  @override
+  void initState() {
+    super.initState();
+    detailController = TextEditingController();
+    detailFocus = FocusNode();
+
+    note_detail.init(
+      undoHistoryProvider: context.read<UndoHistoryProvider>(),
+      detailProvider: context.read<NoteDetailProvider>(),
+      detailController: detailController,
+      detailFocus: detailFocus,
+    );
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    lifecycle.check(
+        database: context.read<DeepPaperDatabase>(),
+        state: state,
+        detailProvider: context.read<NoteDetailProvider>(),
+        folderID: context.read<NoteDetailProvider>().folderID,
+        folderName: context.read<NoteDetailProvider>().folderName);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final detailController = useTextEditingController();
-    final detailFocus = useFocusNode();
-
-    useEffect(() {
-      init(
-          note: note,
-          undoHistoryProvider: context.read<UndoHistoryProvider>(),
-          detailProvider: context.read<NoteDetailProvider>(),
-          detailController: detailController,
-          detailFocus: detailFocus,
-          folderName: folderName,
-          folderID: folderID);
-      return;
-    }, const []);
-
-    useWidgetsBindingObserver(
-        lifecycle: (state) => lifecycle.check(
-            database: context.read<DeepPaperDatabase>(),
-            state: state,
-            detailProvider: context.read<NoteDetailProvider>(),
-            folderID: context.read<NoteDetailProvider>().folderID,
-            folderName: context.read<NoteDetailProvider>().folderName));
-
     return WillPopScope(
       onWillPop: () async {
         save.run(
@@ -83,20 +82,18 @@ class NoteDetail extends HookWidget {
             leading: IconButton(
               icon: Icon(
                 MyIcon.arrow_left,
-                color: Theme.of(context).accentColor.withOpacity(0.8),
+                color: Theme
+                    .of(context)
+                    .accentColor
+                    .withOpacity(0.8),
               ),
               onPressed: () {
                 Navigator.maybePop(context);
               },
             ),
-            bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(56),
-                child: DateCharacterCounts(
-                  date: date,
-                  detail: context
-                      .read<NoteDetailProvider>()
-                      .getDetail,
-                ))),
+            bottom: const PreferredSize(
+                preferredSize: Size.fromHeight(56),
+                child: DateCharacterCounts())),
         bottomNavigationBar: Provider(
           create: (context) => TextControllerValue(detailController),
           child: const BottomMenu(),
@@ -126,21 +123,10 @@ class NoteDetail extends HookWidget {
                         .length;
               }
             },
-            child: ListView(
-              children: <Widget>[
-                DeepKeepAlive(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(18, 0, 16, 16),
-                    child: Provider(
-                      create: (_) =>
-                          TextControllerFocusNodeValue(
-                              detailController, detailFocus),
-                      child: const _DetailField(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            child: Provider(
+                create: (_) =>
+                    TextControllerFocusNodeValue(detailController, detailFocus),
+                child: const _NoteDetailBody()),
           ),
         ),
       ),
@@ -148,29 +134,59 @@ class NoteDetail extends HookWidget {
   }
 }
 
-class _DetailField extends HookWidget {
-  const _DetailField();
+class _NoteDetailBody extends StatelessWidget {
+  const _NoteDetailBody();
 
   @override
   Widget build(BuildContext context) {
-    useEffect(() {
-      context
-          .read<NoteDetailProvider>()
-          .initialDetailDirection =
-          context
-              .read<NoteDetailProvider>()
-              .getDetail;
-      return;
-    });
+    final body = ListView(
+      children: const <Widget>[
+        DeepKeepAlive(
+          child: _DetailField(),
+        ),
+      ],
+    );
+    return context.select((NoteDetailProvider value) => value.getDetail.isEmpty)
+        ? body
+        : FutureProvider(
+      create: (_) =>
+          Future.delayed(const Duration(milliseconds: 400), () => true),
+      builder: (context, _) {
+        var show = context.watch<bool>();
 
+        return SlideDownwardWidget(
+          child: show.isNotNull
+              ? body
+              : const Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _DetailField extends StatefulWidget {
+  const _DetailField();
+
+  @override
+  __DetailFieldState createState() => __DetailFieldState();
+}
+
+class __DetailFieldState extends State<_DetailField> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return TextField(
-      controller:
-      context
-          .read<TextControllerFocusNodeValue>()
-          .textEditingController,
+      controller: context.select(
+              (TextControllerFocusNodeValue value) =>
+          value.textEditingController),
       focusNode: context
-          .read<TextControllerFocusNodeValue>()
-          .focusNode,
+          .select((TextControllerFocusNodeValue value) => value.focusNode),
       showCursor: true,
       textDirection:
       context.select((NoteDetailProvider value) => value.detailDirection),
@@ -204,9 +220,11 @@ class _DetailField extends HookWidget {
               controller: context
                   .read<TextControllerFocusNodeValue>()
                   .textEditingController),
-      decoration: const InputDecoration.collapsed(
+      decoration: const InputDecoration(
           hintText: 'Write your note here...',
-          hintStyle: TextStyle(fontWeight: FontWeight.w500)),
+          contentPadding: EdgeInsets.fromLTRB(18, 0, 16, 16),
+          hintStyle: TextStyle(fontWeight: FontWeight.w500),
+          border: InputBorder.none),
     );
   }
 }

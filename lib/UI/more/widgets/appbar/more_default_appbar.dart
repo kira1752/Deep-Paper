@@ -12,7 +12,7 @@ class MoreDefaultAppBar extends StatelessWidget {
       automaticallyImplyLeading: false,
       elevation: 0.0,
       title: Text(
-        'MORE',
+        'More',
         style: appBarStyle(context: context),
       ),
     );

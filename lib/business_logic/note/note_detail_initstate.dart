@@ -2,27 +2,22 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
-import '../../data/deep.dart';
-import '../../resource/string_resource.dart';
 import '../../utility/extension.dart';
 import 'provider/note_detail_provider.dart';
 import 'provider/undo_history_provider.dart';
 
-void init(
-    {@required Note note,
-    @required UndoHistoryProvider undoHistoryProvider,
-    @required NoteDetailProvider detailProvider,
-    @required TextEditingController detailController,
-    @required FocusNode detailFocus,
-    @required String folderName,
-    @required int folderID}) {
-  detailProvider.setNote = note;
+void init({
+  @required UndoHistoryProvider undoHistoryProvider,
+  @required NoteDetailProvider detailProvider,
+  @required TextEditingController detailController,
+  @required FocusNode detailFocus,
+}) {
   final detail = (detailProvider.getNote?.detail) ?? '';
   undoHistoryProvider.initialDetail = detail;
+
   detailProvider.setDetail = detail;
+  detailProvider.initialDetailDirection = detail;
   detailProvider.setTempDetail = detail;
-  detailProvider.folderName = folderName ?? StringResource.mainFolder;
-  detailProvider.folderID = folderID ?? 0;
 
   detailController.text = detail;
 

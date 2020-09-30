@@ -17,20 +17,21 @@ Color themeColorOpacity(
 TextStyle appBarStyle({@required BuildContext context}) {
   return Theme.of(context).textTheme.headline5.copyWith(
       color: themeColorOpacity(context: context, opacity: .8),
+      fontWeight: FontWeight.w500,
       fontSize: SizeHelper.getTitle);
 }
 
 TextStyle folderAppBarStyle({@required BuildContext context}) {
   return Theme.of(context).textTheme.bodyText1.copyWith(
       color: themeColorOpacity(context: context, opacity: .7),
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w500,
       fontSize: SizeHelper.getTitle);
 }
 
 TextStyle trashAppBarStyle({@required BuildContext context}) {
   return Theme.of(context).textTheme.bodyText1.copyWith(
       color: themeColorOpacity(context: context, opacity: .7),
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w500,
       fontSize: SizeHelper.getTitle);
 }
 
@@ -41,10 +42,11 @@ TextStyle selectionAppBarStyle({@required BuildContext context}) {
 }
 
 TextStyle menuItemStyle({@required BuildContext context}) {
-  return Theme.of(context).textTheme.bodyText1.copyWith(
-        fontSize: SizeHelper.getBodyText1,
-        color: themeColorOpacity(context: context, opacity: .87),
-      );
+  return TextStyle(
+    fontFamily: 'Ubuntu',
+    fontSize: SizeHelper.getBodyText1,
+    color: themeColorOpacity(context: context, opacity: .87),
+  );
 }
 
 ThemeData dark() {
@@ -95,22 +97,18 @@ ThemeData dark() {
             letterSpacing: 1.2,
             fontWeight: FontWeight.w600,
           ),
-          headline6: TextStyle(
-            fontFamilyFallback: const ['Noto Color Emoji'],
+          headline6: const TextStyle(
+            fontFamilyFallback: ['Noto Color Emoji'],
             wordSpacing: 1.0,
-            color: Colors.white.withOpacity(0.80),
           ),
           bodyText1: const TextStyle(
             fontFamilyFallback: ['Noto Color Emoji'],
-            color: Colors.white70,
           ),
           bodyText2: const TextStyle(
             fontFamilyFallback: ['Noto Color Emoji'],
-            color: Colors.white54,
           ),
           caption: TextStyle(
               fontFamilyFallback: const ['Noto Color Emoji'],
-              color: Colors.white.withOpacity(.80),
               fontWeight: FontWeight.w600,
               fontSize: SizeHelper.getFolder)));
 }

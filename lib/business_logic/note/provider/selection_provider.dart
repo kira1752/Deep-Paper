@@ -1,10 +1,12 @@
+import 'dart:collection';
+
 import 'package:flutter/foundation.dart';
 
 import '../../../data/deep.dart';
 
 class SelectionProvider with ChangeNotifier {
   bool _selection = false;
-  final Map<int, Note> _selected = {};
+  final HashMap<int, Note> _selected = HashMap();
 
   bool get getSelection => _selection;
 

@@ -35,7 +35,6 @@ dependencies:
   fitted_text_field_container:
   weekday_selector:
   flutter_svg:
-  flutter_hooks:
   flutter_state_notifier:
   overlay_support:
   equatable:

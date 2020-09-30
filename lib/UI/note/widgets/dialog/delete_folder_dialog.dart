@@ -92,7 +92,7 @@ class _DeleteFolderDialogState extends State<DeleteFolderDialog> {
                         BorderRadius.only(bottomRight: Radius.circular(12.0))),
                 onPressed: () {
                   final database =
-                  Provider.of<DeepPaperDatabase>(context, listen: false);
+                      Provider.of<DeepPaperDatabase>(context, listen: false);
 
                   folder_creation.delete(
                       database: database, drawerProvider: drawerProvider);

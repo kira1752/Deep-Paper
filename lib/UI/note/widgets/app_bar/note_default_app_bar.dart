@@ -59,22 +59,20 @@ class NoteDefaultAppBar extends StatelessWidget {
       ),
       title: Selector<SelectionProvider, bool>(
         selector: (context, provider) => provider.getSelection,
-        builder: (context, selection, titleAppBar) =>
-        selection
+        builder: (context, selection, titleAppBar) => selection
             ? Selector<SelectionProvider, int>(
-          selector: (context, provider) => provider.getSelected.length,
-          builder: (context, count, _) =>
-              Text(
-                  StringResource.selectionAppBar(count),
-                  style: selectionAppBarStyle(context: context)),
-        )
+                selector: (context, provider) => provider.getSelected.length,
+                builder: (context, count, _) => Text(
+                    StringResource.selectionAppBar(count),
+                    style: selectionAppBarStyle(context: context)),
+              )
             : titleAppBar,
         child: Selector<NoteDrawerProvider, String>(
           selector: (context, noteDrawerProvider) =>
-          noteDrawerProvider.getTitleFragment,
+              noteDrawerProvider.getTitleFragment,
           builder: (context, title, _) {
             final drawerProvider =
-            Provider.of<NoteDrawerProvider>(context, listen: false);
+                Provider.of<NoteDrawerProvider>(context, listen: false);
 
             return Text(StringResource.titleAppBar(title),
                 textDirection: intl.Bidi.detectRtlDirectionality(title)
@@ -83,8 +81,8 @@ class NoteDefaultAppBar extends StatelessWidget {
                 style: title == StringResource.note
                     ? appBarStyle(context: context)
                     : drawerProvider.getFolder.isNotNull
-                    ? folderAppBarStyle(context: context)
-                    : trashAppBarStyle(context: context));
+                        ? folderAppBarStyle(context: context)
+                        : trashAppBarStyle(context: context));
           },
         ),
       ),

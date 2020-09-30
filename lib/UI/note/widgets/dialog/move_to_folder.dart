@@ -277,7 +277,7 @@ class _MoveToFolderDialog extends StatelessWidget {
                         leading: Icon(
                           MyIcon.folder,
                           color:
-                          themeColorOpacity(context: context, opacity: .87),
+                              themeColorOpacity(context: context, opacity: .7),
                         ),
                         title: Text(
                           StringResource.mainFolder,
@@ -287,7 +287,7 @@ class _MoveToFolderDialog extends StatelessWidget {
                               .bodyText1
                               .copyWith(
                               color: themeColorOpacity(
-                                  context: context, opacity: .87),
+                                  context: context, opacity: .7),
                               fontSize: SizeHelper.getModalButton),
                         ),
                       ),
@@ -321,7 +321,7 @@ class _MoveToFolderDialog extends StatelessWidget {
                         leading: Icon(
                           MyIcon.folder,
                           color:
-                          themeColorOpacity(context: context, opacity: .87),
+                          themeColorOpacity(context: context, opacity: .7),
                         ),
                         title: Text(
                           '${folder.name}',

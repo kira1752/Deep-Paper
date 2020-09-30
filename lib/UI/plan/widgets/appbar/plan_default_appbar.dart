@@ -13,7 +13,7 @@ class PlanDefaultAppBar extends StatelessWidget {
       centerTitle: true,
       elevation: 0.0,
       title: Text(
-        'PLAN',
+        'Plan',
         style: Theme.of(context).textTheme.headline5.copyWith(
             color: themeColorOpacity(context: context, opacity: .8),
             fontSize: SizeHelper.getTitle),

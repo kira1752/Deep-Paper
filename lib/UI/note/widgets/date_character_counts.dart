@@ -1,28 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 
 import '../../../business_logic/note/provider/note_detail_provider.dart';
 import '../../../business_logic/note/text_field_logic.dart' as text_field_logic;
 import '../../../utility/extension.dart';
 import '../../app_theme.dart';
+import '../../transition/widgets/slide_right_widget.dart';
 
 class DateCharacterCounts extends StatelessWidget {
-  final Future<String> date;
-  final String detail;
-
-  const DateCharacterCounts({
-    @required this.date,
-    @required this.detail,
-  });
+  const DateCharacterCounts();
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    final widget = Padding(
       padding: const EdgeInsets.only(left: 18.0, bottom: 24.0),
       child: Row(
         children: [
-          _TopDate(date: date),
+          const _TopDate(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
@@ -33,7 +27,8 @@ class DateCharacterCounts extends StatelessWidget {
             ),
           ),
           FutureProvider<int>(
-              create: (context) => text_field_logic.countAllAsync(detail),
+              create: (context) => text_field_logic
+                  .countAllAsync(context.read<NoteDetailProvider>().getDetail),
               builder: (context, widget) {
                 var count = context.watch<int>();
                 return count.isNull
@@ -44,18 +39,33 @@ class DateCharacterCounts extends StatelessWidget {
         ],
       ),
     );
+
+    return context.select((NoteDetailProvider value) => value.getDetail.isEmpty)
+        ? widget
+        : FutureProvider(
+            create: (_) =>
+                Future.delayed(const Duration(milliseconds: 400), () => true),
+            builder: (context, _) {
+              var show = context.watch<bool>();
+
+              return SlideRightWidget(
+                child: show.isNotNull ? widget : const SizedBox(),
+              );
+            },
+          );
   }
 }
 
 class _TopDate extends StatelessWidget {
-  final Future<String> date;
-
-  const _TopDate({@required this.date});
+  const _TopDate();
 
   @override
   Widget build(BuildContext context) {
     return FutureProvider<String>(
-        create: (context) => date,
+        create: (context) =>
+        context
+            .read<NoteDetailProvider>()
+            .date,
         builder: (context, widget) {
           var date = context.watch<String>();
           return date.isNull
@@ -85,20 +95,27 @@ class _TopDate extends StatelessWidget {
   }
 }
 
-class _TopCount extends HookWidget {
+class _TopCount extends StatefulWidget {
   final int initialCount;
 
   const _TopCount({Key key, @required this.initialCount}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    useEffect(() {
-      context
-          .read<NoteDetailProvider>()
-          .setDetailCount = initialCount;
-      return;
-    }, const []);
+  _TopCountState createState() => _TopCountState();
+}
 
+class _TopCountState extends State<_TopCount> {
+  @override
+  void initState() {
+    super.initState();
+
+    context
+        .read<NoteDetailProvider>()
+        .setDetailCount = widget.initialCount;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Text(
       '${context.select((NoteDetailProvider value) =>
       value.getDetailCount)} characters',

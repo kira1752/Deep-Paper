@@ -10,6 +10,7 @@ import '../business_logic/note/provider/undo_history_provider.dart';
 import '../business_logic/note/provider/undo_state_provider.dart';
 import '../business_logic/note/text_field_logic.dart' as text_field_logic;
 import '../data/deep.dart';
+import '../resource/string_resource.dart';
 import '../utility/deep_route_string.dart';
 import 'app_theme.dart' as app_theme;
 import 'deep_paper.dart';
@@ -45,28 +46,27 @@ class DeepMaterialApp extends StatelessWidget {
               final folderID = folder?.id;
 
               return DeepRoute(
-                builder: (_) => MultiProvider(
-                    providers: [
-                      Provider<NoteDetailDebounce>(
-                        create: (_) => NoteDetailDebounce(),
-                        dispose: (_, debounce) => debounce.cancel(),
-                      ),
-                      StateNotifierProvider<UndoStateProvider, UndoModel>(
-                        create: (_) => UndoStateProvider(),
-                      ),
-                      ProxyProvider<UndoStateProvider, UndoHistoryProvider>(
-                        update: (_, undoStateProvider, __) =>
-                            UndoHistoryProvider(undoStateProvider),
-                      ),
-                      ChangeNotifierProvider<NoteDetailProvider>(
-                          create: (_) => NoteDetailProvider()),
-                    ],
-                    child: NoteDetail(
-                      folderID: folderID,
-                      folderName: folderName,
-                      note: null,
-                      date: text_field_logic.loadDateAsync(null),
-                    )),
+                maintainState: false,
+                builder: (_) => MultiProvider(providers: [
+                  Provider<NoteDetailDebounce>(
+                    create: (_) => NoteDetailDebounce(),
+                    dispose: (_, debounce) => debounce.cancel(),
+                  ),
+                  StateNotifierProvider<UndoStateProvider, UndoModel>(
+                    create: (_) => UndoStateProvider(),
+                  ),
+                  ProxyProvider<UndoStateProvider, UndoHistoryProvider>(
+                    update: (_, undoStateProvider, __) =>
+                        UndoHistoryProvider(undoStateProvider),
+                  ),
+                  ChangeNotifierProvider<NoteDetailProvider>(
+                      create: (_) => NoteDetailProvider(
+                            note: null,
+                            folderID: folderID ?? 0,
+                            folderName: folderName ?? StringResource.mainFolder,
+                            date: text_field_logic.loadDateAsync(null),
+                          )),
+                ], child: const NoteDetail()),
                 settings: settings,
               );
               break;
@@ -76,30 +76,30 @@ class DeepMaterialApp extends StatelessWidget {
               final folderName = note.folderName;
 
               return DeepRoute(
+                  maintainState: false,
                   builder: (_) =>
-                      MultiProvider(
-                          providers: [
-                            Provider<NoteDetailDebounce>(
-                              create: (_) => NoteDetailDebounce(),
-                              dispose: (_, debounce) => debounce.cancel(),
-                            ),
-                            StateNotifierProvider<UndoStateProvider, UndoModel>(
-                              create: (_) => UndoStateProvider(),
-                            ),
-                            ProxyProvider<UndoStateProvider,
-                                UndoHistoryProvider>(
-                              update: (_, undoStateProvider, __) =>
-                                  UndoHistoryProvider(undoStateProvider),
-                            ),
-                            ChangeNotifierProvider<NoteDetailProvider>(
-                                create: (_) => NoteDetailProvider()),
-                          ],
-                          child: NoteDetail(
-                            note: note,
-                            folderID: folderID,
-                            folderName: folderName,
-                            date: text_field_logic.loadDateAsync(note.modified),
-                          )),
+                      MultiProvider(providers: [
+                        Provider<NoteDetailDebounce>(
+                          create: (_) => NoteDetailDebounce(),
+                          dispose: (_, debounce) => debounce.cancel(),
+                        ),
+                        StateNotifierProvider<UndoStateProvider, UndoModel>(
+                          create: (_) => UndoStateProvider(),
+                        ),
+                        ProxyProvider<UndoStateProvider, UndoHistoryProvider>(
+                          update: (_, undoStateProvider, __) =>
+                              UndoHistoryProvider(undoStateProvider),
+                        ),
+                        ChangeNotifierProvider<NoteDetailProvider>(
+                            create: (_) =>
+                                NoteDetailProvider(
+                                  note: note,
+                                  folderID: folderID,
+                                  folderName: folderName,
+                                  date: text_field_logic
+                                      .loadDateAsync(note.modified),
+                                )),
+                      ], child: const NoteDetail()),
                   settings: settings);
               break;
             default:

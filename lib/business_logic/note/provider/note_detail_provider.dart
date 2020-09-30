@@ -6,57 +6,74 @@ import 'package:intl/intl.dart' as intl;
 import '../../../data/deep.dart';
 
 class NoteDetailProvider with ChangeNotifier {
-  bool _isTextTyped = false;
+  NoteDetailProvider(
+      {@required Note note,
+      @required int folderID,
+      @required String folderName,
+      @required Future<String> date})
+      : _note = note,
+        _folderID = folderID,
+        _folderName = folderName,
+        _date = date;
+
   TextDirection _detailDirection;
   bool _isCopy = false;
   bool _isDeleted = false;
-  int _detailCount;
-  int _tempNoteID;
+  bool _isTextTyped = false;
+  Future<String> _date;
   String _detail = '';
   String _tempDetail = '';
   String _folderName;
+  int _tempNoteID;
   int _folderID;
+  int _detailCount;
   Note _note;
 
-  bool get isTextTyped => _isTextTyped;
+  int get folderID => _folderID;
 
-  TextDirection get detailDirection => _detailDirection;
+  int get getTempNoteID => _tempNoteID;
+
+  int get getDetailCount => _detailCount;
+
+  bool get isTextTyped => _isTextTyped;
 
   bool get getIsCopy => _isCopy;
 
   bool get getIsDeleted => _isDeleted;
 
+  TextDirection get detailDirection => _detailDirection;
+
   String get folderName => _folderName;
 
-  int get folderID => _folderID;
+  Future<String> get date => _date;
 
   /// Use this to get the latest value of [DetailField]
   String get getDetail => _detail;
 
-  /// Use this to get the temporary value of [DetailField]
-  /// This getter usually return the older value of [DetailField]
+  /// Use this to get the temporary value of [getDetail]
+  /// This getter usually return the older value of [getDetail].
   ///
-  /// This usually used to compare the old value of [DetailField]
-  /// with newer value of [getDetail] getter
+  /// This usually used to compare the old value of [getDetail]
+  /// with newer value of [getDetail] getter.
   ///
-  /// This getter used heavily to determine the auto save mechanism
+  /// This getter used heavily in [NoteDetail] lifecycle state.
   String get getTempDetail => _tempDetail;
 
-  int get getDetailCount => _detailCount;
-
   Note get getNote => _note;
-
-  int get getTempNoteID => _tempNoteID;
 
   /// Use this setter to update the value returned by [getDetail]
   set setDetail(String value) => _detail = value;
 
-  /// Use this setter to update the value returned by [getTempDetail]
+  /// This setter is used to store [getDetail] value
+  /// that later used to compare the new value of [getDetail]
+  /// when saving note data in [AppLifecycleState]
   set setTempDetail(String value) => _tempDetail = value;
 
   set setDetailCount(int value) => _detailCount = value;
 
   set folderName(String name) => _folderName = name;
+
+  set date(Future<String> value) => _date = value;
 
   set folderID(int id) => _folderID = id;
 

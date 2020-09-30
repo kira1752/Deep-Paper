@@ -2,7 +2,7 @@ class StringResource {
   StringResource._();
 
   // NOTE
-  static const note = 'NOTE';
+  static const note = 'Note';
   static const delete = 'Delete';
   static const moveTo = 'Move to';
   static const restore = 'Restore';

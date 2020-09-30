@@ -297,17 +297,18 @@ class NotesCompanion extends UpdateCompanion<Note> {
     });
   }
 
-  NotesCompanion copyWith({Value<int> id,
-    Value<int> folderID,
-    Value<String> folderName,
-    Value<TextDirection> folderNameDirection,
-    Value<String> detail,
-    Value<TextDirection> detailDirection,
-    Value<bool> isDeleted,
-    Value<bool> containAudio,
-    Value<bool> containImage,
-    Value<DateTime> modified,
-    Value<DateTime> created}) {
+  NotesCompanion copyWith(
+      {Value<int> id,
+      Value<int> folderID,
+      Value<String> folderName,
+      Value<TextDirection> folderNameDirection,
+      Value<String> detail,
+      Value<TextDirection> detailDirection,
+      Value<bool> isDeleted,
+      Value<bool> containAudio,
+      Value<bool> containImage,
+      Value<DateTime> modified,
+      Value<DateTime> created}) {
     return NotesCompanion(
       id: id ?? this.id,
       folderID: folderID ?? this.folderID,

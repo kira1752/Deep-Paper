@@ -12,7 +12,7 @@ class FinanceDefaultAppBar extends StatelessWidget {
       automaticallyImplyLeading: false,
       elevation: 0.0,
       title: Text(
-        'FINANCE',
+        'Finance',
         style: appBarStyle(context: context),
       ),
     );
