@@ -62,6 +62,9 @@ class __TrashIsExistState extends State<_TrashIsExist> {
           return NoteCard(
             key: ValueKey<int>(index),
             index: index,
+            content: NoteCardContent(
+              note: widget.data[index],
+            ),
             note: widget.data[index],
             onTap: () {
               note_dialog.openRestoreDialog(

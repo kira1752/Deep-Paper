@@ -10,43 +10,37 @@ import '../../../icons/my_icon.dart';
 import '../../../utility/size_helper.dart';
 import '../../app_theme.dart';
 
-class NoteCard extends StatefulWidget {
+class NoteCard extends StatelessWidget {
   final int index;
+  final Widget content;
   final Note note;
   final void Function() onTap;
 
   NoteCard(
       {Key key,
       @required this.index,
+      @required this.content,
       @required this.note,
       @required this.onTap})
       : super(key: key);
 
   @override
-  _NoteCardState createState() => _NoteCardState();
-}
-
-class _NoteCardState extends State<NoteCard> {
-  Widget content;
-
-  @override
-  void initState() {
-    super.initState();
-
-    content = _NoteContent(note: widget.note);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final noteSelected = context.select((SelectionProvider value) =>
-        value.getSelected.containsKey(widget.index));
+    final noteSelected = context.select(
+            (SelectionProvider value) => value.getSelected.containsKey(index));
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Material(
         color: noteSelected
-            ? Theme.of(context).accentColor.withOpacity(0.12)
-            : Theme.of(context).cardColor.withOpacity(.87),
+            ? Theme
+            .of(context)
+            .accentColor
+            .withOpacity(0.12)
+            : Theme
+            .of(context)
+            .cardColor
+            .withOpacity(.87),
         animationDuration: const Duration(milliseconds: 300),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
@@ -62,21 +56,24 @@ class _NoteCardState extends State<NoteCard> {
               final readNoteSelected = context
                   .read<SelectionProvider>()
                   .getSelected
-                  .containsKey(widget.index);
+                  .containsKey(index);
 
               if (!readNoteSelected &&
-                  context.read<SelectionProvider>().getSelection) {
+                  context
+                      .read<SelectionProvider>()
+                      .getSelection) {
                 final selectionProvider = context.read<SelectionProvider>();
 
-                selectionProvider.setSelected(
-                    key: widget.index, note: widget.note);
+                selectionProvider.setSelected(key: index, note: note);
               } else if (readNoteSelected &&
-                  context.read<SelectionProvider>().getSelection) {
+                  context
+                      .read<SelectionProvider>()
+                      .getSelection) {
                 final selectionProvider = context.read<SelectionProvider>();
                 final deepBottomProvider = context.read<DeepBottomProvider>();
                 final fabProvider = context.read<FABProvider>();
 
-                selectionProvider.remove(key: widget.index);
+                selectionProvider.remove(key: index);
 
                 if (selectionProvider.getSelected.isEmpty) {
                   deepBottomProvider.setSelection = false;
@@ -84,21 +81,22 @@ class _NoteCardState extends State<NoteCard> {
                   fabProvider.setScrollDown = false;
                 }
               } else {
-                widget.onTap();
+                onTap();
               }
             },
             onLongPress: () {
               final readNoteSelected = context
                   .read<SelectionProvider>()
                   .getSelected
-                  .containsKey(widget.index);
+                  .containsKey(index);
 
-              if (!context.read<SelectionProvider>().getSelection) {
+              if (!context
+                  .read<SelectionProvider>()
+                  .getSelection) {
                 final selectionProvider = context.read<SelectionProvider>();
                 final deepBottomProvider = context.read<DeepBottomProvider>();
 
-                selectionProvider.setSelected(
-                    key: widget.index, note: widget.note);
+                selectionProvider.setSelected(key: index, note: note);
 
                 deepBottomProvider.setSelection = true;
 
@@ -107,15 +105,14 @@ class _NoteCardState extends State<NoteCard> {
                   context.read<SelectionProvider>().getSelection) {
                 final selectionProvider = context.read<SelectionProvider>();
 
-                selectionProvider.setSelected(
-                    key: widget.index, note: widget.note);
+                selectionProvider.setSelected(key: index, note: note);
               } else if (readNoteSelected &&
                   context.read<SelectionProvider>().getSelection) {
                 final selectionProvider = context.read<SelectionProvider>();
                 final deepBottomProvider = context.read<DeepBottomProvider>();
                 final fabProvider = context.read<FABProvider>();
 
-                selectionProvider.remove(key: widget.index);
+                selectionProvider.remove(key: index);
 
                 if (selectionProvider.getSelected.isEmpty) {
                   deepBottomProvider.setSelection = false;
@@ -130,16 +127,16 @@ class _NoteCardState extends State<NoteCard> {
   }
 }
 
-class _NoteContent extends StatefulWidget {
+class NoteCardContent extends StatefulWidget {
   final Note note;
 
-  const _NoteContent({@required this.note});
+  const NoteCardContent({@required this.note});
 
   @override
-  _NoteContentState createState() => _NoteContentState();
+  _NoteCardContentState createState() => _NoteCardContentState();
 }
 
-class _NoteContentState extends State<_NoteContent>
+class _NoteCardContentState extends State<NoteCardContent>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {

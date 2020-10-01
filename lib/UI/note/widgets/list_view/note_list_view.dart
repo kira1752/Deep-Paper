@@ -36,6 +36,9 @@ class NoteListView extends StatelessWidget {
                             return NoteCard(
                               key: ValueKey<int>(index),
                               index: index,
+                              content: NoteCardContent(
+                                note: data[index],
+                              ),
                               note: data[index],
                               onTap: () {
                                 Navigator.pushNamed(
