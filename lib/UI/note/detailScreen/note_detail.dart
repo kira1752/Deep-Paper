@@ -82,10 +82,7 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
             leading: IconButton(
               icon: Icon(
                 MyIcon.arrow_left,
-                color: Theme
-                    .of(context)
-                    .accentColor
-                    .withOpacity(0.8),
+                color: Theme.of(context).accentColor.withOpacity(0.8),
               ),
               onPressed: () {
                 Navigator.maybePop(context);
@@ -140,13 +137,14 @@ class _NoteDetailBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final body = ListView(
+      physics: const BouncingScrollPhysics(),
       children: const <Widget>[
         DeepKeepAlive(
           child: _DetailField(),
         ),
       ],
     );
-    return context.select((NoteDetailProvider value) => value.getDetail.isEmpty)
+    return context.select((NoteDetailProvider value) => value.getNote.isNull)
         ? body
         : FutureProvider(
       create: (_) =>
@@ -166,18 +164,8 @@ class _NoteDetailBody extends StatelessWidget {
   }
 }
 
-class _DetailField extends StatefulWidget {
+class _DetailField extends StatelessWidget {
   const _DetailField();
-
-  @override
-  __DetailFieldState createState() => __DetailFieldState();
-}
-
-class __DetailFieldState extends State<_DetailField> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

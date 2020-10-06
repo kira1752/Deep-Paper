@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-class DeepBottomProvider with ChangeNotifier {
+class BottomNavBarProvider with ChangeNotifier {
   int _currentIndex = 0;
   final PageController _controller = PageController(keepPage: false);
   bool _selection = false;

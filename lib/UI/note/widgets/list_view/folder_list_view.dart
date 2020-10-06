@@ -19,40 +19,39 @@ class FolderListView extends StatelessWidget {
     final fabProvider = Provider.of<FABProvider>(context, listen: false);
 
     return StreamProvider<List<Note>>(
-      create: (context) => database.noteDao.watchNoteInsideFolder(folder),
-      child: Consumer<List<Note>>(
-          child: const EmptyNoteIllustration(),
-          builder: (context, data, illustration) {
-            return AnimatedSwitcher(
-              duration: const Duration(milliseconds: 450),
-              child: data.isNull
-                  ? const SizedBox()
-                  : data.isEmpty
-                      ? illustration
-                      : ListView.builder(
-                          physics: const ClampingScrollPhysics(),
-                          cacheExtent: 100,
-                          semanticChildCount: data.length,
-                          itemCount: data.length,
-                          itemBuilder: (context, index) {
-                            return NoteCard(
-                              key: ValueKey<int>(index),
-                              index: index,
-                              content: NoteCardContent(
-                                note: data[index],
-                              ),
-                              note: data[index],
-                              onTap: () {
-                                Navigator.pushNamed(
-                                        context, DeepRouteString.noteDetail,
-                                        arguments: data[index])
-                                    .then((value) =>
-                                        fabProvider.setScrollDown = false);
-                              },
-                            );
-                          }),
-            );
-          }),
-    );
+        create: (context) => database.noteDao.watchNoteInsideFolder(folder),
+        builder: (context, _) {
+          final listNote = context.watch<List<Note>>();
+
+          return AnimatedSwitcher(
+            duration: const Duration(milliseconds: 450),
+            child: listNote.isNull
+                ? const SizedBox()
+                : listNote.isEmpty
+                    ? const EmptyNoteIllustration()
+                    : ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        cacheExtent: 100,
+                        semanticChildCount: listNote.length,
+                        itemCount: listNote.length,
+                        itemBuilder: (context, index) {
+                          return NoteCard(
+                            key: ValueKey<int>(index),
+                            index: index,
+                            content: NoteCardContent(
+                              note: listNote[index],
+                            ),
+                            note: listNote[index],
+                            onTap: () {
+                              Navigator.pushNamed(
+                                      context, DeepRouteString.noteDetail,
+                                      arguments: listNote[index])
+                                  .then((value) =>
+                                      fabProvider.setScrollDown = false);
+                            },
+                          );
+                        }),
+          );
+        });
   }
 }

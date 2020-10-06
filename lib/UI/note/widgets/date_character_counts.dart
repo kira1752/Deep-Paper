@@ -40,7 +40,7 @@ class DateCharacterCounts extends StatelessWidget {
       ),
     );
 
-    return context.select((NoteDetailProvider value) => value.getDetail.isEmpty)
+    return context.select((NoteDetailProvider value) => value.getNote.isNull)
         ? widget
         : FutureProvider(
             create: (_) =>

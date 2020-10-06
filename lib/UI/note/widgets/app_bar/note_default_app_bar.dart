@@ -10,12 +10,14 @@ import '../../../../resource/icon_resource.dart';
 import '../../../../resource/string_resource.dart';
 import '../../../../utility/extension.dart';
 import '../../../app_theme.dart';
-import '../menu_app_bar/menu.dart';
-import '../menu_app_bar/selection_menu.dart';
+import '../menu.dart';
 import '../search_note_button.dart';
 
-class NoteDefaultAppBar extends StatelessWidget {
+class NoteDefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   const NoteDefaultAppBar();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +25,7 @@ class NoteDefaultAppBar extends StatelessWidget {
       elevation: 0.0,
       centerTitle: true,
       automaticallyImplyLeading: false,
-      actions: <Widget>[
-        const SearchNoteButton(),
-        Selector<SelectionProvider, bool>(
-            selector: (context, provider) => provider.getSelection,
-            child: const Menu(),
-            builder: (context, selection, menu) =>
-                selection ? const SelectionMenu() : menu),
-      ],
+      actions: const <Widget>[SearchNoteButton(), Menu()],
       leading: Selector<SelectionProvider, bool>(
         selector: (context, provider) => provider.getSelection,
         builder: (context, selection, noteMenu) => selection
@@ -38,7 +33,7 @@ class NoteDefaultAppBar extends StatelessWidget {
                 icon: close(context: context),
                 onPressed: () {
                   final deepBottomProvider =
-                      Provider.of<DeepBottomProvider>(context, listen: false);
+                      Provider.of<BottomNavBarProvider>(context, listen: false);
                   final selectionProvider =
                       Provider.of<SelectionProvider>(context, listen: false);
                   final fabProvider =

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -24,5 +25,6 @@ Future<void> main() async {
       ExactAssetPicture(SvgPicture.svgStringDecoder, Illustration.getFinance),
       null);
 
+  GestureBinding.instance.resamplingEnabled = true;
   runApp(const OverlaySupport(child: DeepMaterialApp()));
 }

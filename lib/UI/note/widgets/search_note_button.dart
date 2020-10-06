@@ -11,16 +11,23 @@ class SearchNoteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Selector2<NoteDrawerProvider, SelectionProvider, bool>(
-      selector: (context, drawerProvider, selectionProvider) =>
-          drawerProvider.getIndexDrawerItem != 1 &&
-          !selectionProvider.getSelection,
-      builder: (context, showSearch, searchButton) =>
-          Visibility(visible: showSearch, child: searchButton),
-      child: IconButton(
-          tooltip: StringResource.tooltipSearch,
-          icon: search(context: context),
-          onPressed: () {}),
-    );
+    final showSearch =
+        context.select((SelectionProvider value) => !value.getSelection) &&
+            context.select(
+                (NoteDrawerProvider value) => value.getIndexDrawerItem != 1);
+
+    return Visibility(visible: showSearch, child: const _SearchNoteButton());
+  }
+}
+
+class _SearchNoteButton extends StatelessWidget {
+  const _SearchNoteButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        tooltip: StringResource.tooltipSearch,
+        icon: search(context: context),
+        onPressed: () {});
   }
 }

@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import '../../../../utility/size_helper.dart';
 import '../../../app_theme.dart';
 
-class PlanDefaultAppBar extends StatelessWidget {
+class PlanDefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   const PlanDefaultAppBar();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {

@@ -8,6 +8,7 @@ class SizeConfig {
   static double _blockHeight = 0;
 
   static Orientation orientation;
+  static EdgeInsets safeArea;
   static double textMultiplier;
   static double imageSizeMultiplier;
   static double heightMultiplier;
@@ -16,6 +17,7 @@ class SizeConfig {
   static bool isMobilePortrait = false;
 
   void init(BuildContext context) {
+    safeArea = MediaQuery.of(context).padding;
     orientation = MediaQuery.of(context).orientation;
 
     if (orientation == Orientation.portrait) {

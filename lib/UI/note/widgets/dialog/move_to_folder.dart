@@ -14,7 +14,6 @@ import '../../../../utility/size_helper.dart';
 import '../../../app_theme.dart';
 import '../../../widgets/deep_expand_base_dialog.dart';
 import '../../../widgets/deep_scroll_behavior.dart';
-import '../../../widgets/deep_scrollbar.dart';
 import '../../../widgets/deep_snack_bar.dart';
 import 'note_dialog.dart' as note_dialog;
 
@@ -23,7 +22,7 @@ Future openMoveToDialog(
     @required FolderNoteData currentFolder,
     @required int drawerIndex,
     @required SelectionProvider selectionProvider,
-    @required DeepBottomProvider deepBottomProvider,
+    @required BottomNavBarProvider deepBottomProvider,
     @required FABProvider fabProvider,
     @required DeepPaperDatabase database}) {
   final defaultItemValue = currentFolder.isNotNull || drawerIndex == 0 ? 2 : 1;
@@ -58,17 +57,16 @@ class _MoveToFolderDialog extends StatelessWidget {
   final FolderNoteData currentFolder;
   final int drawerIndex;
   final SelectionProvider selectionProvider;
-  final DeepBottomProvider deepBottomProvider;
+  final BottomNavBarProvider deepBottomProvider;
   final FABProvider fabProvider;
   final DeepPaperDatabase database;
 
-  const _MoveToFolderDialog(
-      {@required this.defaultItemValue,
-      @required this.folderList,
-      @required this.currentFolder,
-      @required this.drawerIndex,
-      @required this.selectionProvider,
-      @required this.deepBottomProvider,
+  const _MoveToFolderDialog({@required this.defaultItemValue,
+    @required this.folderList,
+    @required this.currentFolder,
+    @required this.drawerIndex,
+    @required this.selectionProvider,
+    @required this.deepBottomProvider,
       @required this.fabProvider,
       @required this.database});
 
@@ -114,7 +112,7 @@ class _MoveToFolderDialog extends StatelessWidget {
               )),
         ),
       ],
-      optionalWidget: DeepScrollbar(
+      optionalWidget: Scrollbar(
         child: ScrollConfiguration(
           behavior: const DeepScrollBehavior(),
           child: ListView.builder(

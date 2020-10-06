@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../utility/size_helper.dart';
+import '../../../utility/sizeconfig.dart';
 import '../../app_theme.dart';
 import '../../widgets/deep_scroll_behavior.dart';
 import 'date_field.dart';
@@ -10,17 +11,15 @@ import 'set_a_reminder.dart';
 import 'time_field.dart';
 
 class CreatePlanPage extends StatelessWidget {
-  final BuildContext mainContext;
-
-  const CreatePlanPage({@required this.mainContext});
+  const CreatePlanPage();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(
-              top: MediaQuery.of(mainContext).padding.top + 40, bottom: 8.0),
+          margin:
+              EdgeInsets.only(top: SizeConfig.safeArea.top + 40, bottom: 8.0),
           color: Theme.of(context).canvasColor,
           child: Container(
             height: 8,

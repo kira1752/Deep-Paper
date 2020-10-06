@@ -14,7 +14,7 @@ import 'trash_management.dart' as trash_management;
 void menuTrashSelected(
     {@required BuildContext context,
     @required DeepPaperDatabase database,
-    @required DeepBottomProvider deepBottomProvider,
+    @required BottomNavBarProvider deepBottomProvider,
     @required SelectionProvider selectionProvider,
     @required FABProvider fabProvider,
     @required int choice}) {
@@ -56,14 +56,13 @@ void menuTrashSelected(
   }
 }
 
-Future<void> menuSelectionSelected(
-    {@required BuildContext context,
-    @required int choice,
-    @required DeepPaperDatabase database,
-    @required DeepBottomProvider deepBottomProvider,
-    @required SelectionProvider selectionProvider,
-    @required FABProvider fabProvider,
-    @required NoteDrawerProvider drawerProvider}) async {
+Future<void> menuSelectionSelected({@required BuildContext context,
+  @required int choice,
+  @required DeepPaperDatabase database,
+  @required BottomNavBarProvider deepBottomProvider,
+  @required SelectionProvider selectionProvider,
+  @required FABProvider fabProvider,
+  @required NoteDrawerProvider drawerProvider}) async {
   switch (choice) {
     case 0:
       await note_creation.moveToTrashBatch(

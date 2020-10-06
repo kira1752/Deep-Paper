@@ -14,7 +14,7 @@ class DrawerFolderItem extends StatelessWidget {
   final IconData icon;
   final IconData activeIcon;
   final int index;
-  final int total;
+  final Widget total;
 
   const DrawerFolderItem(
       {Key key,
@@ -27,86 +27,79 @@ class DrawerFolderItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final drawerProvider =
-        Provider.of<NoteDrawerProvider>(context, listen: false);
-
+    final selected = context.select(
+            (NoteDrawerProvider value) => value.getIndexFolderItem == index);
     final folderName = (folder?.name) ?? StringResource.mainFolder;
     final nameDirection = folder.isNotNull
         ? folder.nameDirection
         : (intl.Bidi.detectRtlDirectionality(folderName)
-            ? TextDirection.rtl
-            : TextDirection.ltr);
+        ? TextDirection.rtl
+        : TextDirection.ltr);
 
     return Padding(
+      key: ValueKey<int>(index),
       padding: const EdgeInsets.only(right: 12.0),
-      child: Selector<NoteDrawerProvider, bool>(
-        key: ValueKey<int>(index),
-        selector: (context, drawerProvider) =>
-            drawerProvider.getIndexFolderItem == index,
-        builder: (context, selected, countNotes) => Material(
-          color: selected
-              ? Theme.of(context).accentColor.withOpacity(0.3)
-              : Colors.transparent,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(50),
-                  bottomRight: Radius.circular(50))),
-          child: ListTile(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(50),
-                      bottomRight: Radius.circular(50))),
-              onTap: () {
-                Navigator.pop(context);
-                if (!selected && drawerProvider.getIndexDrawerItem != null) {
-                  drawerProvider.setFolderState = true;
-                  drawerProvider.setIndexFolderItem = index;
-                  drawerProvider.setIndexDrawerItem = null;
-                  drawerProvider.setFolder = folder;
-                  drawerProvider.setTitleFragment = '$folderName';
-                } else if (!selected) {
-                  drawerProvider.setIndexFolderItem = index;
-                  drawerProvider.setTitleFragment = '$folderName';
-                  drawerProvider.setFolder = folder;
-                }
-              },
-              leading: selected
-                  ? Icon(activeIcon, color: Theme.of(context).accentColor)
-                  : Icon(
-                      icon,
-                      color: themeColorOpacity(context: context, opacity: .54),
-                    ),
-              trailing: total == null ? const SizedBox() : countNotes,
-              title: Text(
-                '$folderName',
-                textDirection: nameDirection,
-                style: selected
-                    ? Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(
-                    color: Colors.white.withOpacity(0.87),
-                    fontSize: SizeHelper.getDrawerMenuText)
-                    : Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(
-                    color: themeColorOpacity(context: context, opacity: .7),
-                    fontSize: SizeHelper.getDrawerMenuText),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              )),
-        ),
-        child: Padding(
-            padding: const EdgeInsets.only(right: 16.0, left: 16.0),
-            child: Text(
-              '$total',
-              style: TextStyle(
-                  color: themeColorOpacity(context: context, opacity: .54),
-                  fontSize: SizeHelper.getBodyText1,
-                  fontWeight: FontWeight.w600),
+      child: Material(
+        color: selected
+            ? Theme
+            .of(context)
+            .accentColor
+            .withOpacity(0.3)
+            : Colors.transparent,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(50),
+                bottomRight: Radius.circular(50))),
+        child: ListTile(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(50),
+                    bottomRight: Radius.circular(50))),
+            onTap: () {
+              Navigator.pop(context);
+              final drawerProvider = context.read<NoteDrawerProvider>();
+
+              if (!selected && drawerProvider.getIndexDrawerItem != null) {
+                drawerProvider.setFolderState = true;
+                drawerProvider.setIndexFolderItem = index;
+                drawerProvider.setIndexDrawerItem = null;
+                drawerProvider.setFolder = folder;
+                drawerProvider.setTitleFragment = '$folderName';
+              } else if (!selected) {
+                drawerProvider.setIndexFolderItem = index;
+                drawerProvider.setTitleFragment = '$folderName';
+                drawerProvider.setFolder = folder;
+              }
+            },
+            leading: selected
+                ? Icon(activeIcon, color: Theme
+                .of(context)
+                .accentColor)
+                : Icon(
+              icon,
+              color: themeColorOpacity(context: context, opacity: .54),
+            ),
+            trailing: total,
+            title: Text(
+              '$folderName',
+              textDirection: nameDirection,
+              style: selected
+                  ? Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(
+                  color: Colors.white.withOpacity(0.87),
+                  fontSize: SizeHelper.getDrawerMenuText)
+                  : Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(
+                  color: themeColorOpacity(context: context, opacity: .7),
+                  fontSize: SizeHelper.getDrawerMenuText),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             )),
       ),
     );

@@ -41,13 +41,14 @@ Future<void> openCreateFolderDialog({@required BuildContext context}) {
   );
 }
 
-Future<void> openCreateFolderMoveToDialog({@required BuildContext context,
-  @required FolderNoteData currentFolder,
-  @required int drawerIndex,
-  @required SelectionProvider selectionProvider,
-  @required DeepBottomProvider deepBottomProvider,
-  @required FABProvider fabProvider,
-  @required DeepPaperDatabase database}) {
+Future<void> openCreateFolderMoveToDialog(
+    {@required BuildContext context,
+    @required FolderNoteData currentFolder,
+    @required int drawerIndex,
+    @required SelectionProvider selectionProvider,
+    @required BottomNavBarProvider deepBottomProvider,
+    @required FABProvider fabProvider,
+    @required DeepPaperDatabase database}) {
   return showDialog(
     context: context,
     builder: (context) =>

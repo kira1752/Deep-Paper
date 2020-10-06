@@ -27,30 +27,24 @@ class NoteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final noteSelected = context.select(
-            (SelectionProvider value) => value.getSelected.containsKey(index));
+        (SelectionProvider value) => value.getSelected.containsKey(index));
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Material(
         color: noteSelected
-            ? Theme
-            .of(context)
-            .accentColor
-            .withOpacity(0.12)
-            : Theme
-            .of(context)
-            .cardColor
-            .withOpacity(.87),
+            ? Theme.of(context).accentColor.withOpacity(0.12)
+            : Theme.of(context).cardColor.withOpacity(.87),
         animationDuration: const Duration(milliseconds: 300),
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.circular(24.0),
             side: noteSelected
                 ? BorderSide(
                     color: Theme.of(context).accentColor.withOpacity(0.54),
                     width: 3.0)
                 : BorderSide.none),
         child: InkWell(
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.circular(24.0),
             splashColor: Theme.of(context).accentColor.withOpacity(.16),
             onTap: () {
               final readNoteSelected = context
@@ -59,18 +53,14 @@ class NoteCard extends StatelessWidget {
                   .containsKey(index);
 
               if (!readNoteSelected &&
-                  context
-                      .read<SelectionProvider>()
-                      .getSelection) {
+                  context.read<SelectionProvider>().getSelection) {
                 final selectionProvider = context.read<SelectionProvider>();
 
                 selectionProvider.setSelected(key: index, note: note);
               } else if (readNoteSelected &&
-                  context
-                      .read<SelectionProvider>()
-                      .getSelection) {
+                  context.read<SelectionProvider>().getSelection) {
                 final selectionProvider = context.read<SelectionProvider>();
-                final deepBottomProvider = context.read<DeepBottomProvider>();
+                final deepBottomProvider = context.read<BottomNavBarProvider>();
                 final fabProvider = context.read<FABProvider>();
 
                 selectionProvider.remove(key: index);
@@ -94,7 +84,7 @@ class NoteCard extends StatelessWidget {
                   .read<SelectionProvider>()
                   .getSelection) {
                 final selectionProvider = context.read<SelectionProvider>();
-                final deepBottomProvider = context.read<DeepBottomProvider>();
+                final deepBottomProvider = context.read<BottomNavBarProvider>();
 
                 selectionProvider.setSelected(key: index, note: note);
 
@@ -102,14 +92,16 @@ class NoteCard extends StatelessWidget {
 
                 selectionProvider.setSelection = true;
               } else if (!readNoteSelected &&
-                  context.read<SelectionProvider>().getSelection) {
+                  context
+                      .read<SelectionProvider>()
+                      .getSelection) {
                 final selectionProvider = context.read<SelectionProvider>();
 
                 selectionProvider.setSelected(key: index, note: note);
               } else if (readNoteSelected &&
                   context.read<SelectionProvider>().getSelection) {
                 final selectionProvider = context.read<SelectionProvider>();
-                final deepBottomProvider = context.read<DeepBottomProvider>();
+                final deepBottomProvider = context.read<BottomNavBarProvider>();
                 final fabProvider = context.read<FABProvider>();
 
                 selectionProvider.remove(key: index);

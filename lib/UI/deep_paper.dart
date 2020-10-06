@@ -7,6 +7,7 @@ import '../business_logic/note/provider/note_drawer_provider.dart';
 import '../business_logic/note/provider/selection_provider.dart';
 import '../icons/my_icon.dart';
 import '../utility/size_helper.dart';
+import '../utility/sizeconfig.dart';
 import 'app_theme.dart';
 import 'finance/finance_page.dart';
 import 'more/more_page.dart';
@@ -19,10 +20,12 @@ class DeepPaper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<DeepBottomProvider>(
-          create: (context) => DeepBottomProvider(),
+        ChangeNotifierProvider<BottomNavBarProvider>(
+          create: (context) => BottomNavBarProvider(),
         ),
         ChangeNotifierProvider<FABProvider>(
           create: (context) => FABProvider(),
@@ -31,13 +34,13 @@ class DeepPaper extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: const _BuildBody(),
-        bottomNavigationBar: Selector<DeepBottomProvider, bool>(
+        bottomNavigationBar: Selector<BottomNavBarProvider, bool>(
           selector: (context, provider) => provider.getSelection,
           builder: (context, selection, bottomNavigation) => RepaintBoundary(
             child: Visibility(
                 visible: selection ? false : true, child: bottomNavigation),
           ),
-          child: Selector<DeepBottomProvider, int>(
+          child: Selector<BottomNavBarProvider, int>(
             selector: (context, provider) => provider.getCurrentIndex,
             builder: (context, index, _) => BottomNavigationBar(
               backgroundColor: Theme.of(context).primaryColor,
@@ -50,44 +53,36 @@ class DeepPaper extends StatelessWidget {
               selectedItemColor: Theme.of(context).accentColor,
               unselectedItemColor:
                   themeColorOpacity(context: context, opacity: .6),
-              currentIndex: index,
-              onTap: (index) {
-                final deepProvider =
-                    Provider.of<DeepBottomProvider>(context, listen: false);
-                final fabProvider =
+                  currentIndex: index,
+                  onTap: (index) {
+                    final deepProvider =
+                    Provider.of<BottomNavBarProvider>(context, listen: false);
+                    final fabProvider =
                     Provider.of<FABProvider>(context, listen: false);
 
-                fabProvider.setScrollDown = false;
-                deepProvider.setCurrentIndex = index;
-                deepProvider.controller.jumpToPage(index);
-              },
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(MyIcon.square_edit),
-                  title: Text(
-                    'Note',
-                  ),
+                    fabProvider.setScrollDown = false;
+                    deepProvider.setCurrentIndex = index;
+                    deepProvider.controller.jumpToPage(index);
+                  },
+                  items: const [
+                    BottomNavigationBarItem(
+                      icon: Icon(MyIcon.square_edit),
+                      label: 'Note',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(MyIcon.calendar_1),
+                      label: 'Plan',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(MyIcon.dollar_sign),
+                      label: 'Finance',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(MyIcon.more_horizontal),
+                      label: 'More',
+                    ),
+                  ],
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(MyIcon.calendar_1),
-                  title: Text(
-                    'Plan',
-                  ),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(MyIcon.dollar_sign),
-                  title: Text(
-                    'Finance',
-                  ),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(MyIcon.more_horizontal),
-                  title: Text(
-                    'More',
-                  ),
-                ),
-              ],
-            ),
           ),
         ),
       ),
@@ -109,7 +104,9 @@ class __BuildBodyState extends State<_BuildBody> {
   void initState() {
     super.initState();
     _controller =
-        Provider.of<DeepBottomProvider>(context, listen: false).controller;
+        Provider
+            .of<BottomNavBarProvider>(context, listen: false)
+            .controller;
   }
 
   @override

@@ -109,7 +109,8 @@ class _CreateFolderMoveToDialogState extends State<CreateFolderMoveToDialog> {
               Expanded(
                 child: FlatButton(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    color: themeColorOpacity(context: context, opacity: .87),
+                    textColor:
+                        themeColorOpacity(context: context, opacity: .87),
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(12.0))),

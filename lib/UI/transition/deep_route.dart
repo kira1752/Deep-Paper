@@ -11,7 +11,6 @@ class DeepRoute<T> extends PageRoute<T> with MaterialRouteTransitionMixin<T> {
         assert(fullscreenDialog != null),
         super(settings: settings, fullscreenDialog: fullscreenDialog);
 
-  @override
   final WidgetBuilder builder;
 
   @override
@@ -28,4 +27,7 @@ class DeepRoute<T> extends PageRoute<T> with MaterialRouteTransitionMixin<T> {
 
   @override
   Duration get reverseTransitionDuration => const Duration(milliseconds: 400);
+
+  @override
+  Widget buildContent(BuildContext context) => builder(context);
 }
