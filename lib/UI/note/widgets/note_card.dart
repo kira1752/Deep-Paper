@@ -6,7 +6,6 @@ import '../../../business_logic/note/provider/deep_bottom_provider.dart';
 import '../../../business_logic/note/provider/fab_provider.dart';
 import '../../../business_logic/note/provider/selection_provider.dart';
 import '../../../data/deep.dart';
-import '../../../icons/my_icon.dart';
 import '../../../utility/size_helper.dart';
 import '../../app_theme.dart';
 import '../../transition/widgets/slide_right_widget.dart';
@@ -97,9 +96,7 @@ class NoteCard extends StatelessWidget {
                   .getSelected
                   .containsKey(index);
 
-              if (!context
-                  .read<SelectionProvider>()
-                  .getSelection) {
+              if (!context.read<SelectionProvider>().getSelection) {
                 final selectionProvider = context.read<SelectionProvider>();
                 final deepBottomProvider = context.read<BottomNavBarProvider>();
 
@@ -109,16 +106,12 @@ class NoteCard extends StatelessWidget {
 
                 selectionProvider.setSelection = true;
               } else if (!readNoteSelected &&
-                  context
-                      .read<SelectionProvider>()
-                      .getSelection) {
+                  context.read<SelectionProvider>().getSelection) {
                 final selectionProvider = context.read<SelectionProvider>();
 
                 selectionProvider.setSelected(key: index, note: note);
               } else if (readNoteSelected &&
-                  context
-                      .read<SelectionProvider>()
-                      .getSelection) {
+                  context.read<SelectionProvider>().getSelection) {
                 final selectionProvider = context.read<SelectionProvider>();
                 final deepBottomProvider = context.read<BottomNavBarProvider>();
                 final fabProvider = context.read<FABProvider>();
@@ -210,15 +203,15 @@ class _NoteCardContentState extends State<NoteCardContent>
                       Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: Icon(
-                          MyIcon.image,
+                          FluentIcons.image_24_filled,
                           color:
-                              themeColorOpacity(context: context, opacity: .7),
+                          themeColorOpacity(context: context, opacity: .7),
                           size: SizeHelper.setIconSize(size: 20.0),
                         ),
                       ),
                     if (widget.note.containAudio)
                       Icon(
-                        Icons.mic_none,
+                        FluentIcons.mic_on_24_filled,
                         color: themeColorOpacity(context: context, opacity: .7),
                         size: SizeHelper.setIconSize(size: 20.0),
                       )
