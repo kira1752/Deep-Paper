@@ -4,7 +4,7 @@ import '../deep.dart';
 
 part 'folder_note_dao.g.dart';
 
-@UseDao(tables: [FolderNote])
+@UseDao(tables: [FolderNote, Notes])
 class FolderNoteDao extends DatabaseAccessor<DeepPaperDatabase>
     with _$FolderNoteDaoMixin {
   FolderNoteDao(this.db) : super(db);

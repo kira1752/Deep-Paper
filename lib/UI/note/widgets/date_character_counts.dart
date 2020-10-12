@@ -5,14 +5,13 @@ import '../../../business_logic/note/provider/note_detail_provider.dart';
 import '../../../business_logic/note/text_field_logic.dart' as text_field_logic;
 import '../../../utility/extension.dart';
 import '../../app_theme.dart';
-import '../../transition/widgets/slide_right_widget.dart';
 
 class DateCharacterCounts extends StatelessWidget {
   const DateCharacterCounts();
 
   @override
   Widget build(BuildContext context) {
-    final widget = Padding(
+    return Padding(
       padding: const EdgeInsets.only(left: 18.0, bottom: 24.0),
       child: Row(
         children: [
@@ -39,20 +38,6 @@ class DateCharacterCounts extends StatelessWidget {
         ],
       ),
     );
-
-    return context.select((NoteDetailProvider value) => value.getNote.isNull)
-        ? widget
-        : FutureProvider(
-            create: (_) =>
-                Future.delayed(const Duration(milliseconds: 400), () => true),
-            builder: (context, _) {
-              var show = context.watch<bool>();
-
-              return SlideRightWidget(
-                child: show.isNotNull ? widget : const SizedBox(),
-              );
-            },
-          );
   }
 }
 

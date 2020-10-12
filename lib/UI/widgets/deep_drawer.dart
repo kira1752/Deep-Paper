@@ -56,17 +56,19 @@ class DeepDrawer extends StatelessWidget {
       case TargetPlatform.windows:
         label = semanticLabel ?? MaterialLocalizations.of(context)?.drawerLabel;
     }
-    return Semantics(
-      scopesRoute: true,
-      namesRoute: true,
-      explicitChildNodes: true,
-      label: label,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints.expand(width: 304.0),
-        child: Material(
-          color: Theme.of(context).primaryColor,
-          elevation: elevation,
-          child: child,
+    return SafeArea(
+      child: Semantics(
+        scopesRoute: true,
+        namesRoute: true,
+        explicitChildNodes: true,
+        label: label,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints.expand(width: 304.0),
+          child: Material(
+            color: Theme.of(context).canvasColor,
+            elevation: elevation,
+            child: child,
+          ),
         ),
       ),
     );

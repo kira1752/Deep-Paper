@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utility/size_helper.dart';
@@ -19,24 +20,24 @@ class CreatePlanPage extends StatelessWidget {
       children: [
         Container(
           margin:
-              EdgeInsets.only(top: SizeConfig.safeArea.top + 40, bottom: 8.0),
+          EdgeInsets.only(top: SizeConfig.safeArea.top + 40, bottom: 8.0),
           color: Theme.of(context).canvasColor,
           child: Container(
             height: 8,
             width: 48,
             decoration: BoxDecoration(
                 color: Theme.of(context).accentColor.withOpacity(.54),
-                borderRadius: BorderRadius.circular(6.0)),
+                borderRadius: const BorderRadius.all(Radius.circular(6.0))),
           ),
         ),
         Expanded(
           child: Container(
             padding: const EdgeInsets.only(top: 32.0),
             decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(24.0),
-                    topRight: Radius.circular(24.0))),
+                color: Theme
+                    .of(context)
+                    .canvasColor,
+                borderRadius: const BorderRadius.all(Radius.circular(24.0))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -59,13 +60,15 @@ class CreatePlanPage extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                      border: Border(
-                          top: Divider.createBorderSide(context, width: 1.0))),
+                      border: Border(top: Divider.createBorderSide(context))),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Expanded(
                         child: FlatButton(
+                            shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(24.0))),
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                             textColor: themeColorOpacity(
                                 context: context, opacity: .87),
@@ -84,14 +87,18 @@ class CreatePlanPage extends StatelessWidget {
                         child: Container(
                           decoration: BoxDecoration(
                               border: Border(
-                                  left: Divider.createBorderSide(context,
-                                      width: 1.0))),
+                                  left: Divider.createBorderSide(
+                                    context,
+                                  ))),
                           child: FlatButton(
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      bottomRight: Radius.circular(24.0))),
                               padding:
-                                  const EdgeInsets.symmetric(vertical: 16.0),
-                              textColor: Theme.of(context)
-                                  .accentColor
-                                  .withOpacity(0.87),
+                              const EdgeInsets.symmetric(vertical: 16.0),
+                              textColor: Theme
+                                  .of(context)
+                                  .accentColor,
                               onPressed: () {},
                               child: Text(
                                 'Create',

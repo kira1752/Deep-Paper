@@ -19,14 +19,11 @@ class RestoreDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DeepBaseDialog(
-      titlePadding: const EdgeInsets.symmetric(horizontal: 24.0),
+      titlePadding: const EdgeInsets.all(0.0),
       title: Container(
         padding: const EdgeInsets.symmetric(vertical: 24.0),
         decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-                    width: 2.0,
-                    color: Theme.of(context).accentColor.withOpacity(.20)))),
+            border: Border(bottom: Divider.createBorderSide(context))),
         child: Text(
           'Restore note',
           textAlign: TextAlign.center,
@@ -67,8 +64,7 @@ class RestoreDialog extends StatelessWidget {
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-                border: Border(
-                    left: Divider.createBorderSide(context, width: 1.0))),
+                border: Border(left: Divider.createBorderSide(context))),
             child: FlatButton(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 textColor: Theme.of(context).accentColor.withOpacity(0.87),
@@ -77,7 +73,7 @@ class RestoreDialog extends StatelessWidget {
                         BorderRadius.only(bottomRight: Radius.circular(12.0))),
                 onPressed: () {
                   final database =
-                  Provider.of<DeepPaperDatabase>(context, listen: false);
+                      Provider.of<DeepPaperDatabase>(context, listen: false);
 
                   trash_management.restore(data: data, database: database);
 

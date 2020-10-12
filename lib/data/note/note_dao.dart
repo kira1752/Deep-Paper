@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:intl/intl.dart' as intl;
 import 'package:moor/moor.dart';
 
+import '../../business_logic/detect_text_direction_to_string.dart';
 import '../../resource/string_resource.dart';
 import '../../utility/extension.dart';
 import '../deep.dart';
@@ -15,14 +15,14 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
 
   final DeepPaperDatabase db;
 
-  Stream<List<Note>> watchAllNotes() {
+  Stream<List<Note>> watchAvailableNotes() {
     return (select(notes)
           ..where((n) => n.isDeleted.equals(false))
           ..orderBy([(n) => OrderingTerm.desc(n.modified)]))
         .watch();
   }
 
-  Future<List<Note>> getAllNotes() => (select(notes)).get();
+  Stream<List<Note>> watchAllNotes() => (select(notes)).watch();
 
   Stream<List<Note>> watchAllDeletedNotes() => (select(notes)
         ..where((n) => n.isDeleted.equals(true))
@@ -122,10 +122,8 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
             folderID: const Value(0),
             folderName: const Value(StringResource.mainFolder),
             isDeleted: const Value(true),
-            folderNameDirection: Value(
-                intl.Bidi.detectRtlDirectionality(StringResource.mainFolder)
-                    ? TextDirection.rtl
-                    : TextDirection.ltr)));
+            folderNameDirection:
+            Value(detectTextDirection(StringResource.mainFolder))));
   }
 
   void deleteNote(int noteID) {

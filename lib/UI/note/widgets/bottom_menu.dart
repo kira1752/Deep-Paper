@@ -1,9 +1,9 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../business_logic/note/bottom_menu_logic.dart';
 import '../../../business_logic/note/provider/note_detail_provider.dart';
-import '../../../icons/my_icon.dart';
 import 'bottom_modal.dart';
 import 'undo_redo.dart';
 
@@ -27,8 +27,8 @@ class BottomMenu extends StatelessWidget {
               children: <Widget>[
                 IconButton(
                   icon: Icon(
-                    MyIcon.plus_square,
-                    color: Theme.of(context).accentColor.withOpacity(0.80),
+                    FluentIcons.add_circle_24_regular,
+                    color: Theme.of(context).accentColor.withOpacity(.87),
                   ),
                   onPressed: () async {
                     if (FocusScope.of(context).hasFocus) {
@@ -40,8 +40,11 @@ class BottomMenu extends StatelessWidget {
                 const UndoRedo(),
                 IconButton(
                   icon: Icon(
-                    Icons.more_vert,
-                    color: Theme.of(context).accentColor.withOpacity(0.80),
+                    FluentIcons.more_vertical_24_filled,
+                    color: Theme
+                        .of(context)
+                        .accentColor
+                        .withOpacity(.87),
                   ),
                   onPressed: () async {
                     if (FocusScope.of(context).hasFocus) {
@@ -52,10 +55,10 @@ class BottomMenu extends StatelessWidget {
                         onDelete: () => onDelete(context: context),
                         onCopy: () => onCopy(context: context),
                         noteInfo: () => noteInfo(
-                              context: context,
-                              folderName:
-                                  context.read<NoteDetailProvider>().folderName,
-                            ));
+                          context: context,
+                          folderName:
+                          context.read<NoteDetailProvider>().folderName,
+                        ));
                   },
                 )
               ],

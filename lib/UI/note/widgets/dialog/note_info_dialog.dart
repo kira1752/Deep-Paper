@@ -18,15 +18,12 @@ class NoteInfoDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DeepBaseDialog(
-      titlePadding: const EdgeInsets.symmetric(horizontal: 24.0),
+      titlePadding: const EdgeInsets.all(0.0),
       actionsPadding: 24.0,
       title: Container(
         padding: const EdgeInsets.symmetric(vertical: 24.0),
         decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-                    width: 2.0,
-                    color: Theme.of(context).accentColor.withOpacity(.20)))),
+            border: Border(bottom: Divider.createBorderSide(context))),
         child: Text(
           'Note Info',
           textAlign: TextAlign.center,
@@ -90,11 +87,7 @@ class NoteInfoDialog extends StatelessWidget {
                 flex: 6,
                 child: Text(
                   '$folderName',
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
                       color: themeColorOpacity(context: context, opacity: .7),
                       fontSize: SizeHelper.getBodyText1),
                 ),

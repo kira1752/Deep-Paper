@@ -1,30 +1,23 @@
-import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart' as intl;
+import 'dart:ui';
+
 import 'package:moor/moor.dart';
 
 import '../../data/deep.dart';
 import '../../resource/string_resource.dart';
 import '../../utility/extension.dart';
+import '../detect_text_direction_to_string.dart';
 import 'provider/selection_provider.dart';
 
 Future<int> create(
     {@required DeepPaperDatabase database,
     @required String detail,
-    @required TextDirection detailDirection,
     @required int folderID,
     @required String folderName,
-    @required TextDirection folderNameDirection,
     @required bool isDeleted,
     @required bool isCopy}) async {
   int noteID;
-
-  final detailDirection = intl.Bidi.detectRtlDirectionality(detail)
-      ? TextDirection.rtl
-      : TextDirection.ltr;
-
-  final folderNameDirection = intl.Bidi.detectRtlDirectionality(folderName)
-      ? TextDirection.rtl
-      : TextDirection.ltr;
+  final detailDirection = detectTextDirection(detail);
+  final folderNameDirection = detectTextDirection(folderName);
 
   if (isCopy) {
     await copy(
@@ -51,8 +44,9 @@ Future<int> create(
   return noteID;
 }
 
-Future<void> copySelectedNotes({@required DeepPaperDatabase database,
-  @required SelectionProvider selectionProvider}) async {
+Future<void> copySelectedNotes(
+    {@required DeepPaperDatabase database,
+    @required SelectionProvider selectionProvider}) async {
   final selectedNote = selectionProvider.getSelected;
 
   await database.noteDao.insertNoteBatch(selectedNote);
@@ -66,13 +60,9 @@ Future<void> update({@required DeepPaperDatabase database,
   @required DateTime modified,
   @required bool isDeleted,
   @required bool isCopy}) async {
-  final detailDirection = intl.Bidi.detectRtlDirectionality(detail)
-      ? TextDirection.rtl
-      : TextDirection.ltr;
+  final detailDirection = detectTextDirection(detail);
 
-  final folderNameDirection = intl.Bidi.detectRtlDirectionality(folderName)
-      ? TextDirection.rtl
-      : TextDirection.ltr;
+  final folderNameDirection = detectTextDirection(folderName);
 
   final created = await database.noteDao.getCreatedDate(noteID);
 
@@ -99,22 +89,12 @@ Future<void> update({@required DeepPaperDatabase database,
           created: Value(created)));
 }
 
-Future<void> copy({
-  @required DeepPaperDatabase database,
+Future<void> copy({@required DeepPaperDatabase database,
   @required String detail,
   @required TextDirection detailDirection,
   @required int folderID,
   @required String folderName,
-  @required TextDirection folderNameDirection,
-}) async {
-  final detailDirection = intl.Bidi.detectRtlDirectionality(detail)
-      ? TextDirection.rtl
-      : TextDirection.ltr;
-
-  final folderNameDirection = intl.Bidi.detectRtlDirectionality(folderName)
-      ? TextDirection.rtl
-      : TextDirection.ltr;
-
+  @required TextDirection folderNameDirection}) async {
   if (!detail.isNullEmptyOrWhitespace) {
     await database.noteDao.insertNote(NotesCompanion(
         detail: Value(detail),
@@ -147,9 +127,7 @@ Future<void> moveToFolderBatch({@required FolderNoteData folder,
   final selectedNote = selectionProvider.getSelected;
   final folderID = (folder?.id) ?? 0;
   final folderName = (folder?.name) ?? StringResource.mainFolder;
-  final folderNameDirection = intl.Bidi.detectRtlDirectionality(folderName)
-      ? TextDirection.rtl
-      : TextDirection.ltr;
+  final folderNameDirection = detectTextDirection(folderName);
 
   await database.noteDao
       .moveToFolder(selectedNote, folderID, folderName, folderNameDirection);

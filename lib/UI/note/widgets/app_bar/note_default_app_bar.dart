@@ -8,7 +8,6 @@ import '../../../../business_logic/note/provider/note_drawer_provider.dart';
 import '../../../../business_logic/note/provider/selection_provider.dart';
 import '../../../../resource/icon_resource.dart';
 import '../../../../resource/string_resource.dart';
-import '../../../../utility/extension.dart';
 import '../../../app_theme.dart';
 import '../menu.dart';
 import '../search_note_button.dart';
@@ -22,7 +21,6 @@ class NoteDefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      elevation: 0.0,
       centerTitle: true,
       automaticallyImplyLeading: false,
       actions: const <Widget>[SearchNoteButton(), Menu()],
@@ -59,25 +57,18 @@ class NoteDefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
                 selector: (context, provider) => provider.getSelected.length,
                 builder: (context, count, _) => Text(
                     StringResource.selectionAppBar(count),
-                    style: selectionAppBarStyle(context: context)),
+                    style: appBarStyle(context: context)),
               )
             : titleAppBar,
         child: Selector<NoteDrawerProvider, String>(
           selector: (context, noteDrawerProvider) =>
               noteDrawerProvider.getTitleFragment,
           builder: (context, title, _) {
-            final drawerProvider =
-                Provider.of<NoteDrawerProvider>(context, listen: false);
-
             return Text(StringResource.titleAppBar(title),
                 textDirection: intl.Bidi.detectRtlDirectionality(title)
                     ? TextDirection.rtl
                     : TextDirection.ltr,
-                style: title == StringResource.note
-                    ? appBarStyle(context: context)
-                    : drawerProvider.getFolder.isNotNull
-                        ? folderAppBarStyle(context: context)
-                        : trashAppBarStyle(context: context));
+                style: appBarStyle(context: context));
           },
         ),
       ),

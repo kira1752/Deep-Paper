@@ -17,7 +17,7 @@ class NoteListView extends StatelessWidget {
     final fabProvider = Provider.of<FABProvider>(context, listen: false);
 
     return StreamProvider<List<Note>>(
-      create: (context) => database.noteDao.watchAllNotes(),
+      create: (context) => database.noteDao.watchAvailableNotes(),
       builder: (context, _) {
         final listNote = context.watch<List<Note>>();
 
@@ -29,16 +29,17 @@ class NoteListView extends StatelessWidget {
                   ? const EmptyNoteIllustration()
                   : ListView.builder(
                       physics: const BouncingScrollPhysics(),
-                      cacheExtent: 100,
-                      semanticChildCount: listNote.length,
-                      itemCount: listNote.length,
-                      itemBuilder: (context, index) {
-                        return NoteCard(
-                          key: ValueKey<int>(index),
-                          index: index,
-                          content: NoteCardContent(
-                            note: listNote[index],
-                          ),
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              cacheExtent: 100,
+              semanticChildCount: listNote.length,
+              itemCount: listNote.length,
+              itemBuilder: (context, index) {
+                return NoteCard(
+                  key: ValueKey<int>(index),
+                  index: index,
+                  content: NoteCardContent(
+                    note: listNote[index],
+                  ),
                           note: listNote[index],
                           onTap: () {
                             Navigator.pushNamed(

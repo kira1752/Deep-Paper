@@ -370,15 +370,18 @@ class NotesCompanion extends UpdateCompanion<Note> {
   @override
   String toString() {
     return (StringBuffer('NotesCompanion(')
-      ..write('id: $id, ')..write('folderID: $folderID, ')..write(
-          'folderName: $folderName, ')..write(
-          'folderNameDirection: $folderNameDirection, ')..write(
-          'detail: $detail, ')..write(
-          'detailDirection: $detailDirection, ')..write(
-          'isDeleted: $isDeleted, ')..write(
-          'containAudio: $containAudio, ')..write(
-          'containImage: $containImage, ')..write(
-          'modified: $modified, ')..write('created: $created')..write(')'))
+          ..write('id: $id, ')
+          ..write('folderID: $folderID, ')
+          ..write('folderName: $folderName, ')
+          ..write('folderNameDirection: $folderNameDirection, ')
+          ..write('detail: $detail, ')
+          ..write('detailDirection: $detailDirection, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('containAudio: $containAudio, ')
+          ..write('containImage: $containImage, ')
+          ..write('modified: $modified, ')
+          ..write('created: $created')
+          ..write(')'))
         .toString();
   }
 }
@@ -541,8 +544,8 @@ class FolderNoteData extends DataClass implements Insertable<FolderNoteData> {
   final int id;
   final String name;
   final TextDirection nameDirection;
-  FolderNoteData(
-      {@required this.id, @required this.name, @required this.nameDirection});
+
+  FolderNoteData({@required this.id, this.name, this.nameDirection});
   factory FolderNoteData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -629,12 +632,12 @@ class FolderNoteCompanion extends UpdateCompanion<FolderNoteData> {
     this.name = const Value.absent(),
     this.nameDirection = const Value.absent(),
   });
+
   FolderNoteCompanion.insert({
     this.id = const Value.absent(),
-    @required String name,
-    @required TextDirection nameDirection,
-  })  : name = Value(name),
-        nameDirection = Value(nameDirection);
+    this.name = const Value.absent(),
+    this.nameDirection = const Value.absent(),
+  });
   static Insertable<FolderNoteData> custom({
     Expression<int> id,
     Expression<String> name,
@@ -704,7 +707,7 @@ class $FolderNoteTable extends FolderNote
     return GeneratedTextColumn(
       'name',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -716,7 +719,7 @@ class $FolderNoteTable extends FolderNote
     return GeneratedTextColumn(
       'name_direction',
       $tableName,
-      false,
+      true,
     );
   }
 

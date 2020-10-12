@@ -64,8 +64,7 @@ class DeepExpandBaseDialog extends StatelessWidget {
             if (actions.isNotNull)
               Container(
                 decoration: BoxDecoration(
-                    border: Border(
-                        top: Divider.createBorderSide(context, width: 1.0))),
+                    border: Border(top: Divider.createBorderSide(context))),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: actions,

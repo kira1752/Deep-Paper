@@ -1,67 +1,79 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
 import '../UI/app_theme.dart';
-import '../icons/my_icon.dart';
 
 Icon close({@required BuildContext context}) {
   return Icon(
-    MyIcon.x,
+    FluentIcons.dismiss_24_filled,
     color: themeColorOpacity(context: context, opacity: .7),
   );
 }
 
 Icon search({@required BuildContext context}) {
   return Icon(
-    MyIcon.search,
+    FluentIcons.search_24_filled,
     color: themeColorOpacity(context: context, opacity: .7),
   );
 }
 
 Icon optionMoveTo({@required BuildContext context}) {
   return Icon(
-    MyIcon.arrow_up_right,
-    color: themeColorOpacity(context: context, opacity: .7),
+    FluentIcons.folder_move_24_filled,
+    color: Theme.of(context).accentColor.withOpacity(.87),
   );
 }
 
 Icon optionRestore({@required BuildContext context}) {
   return Icon(
-    Icons.restore,
-    color: themeColorOpacity(context: context, opacity: .7),
+    FluentIcons.history_24_filled,
+    color: Theme
+        .of(context)
+        .accentColor
+        .withOpacity(.87),
   );
 }
 
 Icon optionRenameFolder({@required BuildContext context}) {
   return Icon(
-    MyIcon.edit_2,
-    color: themeColorOpacity(context: context, opacity: .7),
+    FluentIcons.edit_24_filled,
+    color: Theme
+        .of(context)
+        .accentColor
+        .withOpacity(.87),
   );
 }
 
 Icon optionDelete({@required BuildContext context}) {
   return Icon(
-    MyIcon.trash,
-    color: themeColorOpacity(context: context, opacity: .7),
+    FluentIcons.delete_24_filled,
+    color: Theme
+        .of(context)
+        .accentColor
+        .withOpacity(.87),
   );
 }
 
 Icon optionCopy({@required BuildContext context}) {
   return Icon(
-    MyIcon.copy,
-    color: themeColorOpacity(context: context, opacity: .7),
+    FluentIcons.copy_24_filled,
+    color: Theme
+        .of(context)
+        .accentColor
+        .withOpacity(.87),
   );
 }
 
 Icon hamburgerMenu({@required BuildContext context}) {
   return Icon(
-    MyIcon.menu,
+    FluentIcons.text_align_left_24_filled,
     color: themeColorOpacity(context: context, opacity: .7),
   );
 }
 
 Icon options({@required BuildContext context}) {
   return Icon(
-    MyIcon.more_vertical,
+    FluentIcons.more_vertical_24_filled,
     color: themeColorOpacity(context: context, opacity: .7),
   );
 }
@@ -71,13 +83,13 @@ Icon successful({@required BuildContext context}) {
 
   return isDark
       ? const Icon(
-          Icons.check,
-          color: Color(0xFF81C784),
-        )
+    FluentIcons.checkmark_24_filled,
+    color: Color(0xFF81C784),
+  )
       : const Icon(
-          Icons.check,
-          color: Colors.green,
-        );
+    FluentIcons.checkmark_24_filled,
+    color: Colors.green,
+  );
 }
 
 Icon info({@required BuildContext context}) {
@@ -85,11 +97,11 @@ Icon info({@required BuildContext context}) {
 
   return isDark
       ? const Icon(
-          MyIcon.info,
-          color: Color(0xFF64B5F6),
-        )
+    FluentIcons.info_24_regular,
+    color: Color(0xFF64B5F6),
+  )
       : const Icon(
-          Icons.check,
-          color: Colors.blue,
-        );
+    FluentIcons.info_24_regular,
+    color: Colors.blue,
+  );
 }

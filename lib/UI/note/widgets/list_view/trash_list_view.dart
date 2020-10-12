@@ -41,12 +41,13 @@ class _TrashIsExist extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final drawerProvider =
-      Provider.of<NoteDrawerProvider>(context, listen: false);
+          Provider.of<NoteDrawerProvider>(context, listen: false);
       drawerProvider.setTrashExist = true;
     });
 
     return ListView.builder(
         physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         cacheExtent: 100,
         semanticChildCount: ListNote.length,
         itemCount: ListNote.length,

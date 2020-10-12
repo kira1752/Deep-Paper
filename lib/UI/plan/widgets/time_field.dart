@@ -1,8 +1,8 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../business_logic/plan/provider/create_plan_provider.dart';
-import '../../../icons/my_icon.dart';
 import '../../../utility/size_helper.dart';
 import '../../app_theme.dart';
 import '../../transition/widgets/slide_downward_widget.dart';
@@ -64,20 +64,20 @@ class __TimeState extends State<_Time> {
         _showTimePicker(context);
       },
       leading: Icon(
-        MyIcon.clock,
-        color: themeColorOpacity(context: context, opacity: .7),
+        FluentIcons.clock_alarm_24_filled,
+        color: Theme.of(context).accentColor,
       ),
       title: Selector<CreatePlanProvider, String>(
           selector: (context, provider) => provider.getTime,
           builder: (context, time, _) => SlideRightWidget(
-                child: Text(
-                  '$time',
-                  key: Key('$time'),
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: themeColorOpacity(context: context, opacity: .8),
-                      fontSize: SizeHelper.getModalTextField),
-                ),
-              )),
+            child: Text(
+              '$time',
+              key: Key('$time'),
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
+                  color: themeColorOpacity(context: context, opacity: .8),
+                  fontSize: SizeHelper.getModalTextField),
+            ),
+          )),
     );
   }
 

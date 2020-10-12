@@ -25,7 +25,7 @@ class FieldBase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).accentColor.withOpacity(.08),
+      color: Theme.of(context).cardColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(12.0)),
       ),

@@ -23,10 +23,11 @@ Future<void> undo({
       await text_field_logic.countAllAsync(detailProvider.getDetail);
 }
 
-Future<void> redo({@required UndoHistoryProvider undoHistoryProvider,
-  @required UndoStateProvider undoStateProvider,
-  @required NoteDetailProvider detailProvider,
-  @required TextEditingController detailController}) async {
+Future<void> redo(
+    {@required UndoHistoryProvider undoHistoryProvider,
+    @required UndoStateProvider undoStateProvider,
+    @required NoteDetailProvider detailProvider,
+    @required TextEditingController detailController}) async {
   final undoModel = undoHistoryProvider.redo();
 
   detailController.text = undoModel.currentTyped;
@@ -41,5 +42,5 @@ Future<void> redo({@required UndoHistoryProvider undoHistoryProvider,
   detailProvider.setDetail = detailController.text;
   detailProvider.checkDetailDirection = detailController.text;
   detailProvider.setDetailCountNotify =
-  await text_field_logic.countAllAsync(detailProvider.getDetail);
+      await text_field_logic.countAllAsync(detailProvider.getDetail);
 }

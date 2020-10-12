@@ -1,14 +1,11 @@
-import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:moor/moor.dart';
 
 import '../../data/deep.dart';
+import '../detect_text_direction_to_string.dart';
 import 'provider/note_drawer_provider.dart';
 
 void create({@required DeepPaperDatabase database, @required String name}) {
-  final nameDirection = intl.Bidi.detectRtlDirectionality(name)
-      ? TextDirection.rtl
-      : TextDirection.ltr;
+  final nameDirection = detectTextDirection(name);
 
   database.folderNoteDao.insertFolder(FolderNoteCompanion(
       name: Value(name), nameDirection: Value(nameDirection)));
@@ -18,9 +15,7 @@ void update(
     {@required DeepPaperDatabase database,
     @required NoteDrawerProvider drawerProvider,
     @required String name}) {
-  final nameDirection = intl.Bidi.detectRtlDirectionality(name)
-      ? TextDirection.rtl
-      : TextDirection.ltr;
+  final nameDirection = detectTextDirection(name);
 
   database.folderNoteDao.updateFolder(drawerProvider.getFolder
       .copyWith(name: name, nameDirection: nameDirection));

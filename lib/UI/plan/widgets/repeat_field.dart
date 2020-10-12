@@ -1,8 +1,8 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../business_logic/plan/provider/create_plan_provider.dart';
-import '../../../icons/my_icon.dart';
 import '../../../utility/extension.dart';
 import '../../../utility/size_helper.dart';
 import '../../app_theme.dart';
@@ -23,12 +23,12 @@ class RepeatField extends StatelessWidget {
           selector: (context, provider) => provider.getDate.isEmpty,
           child: const SizedBox(),
           builder: (context, isEmpty, emptyState) => IgnorePointer(
-                ignoring: isEmpty,
-                child: SlideDownwardWidget(
-                  reverseDuration: const Duration(milliseconds: 400),
-                  child: isEmpty ? emptyState : const _Repeat(),
-                ),
-              )),
+            ignoring: isEmpty,
+            child: SlideDownwardWidget(
+              reverseDuration: const Duration(milliseconds: 400),
+              child: isEmpty ? emptyState : const _Repeat(),
+            ),
+          )),
     );
   }
 }
@@ -58,26 +58,26 @@ class __RepeatState extends State<_Repeat> {
             context: context, createPlanProvider: _createPlanProvider);
       },
       leading: Icon(
-        MyIcon.repeat,
-        color: themeColorOpacity(context: context, opacity: .7),
+        FluentIcons.arrow_repeat_all_24_filled,
+        color: Theme.of(context).accentColor,
       ),
       title: Selector<CreatePlanProvider, String>(
           selector: (context, provider) => provider.getRepeatTitle,
           builder: (context, repeatTitle, _) => SlideRightWidget(
-                child: Text(
-                  '$repeatTitle',
-                  key: Key('$repeatTitle'),
-                  overflow: TextOverflow.ellipsis,
-                  style: _createPlanProvider.getRepeat == RepeatType.Weekly
-                      ? Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: Theme.of(context).accentColor.withOpacity(.8),
-                          fontSize: SizeHelper.getModalTextField)
-                      : Theme.of(context).textTheme.bodyText1.copyWith(
-                          color:
-                              themeColorOpacity(context: context, opacity: .8),
-                          fontSize: SizeHelper.getModalTextField),
-                ),
-              )),
+            child: Text(
+              '$repeatTitle',
+              key: Key('$repeatTitle'),
+              overflow: TextOverflow.ellipsis,
+              style: _createPlanProvider.getRepeat == RepeatType.Weekly
+                  ? Theme.of(context).textTheme.bodyText1.copyWith(
+                  color: Theme.of(context).accentColor.withOpacity(.8),
+                  fontSize: SizeHelper.getModalTextField)
+                  : Theme.of(context).textTheme.bodyText1.copyWith(
+                  color:
+                  themeColorOpacity(context: context, opacity: .8),
+                  fontSize: SizeHelper.getModalTextField),
+            ),
+          )),
       subtitle: Selector<CreatePlanProvider, String>(
           selector: (context, provider) => provider.getSelectedDaysTitle,
           child: const SizedBox(),

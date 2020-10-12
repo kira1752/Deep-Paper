@@ -17,9 +17,6 @@ class DeepRoute<T> extends PageRoute<T> with MaterialRouteTransitionMixin<T> {
   final bool maintainState;
 
   @override
-  bool get opaque => false;
-
-  @override
   String get debugLabel => '${super.debugLabel}(${settings.name})';
 
   @override

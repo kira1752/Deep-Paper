@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart' as intl;
 
 import '../../data/deep.dart';
 import '../../utility/extension.dart';
@@ -20,15 +19,8 @@ Future<void> check(
       detailProvider.setTempNoteID = await note_creation.create(
         database: database,
         detail: detailProvider.getDetail,
-        detailDirection:
-            intl.Bidi.detectRtlDirectionality(detailProvider.getDetail)
-                ? TextDirection.rtl
-                : TextDirection.ltr,
         folderID: folderID,
         folderName: folderName,
-        folderNameDirection: intl.Bidi.detectRtlDirectionality(folderName)
-            ? TextDirection.rtl
-            : TextDirection.ltr,
         isCopy: detailProvider.getIsCopy,
         isDeleted: detailProvider.getIsDeleted,
       );

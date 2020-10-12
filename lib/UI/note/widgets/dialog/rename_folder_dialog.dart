@@ -119,8 +119,7 @@ class _RenameFolderDialogState extends State<RenameFolderDialog> {
         Container(
           margin: const EdgeInsets.only(top: 8.0),
           decoration: BoxDecoration(
-              border:
-                  Border(top: Divider.createBorderSide(context, width: 1.0))),
+              border: Border(top: Divider.createBorderSide(context))),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
@@ -145,8 +144,7 @@ class _RenameFolderDialogState extends State<RenameFolderDialog> {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                      border: Border(
-                          left: Divider.createBorderSide(context, width: 1.0))),
+                      border: Border(left: Divider.createBorderSide(context))),
                   child: Consumer<FolderDialogProvider>(
                     builder: (context, provider, renameText) =>
                         FlatButton(

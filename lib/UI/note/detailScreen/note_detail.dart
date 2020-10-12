@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,11 +13,8 @@ import '../../../business_logic/note/text_field_logic.dart' as text_field_logic;
 import '../../../business_logic/provider/TextControllerValue.dart';
 import '../../../business_logic/provider/text_controller_focus_node_value.dart';
 import '../../../data/deep.dart';
-import '../../../icons/my_icon.dart';
-import '../../../utility/extension.dart';
 import '../../../utility/size_helper.dart';
 import '../../app_theme.dart';
-import '../../transition/widgets/slide_downward_widget.dart';
 import '../../widgets/deep_keep_alive.dart';
 import '../../widgets/deep_scroll_behavior.dart';
 import '../widgets/bottom_menu.dart';
@@ -79,10 +77,11 @@ class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
       child: Scaffold(
         appBar: AppBar(
             elevation: 0.0,
+            backgroundColor: Theme.of(context).primaryColor,
             leading: IconButton(
               icon: Icon(
-                MyIcon.arrow_left,
-                color: Theme.of(context).accentColor.withOpacity(0.8),
+                FluentIcons.arrow_left_24_filled,
+                color: Theme.of(context).accentColor.withOpacity(0.87),
               ),
               onPressed: () {
                 Navigator.maybePop(context);
@@ -136,30 +135,13 @@ class _NoteDetailBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final body = ListView(
+    return ListView(
       physics: const BouncingScrollPhysics(),
       children: const <Widget>[
         DeepKeepAlive(
           child: _DetailField(),
         ),
       ],
-    );
-    return context.select((NoteDetailProvider value) => value.getNote.isNull)
-        ? body
-        : FutureProvider(
-      create: (_) =>
-          Future.delayed(const Duration(milliseconds: 400), () => true),
-      builder: (context, _) {
-        var show = context.watch<bool>();
-
-        return SlideDownwardWidget(
-          child: show.isNotNull
-              ? body
-              : const Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
-      },
     );
   }
 }
@@ -184,7 +166,7 @@ class _DetailField extends StatelessWidget {
           .textTheme
           .bodyText1
           .copyWith(
-          color: themeColorOpacity(context: context, opacity: .8),
+          color: themeColorOpacity(context: context, opacity: .7),
           fontWeight: FontWeight.normal,
           fontSize: SizeHelper.getDetail),
       maxLines: null,

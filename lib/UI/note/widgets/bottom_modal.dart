@@ -1,6 +1,6 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
-import '../../../icons/my_icon.dart';
 import '../../../utility/size_helper.dart';
 import '../../app_theme.dart';
 import '../../widgets/deep_scroll_behavior.dart';
@@ -15,7 +15,6 @@ Future openAddMenu({@required BuildContext context}) {
     builder: (context) => ScrollConfiguration(
       behavior: const DeepScrollBehavior(),
       child: ListView(
-        physics: const ClampingScrollPhysics(),
         shrinkWrap: true,
         padding: const EdgeInsets.all(18.0),
         children: <Widget>[
@@ -25,8 +24,8 @@ Future openAddMenu({@required BuildContext context}) {
             child: ListTile(
               shape: const StadiumBorder(),
               leading: Icon(
-                MyIcon.camera,
-                color: themeColorOpacity(context: context, opacity: .7),
+                FluentIcons.camera_24_filled,
+                color: Theme.of(context).accentColor.withOpacity(.87),
               ),
               title: Text(
                 'Take photo',
@@ -42,8 +41,11 @@ Future openAddMenu({@required BuildContext context}) {
             child: ListTile(
               shape: const StadiumBorder(),
               leading: Icon(
-                MyIcon.image,
-                color: themeColorOpacity(context: context, opacity: .7),
+                FluentIcons.image_24_filled,
+                color: Theme
+                    .of(context)
+                    .accentColor
+                    .withOpacity(.87),
               ),
               title: Text(
                 'Choose image',
@@ -59,8 +61,11 @@ Future openAddMenu({@required BuildContext context}) {
             child: ListTile(
               shape: const StadiumBorder(),
               leading: Icon(
-                MyIcon.mic,
-                color: themeColorOpacity(context: context, opacity: .7),
+                FluentIcons.mic_on_24_filled,
+                color: Theme
+                    .of(context)
+                    .accentColor
+                    .withOpacity(.87),
               ),
               title: Text(
                 'Recording',
@@ -80,8 +85,11 @@ Future openAddMenu({@required BuildContext context}) {
             child: ListTile(
               shape: const StadiumBorder(),
               leading: Icon(
-                MyIcon.music,
-                color: themeColorOpacity(context: context, opacity: .7),
+                FluentIcons.music_24_filled,
+                color: Theme
+                    .of(context)
+                    .accentColor
+                    .withOpacity(.87),
               ),
               title: Text(
                 'Choose audio',
@@ -101,11 +109,10 @@ Future openAddMenu({@required BuildContext context}) {
   );
 }
 
-Future openOptionsMenu(
-    {@required BuildContext context,
-    @required void Function() onDelete,
-    @required void Function() onCopy,
-    @required void Function() noteInfo}) {
+Future openOptionsMenu({@required BuildContext context,
+  @required void Function() onDelete,
+  @required void Function() onCopy,
+  @required void Function() noteInfo}) {
   return showModalBottomSheet(
     context: context,
     backgroundColor: Theme.of(context).canvasColor,
@@ -115,7 +122,6 @@ Future openOptionsMenu(
     builder: (context) => ScrollConfiguration(
       behavior: const DeepScrollBehavior(),
       child: ListView(
-        physics: const ClampingScrollPhysics(),
         shrinkWrap: true,
         padding: const EdgeInsets.all(18.0),
         children: <Widget>[
@@ -126,8 +132,11 @@ Future openOptionsMenu(
               shape: const StadiumBorder(),
               onTap: onDelete,
               leading: Icon(
-                MyIcon.trash,
-                color: themeColorOpacity(context: context, opacity: .7),
+                FluentIcons.delete_24_filled,
+                color: Theme
+                    .of(context)
+                    .accentColor
+                    .withOpacity(.87),
               ),
               title: Text(
                 'Delete',
@@ -148,8 +157,11 @@ Future openOptionsMenu(
               shape: const StadiumBorder(),
               onTap: onCopy,
               leading: Icon(
-                MyIcon.copy,
-                color: themeColorOpacity(context: context, opacity: .7),
+                FluentIcons.copy_24_filled,
+                color: Theme
+                    .of(context)
+                    .accentColor
+                    .withOpacity(.87),
               ),
               title: Text(
                 'Make a copy',
@@ -170,8 +182,11 @@ Future openOptionsMenu(
               shape: const StadiumBorder(),
               onTap: noteInfo,
               leading: Icon(
-                MyIcon.info,
-                color: themeColorOpacity(context: context, opacity: .7),
+                FluentIcons.info_24_filled,
+                color: Theme
+                    .of(context)
+                    .accentColor
+                    .withOpacity(.87),
               ),
               title: Text(
                 'Note info',

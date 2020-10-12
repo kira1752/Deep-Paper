@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +9,7 @@ import '../../../data/deep.dart';
 import '../../../icons/my_icon.dart';
 import '../../../utility/size_helper.dart';
 import '../../app_theme.dart';
+import '../../transition/widgets/slide_right_widget.dart';
 
 class NoteCard extends StatelessWidget {
   final int index;
@@ -24,27 +25,43 @@ class NoteCard extends StatelessWidget {
       @required this.onTap})
       : super(key: key);
 
+  BorderRadius calculateNoteCardBorderRadius(
+      {@required int listLength, @required int index}) {
+    if (listLength == 1) {
+      return const BorderRadius.all(Radius.circular(12.0));
+    } else if (index == 0) {
+      return const BorderRadius.only(
+          topRight: Radius.circular(12.0), topLeft: Radius.circular(12.0));
+    } else if (listLength - 1 == index) {
+      return const BorderRadius.only(
+          bottomRight: Radius.circular(12.0),
+          bottomLeft: Radius.circular(12.0));
+    } else {
+      return const BorderRadius.all(Radius.circular(0.0));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final listLength = context.watch<List<Note>>().length;
+
     final noteSelected = context.select(
         (SelectionProvider value) => value.getSelected.containsKey(index));
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0.5),
       child: Material(
         color: noteSelected
-            ? Theme.of(context).accentColor.withOpacity(0.12)
-            : Theme.of(context).cardColor.withOpacity(.87),
+            ? Theme.of(context).accentColor.withOpacity(.22)
+            : Theme.of(context).canvasColor,
         animationDuration: const Duration(milliseconds: 300),
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24.0),
-            side: noteSelected
-                ? BorderSide(
-                    color: Theme.of(context).accentColor.withOpacity(0.54),
-                    width: 3.0)
-                : BorderSide.none),
+            borderRadius: calculateNoteCardBorderRadius(
+                listLength: listLength, index: index),
+            side: BorderSide.none),
         child: InkWell(
-            borderRadius: BorderRadius.circular(24.0),
+            borderRadius: calculateNoteCardBorderRadius(
+                listLength: listLength, index: index),
             splashColor: Theme.of(context).accentColor.withOpacity(.16),
             onTap: () {
               final readNoteSelected = context
@@ -99,7 +116,9 @@ class NoteCard extends StatelessWidget {
 
                 selectionProvider.setSelected(key: index, note: note);
               } else if (readNoteSelected &&
-                  context.read<SelectionProvider>().getSelection) {
+                  context
+                      .read<SelectionProvider>()
+                      .getSelection) {
                 final selectionProvider = context.read<SelectionProvider>();
                 final deepBottomProvider = context.read<BottomNavBarProvider>();
                 final fabProvider = context.read<FABProvider>();
@@ -113,7 +132,36 @@ class NoteCard extends StatelessWidget {
                 }
               }
             },
-            child: content),
+            child: Padding(
+              padding: const EdgeInsetsDirectional.only(start: 16),
+              child: Row(
+                children: [
+                  SlideRightWidget(
+                    duration: const Duration(milliseconds: 250),
+                    child: noteSelected
+                        ? Material(
+                      color: Theme
+                          .of(context)
+                          .floatingActionButtonTheme
+                          .backgroundColor,
+                      type: MaterialType.circle,
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Icon(
+                          FluentIcons.checkmark_20_filled,
+                          size: 16.0,
+                          color: noteSelected
+                              ? Colors.white
+                              : Colors.transparent,
+                        ),
+                      ),
+                    )
+                        : const SizedBox(),
+                  ),
+                  Expanded(child: content),
+                ],
+              ),
+            )),
       ),
     );
   }
@@ -133,7 +181,7 @@ class _NoteCardContentState extends State<NoteCardContent>
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           textDirection: widget.note.detailDirection,
@@ -142,7 +190,11 @@ class _NoteCardContentState extends State<NoteCardContent>
               '${widget.note.detail}',
               textDirection: widget.note.detailDirection,
               strutStyle: const StrutStyle(leading: 0.7),
-              style: Theme.of(context).textTheme.bodyText1.copyWith(
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(
                   color: themeColorOpacity(context: context, opacity: .7),
                   fontSize: SizeHelper.getDetail),
               maxLines: 2,
@@ -181,8 +233,11 @@ class _NoteCardContentState extends State<NoteCardContent>
                   Padding(
                     padding: const EdgeInsetsDirectional.only(end: 8.0),
                     child: Icon(
-                      MyIcon.folder,
-                      color: Theme.of(context).accentColor.withOpacity(.7),
+                      FluentIcons.folder_24_filled,
+                      color: Theme
+                          .of(context)
+                          .accentColor
+                          .withOpacity(.7),
                     ),
                   ),
                   AnimatedSize(
@@ -192,10 +247,15 @@ class _NoteCardContentState extends State<NoteCardContent>
                     child: Text(
                       '${widget.note.folderName}',
                       textDirection: widget.note.folderNameDirection,
-                      style: Theme.of(context).textTheme.caption.copyWith(
-                            color: themeColorOpacity(
-                                context: context, opacity: .7),
-                          ),
+                      maxLines: 1,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .caption
+                          .copyWith(
+                        color: themeColorOpacity(
+                            context: context, opacity: .7),
+                      ),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),

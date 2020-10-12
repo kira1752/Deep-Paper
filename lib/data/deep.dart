@@ -6,6 +6,7 @@ import 'package:moor/moor.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
+import '../resource/string_resource.dart';
 import 'note/folder_note_dao.dart';
 import 'note/note_dao.dart';
 
@@ -20,7 +21,7 @@ class TextDirectionConverter extends TypeConverter<TextDirection, String> {
       return null;
     }
 
-    return fromDb == 'TextDirection.ltr'
+    return fromDb == StringResource.textDirectionLTR
         ? TextDirection.ltr
         : TextDirection.rtl;
   }
@@ -74,8 +75,11 @@ class ImageNote extends Table {
 
 class FolderNote extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get name => text()();
-  TextColumn get nameDirection => text().map(const TextDirectionConverter())();
+
+  TextColumn get name => text().nullable()();
+
+  TextColumn get nameDirection =>
+      text().map(const TextDirectionConverter()).nullable()();
 }
 
 LazyDatabase _openConnection() {

@@ -77,8 +77,7 @@ class DeepMaterialApp extends StatelessWidget {
 
               return DeepRoute(
                   maintainState: false,
-                  builder: (_) =>
-                      MultiProvider(providers: [
+                  builder: (_) => MultiProvider(providers: [
                         Provider<NoteDetailDebounce>(
                           create: (_) => NoteDetailDebounce(),
                           dispose: (_, debounce) => debounce.cancel(),

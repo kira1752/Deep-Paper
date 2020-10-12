@@ -75,7 +75,7 @@ class __DeleteButtonState extends State<_DeleteButton> {
                 'DELETE',
                 style: Theme.of(context).textTheme.bodyText1.copyWith(
                       letterSpacing: 1.2,
-                      color: Theme.of(context).accentColor.withOpacity(0.80),
+                      color: Theme.of(context).accentColor,
                     ),
               ),
             ),

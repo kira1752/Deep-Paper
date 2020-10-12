@@ -1,9 +1,8 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../business_logic/note/provider/fab_provider.dart';
-import '../../icons/my_icon.dart';
-import '../app_theme.dart';
 import 'plan_detail/create_plan.dart' as create_plan;
 import 'widgets/appbar/plan_default_appbar.dart';
 import 'widgets/empty_plan_illustration.dart';
@@ -32,11 +31,11 @@ class _AnimateFABScroll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isNotVisible =
-        context.select((FABProvider value) => value.getScrollDown);
+    context.select((FABProvider value) => value.getScrollDown);
 
     return AnimatedAlign(
       alignment:
-          isNotVisible ? const Alignment(1.0, 1.5) : Alignment.bottomRight,
+          isNotVisible ? const Alignment(1.0, 2.0) : Alignment.bottomRight,
       duration: const Duration(milliseconds: 350),
       curve: isNotVisible ? Curves.easeIn : Curves.easeOut,
       child: IgnorePointer(
@@ -52,23 +51,17 @@ class _PlanFAB extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton.extended(
+    return FloatingActionButton(
       heroTag: null,
-      splashColor: Theme.of(context).accentColor.withOpacity(0.16),
-      icon: Icon(
-        MyIcon.edit_3,
-        color: Theme.of(context).accentColor,
-      ),
-      label: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Text(
-          'Write a plan',
-          style: Theme.of(context).textTheme.button.copyWith(
-                letterSpacing: 1.2,
-                fontWeight: FontWeight.w600,
-                color: themeColorOpacity(context: context, opacity: .8),
-              ),
-        ),
+      splashColor: Theme
+          .of(context)
+          .accentColor
+          .withOpacity(0.16),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12.0))),
+      child: const Icon(
+        FluentIcons.add_28_filled,
+        color: Colors.white,
       ),
       onPressed: () {
         create_plan.show(context: context);

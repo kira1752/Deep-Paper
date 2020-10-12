@@ -31,6 +31,7 @@ class FolderListView extends StatelessWidget {
                     ? const EmptyNoteIllustration()
                     : ListView.builder(
                         physics: const BouncingScrollPhysics(),
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
                         cacheExtent: 100,
                         semanticChildCount: listNote.length,
                         itemCount: listNote.length,

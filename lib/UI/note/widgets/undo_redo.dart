@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,40 +31,43 @@ class UndoRedoButton extends StatelessWidget {
       children: [
         IconButton(
           icon: Icon(
-            Icons.undo,
+            FluentIcons.arrow_undo_24_filled,
             color: context.select((UndoModel value) => value.canUndo)
-                ? Theme.of(context).accentColor.withOpacity(0.80)
+                ? Theme.of(context).accentColor.withOpacity(.87)
                 : themeColorOpacity(context: context, opacity: .38),
           ),
           onPressed: context.select((UndoModel value) => value.canUndo)
               ? () {
-                  context.read<NoteDetailDebounce>().cancel();
-                  undo_redo.undo(
-                    detailProvider: context.read<NoteDetailProvider>(),
-                    undoStateProvider: context.read<UndoStateProvider>(),
-                    undoHistoryProvider: context.read<UndoHistoryProvider>(),
-                    detailController: context.read<TextControllerValue>().value,
-                  );
-                }
+            context.read<NoteDetailDebounce>().cancel();
+            undo_redo.undo(
+              detailProvider: context.read<NoteDetailProvider>(),
+              undoStateProvider: context.read<UndoStateProvider>(),
+              undoHistoryProvider: context.read<UndoHistoryProvider>(),
+              detailController: context.read<TextControllerValue>().value,
+            );
+          }
               : null,
         ),
         IconButton(
           icon: Icon(
-            Icons.redo,
+            FluentIcons.arrow_redo_24_filled,
             color: context.select((UndoModel value) => value.canRedo)
-                ? Theme.of(context).accentColor.withOpacity(0.80)
+                ? Theme
+                .of(context)
+                .accentColor
+                .withOpacity(.87)
                 : themeColorOpacity(context: context, opacity: .38),
           ),
           onPressed: context.select((UndoModel value) => value.canRedo)
               ? () {
-                  context.read<NoteDetailDebounce>().cancel();
-                  undo_redo.redo(
-                    detailProvider: context.read<NoteDetailProvider>(),
-                    undoStateProvider: context.read<UndoStateProvider>(),
-                    undoHistoryProvider: context.read<UndoHistoryProvider>(),
-                    detailController: context.read<TextControllerValue>().value,
-                  );
-                }
+            context.read<NoteDetailDebounce>().cancel();
+            undo_redo.redo(
+              detailProvider: context.read<NoteDetailProvider>(),
+              undoStateProvider: context.read<UndoStateProvider>(),
+              undoHistoryProvider: context.read<UndoHistoryProvider>(),
+              detailController: context.read<TextControllerValue>().value,
+            );
+          }
               : null,
         )
       ],

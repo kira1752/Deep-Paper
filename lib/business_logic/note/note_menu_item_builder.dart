@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../UI/app_theme.dart';
-import '../../icons/my_icon.dart';
 import '../../resource/icon_resource.dart';
 import '../../resource/string_resource.dart';
 import '../../utility/size_helper.dart';
@@ -28,10 +27,7 @@ PopupMenuItemBuilder<int> selectionItemBuilder(BuildContext context) {
         PopupMenuItem(
             value: 1,
             child: ListTile(
-              leading: Icon(
-                MyIcon.trash,
-                color: themeColorOpacity(context: context, opacity: .6),
-              ),
+              leading: optionDelete(context: context),
               title: Text(
                 'Delete forever',
                 style: TextStyle(

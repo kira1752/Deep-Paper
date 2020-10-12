@@ -3,6 +3,7 @@ class StringResource {
 
   // NOTE
   static const note = 'Note';
+  static const all_notes = 'All Notes';
   static const delete = 'Delete';
   static const moveTo = 'Move to';
   static const restore = 'Restore';
@@ -21,6 +22,8 @@ class StringResource {
   static const tooltipSelectionMenu = 'Open Selection Menu';
   static const tooltipTrashMenu = 'Open Trash Bin menu';
   static const tooltipNoteHamburgerMenu = 'Open note menu';
+  static const textDirectionLTR = 'TextDirection.ltr';
+  static const textDirectionRTL = 'TextDirection.rtl';
 
   static String selectionAppBar(int count) {
     return '$count selected';

@@ -30,8 +30,9 @@ Future<void> restoreBatch(
   await database.noteDao.restoreFromTrash(selectedNote);
 }
 
-Future<void> deleteBatch({@required DeepPaperDatabase database,
-  @required SelectionProvider selectionProvider}) async {
+Future<void> deleteBatch(
+    {@required DeepPaperDatabase database,
+    @required SelectionProvider selectionProvider}) async {
   final selectedNote = selectionProvider.getSelected;
 
   await database.noteDao.deleteForever(selectedNote);

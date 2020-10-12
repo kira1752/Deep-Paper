@@ -1,9 +1,9 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../business_logic/plan/provider/create_plan_provider.dart';
-import '../../../icons/my_icon.dart';
 import '../../../utility/size_helper.dart';
 import '../../app_theme.dart';
 import '../../transition/widgets/slide_right_widget.dart';
@@ -21,33 +21,33 @@ class DateField extends StatelessWidget {
           _showDatePicker(context);
         },
         leading: Icon(
-          MyIcon.calendar_1,
-          color: themeColorOpacity(context: context, opacity: .7),
+          FluentIcons.calendar_date_24_filled,
+          color: Theme.of(context).accentColor,
         ),
         title: Selector<CreatePlanProvider, bool>(
           selector: (context, provider) => provider.getDate.isEmpty,
           builder: (context, isEmpty, date) => SlideRightWidget(
             child: isEmpty
                 ? Text(
-                    'Set date',
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: themeColorOpacity(context: context, opacity: .8),
-                        fontSize: SizeHelper.getModalTextField),
-                  )
+              'Set date',
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
+                  color: themeColorOpacity(context: context, opacity: .8),
+                  fontSize: SizeHelper.getModalTextField),
+            )
                 : date,
           ),
           child: Selector<CreatePlanProvider, String>(
               selector: (context, provider) => provider.getDate,
               builder: (context, date, _) => SlideRightWidget(
-                    child: Text(
-                      '$date',
-                      key: Key('$date'),
-                      style: Theme.of(context).textTheme.bodyText1.copyWith(
-                          color:
-                              themeColorOpacity(context: context, opacity: .8),
-                          fontSize: SizeHelper.getModalTextField),
-                    ),
-                  )),
+                child: Text(
+                  '$date',
+                  key: Key('$date'),
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      color:
+                      themeColorOpacity(context: context, opacity: .8),
+                      fontSize: SizeHelper.getModalTextField),
+                ),
+              )),
         ),
       ),
     );

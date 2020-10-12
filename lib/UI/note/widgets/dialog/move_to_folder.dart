@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -6,7 +7,6 @@ import '../../../../business_logic/note/provider/deep_bottom_provider.dart';
 import '../../../../business_logic/note/provider/fab_provider.dart';
 import '../../../../business_logic/note/provider/selection_provider.dart';
 import '../../../../data/deep.dart';
-import '../../../../icons/my_icon.dart';
 import '../../../../resource/icon_resource.dart';
 import '../../../../resource/string_resource.dart';
 import '../../../../utility/extension.dart';
@@ -17,38 +17,37 @@ import '../../../widgets/deep_scroll_behavior.dart';
 import '../../../widgets/deep_snack_bar.dart';
 import 'note_dialog.dart' as note_dialog;
 
-Future openMoveToDialog(
-    {@required BuildContext context,
-    @required FolderNoteData currentFolder,
-    @required int drawerIndex,
-    @required SelectionProvider selectionProvider,
-    @required BottomNavBarProvider deepBottomProvider,
-    @required FABProvider fabProvider,
-    @required DeepPaperDatabase database}) {
+Future openMoveToDialog({@required BuildContext context,
+  @required FolderNoteData currentFolder,
+  @required int drawerIndex,
+  @required SelectionProvider selectionProvider,
+  @required BottomNavBarProvider deepBottomProvider,
+  @required FABProvider fabProvider,
+  @required DeepPaperDatabase database}) {
   final defaultItemValue = currentFolder.isNotNull || drawerIndex == 0 ? 2 : 1;
 
   return showDialog(
       context: context,
       builder: (context) => FutureProvider(
-            create: (context) => database.folderNoteDao.getFolder(),
-            child: Consumer<List<FolderNoteData>>(
-              builder: (context, folderList, emptyState) => AnimatedSwitcher(
-                duration: const Duration(milliseconds: 450),
-                child: folderList.isNull
-                    ? emptyState
-                    : _MoveToFolderDialog(
-                        defaultItemValue: defaultItemValue,
-                        folderList: folderList,
-                        currentFolder: currentFolder,
-                        drawerIndex: drawerIndex,
-                        selectionProvider: selectionProvider,
-                        deepBottomProvider: deepBottomProvider,
-                        fabProvider: fabProvider,
-                        database: database),
-              ),
-              child: const SizedBox(),
-            ),
-          ));
+        create: (context) => database.folderNoteDao.getFolder(),
+        child: Consumer<List<FolderNoteData>>(
+          builder: (context, folderList, emptyState) => AnimatedSwitcher(
+            duration: const Duration(milliseconds: 450),
+            child: folderList.isNull
+                ? emptyState
+                : _MoveToFolderDialog(
+                defaultItemValue: defaultItemValue,
+                folderList: folderList,
+                currentFolder: currentFolder,
+                drawerIndex: drawerIndex,
+                selectionProvider: selectionProvider,
+                deepBottomProvider: deepBottomProvider,
+                fabProvider: fabProvider,
+                database: database),
+          ),
+          child: const SizedBox(),
+        ),
+      ));
 }
 
 class _MoveToFolderDialog extends StatelessWidget {
@@ -61,27 +60,25 @@ class _MoveToFolderDialog extends StatelessWidget {
   final FABProvider fabProvider;
   final DeepPaperDatabase database;
 
-  const _MoveToFolderDialog({@required this.defaultItemValue,
-    @required this.folderList,
-    @required this.currentFolder,
-    @required this.drawerIndex,
-    @required this.selectionProvider,
-    @required this.deepBottomProvider,
+  const _MoveToFolderDialog(
+      {@required this.defaultItemValue,
+      @required this.folderList,
+      @required this.currentFolder,
+      @required this.drawerIndex,
+      @required this.selectionProvider,
+      @required this.deepBottomProvider,
       @required this.fabProvider,
       @required this.database});
 
   @override
   Widget build(BuildContext context) {
     return DeepExpandBaseDialog(
-      titlePadding: const EdgeInsets.symmetric(horizontal: 24.0),
+      titlePadding: const EdgeInsets.all(0.0),
       actionsPadding: 0.0,
       title: Container(
         padding: const EdgeInsets.symmetric(vertical: 24.0),
         decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-                    width: 2.0,
-                    color: Theme.of(context).accentColor.withOpacity(.20)))),
+            border: Border(bottom: Divider.createBorderSide(context))),
         child: Text(
           'Select folder',
           textAlign: TextAlign.center,
@@ -140,8 +137,11 @@ class _MoveToFolderDialog extends StatelessWidget {
                             fabProvider: fabProvider);
                       },
                       leading: Icon(
-                        MyIcon.plus,
-                        color: themeColorOpacity(context: context, opacity: .7),
+                        FluentIcons.add_24_filled,
+                        color: Theme
+                            .of(context)
+                            .accentColor
+                            .withOpacity(.87),
                       ),
                       title: Text(
                         'New folder',
@@ -182,9 +182,11 @@ class _MoveToFolderDialog extends StatelessWidget {
                           selectionProvider.getSelected.clear();
                         },
                         leading: Icon(
-                          MyIcon.folder,
-                          color:
-                          themeColorOpacity(context: context, opacity: .7),
+                          FluentIcons.folder_briefcase_20_filled,
+                          color: Theme
+                              .of(context)
+                              .accentColor
+                              .withOpacity(.87),
                         ),
                         title: Text(
                           StringResource.mainFolder,
@@ -227,9 +229,11 @@ class _MoveToFolderDialog extends StatelessWidget {
                           selectionProvider.getSelected.clear();
                         },
                         leading: Icon(
-                          MyIcon.folder,
-                          color:
-                          themeColorOpacity(context: context, opacity: .7),
+                          FluentIcons.folder_24_filled,
+                          color: Theme
+                              .of(context)
+                              .accentColor
+                              .withOpacity(.87),
                         ),
                         title: Text(
                           '${folder.name}',
@@ -273,9 +277,11 @@ class _MoveToFolderDialog extends StatelessWidget {
                           selectionProvider.getSelected.clear();
                         },
                         leading: Icon(
-                          MyIcon.folder,
-                          color:
-                              themeColorOpacity(context: context, opacity: .7),
+                          FluentIcons.folder_briefcase_20_filled,
+                          color: Theme
+                              .of(context)
+                              .accentColor
+                              .withOpacity(.87),
                         ),
                         title: Text(
                           StringResource.mainFolder,
@@ -317,9 +323,11 @@ class _MoveToFolderDialog extends StatelessWidget {
                           selectionProvider.getSelected.clear();
                         },
                         leading: Icon(
-                          MyIcon.folder,
-                          color:
-                          themeColorOpacity(context: context, opacity: .7),
+                          FluentIcons.folder_24_filled,
+                          color: Theme
+                              .of(context)
+                              .accentColor
+                              .withOpacity(.87),
                         ),
                         title: Text(
                           '${folder.name}',
@@ -362,8 +370,11 @@ class _MoveToFolderDialog extends StatelessWidget {
                         selectionProvider.getSelected.clear();
                       },
                       leading: Icon(
-                        MyIcon.folder,
-                        color: themeColorOpacity(context: context, opacity: .7),
+                        FluentIcons.folder_24_filled,
+                        color: Theme
+                            .of(context)
+                            .accentColor
+                            .withOpacity(.87),
                       ),
                       title: Text(
                         '${folder.name}',

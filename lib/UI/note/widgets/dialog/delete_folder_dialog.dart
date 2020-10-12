@@ -34,14 +34,11 @@ class _DeleteFolderDialogState extends State<DeleteFolderDialog> {
   @override
   Widget build(BuildContext context) {
     return DeepBaseDialog(
-      titlePadding: const EdgeInsets.symmetric(horizontal: 24.0),
+      titlePadding: const EdgeInsets.all(0.0),
       title: Container(
         padding: const EdgeInsets.symmetric(vertical: 24.0),
         decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-                    width: 2.0,
-                    color: Theme.of(context).accentColor.withOpacity(.20)))),
+            border: Border(bottom: Divider.createBorderSide(context))),
         child: Text(
           'Delete folder',
           textAlign: TextAlign.center,
@@ -82,8 +79,7 @@ class _DeleteFolderDialogState extends State<DeleteFolderDialog> {
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-                border: Border(
-                    left: Divider.createBorderSide(context, width: 1.0))),
+                border: Border(left: Divider.createBorderSide(context))),
             child: FlatButton(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 textColor: Theme.of(context).accentColor.withOpacity(0.87),

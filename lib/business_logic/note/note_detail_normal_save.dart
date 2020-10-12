@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart' as intl;
 
 import '../../UI/widgets/deep_snack_bar.dart';
 import '../../data/deep.dart';
 import '../../resource/icon_resource.dart';
 import '../../utility/extension.dart';
+import '../detect_text_direction_to_string.dart';
 import 'note_creation.dart' as note_creation;
 import 'provider/note_detail_provider.dart';
 
@@ -60,15 +60,10 @@ void run(
         note_creation.copy(
           database: database,
           detail: detailProvider.getDetail,
-          detailDirection:
-              intl.Bidi.detectRtlDirectionality(detailProvider.getDetail)
-                  ? TextDirection.rtl
-                  : TextDirection.ltr,
+          detailDirection: detectTextDirection(detailProvider.getDetail),
           folderID: folderID,
           folderName: folderName,
-          folderNameDirection: intl.Bidi.detectRtlDirectionality(folderName)
-              ? TextDirection.rtl
-              : TextDirection.ltr,
+          folderNameDirection: detectTextDirection(folderName),
         );
       }
     } else {
@@ -96,15 +91,8 @@ void run(
     note_creation.create(
         database: database,
         detail: detailProvider.getDetail,
-        detailDirection:
-            intl.Bidi.detectRtlDirectionality(detailProvider.getDetail)
-                ? TextDirection.rtl
-                : TextDirection.ltr,
         folderID: folderID,
         folderName: folderName,
-        folderNameDirection: intl.Bidi.detectRtlDirectionality(folderName)
-            ? TextDirection.rtl
-            : TextDirection.ltr,
         isDeleted: isDeleted,
         isCopy: isCopy);
   }

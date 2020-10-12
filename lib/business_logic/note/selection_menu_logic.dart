@@ -56,13 +56,14 @@ void menuTrashSelected(
   }
 }
 
-Future<void> menuSelectionSelected({@required BuildContext context,
-  @required int choice,
-  @required DeepPaperDatabase database,
-  @required BottomNavBarProvider deepBottomProvider,
-  @required SelectionProvider selectionProvider,
-  @required FABProvider fabProvider,
-  @required NoteDrawerProvider drawerProvider}) async {
+Future<void> menuSelectionSelected(
+    {@required BuildContext context,
+    @required int choice,
+    @required DeepPaperDatabase database,
+    @required BottomNavBarProvider deepBottomProvider,
+    @required SelectionProvider selectionProvider,
+    @required FABProvider fabProvider,
+    @required NoteDrawerProvider drawerProvider}) async {
   switch (choice) {
     case 0:
       await note_creation.moveToTrashBatch(

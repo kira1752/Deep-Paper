@@ -4,7 +4,7 @@ import '../../../data/deep.dart';
 import '../../../resource/string_resource.dart';
 
 class NoteDrawerProvider with ChangeNotifier {
-  String _titleFragment = StringResource.note;
+  String _titleFragment = StringResource.all_notes;
   int _indexDrawerItem = 0;
   int _indexFolderItem;
   List<Note> _noteList;

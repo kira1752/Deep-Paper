@@ -95,7 +95,7 @@ class _CreateFolderDialogState extends State<CreateFolderDialog> {
       Container(
         margin: const EdgeInsets.only(top: 8.0),
         decoration: BoxDecoration(
-            border: Border(top: Divider.createBorderSide(context, width: 1.0))),
+            border: Border(top: Divider.createBorderSide(context))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
@@ -119,18 +119,21 @@ class _CreateFolderDialogState extends State<CreateFolderDialog> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                    border: Border(
-                        left: Divider.createBorderSide(context, width: 1.0))),
+                    border: Border(left: Divider.createBorderSide(context))),
                 child: Consumer<FolderDialogProvider>(
-                  builder: (context, provider, createText) => FlatButton(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      textColor:
-                          Theme.of(context).accentColor.withOpacity(0.87),
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(12.0))),
-                      onPressed: provider.isNameTyped
-                          ? () {
+                  builder: (context, provider, createText) =>
+                      FlatButton(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          textColor:
+                          Theme
+                              .of(context)
+                              .accentColor
+                              .withOpacity(0.87),
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(12.0))),
+                          onPressed: provider.isNameTyped
+                              ? () {
                               final database = Provider.of<DeepPaperDatabase>(
                                   context,
                                   listen: false);

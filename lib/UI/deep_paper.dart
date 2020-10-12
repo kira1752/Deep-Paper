@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -5,7 +6,6 @@ import '../business_logic/note/provider/deep_bottom_provider.dart';
 import '../business_logic/note/provider/fab_provider.dart';
 import '../business_logic/note/provider/note_drawer_provider.dart';
 import '../business_logic/note/provider/selection_provider.dart';
-import '../icons/my_icon.dart';
 import '../utility/size_helper.dart';
 import '../utility/sizeconfig.dart';
 import 'app_theme.dart';
@@ -43,6 +43,7 @@ class DeepPaper extends StatelessWidget {
           child: Selector<BottomNavBarProvider, int>(
             selector: (context, provider) => provider.getCurrentIndex,
             builder: (context, index, _) => BottomNavigationBar(
+              elevation: 16.0,
               backgroundColor: Theme.of(context).primaryColor,
               type: BottomNavigationBarType.fixed,
               selectedFontSize: SizeHelper.getButton,
@@ -53,36 +54,40 @@ class DeepPaper extends StatelessWidget {
               selectedItemColor: Theme.of(context).accentColor,
               unselectedItemColor:
                   themeColorOpacity(context: context, opacity: .6),
-                  currentIndex: index,
-                  onTap: (index) {
-                    final deepProvider =
+              currentIndex: index,
+              onTap: (index) {
+                final deepProvider =
                     Provider.of<BottomNavBarProvider>(context, listen: false);
-                    final fabProvider =
+                final fabProvider =
                     Provider.of<FABProvider>(context, listen: false);
 
-                    fabProvider.setScrollDown = false;
-                    deepProvider.setCurrentIndex = index;
-                    deepProvider.controller.jumpToPage(index);
-                  },
-                  items: const [
-                    BottomNavigationBarItem(
-                      icon: Icon(MyIcon.square_edit),
-                      label: 'Note',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(MyIcon.calendar_1),
-                      label: 'Plan',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(MyIcon.dollar_sign),
-                      label: 'Finance',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(MyIcon.more_horizontal),
-                      label: 'More',
-                    ),
-                  ],
+                fabProvider.setScrollDown = false;
+                deepProvider.setCurrentIndex = index;
+                deepProvider.controller.jumpToPage(index);
+              },
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(FluentIcons.note_24_regular),
+                  activeIcon: Icon(FluentIcons.note_24_filled),
+                  label: 'Note',
                 ),
+                BottomNavigationBarItem(
+                  icon: Icon(FluentIcons.calendar_24_regular),
+                  activeIcon: Icon(FluentIcons.calendar_24_filled),
+                  label: 'Plan',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(FluentIcons.money_24_regular),
+                  activeIcon: Icon(FluentIcons.money_24_filled),
+                  label: 'Finance',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(FluentIcons.more_24_regular),
+                  activeIcon: Icon(FluentIcons.more_24_filled),
+                  label: 'More',
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -117,16 +122,16 @@ class __BuildBodyState extends State<_BuildBody> {
       children: <Widget>[
         DeepKeepAlive(
             child: MultiProvider(
-          providers: [
-            ChangeNotifierProvider<NoteDrawerProvider>(
-              create: (context) => NoteDrawerProvider(),
-            ),
-            ChangeNotifierProvider<SelectionProvider>(
-              create: (context) => SelectionProvider(),
-            )
-          ],
-          child: const NotePage(),
-        )),
+              providers: [
+                ChangeNotifierProvider<NoteDrawerProvider>(
+                  create: (context) => NoteDrawerProvider(),
+                ),
+                ChangeNotifierProvider<SelectionProvider>(
+                  create: (context) => SelectionProvider(),
+                )
+              ],
+              child: const NotePage(),
+            )),
         const DeepKeepAlive(child: PlanPage()),
         const DeepKeepAlive(child: FinancePage()),
         const DeepKeepAlive(child: MorePage())

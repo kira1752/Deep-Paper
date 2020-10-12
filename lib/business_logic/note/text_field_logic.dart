@@ -57,9 +57,7 @@ Future<void> detail(
 }
 
 int countAll(String text) {
-  return text
-      .replaceAll(RegExp(r'\s+\b|\b\s|\s|\b'), '')
-      .length;
+  return text.replaceAll(RegExp(r'\s+\b|\b\s|\s|\b'), '').length;
 }
 
 String loadDate(DateTime time) {
