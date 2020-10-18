@@ -8,6 +8,7 @@ class StringResource {
   static const moveTo = 'Move to';
   static const restore = 'Restore';
   static const copy = 'Make a copy';
+  static const trash = 'Trash';
   static const renameFolder = 'Rename Folder';
   static const deleteFolder = 'Delete Folder';
   static const emptyTrashBin = 'Empty Trash Bin';

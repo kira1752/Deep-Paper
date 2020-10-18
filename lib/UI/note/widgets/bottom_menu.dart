@@ -27,7 +27,7 @@ class BottomMenu extends StatelessWidget {
               children: <Widget>[
                 IconButton(
                   icon: Icon(
-                    FluentIcons.add_circle_24_regular,
+                    FluentIcons.add_circle_24_filled,
                     color: Theme.of(context).accentColor.withOpacity(.87),
                   ),
                   onPressed: () async {
@@ -47,18 +47,23 @@ class BottomMenu extends StatelessWidget {
                         .withOpacity(.87),
                   ),
                   onPressed: () async {
-                    if (FocusScope.of(context).hasFocus) {
+                    if (FocusScope
+                        .of(context)
+                        .hasFocus) {
                       FocusScope.of(context).unfocus();
                     }
                     await openOptionsMenu(
                         context: context,
                         onDelete: () => onDelete(context: context),
                         onCopy: () => onCopy(context: context),
-                        noteInfo: () => noteInfo(
-                          context: context,
-                          folderName:
-                          context.read<NoteDetailProvider>().folderName,
-                        ));
+                        noteInfo: () =>
+                            noteInfo(
+                              context: context,
+                              folderName:
+                              context
+                                  .read<NoteDetailProvider>()
+                                  .folderName,
+                            ));
                   },
                 )
               ],

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../data/deep.dart';
@@ -5,7 +6,7 @@ import '../../utility/extension.dart';
 import 'note_creation.dart' as note_creation;
 import 'provider/note_detail_provider.dart';
 
-Future<void> check(
+Future<void> noteDetailLifecycle(
     {@required AppLifecycleState state,
     @required DeepPaperDatabase database,
     @required NoteDetailProvider detailProvider,

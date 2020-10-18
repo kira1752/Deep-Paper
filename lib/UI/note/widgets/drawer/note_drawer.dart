@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-import '../../../../business_logic/note/provider/deep_bottom_provider.dart';
-import '../../../../business_logic/note/provider/fab_provider.dart';
-import '../../../../business_logic/note/provider/selection_provider.dart';
 import '../../../../data/deep.dart';
+import '../../../../resource/string_resource.dart';
 import '../../../../utility/extension.dart';
 import '../../../widgets/deep_drawer.dart';
 import 'drawer_default_item.dart';
@@ -24,29 +22,9 @@ class NoteDrawer extends StatefulWidget {
 
 class _NoteDrawerState extends State<NoteDrawer> {
   @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final selectionProvider = context.read<SelectionProvider>();
-      final bottomNavBarProvider = context.read<BottomNavBarProvider>();
-      final fabProvider = context.read<FABProvider>();
-
-      fabProvider.setScrollDown = false;
-
-      if (selectionProvider.getSelection == true) {
-        selectionProvider.setSelection = false;
-        bottomNavBarProvider.setSelection = false;
-        selectionProvider.getSelected.clear();
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     final database = Provider.of<DeepPaperDatabase>(context, listen: false);
     const defaultItemValue = 5;
-
     return RepaintBoundary(
       child: DeepDrawer(
         child: MultiProvider(
@@ -91,7 +69,7 @@ class _NoteDrawerState extends State<NoteDrawer> {
                               } else if (index == 1) {
                                 return DrawerDefaultItem(
                                   key: ValueKey('$index'),
-                                  title: 'All Notes',
+                                  title: StringResource.all_notes,
                                   setValue: 0,
                                   icon: FluentIcons.note_24_filled,
                                   total:
@@ -100,7 +78,7 @@ class _NoteDrawerState extends State<NoteDrawer> {
                               } else if (index == 2) {
                                 return DrawerDefaultItem(
                                   key: ValueKey('$index'),
-                                  title: 'Trash',
+                                  title: StringResource.trash,
                                   setValue: 1,
                                   icon: FluentIcons.delete_24_filled,
                                   total: DrawerTotalNotes(countAllDeletedNotes),

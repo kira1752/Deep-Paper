@@ -5,7 +5,7 @@ import '../../utility/extension.dart';
 import 'provider/note_detail_provider.dart';
 import 'provider/undo_history_provider.dart';
 
-void init({
+void noteDetailInit({
   @required UndoHistoryProvider undoHistoryProvider,
   @required NoteDetailProvider detailProvider,
   @required TextEditingController detailController,

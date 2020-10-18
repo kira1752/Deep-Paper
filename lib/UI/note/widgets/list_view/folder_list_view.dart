@@ -51,7 +51,8 @@ class FolderListView extends StatelessWidget {
                                       fabProvider.setScrollDown = false);
                             },
                           );
-                        }),
+                        },
+                      ),
           );
         });
   }

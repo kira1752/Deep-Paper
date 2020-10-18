@@ -29,7 +29,7 @@ class DeepPaper extends StatelessWidget {
         ),
         ChangeNotifierProvider<FABProvider>(
           create: (context) => FABProvider(),
-        )
+        ),
       ],
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -56,10 +56,8 @@ class DeepPaper extends StatelessWidget {
                   themeColorOpacity(context: context, opacity: .6),
               currentIndex: index,
               onTap: (index) {
-                final deepProvider =
-                    Provider.of<BottomNavBarProvider>(context, listen: false);
-                final fabProvider =
-                    Provider.of<FABProvider>(context, listen: false);
+                final deepProvider = context.read<BottomNavBarProvider>();
+                final fabProvider = context.read<FABProvider>();
 
                 fabProvider.setScrollDown = false;
                 deepProvider.setCurrentIndex = index;
@@ -109,9 +107,13 @@ class __BuildBodyState extends State<_BuildBody> {
   void initState() {
     super.initState();
     _controller =
-        Provider
-            .of<BottomNavBarProvider>(context, listen: false)
-            .controller;
+        Provider.of<BottomNavBarProvider>(context, listen: false).controller;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -122,16 +124,16 @@ class __BuildBodyState extends State<_BuildBody> {
       children: <Widget>[
         DeepKeepAlive(
             child: MultiProvider(
-              providers: [
-                ChangeNotifierProvider<NoteDrawerProvider>(
-                  create: (context) => NoteDrawerProvider(),
-                ),
-                ChangeNotifierProvider<SelectionProvider>(
-                  create: (context) => SelectionProvider(),
-                )
-              ],
-              child: const NotePage(),
-            )),
+          providers: [
+            ChangeNotifierProvider<NoteDrawerProvider>(
+              create: (context) => NoteDrawerProvider(),
+            ),
+            ChangeNotifierProvider<SelectionProvider>(
+              create: (context) => SelectionProvider(),
+            )
+          ],
+          child: const NotePage(),
+        )),
         const DeepKeepAlive(child: PlanPage()),
         const DeepKeepAlive(child: FinancePage()),
         const DeepKeepAlive(child: MorePage())

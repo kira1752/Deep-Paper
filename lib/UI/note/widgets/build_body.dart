@@ -24,12 +24,13 @@ class BuildBody extends StatelessWidget {
         builder: (context, data, _) {
           if (data.item2 == true) {
             return Scrollbar(
-                child: Selector<NoteDrawerProvider, FolderNoteData>(
-                    selector: (context, provider) => provider.getFolder,
-                    builder: (context, folder, _) => FolderListView(
-                          key: Key('${folder.isNotNull ? folder.id : 0}'),
-                          folder: folder,
-                        )));
+              child: Selector<NoteDrawerProvider, FolderNoteData>(
+                  selector: (context, provider) => provider.getFolder,
+                  builder: (context, folder, _) => FolderListView(
+                        key: Key('${folder.isNotNull ? folder.id : 0}'),
+                        folder: folder,
+                      )),
+            );
           } else {
             return _otherNote(index: data.item1);
           }
@@ -40,9 +41,9 @@ class BuildBody extends StatelessWidget {
 
   Widget _otherNote({int index}) {
     if (index == 0) {
-      return const Scrollbar(child: NoteListView());
+      return const NoteListView();
     } else {
-      return const Scrollbar(child: TrashListView());
+      return const TrashListView();
     }
   }
 

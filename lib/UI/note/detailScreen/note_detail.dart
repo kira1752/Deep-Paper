@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../business_logic/note/note_debounce.dart';
-import '../../../business_logic/note/note_detail_initstate.dart' as note_detail;
-import '../../../business_logic/note/note_detail_lifecycle.dart' as lifecycle;
+import '../../../business_logic/note/note_detail_logic.dart';
 import '../../../business_logic/note/note_detail_normal_save.dart' as save;
 import '../../../business_logic/note/provider/note_detail_provider.dart';
 import '../../../business_logic/note/provider/undo_history_provider.dart';
@@ -27,35 +26,8 @@ class NoteDetail extends StatefulWidget {
   _NoteDetailState createState() => _NoteDetailState();
 }
 
-class _NoteDetailState extends State<NoteDetail> with WidgetsBindingObserver {
-  TextEditingController detailController;
-  FocusNode detailFocus;
-
-  @override
-  void initState() {
-    super.initState();
-    detailController = TextEditingController();
-    detailFocus = FocusNode();
-
-    note_detail.init(
-      undoHistoryProvider: context.read<UndoHistoryProvider>(),
-      detailProvider: context.read<NoteDetailProvider>(),
-      detailController: detailController,
-      detailFocus: detailFocus,
-    );
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    lifecycle.check(
-        database: context.read<DeepPaperDatabase>(),
-        state: state,
-        detailProvider: context.read<NoteDetailProvider>(),
-        folderID: context.read<NoteDetailProvider>().folderID,
-        folderName: context.read<NoteDetailProvider>().folderName);
-  }
-
+class _NoteDetailState extends State<NoteDetail>
+    with WidgetsBindingObserver, NoteDetailLogic<NoteDetail> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

@@ -39,8 +39,8 @@ ThemeData dark() {
   return ThemeData.dark().copyWith(
       applyElevationOverlayColor: true,
       pageTransitionsTheme: const PageTransitionsTheme(builders: {
-        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.android: OpenUpwardsPageTransitionsBuilder(),
+        TargetPlatform.iOS: OpenUpwardsPageTransitionsBuilder(),
       }),
       visualDensity: VisualDensity.adaptivePlatformDensity,
       dividerColor: const Color(0xff545458).withOpacity(.65),

@@ -27,14 +27,14 @@ class NoteCard extends StatelessWidget {
   BorderRadius calculateNoteCardBorderRadius(
       {@required int listLength, @required int index}) {
     if (listLength == 1) {
-      return const BorderRadius.all(Radius.circular(12.0));
+      return const BorderRadius.all(Radius.circular(24.0));
     } else if (index == 0) {
       return const BorderRadius.only(
-          topRight: Radius.circular(12.0), topLeft: Radius.circular(12.0));
+          topRight: Radius.circular(24.0), topLeft: Radius.circular(24.0));
     } else if (listLength - 1 == index) {
       return const BorderRadius.only(
-          bottomRight: Radius.circular(12.0),
-          bottomLeft: Radius.circular(12.0));
+          bottomRight: Radius.circular(24.0),
+          bottomLeft: Radius.circular(24.0));
     } else {
       return const BorderRadius.all(Radius.circular(0.0));
     }
@@ -133,22 +133,21 @@ class NoteCard extends StatelessWidget {
                     duration: const Duration(milliseconds: 250),
                     child: noteSelected
                         ? Material(
-                      color: Theme
-                          .of(context)
-                          .floatingActionButtonTheme
-                          .backgroundColor,
-                      type: MaterialType.circle,
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Icon(
-                          FluentIcons.checkmark_20_filled,
-                          size: 16.0,
-                          color: noteSelected
-                              ? Colors.white
-                              : Colors.transparent,
-                        ),
-                      ),
-                    )
+                            color: Theme.of(context)
+                                .floatingActionButtonTheme
+                                .backgroundColor,
+                            type: MaterialType.circle,
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Icon(
+                                FluentIcons.checkmark_20_filled,
+                                size: 16.0,
+                                color: noteSelected
+                                    ? Colors.white
+                                    : Colors.transparent,
+                              ),
+                            ),
+                          )
                         : const SizedBox(),
                   ),
                   Expanded(child: content),

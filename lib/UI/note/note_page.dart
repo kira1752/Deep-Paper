@@ -38,9 +38,9 @@ class NotePage extends StatelessWidget {
 
   Future<bool> exitSelectionOrExitApp(BuildContext context) async {
     final providerSelection =
-    Provider.of<SelectionProvider>(context, listen: false);
+        Provider.of<SelectionProvider>(context, listen: false);
     final providerDeepBottom =
-    Provider.of<BottomNavBarProvider>(context, listen: false);
+        Provider.of<BottomNavBarProvider>(context, listen: false);
     final fabProvider = Provider.of<FABProvider>(context, listen: false);
 
     final selection = providerSelection.getSelection;

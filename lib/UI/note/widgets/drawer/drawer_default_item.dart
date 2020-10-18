@@ -71,32 +71,19 @@ class DrawerDefaultItem extends StatelessWidget {
               }
             },
             leading: selected
-                ? Icon(icon, color: Theme
-                .of(context)
-                .accentColor)
+                ? Icon(icon, color: Theme.of(context).accentColor)
                 : Icon(icon,
-                color: Theme
-                    .of(context)
-                    .accentColor
-                    .withOpacity(.54)),
+                    color: Theme.of(context).accentColor.withOpacity(.54)),
             trailing: total,
             title: Text(
               title,
               style: selected
-                  ? Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(
-                  color: themeColorOpacity(context: context, opacity: .87),
-                  fontSize: SizeHelper.getDrawerMenuText)
-                  : Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(
-                  color: themeColorOpacity(context: context, opacity: .7),
-                  fontSize: SizeHelper.getDrawerMenuText),
+                  ? Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: themeColorOpacity(context: context, opacity: .87),
+                      fontSize: SizeHelper.getDrawerMenuText)
+                  : Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: themeColorOpacity(context: context, opacity: .7),
+                      fontSize: SizeHelper.getDrawerMenuText),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             )),

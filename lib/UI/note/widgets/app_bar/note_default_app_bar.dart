@@ -21,7 +21,6 @@ class NoteDefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      centerTitle: true,
       automaticallyImplyLeading: false,
       actions: const <Widget>[SearchNoteButton(), Menu()],
       leading: Selector<SelectionProvider, bool>(
