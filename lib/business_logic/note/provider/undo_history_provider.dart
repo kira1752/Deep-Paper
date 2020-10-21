@@ -1,7 +1,7 @@
 import 'dart:collection';
 
+import '../../../model/note/text_model.dart';
 import '../../../utility/extension.dart';
-import '../model/text_model.dart';
 import 'undo_state_provider.dart';
 
 class UndoHistoryProvider {

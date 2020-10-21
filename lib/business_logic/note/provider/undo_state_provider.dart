@@ -1,6 +1,6 @@
 import 'package:state_notifier/state_notifier.dart';
 
-import '../model/undo_model.dart';
+import '../../../model/note/undo_model.dart';
 
 class UndoStateProvider extends StateNotifier<UndoModel> with LocatorMixin {
   UndoStateProvider() : super(UndoModel(canUndo: false, canRedo: false));

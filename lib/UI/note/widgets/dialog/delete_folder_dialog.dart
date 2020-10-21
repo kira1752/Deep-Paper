@@ -12,24 +12,10 @@ import '../../../app_theme.dart';
 import '../../../widgets/deep_base_dialog.dart';
 import '../../../widgets/deep_snack_bar.dart';
 
-class DeleteFolderDialog extends StatefulWidget {
+class DeleteFolderDialog extends StatelessWidget {
   final NoteDrawerProvider drawerProvider;
 
   const DeleteFolderDialog({@required this.drawerProvider});
-
-  @override
-  _DeleteFolderDialogState createState() => _DeleteFolderDialogState();
-}
-
-class _DeleteFolderDialogState extends State<DeleteFolderDialog> {
-  NoteDrawerProvider drawerProvider;
-
-  @override
-  void initState() {
-    super.initState();
-
-    drawerProvider = widget.drawerProvider;
-  }
 
   @override
   Widget build(BuildContext context) {

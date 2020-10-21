@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:moor/moor.dart';
 
 import '../../business_logic/detect_text_direction_to_string.dart';
+import '../../model/note/drawer_note_model.dart';
 import '../../resource/string_resource.dart';
 import '../../utility/extension.dart';
 import '../deep.dart';
@@ -28,6 +29,24 @@ class NoteDao extends DatabaseAccessor<DeepPaperDatabase> with _$NoteDaoMixin {
         ..where((n) => n.isDeleted.equals(true))
         ..orderBy([(n) => OrderingTerm.desc(n.modified)]))
       .watch();
+
+  Stream<DrawerNoteModel> watchCountAllNotes() {
+    final availableNotesCount =
+        notes.id.count(filter: notes.isDeleted.equals(false));
+    final deletedNotesCount =
+        notes.id.count(filter: notes.isDeleted.equals(true));
+
+    final notesQuery = selectOnly(notes)
+      ..addColumns([availableNotesCount, deletedNotesCount]);
+
+    final result = notesQuery
+        .map((row) => DrawerNoteModel(
+            countAvailableNotes: row.read(availableNotesCount),
+            countDeletedNotes: row.read(deletedNotesCount)))
+        .watchSingle();
+
+    return result;
+  }
 
   Stream<List<Note>> watchNoteInsideFolder(FolderNoteData folder) {
     final folderID = folder.isNotNull ? folder.id : 0;

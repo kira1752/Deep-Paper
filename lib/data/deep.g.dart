@@ -501,8 +501,7 @@ class $NotesTable extends Notes with TableInfo<$NotesTable, Note> {
   }
 
   @override
-  List<GeneratedColumn> get $columns =>
-      [
+  List<GeneratedColumn> get $columns => [
         id,
         folderID,
         folderName,
@@ -544,7 +543,6 @@ class FolderNoteData extends DataClass implements Insertable<FolderNoteData> {
   final int id;
   final String name;
   final TextDirection nameDirection;
-
   FolderNoteData({@required this.id, this.name, this.nameDirection});
   factory FolderNoteData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
@@ -632,7 +630,6 @@ class FolderNoteCompanion extends UpdateCompanion<FolderNoteData> {
     this.name = const Value.absent(),
     this.nameDirection = const Value.absent(),
   });
-
   FolderNoteCompanion.insert({
     this.id = const Value.absent(),
     this.name = const Value.absent(),

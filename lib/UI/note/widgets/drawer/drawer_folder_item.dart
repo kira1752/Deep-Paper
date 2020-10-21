@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
+import '../../../../business_logic/detect_text_direction_to_string.dart';
 import '../../../../business_logic/note/provider/note_drawer_provider.dart';
 import '../../../../data/deep.dart';
-import '../../../../resource/string_resource.dart';
-import '../../../../utility/extension.dart';
 import '../../../../utility/size_helper.dart';
 import '../../../app_theme.dart';
 
@@ -27,12 +25,9 @@ class DrawerFolderItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final selected = context
         .select((NoteDrawerProvider value) => value.getIndexFolderItem == id);
-    final folderName = (folder?.name) ?? StringResource.mainFolder;
-    final nameDirection = folder.isNotNull
-        ? folder.nameDirection
-        : (intl.Bidi.detectRtlDirectionality(folderName)
-            ? TextDirection.rtl
-            : TextDirection.ltr);
+    final folderName = folder.name;
+    final nameDirection =
+        folder.nameDirection ?? (detectTextDirection(folderName));
 
     return Padding(
       key: ValueKey<int>(id),

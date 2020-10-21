@@ -101,4 +101,17 @@ class DeepPaperDatabase extends _$DeepPaperDatabase {
 
   @override
   int get schemaVersion => 1;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+      onCreate: (m) => m.createAll(),
+      onUpgrade: null,
+      beforeOpen: (details) async {
+        if (details.wasCreated) {
+          await into(folderNote).insert(FolderNoteCompanion.insert(
+            id: const Value(0),
+            name: const Value(StringResource.mainFolder),
+          ));
+        }
+      });
 }

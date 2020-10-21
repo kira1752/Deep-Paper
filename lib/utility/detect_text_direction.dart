@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:meta/meta.dart';
 
 // DetectTextDirection Utility class
 class DetectTextDirection {

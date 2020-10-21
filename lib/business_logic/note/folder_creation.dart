@@ -1,6 +1,7 @@
 import 'package:moor/moor.dart';
 
 import '../../data/deep.dart';
+import '../../resource/string_resource.dart';
 import '../detect_text_direction_to_string.dart';
 import 'provider/note_drawer_provider.dart';
 
@@ -39,5 +40,5 @@ Future<void> delete({
   drawerProvider.setIndexFolderItem = null;
   drawerProvider.setFolder = null;
   drawerProvider.setIndexDrawerItem = 0;
-  drawerProvider.setTitleFragment = 'NOTE';
+  drawerProvider.setTitleFragment = StringResource.all_notes;
 }

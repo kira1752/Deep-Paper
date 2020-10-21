@@ -17,37 +17,38 @@ import '../../../widgets/deep_scroll_behavior.dart';
 import '../../../widgets/deep_snack_bar.dart';
 import 'note_dialog.dart' as note_dialog;
 
-Future openMoveToDialog({@required BuildContext context,
-  @required FolderNoteData currentFolder,
-  @required int drawerIndex,
-  @required SelectionProvider selectionProvider,
-  @required BottomNavBarProvider deepBottomProvider,
-  @required FABProvider fabProvider,
-  @required DeepPaperDatabase database}) {
-  final defaultItemValue = currentFolder.isNotNull || drawerIndex == 0 ? 2 : 1;
+Future openMoveToDialog(
+    {@required BuildContext context,
+    @required FolderNoteData currentFolder,
+    @required int drawerIndex,
+    @required SelectionProvider selectionProvider,
+    @required BottomNavBarProvider deepBottomProvider,
+    @required FABProvider fabProvider,
+    @required DeepPaperDatabase database}) {
+  final defaultItemValue = currentFolder.isNotNull || drawerIndex == 0 ? 1 : 1;
 
   return showDialog(
       context: context,
       builder: (context) => FutureProvider(
-        create: (context) => database.folderNoteDao.getFolder(),
-        child: Consumer<List<FolderNoteData>>(
-          builder: (context, folderList, emptyState) => AnimatedSwitcher(
-            duration: const Duration(milliseconds: 450),
-            child: folderList.isNull
-                ? emptyState
-                : _MoveToFolderDialog(
-                defaultItemValue: defaultItemValue,
-                folderList: folderList,
-                currentFolder: currentFolder,
-                drawerIndex: drawerIndex,
-                selectionProvider: selectionProvider,
-                deepBottomProvider: deepBottomProvider,
-                fabProvider: fabProvider,
-                database: database),
-          ),
-          child: const SizedBox(),
-        ),
-      ));
+            create: (context) => database.folderNoteDao.getFolder(),
+            child: Consumer<List<FolderNoteData>>(
+              builder: (context, folderList, emptyState) => AnimatedSwitcher(
+                duration: const Duration(milliseconds: 450),
+                child: folderList.isNull
+                    ? emptyState
+                    : _MoveToFolderDialog(
+                        defaultItemValue: defaultItemValue,
+                        folderList: folderList,
+                        currentFolder: currentFolder,
+                        drawerIndex: drawerIndex,
+                        selectionProvider: selectionProvider,
+                        deepBottomProvider: deepBottomProvider,
+                        fabProvider: fabProvider,
+                        database: database),
+              ),
+              child: const SizedBox(),
+            ),
+          ));
 }
 
 class _MoveToFolderDialog extends StatelessWidget {
@@ -156,52 +157,8 @@ class _MoveToFolderDialog extends StatelessWidget {
                       ),
                     ),
                   );
-                } else if (currentFolder.isNotNull) {
-                  if (index == 1) {
-                    return Material(
-                      color: Colors.transparent,
-                      shape: const StadiumBorder(),
-                      child: ListTile(
-                        shape: const StadiumBorder(),
-                        onTap: () {
-                          note_creation.moveToFolderBatch(
-                              folder: null,
-                              selectionProvider: selectionProvider,
-                              database: database);
-
-                          Navigator.pop(context);
-
-                          showSnack(
-                              context: context,
-                              icon: successful(context: context),
-                              description: 'Note moved successfully');
-
-                          deepBottomProvider.setSelection = false;
-                          selectionProvider.setSelection = false;
-                          fabProvider.setScrollDown = false;
-                          selectionProvider.getSelected.clear();
-                        },
-                        leading: Icon(
-                          FluentIcons.folder_briefcase_20_filled,
-                          color: Theme
-                              .of(context)
-                              .accentColor
-                              .withOpacity(.87),
-                        ),
-                        title: Text(
-                          StringResource.mainFolder,
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .bodyText1
-                              .copyWith(
-                              color: themeColorOpacity(
-                                  context: context, opacity: .7),
-                              fontSize: SizeHelper.getModalButton),
-                        ),
-                      ),
-                    );
-                  } else if (currentFolder.id !=
+                } else {
+                  if (currentFolder?.id !=
                       folderList[index - defaultItemValue].id) {
                     final folder = folderList[index - defaultItemValue];
 
@@ -229,7 +186,9 @@ class _MoveToFolderDialog extends StatelessWidget {
                           selectionProvider.getSelected.clear();
                         },
                         leading: Icon(
-                          FluentIcons.folder_24_filled,
+                          folder.name == StringResource.mainFolder
+                              ? FluentIcons.folder_briefcase_20_filled
+                              : FluentIcons.folder_24_filled,
                           color: Theme
                               .of(context)
                               .accentColor
@@ -251,144 +210,6 @@ class _MoveToFolderDialog extends StatelessWidget {
                   } else {
                     return const SizedBox();
                   }
-                } else if (drawerIndex == 0) {
-                  if (index == 1) {
-                    return Material(
-                      color: Colors.transparent,
-                      shape: const StadiumBorder(),
-                      child: ListTile(
-                        shape: const StadiumBorder(),
-                        onTap: () {
-                          note_creation.moveToFolderBatch(
-                              folder: null,
-                              selectionProvider: selectionProvider,
-                              database: database);
-
-                          Navigator.pop(context);
-
-                          showSnack(
-                              context: context,
-                              icon: successful(context: context),
-                              description: 'Note moved successfully');
-
-                          deepBottomProvider.setSelection = false;
-                          selectionProvider.setSelection = false;
-                          fabProvider.setScrollDown = false;
-                          selectionProvider.getSelected.clear();
-                        },
-                        leading: Icon(
-                          FluentIcons.folder_briefcase_20_filled,
-                          color: Theme
-                              .of(context)
-                              .accentColor
-                              .withOpacity(.87),
-                        ),
-                        title: Text(
-                          StringResource.mainFolder,
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .bodyText1
-                              .copyWith(
-                              color: themeColorOpacity(
-                                  context: context, opacity: .7),
-                              fontSize: SizeHelper.getModalButton),
-                        ),
-                      ),
-                    );
-                  } else {
-                    final folder = folderList[index - defaultItemValue];
-
-                    return Material(
-                      color: Colors.transparent,
-                      shape: const StadiumBorder(),
-                      child: ListTile(
-                        shape: const StadiumBorder(),
-                        onTap: () {
-                          note_creation.moveToFolderBatch(
-                              folder: folder,
-                              selectionProvider: selectionProvider,
-                              database: database);
-
-                          Navigator.pop(context);
-
-                          showSnack(
-                              context: context,
-                              icon: successful(context: context),
-                              description: 'Note moved successfully');
-
-                          deepBottomProvider.setSelection = false;
-                          selectionProvider.setSelection = false;
-                          fabProvider.setScrollDown = false;
-                          selectionProvider.getSelected.clear();
-                        },
-                        leading: Icon(
-                          FluentIcons.folder_24_filled,
-                          color: Theme
-                              .of(context)
-                              .accentColor
-                              .withOpacity(.87),
-                        ),
-                        title: Text(
-                          '${folder.name}',
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .bodyText1
-                              .copyWith(
-                              color: themeColorOpacity(
-                                  context: context, opacity: .7),
-                              fontSize: SizeHelper.getModalButton),
-                        ),
-                      ),
-                    );
-                  }
-                } else {
-                  final folder = folderList[index - defaultItemValue];
-
-                  return Material(
-                    color: Colors.transparent,
-                    shape: const StadiumBorder(),
-                    child: ListTile(
-                      shape: const StadiumBorder(),
-                      onTap: () {
-                        note_creation.moveToFolderBatch(
-                            folder: folder,
-                            selectionProvider: selectionProvider,
-                            database: database);
-
-                        Navigator.pop(context);
-
-                        showSnack(
-                            context: context,
-                            icon: successful(context: context),
-                            description: 'Note moved successfully');
-
-                        deepBottomProvider.setSelection = false;
-                        selectionProvider.setSelection = false;
-                        fabProvider.setScrollDown = false;
-                        selectionProvider.getSelected.clear();
-                      },
-                      leading: Icon(
-                        FluentIcons.folder_24_filled,
-                        color: Theme
-                            .of(context)
-                            .accentColor
-                            .withOpacity(.87),
-                      ),
-                      title: Text(
-                        '${folder.name}',
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .bodyText1
-                            .copyWith(
-                            color: themeColorOpacity(
-                                context: context, opacity: .7),
-                            fontSize: SizeHelper.getModalButton),
-                      ),
-                    ),
-                  );
                 }
               }),
         ),

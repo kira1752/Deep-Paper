@@ -8,6 +8,5 @@ part of 'folder_note_dao.dart';
 
 mixin _$FolderNoteDaoMixin on DatabaseAccessor<DeepPaperDatabase> {
   $FolderNoteTable get folderNote => attachedDatabase.folderNote;
-
   $NotesTable get notes => attachedDatabase.notes;
 }
