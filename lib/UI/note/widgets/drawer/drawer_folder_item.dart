@@ -64,7 +64,7 @@ class DrawerFolderItem extends StatelessWidget {
             leading: selected
                 ? Icon(icon, color: Theme.of(context).accentColor)
                 : Icon(icon,
-                    color: Theme.of(context).accentColor.withOpacity(.54)),
+                    color: Theme.of(context).accentColor.withOpacity(.87)),
             trailing: total,
             title: Text(
               '$folderName',

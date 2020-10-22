@@ -29,25 +29,25 @@ class DateField extends StatelessWidget {
           builder: (context, isEmpty, date) => SlideRightWidget(
             child: isEmpty
                 ? Text(
-              'Set date',
-              style: Theme.of(context).textTheme.bodyText1.copyWith(
-                  color: themeColorOpacity(context: context, opacity: .8),
-                  fontSize: SizeHelper.getModalTextField),
-            )
+                    'Set date',
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: themeColorOpacity(context: context, opacity: .8),
+                        fontSize: SizeHelper.getModalTextField),
+                  )
                 : date,
           ),
           child: Selector<CreatePlanProvider, String>(
               selector: (context, provider) => provider.getDate,
               builder: (context, date, _) => SlideRightWidget(
-                child: Text(
-                  '$date',
-                  key: Key('$date'),
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      color:
-                      themeColorOpacity(context: context, opacity: .8),
-                      fontSize: SizeHelper.getModalTextField),
-                ),
-              )),
+                    child: Text(
+                      '$date',
+                      key: Key('$date'),
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
+                          color:
+                              themeColorOpacity(context: context, opacity: .8),
+                          fontSize: SizeHelper.getModalTextField),
+                    ),
+                  )),
         ),
       ),
     );

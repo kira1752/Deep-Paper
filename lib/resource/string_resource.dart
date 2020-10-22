@@ -25,6 +25,7 @@ class StringResource {
   static const tooltipNoteHamburgerMenu = 'Open note menu';
   static const textDirectionLTR = 'TextDirection.ltr';
   static const textDirectionRTL = 'TextDirection.rtl';
+  static const everyDays = 'Every days';
 
   static String selectionAppBar(int count) {
     return '$count selected';

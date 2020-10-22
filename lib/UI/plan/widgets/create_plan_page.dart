@@ -20,7 +20,7 @@ class CreatePlanPage extends StatelessWidget {
       children: [
         Container(
           margin:
-          EdgeInsets.only(top: SizeConfig.safeArea.top + 40, bottom: 8.0),
+              EdgeInsets.only(top: SizeConfig.safeArea.top + 40, bottom: 8.0),
           color: Theme.of(context).canvasColor,
           child: Container(
             height: 8,

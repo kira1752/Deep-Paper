@@ -64,7 +64,7 @@ ThemeData dark() {
       cardColor: const Color(0xff2c2c2e),
 // Color(0xff1d2025), backup color
       highlightColor: const Color(0x424242),
-      accentColor: const Color(0xff64a3c4),
+      accentColor: const Color(0xff54b3d4),
 //#fdb368
       primaryColor: const Color(0xff000000),
       backgroundColor: const Color(0xff000000),

@@ -27,7 +27,7 @@ class NoteDetail extends StatefulWidget {
 }
 
 class _NoteDetailState extends State<NoteDetail>
-    with WidgetsBindingObserver, NoteDetailLogic<NoteDetail> {
+    with WidgetsBindingObserver, NoteDetailLogic {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

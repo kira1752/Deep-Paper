@@ -70,14 +70,14 @@ class __TimeState extends State<_Time> {
       title: Selector<CreatePlanProvider, String>(
           selector: (context, provider) => provider.getTime,
           builder: (context, time, _) => SlideRightWidget(
-            child: Text(
-              '$time',
-              key: Key('$time'),
-              style: Theme.of(context).textTheme.bodyText1.copyWith(
-                  color: themeColorOpacity(context: context, opacity: .8),
-                  fontSize: SizeHelper.getModalTextField),
-            ),
-          )),
+                child: Text(
+                  '$time',
+                  key: Key('$time'),
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: themeColorOpacity(context: context, opacity: .8),
+                      fontSize: SizeHelper.getModalTextField),
+                ),
+              )),
     );
   }
 

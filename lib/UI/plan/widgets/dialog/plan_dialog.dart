@@ -10,10 +10,16 @@ Future<void> openRepeatDialog(
     @required CreatePlanProvider createPlanProvider}) {
   return showDialog(
     context: context,
-    builder: (context) => ChangeNotifierProvider(
-      create: (context) => RepeatDialogProvider(),
-      child: RepeatDialog(
-        createPlanProvider: createPlanProvider,
+    builder: (context) => MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: createPlanProvider),
+        ChangeNotifierProvider(
+          create: (context) => RepeatDialogProvider(),
+        ),
+      ],
+      child: ChangeNotifierProvider(
+        create: (context) => RepeatDialogProvider(),
+        child: const RepeatDialog(),
       ),
     ),
   );

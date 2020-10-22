@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../business_logic/plan/provider/create_plan_provider.dart';
 import '../../../../business_logic/plan/provider/repeat_dialog_provider.dart';
-import '../../../../business_logic/plan/repeat_dialog_logic.dart'
-    as repeat_dialog_logic;
+import '../../../../business_logic/plan/repeat_dialog_logic.dart';
 import '../../../../utility/size_helper.dart';
 import '../../../app_theme.dart';
 import '../../../widgets/deep_expand_base_dialog.dart';
@@ -14,48 +12,13 @@ import '../number_repeat_text_field.dart';
 import '../repeat_type_menu.dart';
 
 class RepeatDialog extends StatefulWidget {
-  final CreatePlanProvider createPlanProvider;
-
-  const RepeatDialog({@required this.createPlanProvider});
+  const RepeatDialog();
 
   @override
   _RepeatDialogState createState() => _RepeatDialogState();
 }
 
-class _RepeatDialogState extends State<RepeatDialog> {
-  TextEditingController _numberTextField;
-  CreatePlanProvider _createPlanProvider;
-  RepeatDialogProvider _repeatDialogProvider;
-
-  @override
-  void initState() {
-    super.initState();
-    _createPlanProvider = widget.createPlanProvider;
-    _repeatDialogProvider =
-        Provider.of<RepeatDialogProvider>(context, listen: false);
-    _numberTextField =
-        TextEditingController(text: '${_createPlanProvider.getNumberOfRepeat}');
-
-    _repeatDialogProvider.initiateTempWeekDays =
-        _createPlanProvider.getWeekDays;
-    _repeatDialogProvider.initiateTempRepeat =
-        _createPlanProvider.getRepeat ?? RepeatType.Daily;
-    _repeatDialogProvider.initiateTempRepeatDialogType =
-        _createPlanProvider.getRepeatDialogType;
-    _repeatDialogProvider.initiateTempNumberOfRepeat =
-        _createPlanProvider.getNumberOfRepeat;
-    _repeatDialogProvider.initiateTempSelectedDays =
-        _createPlanProvider.getSelectedDays.isEmpty
-            ? [1]
-            : _createPlanProvider.getSelectedDays;
-  }
-
-  @override
-  void dispose() {
-    _numberTextField.dispose();
-    super.dispose();
-  }
-
+class _RepeatDialogState extends State<RepeatDialog> with RepeatDialogLogic {
   @override
   Widget build(BuildContext context) {
     return DeepExpandBaseDialog(
@@ -72,7 +35,7 @@ class _RepeatDialogState extends State<RepeatDialog> {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(
             children: [
-              NumberRepeatTextField(controller: _numberTextField),
+              NumberRepeatTextField(controller: numberTextField),
               const RepeatTypeMenu()
             ],
           ),
@@ -106,8 +69,7 @@ class _RepeatDialogState extends State<RepeatDialog> {
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-                border: Border(
-                    left: Divider.createBorderSide(context, width: 1.0))),
+                border: Border(left: Divider.createBorderSide(context))),
             child: Selector<RepeatDialogProvider, bool>(
               selector: (context, provider) =>
               provider.getTempNumberOfRepeat != 0,
@@ -123,10 +85,10 @@ class _RepeatDialogState extends State<RepeatDialog> {
                               bottomRight: Radius.circular(12.0))),
                       onPressed: canTap
                           ? () {
-                        repeat_dialog_logic.create(
+                        create(
                             locale: Localizations.localeOf(context),
-                            createPlanProvider: _createPlanProvider,
-                            repeatDialogProvider: _repeatDialogProvider);
+                            createPlanProvider: createPlanProvider,
+                            repeatDialogProvider: repeatDialogProvider);
 
                         Navigator.pop(context);
                       }
