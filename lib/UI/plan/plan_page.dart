@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../business_logic/note/provider/fab_provider.dart';
-import 'plan_detail/create_plan.dart' as create_plan;
+import 'create_plan.dart' as create_plan;
 import 'widgets/appbar/plan_default_appbar.dart';
 import 'widgets/empty_plan_illustration.dart';
 
@@ -16,8 +16,10 @@ class PlanPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: PlanDefaultAppBar(),
       body: EmptyPlanIllustration(),
-      floatingActionButton: _AnimateFABScroll(
-        fab: _PlanFAB(),
+      floatingActionButton: RepaintBoundary(
+        child: _AnimateFABScroll(
+          fab: _PlanFAB(),
+        ),
       ),
     );
   }
@@ -31,11 +33,11 @@ class _AnimateFABScroll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isNotVisible =
-    context.select((FABProvider value) => value.getScrollDown);
+        context.select((FABProvider value) => value.getScrollDown);
 
     return AnimatedAlign(
       alignment:
-          isNotVisible ? const Alignment(1.0, 2.0) : Alignment.bottomRight,
+          isNotVisible ? const Alignment(1.5, 1.0) : Alignment.bottomRight,
       duration: const Duration(milliseconds: 350),
       curve: isNotVisible ? Curves.easeIn : Curves.easeOut,
       child: IgnorePointer(

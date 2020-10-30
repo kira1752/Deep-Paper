@@ -16,13 +16,15 @@ class EmptyTrashIllustration extends StatefulWidget {
 
 class _EmptyTrashIllustrationState extends State<EmptyTrashIllustration> {
   @override
-  Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final drawerProvider =
-          Provider.of<NoteDrawerProvider>(context, listen: false);
-      drawerProvider.setTrashExist = false;
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<NoteDrawerProvider>().setTrashExist = false;
     });
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Center(
@@ -44,7 +46,7 @@ class _EmptyTrashIllustrationState extends State<EmptyTrashIllustration> {
                 child: FittedBox(
                   fit: BoxFit.contain,
                   child: Text(
-                    'There is no trash to clean up',
+                    'Trash is empty',
                     maxLines: null,
                     textAlign: TextAlign.center,
                     style: Theme
@@ -54,7 +56,7 @@ class _EmptyTrashIllustrationState extends State<EmptyTrashIllustration> {
                         .copyWith(
                         color: themeColorOpacity(context: context, opacity: .7),
                         height: 1.5,
-                        fontSize: SizeHelper.getHeadline5,
+                        fontSize: SizeHelper.title,
                         fontWeight: FontWeight.bold),
                   ),
                 ),

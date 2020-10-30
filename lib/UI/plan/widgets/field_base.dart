@@ -7,9 +7,9 @@ class FieldBase extends StatelessWidget {
   final Widget title;
   final Widget subtitle;
   final Widget trailing;
-  final EdgeInsets paddingLeading;
-  final EdgeInsets paddingContent;
-  final EdgeInsets paddingTrailing;
+  final EdgeInsetsGeometry paddingLeading;
+  final EdgeInsetsGeometry paddingContent;
+  final EdgeInsetsGeometry paddingTrailing;
   final Function onTap;
 
   const FieldBase(
@@ -18,9 +18,11 @@ class FieldBase extends StatelessWidget {
       @required this.title,
       this.subtitle,
       this.trailing,
-      this.paddingLeading,
-      this.paddingContent,
-      this.paddingTrailing});
+      this.paddingLeading = const EdgeInsetsDirectional.only(
+          start: 16.0, end: 32.0, top: 16.0, bottom: 16.0),
+      this.paddingContent =
+          const EdgeInsetsDirectional.only(top: 16.0, bottom: 16.0),
+      this.paddingTrailing = const EdgeInsetsDirectional.only(end: 10.0)});
 
   @override
   Widget build(BuildContext context) {
@@ -31,20 +33,30 @@ class FieldBase extends StatelessWidget {
       ),
       child: InkWell(
         onTap: onTap,
-        splashColor: Theme.of(context).accentColor.withOpacity(.16),
+        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+        splashColor: Theme
+            .of(context)
+            .accentColor
+            .withOpacity(.16),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
-              padding: paddingLeading ??
-                  const EdgeInsetsDirectional.only(
-                      start: 16.0, end: 32.0, top: 16.0, bottom: 16.0),
-              child: leading,
+              padding: paddingLeading,
+              child: Material(
+                  color: Theme
+                      .of(context)
+                      .accentColor
+                      .withOpacity(.12),
+                  type: MaterialType.circle,
+                  child: Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: leading,
+                  )),
             ),
             Expanded(
               child: Padding(
-                padding: paddingContent ??
-                    const EdgeInsetsDirectional.only(top: 16.0, bottom: 16.0),
+                padding: paddingContent,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -54,8 +66,7 @@ class FieldBase extends StatelessWidget {
             ),
             if (trailing.isNotNull)
               Padding(
-                padding: paddingTrailing ??
-                    const EdgeInsetsDirectional.only(end: 8.0),
+                padding: paddingTrailing,
                 child: trailing,
               )
           ],

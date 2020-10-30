@@ -28,7 +28,7 @@ class NoteInfoDialog extends StatelessWidget {
           'Note Info',
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: SizeHelper.getHeadline6,
+            fontSize: SizeHelper.headline6,
             fontWeight: FontWeight.w600,
             color: themeColorOpacity(context: context, opacity: .87),
           ),
@@ -46,10 +46,10 @@ class NoteInfoDialog extends StatelessWidget {
               onPressed: () async {
                 Navigator.pop(context);
               },
-              child: Text(
+              child: const Text(
                 'Close',
                 style: TextStyle(
-                  fontSize: SizeHelper.getModalButton,
+                  fontSize: SizeHelper.modalButton,
                 ),
               )),
         ),
@@ -68,7 +68,7 @@ class NoteInfoDialog extends StatelessWidget {
                   textAlign: TextAlign.right,
                   style: Theme.of(context).textTheme.bodyText1.copyWith(
                       color: themeColorOpacity(context: context, opacity: .7),
-                      fontSize: SizeHelper.getBodyText1),
+                      fontSize: SizeHelper.bodyText1),
                 ),
               ),
               Flexible(
@@ -77,9 +77,13 @@ class NoteInfoDialog extends StatelessWidget {
                   child: Text(
                     ':',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(
                         color: themeColorOpacity(context: context, opacity: .7),
-                        fontSize: SizeHelper.getBodyText1),
+                        fontSize: SizeHelper.bodyText1),
                   ),
                 ),
               ),
@@ -87,9 +91,13 @@ class NoteInfoDialog extends StatelessWidget {
                 flex: 6,
                 child: Text(
                   '$folderName',
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(
                       color: themeColorOpacity(context: context, opacity: .7),
-                      fontSize: SizeHelper.getBodyText1),
+                      fontSize: SizeHelper.bodyText1),
                 ),
               )
             ],
@@ -112,7 +120,7 @@ class NoteInfoDialog extends StatelessWidget {
                       .bodyText1
                       .copyWith(
                       color: themeColorOpacity(context: context, opacity: .7),
-                      fontSize: SizeHelper.getBodyText1),
+                      fontSize: SizeHelper.bodyText1),
                 ),
               ),
               Flexible(
@@ -127,7 +135,7 @@ class NoteInfoDialog extends StatelessWidget {
                         .bodyText1
                         .copyWith(
                         color: themeColorOpacity(context: context, opacity: .7),
-                        fontSize: SizeHelper.getBodyText1),
+                        fontSize: SizeHelper.bodyText1),
                   ),
                 ),
               ),
@@ -141,7 +149,7 @@ class NoteInfoDialog extends StatelessWidget {
                       .bodyText1
                       .copyWith(
                       color: themeColorOpacity(context: context, opacity: .7),
-                      fontSize: SizeHelper.getBodyText1),
+                      fontSize: SizeHelper.bodyText1),
                 ),
               )
             ],
@@ -162,7 +170,7 @@ class NoteInfoDialog extends StatelessWidget {
                     .bodyText1
                     .copyWith(
                     color: themeColorOpacity(context: context, opacity: .7),
-                    fontSize: SizeHelper.getBodyText1),
+                    fontSize: SizeHelper.bodyText1),
               ),
             ),
             Flexible(
@@ -177,7 +185,7 @@ class NoteInfoDialog extends StatelessWidget {
                       .bodyText1
                       .copyWith(
                       color: themeColorOpacity(context: context, opacity: .7),
-                      fontSize: SizeHelper.getBodyText1),
+                      fontSize: SizeHelper.bodyText1),
                 ),
               ),
             ),
@@ -191,7 +199,7 @@ class NoteInfoDialog extends StatelessWidget {
                     .bodyText1
                     .copyWith(
                     color: themeColorOpacity(context: context, opacity: .7),
-                    fontSize: SizeHelper.getBodyText1),
+                    fontSize: SizeHelper.bodyText1),
               ),
             )
           ],

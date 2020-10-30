@@ -46,12 +46,12 @@ class DeepPaper extends StatelessWidget {
               elevation: 16.0,
               backgroundColor: Theme.of(context).primaryColor,
               type: BottomNavigationBarType.fixed,
-              selectedFontSize: SizeHelper.getButton,
-              unselectedFontSize: SizeHelper.getButton,
+              selectedFontSize: SizeHelper.button,
+              unselectedFontSize: SizeHelper.button,
               selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600),
               unselectedLabelStyle:
                   const TextStyle(fontWeight: FontWeight.w600),
-              selectedItemColor: Theme.of(context).accentColor,
+              selectedItemColor: Theme.of(context).accentColor.withOpacity(.8),
               unselectedItemColor:
                   themeColorOpacity(context: context, opacity: .6),
               currentIndex: index,

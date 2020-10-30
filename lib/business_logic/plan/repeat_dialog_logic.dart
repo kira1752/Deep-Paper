@@ -6,6 +6,7 @@ import 'package:intl/date_symbols.dart';
 import 'package:provider/provider.dart';
 
 import '../../UI/plan/utility/repeat_type.dart';
+import '../../resource/string_resource.dart';
 import 'provider/create_plan_provider.dart';
 import 'provider/repeat_dialog_provider.dart';
 
@@ -68,19 +69,19 @@ mixin RepeatDialogLogic<T extends StatefulWidget> on State<T> {
     if (createPlanProvider.getNumberOfRepeat == 1) {
       switch (createPlanProvider.getRepeat) {
         case RepeatType.Daily:
-          createPlanProvider.setRepeatTitle = 'Daily';
+          createPlanProvider.setRepeatTitle = StringResource.daily;
           createPlanProvider.setSelectedDaysTitle = '';
           break;
         case RepeatType.Weekly:
-          createPlanProvider.setRepeatTitle = 'Weekly';
+          createPlanProvider.setRepeatTitle = StringResource.weekly;
           createPlanProvider.setSelectedDaysTitle = selectedDays.join(', ');
           break;
         case RepeatType.Monthly:
-          createPlanProvider.setRepeatTitle = 'Monthly';
+          createPlanProvider.setRepeatTitle = StringResource.monthly;
           createPlanProvider.setSelectedDaysTitle = '';
           break;
         case RepeatType.Yearly:
-          createPlanProvider.setRepeatTitle = 'Yearly';
+          createPlanProvider.setRepeatTitle = StringResource.yearly;
           createPlanProvider.setSelectedDaysTitle = '';
           break;
       }
@@ -88,22 +89,22 @@ mixin RepeatDialogLogic<T extends StatefulWidget> on State<T> {
       switch (createPlanProvider.getRepeat) {
         case RepeatType.Daily:
           createPlanProvider.setRepeatTitle =
-              'Every ${createPlanProvider.getNumberOfRepeat} days';
+              StringResource.everyNDays(createPlanProvider.getNumberOfRepeat);
           createPlanProvider.setSelectedDaysTitle = '';
           break;
         case RepeatType.Weekly:
           createPlanProvider.setRepeatTitle =
-              'Every ${createPlanProvider.getNumberOfRepeat} weeks';
+              StringResource.everyNWeeks(createPlanProvider.getNumberOfRepeat);
           createPlanProvider.setSelectedDaysTitle = selectedDays.join(', ');
           break;
         case RepeatType.Monthly:
           createPlanProvider.setRepeatTitle =
-              'Every ${createPlanProvider.getNumberOfRepeat} months';
+              StringResource.everyNMonths(createPlanProvider.getNumberOfRepeat);
           createPlanProvider.setSelectedDaysTitle = '';
           break;
         case RepeatType.Yearly:
           createPlanProvider.setRepeatTitle =
-              'Every ${createPlanProvider.getNumberOfRepeat} years';
+              StringResource.everyNYears(createPlanProvider.getNumberOfRepeat);
           createPlanProvider.setSelectedDaysTitle = '';
           break;
       }

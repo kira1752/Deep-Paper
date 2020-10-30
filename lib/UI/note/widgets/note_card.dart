@@ -182,13 +182,9 @@ class _NoteCardContentState extends State<NoteCardContent>
               '${widget.note.detail}',
               textDirection: widget.note.detailDirection,
               strutStyle: const StrutStyle(leading: 0.7),
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
                   color: themeColorOpacity(context: context, opacity: .7),
-                  fontSize: SizeHelper.getDetail),
+                  fontSize: SizeHelper.detail),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),

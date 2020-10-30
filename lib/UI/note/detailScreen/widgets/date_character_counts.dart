@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../business_logic/note/provider/note_detail_provider.dart';
-import '../../../business_logic/note/text_field_logic.dart' as text_field_logic;
-import '../../../utility/extension.dart';
-import '../../app_theme.dart';
+import '../../../../business_logic/note/provider/note_detail_provider.dart';
+import '../../../../business_logic/note/text_field_logic.dart'
+    as text_field_logic;
+import '../../../../utility/extension.dart';
+import '../../../app_theme.dart';
 
 class DateCharacterCounts extends StatelessWidget {
   const DateCharacterCounts();

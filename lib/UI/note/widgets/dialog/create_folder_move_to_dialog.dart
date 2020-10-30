@@ -34,7 +34,7 @@ class _CreateFolderMoveToDialogState extends State<CreateFolderMoveToDialog> {
             'Create folder',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: SizeHelper.getHeadline6,
+              fontSize: SizeHelper.headline6,
               fontWeight: FontWeight.w600,
               color: themeColorOpacity(context: context, opacity: .87),
             ),
@@ -49,7 +49,7 @@ class _CreateFolderMoveToDialogState extends State<CreateFolderMoveToDialog> {
                           ? TextDirection.rtl
                           : TextDirection.ltr,
                       builder: (context, direction, _) => TextField(
-                            controller: textControllerProvider.controller,
+                        controller: textControllerProvider.controller,
                             textDirection: direction,
                             autofocus: true,
                             style: Theme.of(context)
@@ -58,7 +58,7 @@ class _CreateFolderMoveToDialogState extends State<CreateFolderMoveToDialog> {
                                 .copyWith(
                                     color: themeColorOpacity(
                                         context: context, opacity: .7),
-                                    fontSize: SizeHelper.getModalTextField),
+                                    fontSize: SizeHelper.modalTextField),
                             maxLines: 1,
                             keyboardType: TextInputType.text,
                             onChanged: (value) {
@@ -116,10 +116,10 @@ class _CreateFolderMoveToDialogState extends State<CreateFolderMoveToDialog> {
                     onPressed: () {
                       Navigator.of(context).maybePop();
                     },
-                    child: Text(
+                    child: const Text(
                       'Cancel',
                       style: TextStyle(
-                        fontSize: SizeHelper.getModalButton,
+                        fontSize: SizeHelper.modalButton,
                       ),
                     )),
               ),
@@ -141,21 +141,21 @@ class _CreateFolderMoveToDialogState extends State<CreateFolderMoveToDialog> {
                                     bottomRight: Radius.circular(12.0))),
                             onPressed: provider.isNameTyped
                                 ? () {
-                                final database = Provider.of<DeepPaperDatabase>(
-                                    context,
-                                    listen: false);
+                              final database = Provider.of<DeepPaperDatabase>(
+                                  context,
+                                  listen: false);
 
-                                folder_creation.create(
-                                    name: folderName, database: database);
+                              folder_creation.create(
+                                  name: folderName, database: database);
 
-                                Navigator.maybePop(context);
-                              }
-                            : null,
+                              Navigator.maybePop(context);
+                            }
+                                : null,
                         child: createText),
-                    child: Text(
+                    child: const Text(
                       'Create',
                       style: TextStyle(
-                        fontSize: SizeHelper.getModalButton,
+                        fontSize: SizeHelper.modalButton,
                       ),
                     ),
                   ),

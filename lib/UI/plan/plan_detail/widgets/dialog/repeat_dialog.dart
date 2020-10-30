@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../business_logic/plan/provider/repeat_dialog_provider.dart';
-import '../../../../business_logic/plan/repeat_dialog_logic.dart';
-import '../../../../utility/size_helper.dart';
-import '../../../app_theme.dart';
-import '../../../widgets/deep_expand_base_dialog.dart';
-import '../../utility/repeat_type.dart';
+import '../../../../../business_logic/plan/provider/repeat_dialog_provider.dart';
+import '../../../../../business_logic/plan/repeat_dialog_logic.dart';
+import '../../../../../utility/size_helper.dart';
+import '../../../../app_theme.dart';
+import '../../../../widgets/deep_expand_base_dialog.dart';
+import '../../../utility/repeat_type.dart';
 import '../day_selector.dart';
 import '../number_repeat_text_field.dart';
 import '../repeat_type_menu.dart';
@@ -28,7 +28,7 @@ class _RepeatDialogState extends State<RepeatDialog> with RepeatDialogLogic {
         'Repeat every ...',
         style: Theme.of(context).textTheme.bodyText1.copyWith(
             color: themeColorOpacity(context: context, opacity: .7),
-            fontSize: SizeHelper.getTitle),
+            fontSize: SizeHelper.title),
       ),
       children: [
         Padding(
@@ -59,10 +59,10 @@ class _RepeatDialogState extends State<RepeatDialog> with RepeatDialogLogic {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text(
+              child: const Text(
                 'Cancel',
                 style: TextStyle(
-                  fontSize: SizeHelper.getModalButton,
+                  fontSize: SizeHelper.modalButton,
                 ),
               )),
         ),
@@ -94,11 +94,11 @@ class _RepeatDialogState extends State<RepeatDialog> with RepeatDialogLogic {
                       }
                           : null,
                       child: textDone),
-              child: Text(
+              child: const Text(
                 'Done',
                 style: TextStyle(
                   fontFamily: 'Roboto',
-                  fontSize: SizeHelper.getModalButton,
+                  fontSize: SizeHelper.modalButton,
                 ),
               ),
             ),

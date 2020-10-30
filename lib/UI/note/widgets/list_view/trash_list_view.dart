@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import '../../../../business_logic/note/provider/note_drawer_provider.dart';
 import '../../../../data/deep.dart';
 import '../../../../utility/extension.dart';
-import '../dialog/note_dialog.dart' as note_dialog;
 import '../empty_trash_illustration.dart';
 import '../note_card.dart';
+import '../note_dialog.dart' as note_dialog;
 
 class TrashListView extends StatelessWidget {
   const TrashListView();
@@ -32,35 +32,42 @@ class TrashListView extends StatelessWidget {
   }
 }
 
-class _TrashIsExist extends StatelessWidget {
+class _TrashIsExist extends StatefulWidget {
   final List<Note> ListNote;
 
   const _TrashIsExist({@required this.ListNote});
 
   @override
-  Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final drawerProvider =
-          Provider.of<NoteDrawerProvider>(context, listen: false);
-      drawerProvider.setTrashExist = true;
-    });
+  __TrashIsExistState createState() => __TrashIsExistState();
+}
 
+class __TrashIsExistState extends State<_TrashIsExist> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<NoteDrawerProvider>().setTrashExist = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return ListView.builder(
         physics: const BouncingScrollPhysics(),
         cacheExtent: 100,
-        semanticChildCount: ListNote.length,
-        itemCount: ListNote.length,
+        semanticChildCount: widget.ListNote.length,
+        itemCount: widget.ListNote.length,
         itemBuilder: (context, index) {
           return NoteCard(
             key: ValueKey<int>(index),
             index: index,
             content: NoteCardContent(
-              note: ListNote[index],
+              note: widget.ListNote[index],
             ),
-            note: ListNote[index],
+            note: widget.ListNote[index],
             onTap: () {
               note_dialog.openRestoreDialog(
-                  context: context, data: ListNote[index]);
+                  context: context, data: widget.ListNote[index]);
             },
           );
         });

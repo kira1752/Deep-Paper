@@ -7,9 +7,9 @@ import '../../business_logic/note/provider/fab_provider.dart';
 import '../../business_logic/note/provider/note_drawer_provider.dart';
 import '../../business_logic/note/provider/selection_provider.dart';
 import '../../utility/deep_route_string.dart';
-import 'widgets/app_bar/note_default_app_bar.dart';
 import 'widgets/build_body.dart';
 import 'widgets/drawer/note_drawer.dart';
+import 'widgets/note_default_app_bar.dart';
 
 class NotePage extends StatelessWidget {
   const NotePage();
@@ -65,7 +65,7 @@ class _NoteFABVisible extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isVisible =
-    context.select((SelectionProvider value) => !value.getSelection);
+        context.select((SelectionProvider value) => !value.getSelection);
 
     return Visibility(visible: isVisible, child: fab);
   }
@@ -87,7 +87,7 @@ class _AnimateFABScroll extends StatelessWidget {
 
     return AnimatedAlign(
       alignment:
-      isNotVisible ? const Alignment(1.0, 2.0) : Alignment.bottomRight,
+      isNotVisible ? const Alignment(1.5, 1.0) : Alignment.bottomRight,
       duration: const Duration(milliseconds: 350),
       curve: isNotVisible ? Curves.easeIn : Curves.easeOut,
       child: IgnorePointer(ignoring: isNotVisible, child: fab),

@@ -29,7 +29,7 @@ class DeleteFolderDialog extends StatelessWidget {
           'Delete folder',
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: SizeHelper.getHeadline6,
+            fontSize: SizeHelper.headline6,
             fontWeight: FontWeight.w600,
             color: themeColorOpacity(context: context, opacity: .87),
           ),
@@ -41,7 +41,7 @@ class DeleteFolderDialog extends StatelessWidget {
           strutStyle: const StrutStyle(leading: 0.5),
           style: Theme.of(context).textTheme.bodyText1.copyWith(
               color: themeColorOpacity(context: context, opacity: .7),
-              fontSize: SizeHelper.getModalDescription),
+              fontSize: SizeHelper.modalDescription),
         ),
       ],
       actions: <Widget>[
@@ -55,10 +55,10 @@ class DeleteFolderDialog extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text(
+              child: const Text(
                 'Cancel',
                 style: TextStyle(
-                  fontSize: SizeHelper.getModalButton,
+                  fontSize: SizeHelper.modalButton,
                 ),
               )),
         ),
@@ -86,10 +86,10 @@ class DeleteFolderDialog extends StatelessWidget {
                       icon: successful(context: context),
                       description: 'Folder deleted successfully');
                 },
-                child: Text(
+                child: const Text(
                   'Delete',
                   style: TextStyle(
-                    fontSize: SizeHelper.getModalButton,
+                    fontSize: SizeHelper.modalButton,
                   ),
                 )),
           ),

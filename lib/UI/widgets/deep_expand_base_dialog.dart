@@ -5,23 +5,26 @@ import 'deep_scroll_behavior.dart';
 
 class DeepExpandBaseDialog extends StatelessWidget {
   final Widget title;
-  final EdgeInsets titlePadding;
-  final List<Widget> children;
-  final EdgeInsets childrenPadding;
   final Widget optionalWidget;
+  final List<Widget> children;
   final List<Widget> actions;
+  final EdgeInsetsGeometry titlePadding;
+  final EdgeInsetsGeometry childrenPadding;
+  final EdgeInsetsGeometry insetPadding;
   final double actionsPadding;
-  final EdgeInsets insetPadding;
 
   const DeepExpandBaseDialog(
       {this.title,
-      this.titlePadding,
+      this.titlePadding = const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0),
       this.children,
       this.childrenPadding,
       this.actions,
-      this.actionsPadding,
+      this.actionsPadding = 32.0,
       this.optionalWidget,
-      this.insetPadding});
+      this.insetPadding = const EdgeInsets.symmetric(
+        horizontal: 16.0,
+        vertical: 0.0,
+      )});
 
   @override
   Widget build(BuildContext context) {
@@ -31,19 +34,14 @@ class DeepExpandBaseDialog extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(12.0))),
         insetAnimationDuration: const Duration(milliseconds: 300),
         insetAnimationCurve: Curves.easeOutQuad,
-        insetPadding: insetPadding ??
-            const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 0.0,
-            ),
+        insetPadding: insetPadding,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (title.isNotNull)
               Padding(
-                padding: titlePadding ??
-                    const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0),
+                padding: titlePadding,
                 child: title,
               ),
             if (children.isNotNull)
@@ -53,7 +51,7 @@ class DeepExpandBaseDialog extends StatelessWidget {
                   child: SingleChildScrollView(
                     padding: childrenPadding ??
                         EdgeInsets.fromLTRB(24.0, 24.0, 24.0,
-                            actions.isNotNull ? (actionsPadding ?? 32.0) : 0.0),
+                            actions.isNotNull ? actionsPadding : 0.0),
                     child: ListBody(
                       children: children,
                     ),

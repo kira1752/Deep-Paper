@@ -19,7 +19,7 @@ class PlanDefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
         'Plan',
         style: Theme.of(context).textTheme.headline5.copyWith(
             color: themeColorOpacity(context: context, opacity: .8),
-            fontSize: SizeHelper.getTitle),
+            fontSize: SizeHelper.title),
       ),
     );
   }

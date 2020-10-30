@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../utility/size_helper.dart';
 import '../../../app_theme.dart';
-import '../dialog/note_dialog.dart' as note_dialog;
+import '../note_dialog.dart' as note_dialog;
 
 class FolderAddButton extends StatelessWidget {
   const FolderAddButton();
@@ -14,7 +14,7 @@ class FolderAddButton extends StatelessWidget {
           'FOLDERS',
           style: Theme.of(context).textTheme.bodyText1.copyWith(
               color: themeColorOpacity(context: context, opacity: .7),
-              fontSize: SizeHelper.getBodyText1),
+              fontSize: SizeHelper.bodyText1),
         ),
         trailing: RepaintBoundary(
           child: FlatButton(
@@ -31,7 +31,7 @@ class FolderAddButton extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     color: themeColorOpacity(context: context, opacity: .80),
-                    fontSize: SizeHelper.getAddButton),
+                    fontSize: SizeHelper.addButton),
               )),
         ));
   }

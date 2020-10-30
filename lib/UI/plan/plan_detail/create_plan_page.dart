@@ -1,15 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utility/size_helper.dart';
 import '../../../utility/sizeconfig.dart';
 import '../../app_theme.dart';
-import '../../widgets/deep_scroll_behavior.dart';
-import 'date_field.dart';
-import 'plan_name_field.dart';
-import 'repeat_field.dart';
-import 'set_a_reminder.dart';
-import 'time_field.dart';
+import 'widgets/add_task_button.dart';
+import 'widgets/date_field.dart';
+import 'widgets/plan_name_field.dart';
+import 'widgets/repeat_field.dart';
+import 'widgets/set_reminder_title.dart';
+import 'widgets/task_title.dart';
+import 'widgets/time_field.dart';
 
 class CreatePlanPage extends StatelessWidget {
   const CreatePlanPage();
@@ -21,7 +21,7 @@ class CreatePlanPage extends StatelessWidget {
         Container(
           margin:
               EdgeInsets.only(top: SizeConfig.safeArea.top + 40, bottom: 8.0),
-          color: Theme.of(context).canvasColor,
+          color: Theme.of(context).cardColor,
           child: Container(
             height: 8,
             width: 48,
@@ -41,19 +41,29 @@ class CreatePlanPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ScrollConfiguration(
-                  behavior: const DeepScrollBehavior(),
-                  child: Expanded(
-                    child: ListView(
-                      physics: const ClampingScrollPhysics(),
-                      padding: const EdgeInsets.only(
-                          bottom: 40.0, left: 16.0, right: 16.0),
-                      children: const [
-                        PlanNameField(),
-                        SetAReminder(),
-                        DateField(),
-                        TimeField(),
-                        RepeatField()
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 40.0, left: 16.0, right: 16.0),
+                    child: CustomScrollView(
+                      cacheExtent: 100,
+                      physics: const BouncingScrollPhysics(),
+                      slivers: [
+                        const SliverList(
+                          delegate: SliverChildListDelegate.fixed([
+                            PlanNameField(),
+                            SetReminderTitle(),
+                            DateField(),
+                            TimeField(),
+                            RepeatField(),
+                            TaskTitle()
+                          ]),
+                        ),
+                        SliverList(
+                            delegate:
+                            SliverChildBuilderDelegate((context, index) {
+                              return const AddTaskButton();
+                            }, childCount: 1))
                       ],
                     ),
                   ),
@@ -75,11 +85,11 @@ class CreatePlanPage extends StatelessWidget {
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: Text(
+                            child: const Text(
                               'Cancel',
                               style: TextStyle(
                                 fontFamily: 'Roboto',
-                                fontSize: SizeHelper.getModalButton,
+                                fontSize: SizeHelper.modalButton,
                               ),
                             )),
                       ),
@@ -98,13 +108,14 @@ class CreatePlanPage extends StatelessWidget {
                               const EdgeInsets.symmetric(vertical: 16.0),
                               textColor: Theme
                                   .of(context)
-                                  .accentColor,
+                                  .accentColor
+                                  .withOpacity(.87),
                               onPressed: () {},
-                              child: Text(
+                              child: const Text(
                                 'Create',
                                 style: TextStyle(
                                   fontFamily: 'Roboto',
-                                  fontSize: SizeHelper.getModalButton,
+                                  fontSize: SizeHelper.modalButton,
                                 ),
                               )),
                         ),

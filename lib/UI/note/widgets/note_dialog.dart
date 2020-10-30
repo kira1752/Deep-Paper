@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../business_logic/note/provider/deep_bottom_provider.dart';
-import '../../../../business_logic/note/provider/detect_text_direction_provider.dart';
-import '../../../../business_logic/note/provider/fab_provider.dart';
-import '../../../../business_logic/note/provider/folder_dialog_provider.dart';
-import '../../../../business_logic/note/provider/note_drawer_provider.dart';
-import '../../../../business_logic/note/provider/selection_provider.dart';
-import '../../../../business_logic/provider/text_controller_provider.dart';
-import '../../../../data/deep.dart';
-import 'create_folder_dialog.dart';
-import 'create_folder_move_to_dialog.dart';
-import 'delete_folder_dialog.dart';
-import 'move_to_folder.dart' as move_to_folder;
-import 'note_info_dialog.dart';
-import 'rename_folder_dialog.dart';
-import 'restore_dialog.dart';
+import '../../../business_logic/note/provider/deep_bottom_provider.dart';
+import '../../../business_logic/note/provider/detect_text_direction_provider.dart';
+import '../../../business_logic/note/provider/fab_provider.dart';
+import '../../../business_logic/note/provider/folder_dialog_provider.dart';
+import '../../../business_logic/note/provider/note_drawer_provider.dart';
+import '../../../business_logic/note/provider/selection_provider.dart';
+import '../../../business_logic/provider/text_controller_provider.dart';
+import '../../../data/deep.dart';
+import 'dialog/create_folder_dialog.dart';
+import 'dialog/create_folder_move_to_dialog.dart';
+import 'dialog/delete_folder_dialog.dart';
+import 'dialog/move_to_folder.dart' as move_to_folder;
+import 'dialog/note_info_dialog.dart';
+import 'dialog/rename_folder_dialog.dart';
+import 'dialog/restore_dialog.dart';
 
 Future<void> openRestoreDialog(
     {@required BuildContext context, @required Note data}) {

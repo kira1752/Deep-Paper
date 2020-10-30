@@ -41,16 +41,16 @@ class EmptyFinanceIllustration extends StatelessWidget {
                             color: themeColorOpacity(
                                 context: context, opacity: .7),
                             height: 2.0,
-                            fontSize: SizeHelper.getHeadline5,
+                            fontSize: SizeHelper.headline5,
                             fontWeight: FontWeight.w500),
                       ),
                       TextSpan(
                         text: 'Write all your finance reports',
                         style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: themeColorOpacity(
-                              context: context, opacity: .6),
-                          height: 1.5,
-                          fontSize: SizeHelper.getBodyText1,
+                                  context: context, opacity: .6),
+                              height: 1.5,
+                              fontSize: SizeHelper.bodyText1,
                             ),
                       )
                     ]),

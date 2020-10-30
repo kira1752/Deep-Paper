@@ -2,14 +2,14 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../business_logic/note/note_debounce.dart';
-import '../../../business_logic/note/provider/note_detail_provider.dart';
-import '../../../business_logic/note/provider/undo_history_provider.dart';
-import '../../../business_logic/note/provider/undo_state_provider.dart';
-import '../../../business_logic/note/undo_redo.dart' as undo_redo;
-import '../../../business_logic/provider/TextControllerValue.dart';
-import '../../../model/note/undo_model.dart';
-import '../../app_theme.dart';
+import '../../../../business_logic/note/note_debounce.dart';
+import '../../../../business_logic/note/provider/note_detail_provider.dart';
+import '../../../../business_logic/note/provider/undo_history_provider.dart';
+import '../../../../business_logic/note/provider/undo_state_provider.dart';
+import '../../../../business_logic/note/undo_redo.dart' as undo_redo;
+import '../../../../business_logic/provider/TextControllerValue.dart';
+import '../../../../model/note/undo_model.dart';
+import '../../../app_theme.dart';
 
 class UndoRedo extends StatelessWidget {
   const UndoRedo();

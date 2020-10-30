@@ -10,6 +10,7 @@ class DrawerDefaultItem extends StatelessWidget {
   final String title;
   final int setValue;
   final IconData icon;
+  final IconData activeIcon;
   final Widget total;
 
   const DrawerDefaultItem(
@@ -17,6 +18,7 @@ class DrawerDefaultItem extends StatelessWidget {
       @required this.title,
       @required this.setValue,
       @required this.icon,
+      @required this.activeIcon,
       @required this.total})
       : super(key: key);
 
@@ -70,20 +72,45 @@ class DrawerDefaultItem extends StatelessWidget {
                 drawerProvider.setTitleFragment = StringResource.all_notes;
               }
             },
-            leading: selected
-                ? Icon(icon, color: Theme.of(context).accentColor)
-                : Icon(icon,
-                    color: Theme.of(context).accentColor.withOpacity(.87)),
+            leading: Material(
+              color: Theme
+                  .of(context)
+                  .accentColor
+                  .withOpacity(.12),
+              type: selected ? MaterialType.transparency : MaterialType.circle,
+              child: Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: selected
+                    ? Icon(activeIcon,
+                    color: Theme
+                        .of(context)
+                        .accentColor
+                        .withOpacity(.87))
+                    : Icon(icon,
+                    color: Theme
+                        .of(context)
+                        .accentColor
+                        .withOpacity(.8)),
+              ),
+            ),
             trailing: total,
             title: Text(
               title,
               style: selected
-                  ? Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: themeColorOpacity(context: context, opacity: .87),
-                      fontSize: SizeHelper.getDrawerMenuText)
-                  : Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: themeColorOpacity(context: context, opacity: .7),
-                      fontSize: SizeHelper.getDrawerMenuText),
+                  ? Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(
+                  color: themeColorOpacity(context: context, opacity: .87),
+                  fontSize: SizeHelper.drawerMenuText)
+                  : Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(
+                  color: themeColorOpacity(context: context, opacity: .7),
+                  fontSize: SizeHelper.drawerMenuText),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             )),

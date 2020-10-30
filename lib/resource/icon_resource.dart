@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 
 import '../UI/app_theme.dart';
 
+const optionMoveTo = FluentIcons.folder_move_24_regular;
+const optionRestore = FluentIcons.history_24_regular;
+const optionRenameFolder = FluentIcons.edit_24_regular;
+const optionDelete = FluentIcons.delete_24_regular;
+const optionCopy = FluentIcons.copy_24_regular;
+
 Icon close({@required BuildContext context}) {
   return Icon(
     FluentIcons.dismiss_24_filled,
@@ -14,53 +20,6 @@ Icon search({@required BuildContext context}) {
   return Icon(
     FluentIcons.search_24_filled,
     color: themeColorOpacity(context: context, opacity: .7),
-  );
-}
-
-Icon optionMoveTo({@required BuildContext context}) {
-  return Icon(
-    FluentIcons.folder_move_24_filled,
-    color: Theme.of(context).accentColor.withOpacity(.87),
-  );
-}
-
-Icon optionRestore({@required BuildContext context}) {
-  return Icon(
-    FluentIcons.history_24_filled,
-    color: Theme
-        .of(context)
-        .accentColor
-        .withOpacity(.87),
-  );
-}
-
-Icon optionRenameFolder({@required BuildContext context}) {
-  return Icon(
-    FluentIcons.edit_24_filled,
-    color: Theme
-        .of(context)
-        .accentColor
-        .withOpacity(.87),
-  );
-}
-
-Icon optionDelete({@required BuildContext context}) {
-  return Icon(
-    FluentIcons.delete_24_filled,
-    color: Theme
-        .of(context)
-        .accentColor
-        .withOpacity(.87),
-  );
-}
-
-Icon optionCopy({@required BuildContext context}) {
-  return Icon(
-    FluentIcons.copy_24_filled,
-    color: Theme
-        .of(context)
-        .accentColor
-        .withOpacity(.87),
   );
 }
 
@@ -83,13 +42,13 @@ Icon successful({@required BuildContext context}) {
 
   return isDark
       ? const Icon(
-    FluentIcons.checkmark_24_filled,
-    color: Color(0xFF81C784),
-  )
+          FluentIcons.checkmark_24_filled,
+          color: Color(0xFF81C784),
+        )
       : const Icon(
-    FluentIcons.checkmark_24_filled,
-    color: Colors.green,
-  );
+          FluentIcons.checkmark_24_filled,
+          color: Colors.green,
+        );
 }
 
 Icon info({@required BuildContext context}) {

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import '../../../business_logic/plan/provider/repeat_dialog_provider.dart';
-import '../../../utility/size_helper.dart';
-import '../../app_theme.dart';
+import '../../../../business_logic/plan/provider/repeat_dialog_provider.dart';
+import '../../../../utility/size_helper.dart';
+import '../../../app_theme.dart';
 
 class NumberRepeatTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -27,9 +27,13 @@ class NumberRepeatTextField extends StatelessWidget {
           keyboardType: TextInputType.number,
           showCursor: true,
           textInputAction: TextInputAction.done,
-          style: Theme.of(context).textTheme.bodyText1.copyWith(
+          style: Theme
+              .of(context)
+              .textTheme
+              .bodyText1
+              .copyWith(
               color: themeColorOpacity(context: context, opacity: .8),
-              fontSize: SizeHelper.getModalTextField),
+              fontSize: SizeHelper.modalTextField),
           inputFormatters: [
             FilteringTextInputFormatter.allow(RegExp('[0-9]')),
             LengthLimitingTextInputFormatter(3),
@@ -38,7 +42,10 @@ class NumberRepeatTextField extends StatelessWidget {
               disabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
                       width: 2.0,
-                      color: Theme.of(context).accentColor.withOpacity(0.80))),
+                      color: Theme
+                          .of(context)
+                          .accentColor
+                          .withOpacity(0.80))),
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
                       width: 2.0,

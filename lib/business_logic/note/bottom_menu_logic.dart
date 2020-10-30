@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../../UI/note/widgets/dialog/note_dialog.dart';
+import '../../UI/note/widgets/note_dialog.dart';
 import '../../UI/widgets/deep_snack_bar.dart';
 import '../../data/deep.dart';
 import '../../resource/icon_resource.dart';

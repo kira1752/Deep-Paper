@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../UI/app_theme.dart';
+import '../../UI/note/widgets/modal_field.dart';
 import '../../resource/icon_resource.dart';
 import '../../resource/string_resource.dart';
 import '../../utility/size_helper.dart';
@@ -12,60 +12,44 @@ PopupMenuItemBuilder<int> selectionItemBuilder(BuildContext context) {
       .select((NoteDrawerProvider value) => value.getIndexDrawerItem == 1);
 
   final trashMenu = (BuildContext context) => <PopupMenuEntry<int>>[
-        PopupMenuItem(
+    const PopupMenuItem(
             value: 0,
-            child: ListTile(
-              leading: optionRestore(context: context),
-              title: Text(
-                StringResource.restore,
-                style: TextStyle(
-                  fontSize: SizeHelper.getBodyText1,
-                  color: themeColorOpacity(context: context, opacity: .87),
-                ),
-              ),
+            child: ModalField(
+              icon: optionRestore,
+              fontSize: SizeHelper.bodyText1,
+              title: StringResource.restore,
             )),
-        PopupMenuItem(
-            value: 1,
-            child: ListTile(
-              leading: optionDelete(context: context),
-              title: Text(
-                'Delete forever',
-                style: TextStyle(
-                  fontSize: SizeHelper.getBodyText1,
-                  color: themeColorOpacity(context: context, opacity: .87),
-                ),
-              ),
-            ))
+    const PopupMenuItem(
+        value: 1,
+        child: ModalField(
+          icon: optionDelete,
+          fontSize: SizeHelper.bodyText1,
+          title: StringResource.deleteForever,
+        ))
       ];
 
   final normalSelection = (BuildContext context) => <PopupMenuEntry<int>>[
-        PopupMenuItem(
-            value: 0,
-            child: ListTile(
-              leading: optionDelete(context: context),
-              title: Text(
-                StringResource.delete,
-                style: menuItemStyle(context: context),
-              ),
-            )),
-        PopupMenuItem(
-            value: 1,
-            child: ListTile(
-              leading: optionMoveTo(context: context),
-              title: Text(
-                StringResource.moveTo,
-                style: menuItemStyle(context: context),
-              ),
-            )),
-        PopupMenuItem(
-            value: 2,
-            child: ListTile(
-              leading: optionCopy(context: context),
-              title: Text(
-                StringResource.copy,
-                style: menuItemStyle(context: context),
-              ),
-            )),
+    const PopupMenuItem(
+        value: 0,
+        child: ModalField(
+          icon: optionDelete,
+          fontSize: SizeHelper.bodyText1,
+          title: StringResource.delete,
+        )),
+    const PopupMenuItem(
+        value: 1,
+        child: ModalField(
+          icon: optionMoveTo,
+          fontSize: SizeHelper.bodyText1,
+          title: StringResource.moveTo,
+        )),
+    const PopupMenuItem(
+        value: 2,
+        child: ModalField(
+          icon: optionCopy,
+          fontSize: SizeHelper.bodyText1,
+          title: StringResource.copy,
+        )),
       ];
 
   final itemBuilder = showTrashSelection ? trashMenu : normalSelection;
@@ -78,39 +62,30 @@ PopupMenuItemBuilder<int> normalItemBuilder(BuildContext context) {
       value.getFolder != null && value.getIndexDrawerItem == null);
 
   final trashMenu = (context) => <PopupMenuEntry<int>>[
-        PopupMenuItem(
-            value: 0,
-            child: ListTile(
-              leading: optionDelete(context: context),
-              title: Text(
-                StringResource.emptyTrashBin,
-                style: TextStyle(
-                  fontSize: SizeHelper.getBodyText1,
-                  color: themeColorOpacity(context: context, opacity: .87),
-                ),
-              ),
-            ))
+    const PopupMenuItem(
+        value: 0,
+        child: ModalField(
+          icon: optionDelete,
+          fontSize: SizeHelper.bodyText1,
+          title: StringResource.emptyTrashBin,
+        ))
       ];
 
   final folderMenu = (context) => <PopupMenuEntry<int>>[
-        PopupMenuItem(
-            value: 0,
-            child: ListTile(
-              leading: optionRenameFolder(context: context),
-              title: Text(
-                StringResource.renameFolder,
-                style: menuItemStyle(context: context),
-              ),
-            )),
-        PopupMenuItem(
-            value: 1,
-            child: ListTile(
-              leading: optionDelete(context: context),
-              title: Text(
-                StringResource.deleteFolder,
-                style: menuItemStyle(context: context),
-              ),
-            )),
+    const PopupMenuItem(
+        value: 0,
+        child: ModalField(
+          icon: optionRenameFolder,
+          fontSize: SizeHelper.bodyText1,
+          title: StringResource.rename,
+        )),
+    const PopupMenuItem(
+        value: 1,
+        child: ModalField(
+          icon: optionDelete,
+          fontSize: SizeHelper.bodyText1,
+          title: StringResource.delete,
+        )),
       ];
 
   final itemBuilder = showFolderMenu ? folderMenu : trashMenu;

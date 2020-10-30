@@ -16,7 +16,7 @@ class DrawerTotalNotes extends StatelessWidget {
           '$total',
           style: TextStyle(
               color: themeColorOpacity(context: context, opacity: .54),
-              fontSize: SizeHelper.getBodyText1,
+              fontSize: SizeHelper.bodyText1,
               fontWeight: FontWeight.w600),
         ));
   }

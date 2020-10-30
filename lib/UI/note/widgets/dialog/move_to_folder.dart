@@ -13,9 +13,9 @@ import '../../../../utility/extension.dart';
 import '../../../../utility/size_helper.dart';
 import '../../../app_theme.dart';
 import '../../../widgets/deep_expand_base_dialog.dart';
-import '../../../widgets/deep_scroll_behavior.dart';
 import '../../../widgets/deep_snack_bar.dart';
-import 'note_dialog.dart' as note_dialog;
+import '../modal_field.dart';
+import '../note_dialog.dart' as note_dialog;
 
 Future openMoveToDialog(
     {@required BuildContext context,
@@ -84,7 +84,7 @@ class _MoveToFolderDialog extends StatelessWidget {
           'Select folder',
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: SizeHelper.getHeadline6,
+            fontSize: SizeHelper.headline6,
             fontWeight: FontWeight.w600,
             color: themeColorOpacity(context: context, opacity: .87),
           ),
@@ -102,117 +102,73 @@ class _MoveToFolderDialog extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text(
+              child: const Text(
                 'Close',
                 style: TextStyle(
-                  fontSize: SizeHelper.getModalButton,
+                  fontSize: SizeHelper.modalButton,
                 ),
               )),
         ),
       ],
       optionalWidget: Scrollbar(
-        child: ScrollConfiguration(
-          behavior: const DeepScrollBehavior(),
-          child: ListView.builder(
-              cacheExtent: 100.0,
-              itemCount: folderList.length + defaultItemValue,
-              shrinkWrap: true,
-              padding:
-              const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return Material(
-                    color: Colors.transparent,
-                    shape: const StadiumBorder(),
-                    child: ListTile(
-                      shape: const StadiumBorder(),
-                      onTap: () {
-                        Navigator.pop(context);
-                        note_dialog.openCreateFolderMoveToDialog(
-                            context: context,
-                            database: database,
-                            currentFolder: currentFolder,
-                            drawerIndex: drawerIndex,
-                            selectionProvider: selectionProvider,
-                            deepBottomProvider: deepBottomProvider,
-                            fabProvider: fabProvider);
-                      },
-                      leading: Icon(
-                        FluentIcons.add_24_filled,
-                        color: Theme
-                            .of(context)
-                            .accentColor
-                            .withOpacity(.87),
-                      ),
-                      title: Text(
-                        'New folder',
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .bodyText1
-                            .copyWith(
-                            color: themeColorOpacity(
-                                context: context, opacity: .7),
-                            fontSize: SizeHelper.getModalButton),
-                      ),
-                    ),
+        child: ListView.builder(
+            cacheExtent: 100.0,
+            physics: const BouncingScrollPhysics(),
+            itemCount: folderList.length + defaultItemValue,
+            shrinkWrap: true,
+            padding:
+            const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return ModalField(
+                  icon: FluentIcons.add_24_regular,
+                  title: 'New folder',
+                  onTap: () {
+                    Navigator.pop(context);
+                    note_dialog.openCreateFolderMoveToDialog(
+                        context: context,
+                        database: database,
+                        currentFolder: currentFolder,
+                        drawerIndex: drawerIndex,
+                        selectionProvider: selectionProvider,
+                        deepBottomProvider: deepBottomProvider,
+                        fabProvider: fabProvider);
+                  },
+                );
+              } else {
+                if (currentFolder?.id !=
+                    folderList[index - defaultItemValue].id) {
+                  final folder = folderList[index - defaultItemValue];
+
+                  return ModalField(
+                    icon: folder.name == StringResource.mainFolder
+                        ? FluentIcons.folder_briefcase_20_regular
+                        : FluentIcons.folder_24_regular,
+                    title: '${folder.name}',
+                    onTap: () {
+                      note_creation.moveToFolderBatch(
+                          folder: folder,
+                          selectionProvider: selectionProvider,
+                          database: database);
+
+                      Navigator.pop(context);
+
+                      showSnack(
+                          context: context,
+                          icon: successful(context: context),
+                          description: 'Note moved successfully');
+
+                      deepBottomProvider.setSelection = false;
+                      selectionProvider.setSelection = false;
+                      fabProvider.setScrollDown = false;
+                      selectionProvider.getSelected.clear();
+                    },
                   );
                 } else {
-                  if (currentFolder?.id !=
-                      folderList[index - defaultItemValue].id) {
-                    final folder = folderList[index - defaultItemValue];
-
-                    return Material(
-                      color: Colors.transparent,
-                      shape: const StadiumBorder(),
-                      child: ListTile(
-                        shape: const StadiumBorder(),
-                        onTap: () {
-                          note_creation.moveToFolderBatch(
-                              folder: folder,
-                              selectionProvider: selectionProvider,
-                              database: database);
-
-                          Navigator.pop(context);
-
-                          showSnack(
-                              context: context,
-                              icon: successful(context: context),
-                              description: 'Note moved successfully');
-
-                          deepBottomProvider.setSelection = false;
-                          selectionProvider.setSelection = false;
-                          fabProvider.setScrollDown = false;
-                          selectionProvider.getSelected.clear();
-                        },
-                        leading: Icon(
-                          folder.name == StringResource.mainFolder
-                              ? FluentIcons.folder_briefcase_20_filled
-                              : FluentIcons.folder_24_filled,
-                          color: Theme
-                              .of(context)
-                              .accentColor
-                              .withOpacity(.87),
-                        ),
-                        title: Text(
-                          '${folder.name}',
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .bodyText1
-                              .copyWith(
-                              color: themeColorOpacity(
-                                  context: context, opacity: .7),
-                              fontSize: SizeHelper.getModalButton),
-                        ),
-                      ),
-                    );
-                  } else {
-                    return const SizedBox();
-                  }
+                  return const SizedBox();
                 }
-              }),
-        ),
+              }
+            }),
       ),
     );
   }

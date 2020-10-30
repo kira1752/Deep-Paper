@@ -16,8 +16,8 @@ import '../../../utility/size_helper.dart';
 import '../../app_theme.dart';
 import '../../widgets/deep_keep_alive.dart';
 import '../../widgets/deep_scroll_behavior.dart';
-import '../widgets/bottom_menu.dart';
-import '../widgets/date_character_counts.dart';
+import 'widgets/bottom_menu.dart';
+import 'widgets/date_character_counts.dart';
 
 class NoteDetail extends StatefulWidget {
   const NoteDetail();
@@ -51,9 +51,18 @@ class _NoteDetailState extends State<NoteDetail>
             elevation: 0.0,
             backgroundColor: Theme.of(context).primaryColor,
             leading: IconButton(
-              icon: Icon(
-                FluentIcons.arrow_left_24_filled,
-                color: Theme.of(context).accentColor.withOpacity(0.87),
+              tooltip: 'Back button',
+              padding: EdgeInsets.zero,
+              icon: Material(
+                color: Theme.of(context).accentColor.withOpacity(.16),
+                type: MaterialType.circle,
+                child: Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: Icon(
+                    FluentIcons.arrow_left_24_filled,
+                    color: Theme.of(context).accentColor,
+                  ),
+                ),
               ),
               onPressed: () {
                 Navigator.maybePop(context);
@@ -140,7 +149,7 @@ class _DetailField extends StatelessWidget {
           .copyWith(
           color: themeColorOpacity(context: context, opacity: .7),
           fontWeight: FontWeight.normal,
-          fontSize: SizeHelper.getDetail),
+          fontSize: SizeHelper.detail),
       maxLines: null,
       keyboardType: TextInputType.multiline,
       onTap: () {

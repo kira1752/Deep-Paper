@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import '../../UI/note/widgets/dialog/note_dialog.dart' as note_dialog;
+import '../../UI/note/widgets/note_dialog.dart' as note_dialog;
 import 'provider/note_drawer_provider.dart';
 
 Future<void> menuFolderSelected(

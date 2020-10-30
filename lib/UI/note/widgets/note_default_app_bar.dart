@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 
-import '../../../../business_logic/note/provider/deep_bottom_provider.dart';
-import '../../../../business_logic/note/provider/fab_provider.dart';
-import '../../../../business_logic/note/provider/note_drawer_provider.dart';
-import '../../../../business_logic/note/provider/selection_provider.dart';
-import '../../../../resource/icon_resource.dart';
-import '../../../../resource/string_resource.dart';
-import '../../../app_theme.dart';
-import '../menu.dart';
-import '../search_note_button.dart';
+import '../../../business_logic/note/provider/deep_bottom_provider.dart';
+import '../../../business_logic/note/provider/fab_provider.dart';
+import '../../../business_logic/note/provider/note_drawer_provider.dart';
+import '../../../business_logic/note/provider/selection_provider.dart';
+import '../../../resource/icon_resource.dart';
+import '../../../resource/string_resource.dart';
+import '../../app_theme.dart';
+import 'menu.dart';
+import 'search_note_button.dart';
 
 class NoteDefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   const NoteDefaultAppBar();

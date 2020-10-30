@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../business_logic/plan/provider/create_plan_provider.dart';
-import '../../app_theme.dart';
-import '../../transition/widgets/slide_left_widget.dart';
+import '../../../../business_logic/plan/provider/create_plan_provider.dart';
+import '../../../../utility/extension.dart';
+import '../../../app_theme.dart';
+import '../../../transition/widgets/slide_left_widget.dart';
 
-class SetAReminder extends StatelessWidget {
-  const SetAReminder();
+class SetReminderTitle extends StatelessWidget {
+  const SetReminderTitle();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +53,7 @@ class __DeleteButtonState extends State<_DeleteButton> {
   @override
   Widget build(BuildContext context) {
     return Selector<CreatePlanProvider, bool>(
-      selector: (context, provider) => provider.getDate.isEmpty,
+      selector: (context, provider) => provider.getDate.isNull,
       builder: (context, isEmpty, deleteButton) => IgnorePointer(
         ignoring: isEmpty,
         child: SlideLeftWidget(
@@ -65,7 +66,7 @@ class __DeleteButtonState extends State<_DeleteButton> {
               borderRadius: BorderRadius.all(Radius.circular(12.0))),
           child: InkWell(
             onTap: () {
-              _createPlanProvider.setDate = '';
+              _createPlanProvider.setDate = null;
             },
             splashColor: Theme.of(context).accentColor.withOpacity(0.16),
             borderRadius: const BorderRadius.all(Radius.circular(12.0)),
@@ -74,8 +75,11 @@ class __DeleteButtonState extends State<_DeleteButton> {
               child: Text(
                 'DELETE',
                 style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      letterSpacing: 1.2,
-                      color: Theme.of(context).accentColor,
+                  letterSpacing: 1.2,
+                  color: Theme
+                      .of(context)
+                      .accentColor
+                      .withOpacity(.87),
                     ),
               ),
             ),

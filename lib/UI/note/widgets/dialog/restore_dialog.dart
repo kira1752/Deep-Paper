@@ -28,7 +28,7 @@ class RestoreDialog extends StatelessWidget {
           'Restore note',
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: SizeHelper.getHeadline6,
+            fontSize: SizeHelper.headline6,
             fontWeight: FontWeight.w600,
             color: themeColorOpacity(context: context, opacity: .87),
           ),
@@ -40,7 +40,7 @@ class RestoreDialog extends StatelessWidget {
           strutStyle: const StrutStyle(leading: 0.5),
           style: Theme.of(context).textTheme.bodyText1.copyWith(
               color: themeColorOpacity(context: context, opacity: .7),
-              fontSize: SizeHelper.getModalDescription),
+              fontSize: SizeHelper.modalDescription),
         ),
       ],
       actions: [
@@ -54,10 +54,10 @@ class RestoreDialog extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text(
+              child: const Text(
                 'Cancel',
                 style: TextStyle(
-                  fontSize: SizeHelper.getModalButton,
+                  fontSize: SizeHelper.modalButton,
                 ),
               )),
         ),
@@ -84,10 +84,10 @@ class RestoreDialog extends StatelessWidget {
                       icon: successful(context: context),
                       description: 'Note restored successfully');
                 },
-                child: Text(
+                child: const Text(
                   'Restore',
                   style: TextStyle(
-                    fontSize: SizeHelper.getModalButton,
+                    fontSize: SizeHelper.modalButton,
                   ),
                 )),
           ),

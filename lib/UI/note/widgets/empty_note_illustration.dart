@@ -39,16 +39,16 @@ class EmptyNoteIllustration extends StatelessWidget {
                             color: themeColorOpacity(
                                 context: context, opacity: .7),
                             height: 2.0,
-                            fontSize: SizeHelper.getHeadline5,
+                            fontSize: SizeHelper.headline5,
                             fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
                         text: 'Start writing all your ideas here',
                         style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: themeColorOpacity(
+                          color: themeColorOpacity(
                                   context: context, opacity: .7),
                               height: 1.5,
-                              fontSize: SizeHelper.getBodyText1,
+                              fontSize: SizeHelper.bodyText1,
                             ),
                       )
                     ]),

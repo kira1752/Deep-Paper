@@ -17,7 +17,9 @@ class Menu extends StatelessWidget {
         context.select((SelectionProvider value) => value.getSelection);
 
     final showFolderMenu = context.select((NoteDrawerProvider value) =>
-        value.getFolder != null && value.getIndexDrawerItem == null);
+        value.getFolder != null &&
+        value.getIndexDrawerItem == null &&
+        value.getFolder?.id != 0);
 
     final showMenuInTrash = context.select((NoteDrawerProvider value) =>
         value.getIndexDrawerItem == 1 && value.isTrashExist);

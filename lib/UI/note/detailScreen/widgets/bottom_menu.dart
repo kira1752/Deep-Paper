@@ -2,8 +2,8 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../business_logic/note/bottom_menu_logic.dart';
-import '../../../business_logic/note/provider/note_detail_provider.dart';
+import '../../../../business_logic/note/bottom_menu_logic.dart';
+import '../../../../business_logic/note/provider/note_detail_provider.dart';
 import 'bottom_modal.dart';
 import 'undo_redo.dart';
 
@@ -26,9 +26,17 @@ class BottomMenu extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 IconButton(
-                  icon: Icon(
-                    FluentIcons.add_circle_24_filled,
-                    color: Theme.of(context).accentColor.withOpacity(.87),
+                  padding: EdgeInsets.zero,
+                  icon: Material(
+                    color: Theme.of(context).accentColor.withOpacity(.16),
+                    type: MaterialType.circle,
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Icon(
+                        FluentIcons.add_24_regular,
+                        color: Theme.of(context).accentColor,
+                      ),
+                    ),
                   ),
                   onPressed: () async {
                     if (FocusScope.of(context).hasFocus) {
@@ -39,12 +47,22 @@ class BottomMenu extends StatelessWidget {
                 ),
                 const UndoRedo(),
                 IconButton(
-                  icon: Icon(
-                    FluentIcons.more_vertical_24_filled,
+                  padding: EdgeInsets.zero,
+                  icon: Material(
                     color: Theme
                         .of(context)
                         .accentColor
-                        .withOpacity(.87),
+                        .withOpacity(.16),
+                    type: MaterialType.circle,
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Icon(
+                        FluentIcons.more_vertical_24_regular,
+                        color: Theme
+                            .of(context)
+                            .accentColor,
+                      ),
+                    ),
                   ),
                   onPressed: () async {
                     if (FocusScope

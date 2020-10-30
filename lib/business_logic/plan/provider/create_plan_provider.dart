@@ -1,14 +1,15 @@
 import 'package:flutter/foundation.dart';
 
 import '../../../UI/plan/utility/repeat_type.dart';
+import '../../../resource/string_resource.dart';
 
 class CreatePlanProvider with ChangeNotifier {
-  String _date = '';
-  String _time = '';
+  DateTime _date;
+  DateTime _time;
   int _numberOfRepeat = 1;
-  String _repeatTitle = 'Repeat';
+  String _repeatTitle = StringResource.noRepeat;
   String _selectedDaysTitle = '';
-  String _repeatDialogType = 'days';
+  String _repeatDialogType = StringResource.days;
   RepeatType _repeat;
   List<int> _selectedDays = [];
   List<bool> _weekDays = [
@@ -21,9 +22,9 @@ class CreatePlanProvider with ChangeNotifier {
     false, // Saturday
   ];
 
-  String get getDate => _date;
+  DateTime get getDate => _date;
 
-  String get getTime => _time;
+  DateTime get getTime => _time;
 
   String get getRepeatTitle => _repeatTitle;
 
@@ -39,16 +40,16 @@ class CreatePlanProvider with ChangeNotifier {
 
   List<int> get getSelectedDays => _selectedDays;
 
-  set setDate(String date) {
+  set setDate(DateTime date) {
     if (date != _date) {
       _date = date;
       notifyListeners();
     }
   }
 
-  set initiateTime(String time) => _time = time;
+  set initiateTime(DateTime time) => _time = time;
 
-  set setTime(String time) {
+  set setTime(DateTime time) {
     if (time != _time) {
       _time = time;
       notifyListeners();

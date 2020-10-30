@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../business_logic/note/provider/detect_text_direction_provider.dart';
-import '../../../business_logic/provider/text_controller_provider.dart';
-import '../../../utility/size_helper.dart';
-import '../../app_theme.dart';
+import '../../../../business_logic/note/provider/detect_text_direction_provider.dart';
+import '../../../../business_logic/provider/text_controller_provider.dart';
+import '../../../../utility/size_helper.dart';
+import '../../../app_theme.dart';
 
 class PlanNameField extends StatelessWidget {
   const PlanNameField();
@@ -28,11 +28,11 @@ class PlanNameField extends StatelessWidget {
               selector: (context, provider) =>
                   provider.getDirection ? TextDirection.rtl : TextDirection.ltr,
               builder: (context, direction, _) => TextField(
-                    controller: textControllerProvider.controller,
+                controller: textControllerProvider.controller,
                     textDirection: direction,
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: themeColorOpacity(context: context, opacity: .7),
-                        fontSize: SizeHelper.getPlanTitle),
+                        fontSize: SizeHelper.planTitle),
                     maxLines: null,
                     keyboardType: TextInputType.text,
                     onChanged: (value) {},

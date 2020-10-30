@@ -12,7 +12,7 @@ void showSnack(
       Text(
         '$description',
         style: Theme.of(context).textTheme.bodyText1.copyWith(
-              fontSize: SizeHelper.getBodyText1,
+              fontSize: SizeHelper.bodyText1,
               color: themeColorOpacity(context: context, opacity: .7),
             ),
       ),

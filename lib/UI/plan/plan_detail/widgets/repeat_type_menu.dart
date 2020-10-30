@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../business_logic/plan/provider/repeat_dialog_provider.dart';
-import '../../../utility/size_helper.dart';
-import '../../app_theme.dart';
-import '../utility/repeat_type.dart';
+import '../../../../business_logic/plan/provider/repeat_dialog_provider.dart';
+import '../../../../resource/string_resource.dart';
+import '../../../../utility/size_helper.dart';
+import '../../../app_theme.dart';
+import '../../utility/repeat_type.dart';
 
 class RepeatTypeMenu extends StatelessWidget {
   const RepeatTypeMenu();
@@ -19,50 +20,69 @@ class RepeatTypeMenu extends StatelessWidget {
         PopupMenuItem(
             value: RepeatType.Daily,
             child: Text(
-              'days',
-              style: Theme.of(context).textTheme.bodyText1.copyWith(
+              StringResource.days,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(
                   color: themeColorOpacity(context: context, opacity: .8),
-                  fontSize: SizeHelper.getModalTextField),
+                  fontSize: SizeHelper.modalTextField),
             )),
         PopupMenuItem(
             value: RepeatType.Weekly,
             child: Text(
-              'weeks',
-              style: Theme.of(context).textTheme.bodyText1.copyWith(
+              StringResource.weeks,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(
                   color: themeColorOpacity(context: context, opacity: .8),
-                  fontSize: SizeHelper.getModalTextField),
+                  fontSize: SizeHelper.modalTextField),
             )),
         PopupMenuItem(
             value: RepeatType.Monthly,
             child: Text(
-              'months',
-              style: Theme.of(context).textTheme.bodyText1.copyWith(
+              StringResource.months,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(
                   color: themeColorOpacity(context: context, opacity: .8),
-                  fontSize: SizeHelper.getModalTextField),
+                  fontSize: SizeHelper.modalTextField),
             )),
         PopupMenuItem(
             value: RepeatType.Yearly,
             child: Text(
-              'years',
-              style: Theme.of(context).textTheme.bodyText1.copyWith(
+              StringResource.years,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(
                   color: themeColorOpacity(context: context, opacity: .8),
-                  fontSize: SizeHelper.getModalTextField),
+                  fontSize: SizeHelper.modalTextField),
             )),
       ],
       onSelected: (value) {
         _repeatDialogProvider.setTempRepeat = value;
         switch (value) {
           case RepeatType.Daily:
-            _repeatDialogProvider.setTempRepeatDialogType = 'days';
+            _repeatDialogProvider.setTempRepeatDialogType = StringResource.days;
             break;
           case RepeatType.Weekly:
-            _repeatDialogProvider.setTempRepeatDialogType = 'weeks';
+            _repeatDialogProvider.setTempRepeatDialogType =
+                StringResource.weeks;
             break;
           case RepeatType.Monthly:
-            _repeatDialogProvider.setTempRepeatDialogType = 'months';
+            _repeatDialogProvider.setTempRepeatDialogType =
+                StringResource.months;
             break;
           case RepeatType.Yearly:
-            _repeatDialogProvider.setTempRepeatDialogType = 'years';
+            _repeatDialogProvider.setTempRepeatDialogType =
+                StringResource.years;
             break;
         }
       },
@@ -77,9 +97,13 @@ class RepeatTypeMenu extends StatelessWidget {
                     provider.getTempRepeatDialogType,
                 builder: (context, repeatTypeTitle, _) => Text(
                   '$repeatTypeTitle',
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(
                       color: themeColorOpacity(context: context, opacity: .8),
-                      fontSize: SizeHelper.getModalTextField),
+                      fontSize: SizeHelper.modalTextField),
                 ),
               ),
             ),

@@ -5,13 +5,13 @@ import 'deep_scroll_behavior.dart';
 
 class DeepBaseDialog extends StatelessWidget {
   final Widget title;
-  final EdgeInsets titlePadding;
-  final List<Widget> children;
-  final EdgeInsets childrenPadding;
   final Widget optionalScrollable;
+  final List<Widget> children;
   final List<Widget> actions;
+  final EdgeInsetsGeometry titlePadding;
+  final EdgeInsetsGeometry childrenPadding;
+  final EdgeInsetsGeometry insetPadding;
   final double actionsPadding;
-  final EdgeInsets insetPadding;
 
   const DeepBaseDialog(
       {this.title,
@@ -19,9 +19,12 @@ class DeepBaseDialog extends StatelessWidget {
       this.children,
       this.childrenPadding,
       this.actions,
-      this.actionsPadding,
+      this.actionsPadding = 32.0,
       this.optionalScrollable,
-      this.insetPadding});
+      this.insetPadding = const EdgeInsets.symmetric(
+        horizontal: 16.0,
+        vertical: 0.0,
+      )});
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +34,7 @@ class DeepBaseDialog extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(12.0))),
         insetAnimationDuration: const Duration(milliseconds: 300),
         insetAnimationCurve: Curves.easeOutQuad,
-        insetPadding: insetPadding ??
-            const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 0.0,
-            ),
+        insetPadding: insetPadding,
         child: IntrinsicWidth(
           stepWidth: 56,
           child: ConstrainedBox(
@@ -52,7 +51,7 @@ class DeepBaseDialog extends StatelessWidget {
                             24.0,
                             24.0,
                             actions.isNotNull && children.isNull
-                                ? (actionsPadding ?? 32.0)
+                                ? actionsPadding
                                 : 0.0),
                     child: title,
                   ),
@@ -62,13 +61,8 @@ class DeepBaseDialog extends StatelessWidget {
                       behavior: const DeepScrollBehavior(),
                       child: SingleChildScrollView(
                         padding: childrenPadding ??
-                            EdgeInsets.fromLTRB(
-                                24.0,
-                                24.0,
-                                24.0,
-                                actions.isNotNull
-                                    ? (actionsPadding ?? 32.0)
-                                    : 0.0),
+                            EdgeInsets.fromLTRB(24.0, 24.0, 24.0,
+                                actions.isNotNull ? (actionsPadding) : 0.0),
                         child: ListBody(
                           children: children,
                         ),

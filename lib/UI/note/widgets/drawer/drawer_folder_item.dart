@@ -10,16 +10,18 @@ import '../../../app_theme.dart';
 class DrawerFolderItem extends StatelessWidget {
   final FolderNoteData folder;
   final IconData icon;
+  final IconData activeIcon;
   final int id;
   final Widget total;
 
-  const DrawerFolderItem({
-    Key key,
-    @required this.id,
-    @required this.folder,
-    @required this.total,
-    @required this.icon,
-  }) : super(key: key);
+  const DrawerFolderItem(
+      {Key key,
+      @required this.id,
+      @required this.folder,
+      @required this.total,
+      @required this.icon,
+      @required this.activeIcon})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,21 +63,46 @@ class DrawerFolderItem extends StatelessWidget {
                 drawerProvider.setFolder = folder;
               }
             },
-            leading: selected
-                ? Icon(icon, color: Theme.of(context).accentColor)
-                : Icon(icon,
-                    color: Theme.of(context).accentColor.withOpacity(.87)),
+            leading: Material(
+              color: Theme
+                  .of(context)
+                  .accentColor
+                  .withOpacity(.12),
+              type: selected ? MaterialType.transparency : MaterialType.circle,
+              child: Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: selected
+                    ? Icon(activeIcon,
+                    color: Theme
+                        .of(context)
+                        .accentColor
+                        .withOpacity(.87))
+                    : Icon(icon,
+                    color: Theme
+                        .of(context)
+                        .accentColor
+                        .withOpacity(.8)),
+              ),
+            ),
             trailing: total,
             title: Text(
               '$folderName',
               textDirection: nameDirection,
               style: selected
-                  ? Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: Colors.white.withOpacity(0.87),
-                      fontSize: SizeHelper.getDrawerMenuText)
-                  : Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: themeColorOpacity(context: context, opacity: .7),
-                      fontSize: SizeHelper.getDrawerMenuText),
+                  ? Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(
+                  color: Colors.white.withOpacity(0.87),
+                  fontSize: SizeHelper.drawerMenuText)
+                  : Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(
+                  color: themeColorOpacity(context: context, opacity: .7),
+                  fontSize: SizeHelper.drawerMenuText),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             )),

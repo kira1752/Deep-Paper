@@ -8,7 +8,7 @@ class DeepDrawer extends StatelessWidget {
   /// The [elevation] must be non-negative.
   const DeepDrawer({
     Key key,
-    this.elevation = 16.0,
+    this.elevation = 24.0,
     this.child,
     this.semanticLabel,
   })  : assert(elevation != null && elevation >= 0.0),
@@ -65,6 +65,9 @@ class DeepDrawer extends StatelessWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints.expand(width: 304.0),
           child: Material(
+            borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(12.0),
+                bottomRight: Radius.circular(12.0)),
             color: Theme.of(context).canvasColor,
             elevation: elevation,
             child: child,

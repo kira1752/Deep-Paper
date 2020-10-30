@@ -65,28 +65,16 @@ String loadDate(DateTime time) {
     return intl.DateFormat.jm('en_US').format(DateTime.now());
   } else {
     final now =
-    DateTime(DateTime
-        .now()
-        .year, DateTime
-        .now()
-        .month, DateTime
-        .now()
-        .day);
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     final noteDate = DateTime(time.year, time.month, time.day);
 
-    final date = now
-        .difference(noteDate)
-        .inDays == 0
+    final date = now.difference(noteDate).inDays == 0
         ? intl.DateFormat.jm('en_US').format(time)
-        : (now
-        .difference(noteDate)
-        .inDays == 1
-        ? "Yesterday, ${intl.DateFormat.jm("en_US").format(time)}"
-        : (now
-        .difference(noteDate)
-        .inDays > 1 && now.year - time.year == 0
-        ? intl.DateFormat.MMMd('en_US').add_jm().format(time)
-        : intl.DateFormat.yMMMd('en_US').add_jm().format(time)));
+        : (now.difference(noteDate).inDays == 1
+            ? "Yesterday, ${intl.DateFormat.jm("en_US").format(time)}"
+            : (now.difference(noteDate).inDays > 1 && now.year - time.year == 0
+                ? intl.DateFormat.MMMd('en_US').add_jm().format(time)
+                : intl.DateFormat.yMMMd('en_US').add_jm().format(time)));
 
     return date;
   }

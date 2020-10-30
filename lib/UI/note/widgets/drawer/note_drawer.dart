@@ -27,20 +27,21 @@ class NoteDrawer extends StatefulWidget {
 
 class _NoteDrawerState extends State<NoteDrawer> {
   @override
-  void didChangeDependencies() {
-    final selectionProvider = context.read<SelectionProvider>();
-    final bottomNavBarProvider = context.read<BottomNavBarProvider>();
-    final fabProvider = context.read<FABProvider>();
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final selectionProvider = context.read<SelectionProvider>();
+      final bottomNavBarProvider = context.read<BottomNavBarProvider>();
+      final fabProvider = context.read<FABProvider>();
 
-    fabProvider.setScrollDown = false;
+      fabProvider.setScrollDown = false;
 
-    if (selectionProvider.getSelection == true) {
-      selectionProvider.setSelection = false;
-      bottomNavBarProvider.setSelection = false;
-      selectionProvider.getSelected.clear();
-    }
-
-    super.didChangeDependencies();
+      if (selectionProvider.getSelection == true) {
+        selectionProvider.setSelection = false;
+        bottomNavBarProvider.setSelection = false;
+        selectionProvider.getSelected.clear();
+      }
+    });
   }
 
   @override
@@ -67,58 +68,57 @@ class _NoteDrawerState extends State<NoteDrawer> {
                 duration: const Duration(milliseconds: 450),
                 child: folderList.isNull || countNotes.isNull
                     ? const SizedBox()
-                    : Scrollbar(
-                        thickness: 4,
-                        radius: const Radius.circular(12.0),
-                        key: const Key('Note Drawer Scrollbar'),
-                        child: ScrollablePositionedList.builder(
-                            key: const PageStorageKey('Folder ListView'),
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: folderList.length + defaultItemValue,
-                            itemBuilder: (context, index) {
-                              if (index == 0) {
-                          return const DrawerTitle();
-                        } else if (index == 1) {
-                          return DrawerDefaultItem(
-                            key: ValueKey('$index'),
-                            title: StringResource.all_notes,
-                            setValue: 0,
-                            icon: FluentIcons.note_24_filled,
-                            total: DrawerTotalNotes(
-                                countNotes.countAvailableNotes),
-                          );
-                        } else if (index == 2) {
-                          return DrawerDefaultItem(
-                            key: ValueKey('$index'),
-                            title: StringResource.trash,
-                            setValue: 1,
-                            icon: FluentIcons.delete_24_filled,
-                            total: DrawerTotalNotes(
-                                countNotes.countDeletedNotes),
-                          );
-                        } else if (index == 3) {
-                          return const FolderAddButton();
-                        } else {
-                          final id = folderList[index - defaultItemValue]
-                              .folder
-                              .id;
-                          final folder =
-                              folderList[index - defaultItemValue].folder;
-                          final total =
-                              folderList[index - defaultItemValue].count;
-
-                          return DrawerFolderItem(
+                    : ScrollablePositionedList.builder(
+                        key: const PageStorageKey('Folder ListView'),
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: folderList.length + defaultItemValue,
+                        itemBuilder: (context, index) {
+                          if (index == 0) {
+                            return const DrawerTitle();
+                          } else if (index == 1) {
+                            return DrawerDefaultItem(
                               key: ValueKey('$index'),
-                              icon: folder.name ==
-                                  StringResource.mainFolder
-                                  ? FluentIcons.folder_briefcase_20_filled
-                                  : FluentIcons.folder_24_filled,
-                              id: id,
-                              folder: folder,
-                              total: DrawerTotalNotes(total));
-                        }
-                      }),
-                ),
+                              title: StringResource.all_notes,
+                              setValue: 0,
+                              icon: FluentIcons.note_24_regular,
+                              activeIcon: FluentIcons.note_24_filled,
+                              total: DrawerTotalNotes(
+                                  countNotes.countAvailableNotes),
+                            );
+                          } else if (index == 2) {
+                            return DrawerDefaultItem(
+                              key: ValueKey('$index'),
+                              title: StringResource.trash,
+                              setValue: 1,
+                              icon: FluentIcons.delete_24_regular,
+                              activeIcon: FluentIcons.delete_24_filled,
+                              total: DrawerTotalNotes(
+                                  countNotes.countDeletedNotes),
+                            );
+                          } else if (index == 3) {
+                            return const FolderAddButton();
+                          } else {
+                            final id =
+                                folderList[index - defaultItemValue].folder.id;
+                            final folder =
+                                folderList[index - defaultItemValue].folder;
+                            final total =
+                                folderList[index - defaultItemValue].count;
+
+                            return DrawerFolderItem(
+                                key: ValueKey('$index'),
+                                icon: folder.name == StringResource.mainFolder
+                                    ? FluentIcons.folder_briefcase_20_regular
+                                    : FluentIcons.folder_24_regular,
+                                activeIcon:
+                                    folder.name == StringResource.mainFolder
+                                        ? FluentIcons.folder_briefcase_20_filled
+                                        : FluentIcons.folder_24_filled,
+                                id: id,
+                                folder: folder,
+                                total: DrawerTotalNotes(total));
+                          }
+                        }),
               );
             }),
       ),
