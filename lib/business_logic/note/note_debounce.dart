@@ -1,14 +1,12 @@
-import 'dart:async';
-
+import '../../utility/debounce.dart';
 import '../../utility/extension.dart';
 import 'provider/undo_history_provider.dart';
 
-class NoteDetailDebounce {
-  Timer _debounce;
+class DetailFieldDebounce {
+  final Debounce _debounce = Debounce();
 
   void run(UndoHistoryProvider undoRedoProvider) {
-    if (_debounce?.isActive ?? false) _debounce.cancel();
-    _debounce = Timer(const Duration(milliseconds: 1000), () {
+    _debounce.run(const Duration(milliseconds: 1000), () {
       final value = undoRedoProvider.currentTyped;
       if (!value.isNullEmptyOrWhitespace &&
           undoRedoProvider.getUndoCurrentTyped() != value &&
@@ -20,5 +18,5 @@ class NoteDetailDebounce {
     });
   }
 
-  void cancel() => _debounce?.cancel();
+  void cancel() => _debounce.cancel();
 }

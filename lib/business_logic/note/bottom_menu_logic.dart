@@ -45,7 +45,7 @@ void onCopy({@required BuildContext context}) {
         icon: info(context: context),
         description: 'Cannot copy empty note');
   } else {
-    context.read<NoteDetailProvider>().setIsCopy = true;
+    context.read<NoteDetailProvider>().isCopy = true;
 
     Navigator.pop(context);
 
@@ -61,7 +61,9 @@ void onCopy({@required BuildContext context}) {
 
 void onDelete({@required BuildContext context}) {
   if (!context.read<NoteDetailProvider>().getDetail.isNullEmptyOrWhitespace) {
-    context.read<NoteDetailProvider>().setIsDeleted = true;
+    context
+        .read<NoteDetailProvider>()
+        .isDeleted = true;
 
     Navigator.pop(context);
     Future.delayed(const Duration(milliseconds: 400), () {

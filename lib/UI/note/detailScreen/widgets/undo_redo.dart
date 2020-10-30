@@ -38,14 +38,14 @@ class UndoRedoButton extends StatelessWidget {
           ),
           onPressed: context.select((UndoModel value) => value.canUndo)
               ? () {
-            context.read<NoteDetailDebounce>().cancel();
-            undo_redo.undo(
-              detailProvider: context.read<NoteDetailProvider>(),
-              undoStateProvider: context.read<UndoStateProvider>(),
-              undoHistoryProvider: context.read<UndoHistoryProvider>(),
-              detailController: context.read<TextControllerValue>().value,
-            );
-          }
+            context.read<DetailFieldDebounce>().cancel();
+                  undo_redo.undo(
+                    detailProvider: context.read<NoteDetailProvider>(),
+                    undoStateProvider: context.read<UndoStateProvider>(),
+                    undoHistoryProvider: context.read<UndoHistoryProvider>(),
+                    detailController: context.read<TextControllerValue>().value,
+                  );
+                }
               : null,
         ),
         IconButton(
@@ -60,12 +60,14 @@ class UndoRedoButton extends StatelessWidget {
           ),
           onPressed: context.select((UndoModel value) => value.canRedo)
               ? () {
-            context.read<NoteDetailDebounce>().cancel();
+            context.read<DetailFieldDebounce>().cancel();
             undo_redo.redo(
               detailProvider: context.read<NoteDetailProvider>(),
               undoStateProvider: context.read<UndoStateProvider>(),
               undoHistoryProvider: context.read<UndoHistoryProvider>(),
-              detailController: context.read<TextControllerValue>().value,
+              detailController: context
+                  .read<TextControllerValue>()
+                  .value,
             );
           }
               : null,

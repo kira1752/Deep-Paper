@@ -14,7 +14,7 @@ Future<void> detail(
     @required NoteDetailProvider detailProvider,
     @required UndoHistoryProvider undoHistory,
     @required UndoStateProvider undoState,
-    @required NoteDetailDebounce debounceProvider,
+    @required DetailFieldDebounce debounceProvider,
     @required TextEditingController controller}) async {
   detailProvider.setDetail = value;
   detailProvider.setDetailCountNotify =

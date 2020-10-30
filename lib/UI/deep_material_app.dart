@@ -48,8 +48,8 @@ class DeepMaterialApp extends StatelessWidget {
               return DeepRoute(
                 maintainState: false,
                 builder: (_) => MultiProvider(providers: [
-                  Provider<NoteDetailDebounce>(
-                    create: (_) => NoteDetailDebounce(),
+                  Provider<DetailFieldDebounce>(
+                    create: (_) => DetailFieldDebounce(),
                     dispose: (_, debounce) => debounce.cancel(),
                   ),
                   StateNotifierProvider<UndoStateProvider, UndoModel>(
@@ -78,8 +78,8 @@ class DeepMaterialApp extends StatelessWidget {
               return DeepRoute(
                   maintainState: false,
                   builder: (_) => MultiProvider(providers: [
-                        Provider<NoteDetailDebounce>(
-                          create: (_) => NoteDetailDebounce(),
+                        Provider<DetailFieldDebounce>(
+                          create: (_) => DetailFieldDebounce(),
                           dispose: (_, debounce) => debounce.cancel(),
                         ),
                         StateNotifierProvider<UndoStateProvider, UndoModel>(

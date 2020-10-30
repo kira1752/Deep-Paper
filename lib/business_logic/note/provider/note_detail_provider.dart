@@ -20,6 +20,7 @@ class NoteDetailProvider with ChangeNotifier {
   bool _isCopy = false;
   bool _isDeleted = false;
   bool _isTextTyped = false;
+  bool _isNoteScrolling = false;
   Future<String> _date;
   String _detail = '';
   String _tempDetail = '';
@@ -37,9 +38,11 @@ class NoteDetailProvider with ChangeNotifier {
 
   bool get isTextTyped => _isTextTyped;
 
-  bool get getIsCopy => _isCopy;
+  bool get isCopy => _isCopy;
 
-  bool get getIsDeleted => _isDeleted;
+  bool get isDeleted => _isDeleted;
+
+  bool get isNoteScrolling => _isNoteScrolling;
 
   TextDirection get detailDirection => _detailDirection;
 
@@ -81,20 +84,22 @@ class NoteDetailProvider with ChangeNotifier {
 
   set setTempNoteID(int newNoteID) => _tempNoteID = newNoteID;
 
-  set setIsCopy(bool value) => _isCopy = value;
+  set isCopy(bool value) => _isCopy = value;
 
-  set setIsDeleted(bool value) => _isDeleted = value;
+  set isDeleted(bool value) => _isDeleted = value;
 
-  set setDetailCountNotify(int value) {
-    if (value != _detailCount) {
-      _detailCount = value;
-      notifyListeners();
-    }
-  }
+  set isNoteScrolling(bool value) => _isNoteScrolling = value;
 
   set isTextTyped(bool state) {
     if (_isTextTyped != state) {
       _isTextTyped = state;
+      notifyListeners();
+    }
+  }
+
+  set setDetailCountNotify(int value) {
+    if (value != _detailCount) {
+      _detailCount = value;
       notifyListeners();
     }
   }

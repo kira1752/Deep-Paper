@@ -22,8 +22,8 @@ Future<void> noteDetailLifecycle(
         detail: detailProvider.getDetail,
         folderID: folderID,
         folderName: folderName,
-        isCopy: detailProvider.getIsCopy,
-        isDeleted: detailProvider.getIsDeleted,
+        isCopy: detailProvider.isCopy,
+        isDeleted: detailProvider.isDeleted,
       );
     } else {
       if (detailProvider.getDetail.isNullEmptyOrWhitespace) {
@@ -51,8 +51,8 @@ Future<void> noteDetailLifecycle(
               folderID: folderID,
               folderName: folderName,
               modified: DateTime.now(),
-              isDeleted: detailProvider.getIsDeleted,
-              isCopy: detailProvider.getIsCopy);
+              isDeleted: detailProvider.isDeleted,
+              isCopy: detailProvider.isCopy);
         }
       } else {
         // Same as above but this run only when there is no note data provided
@@ -70,8 +70,8 @@ Future<void> noteDetailLifecycle(
               folderID: folderID,
               folderName: folderName,
               modified: DateTime.now(),
-              isDeleted: detailProvider.getIsDeleted,
-              isCopy: detailProvider.getIsCopy);
+              isDeleted: detailProvider.isDeleted,
+              isCopy: detailProvider.isCopy);
         }
       }
     }

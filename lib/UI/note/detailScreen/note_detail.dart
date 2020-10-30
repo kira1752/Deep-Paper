@@ -40,8 +40,8 @@ class _NoteDetailState extends State<NoteDetail>
           detailProvider: context.read<NoteDetailProvider>(),
           folderID: context.read<NoteDetailProvider>().folderID,
           folderName: context.read<NoteDetailProvider>().folderName,
-          isDeleted: context.read<NoteDetailProvider>().getIsDeleted,
-          isCopy: context.read<NoteDetailProvider>().getIsCopy,
+          isDeleted: context.read<NoteDetailProvider>().isDeleted,
+          isCopy: context.read<NoteDetailProvider>().isCopy,
         );
 
         return true;
@@ -75,35 +75,19 @@ class _NoteDetailState extends State<NoteDetail>
           create: (context) => TextControllerValue(detailController),
           child: const BottomMenu(),
         ),
-        body: ScrollConfiguration(
-          behavior: const DeepScrollBehavior(),
-          child: GestureDetector(
-            onTap: () {
-              if (!detailFocus.hasFocus) {
-                detailFocus.requestFocus();
-              }
-              detailController.selection =
-                  TextSelection.fromPosition(TextPosition(
-                    offset: context
-                        .read<NoteDetailProvider>()
-                        .getDetail
-                        .length,
-                  ));
-
-              if (context.read<UndoHistoryProvider>().isUndoEmpty()) {
-                context
-                    .read<UndoHistoryProvider>()
-                    .tempInitCursor =
-                    context
-                        .read<NoteDetailProvider>()
-                        .getDetail
-                        .length;
-              }
-            },
-            child: Provider(
-                create: (_) =>
-                    TextControllerFocusNodeValue(detailController, detailFocus),
-                child: const _NoteDetailBody()),
+        body: NotificationListener<ScrollNotification>(
+          onNotification: (Notification notification) =>
+              listenScroll(context, notification),
+          child: ScrollConfiguration(
+            behavior: const DeepScrollBehavior(),
+            child: GestureDetector(
+              onTap: onTapNote,
+              child: Provider(
+                  create: (_) =>
+                      TextControllerFocusNodeValue(
+                          detailController, detailFocus),
+                  child: const _NoteDetailBody()),
+            ),
           ),
         ),
       ),
@@ -167,7 +151,7 @@ class _DetailField extends StatelessWidget {
               detailProvider: context.read<NoteDetailProvider>(),
               undoHistory: context.read<UndoHistoryProvider>(),
               undoState: context.read<UndoStateProvider>(),
-              debounceProvider: context.read<NoteDetailDebounce>(),
+              debounceProvider: context.read<DetailFieldDebounce>(),
               controller: context
                   .read<TextControllerFocusNodeValue>()
                   .textEditingController),
