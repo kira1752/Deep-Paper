@@ -2,7 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../business_logic/note/provider/fab_provider.dart';
+import '../../business_logic/provider/note/fab_provider.dart';
 import 'create_plan.dart' as create_plan;
 import 'widgets/appbar/plan_default_appbar.dart';
 import 'widgets/empty_plan_illustration.dart';
@@ -16,10 +16,8 @@ class PlanPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: PlanDefaultAppBar(),
       body: EmptyPlanIllustration(),
-      floatingActionButton: RepaintBoundary(
-        child: _AnimateFABScroll(
-          fab: _PlanFAB(),
-        ),
+      floatingActionButton: _AnimateFABScroll(
+        fab: _PlanFAB(),
       ),
     );
   }
@@ -55,10 +53,7 @@ class _PlanFAB extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       heroTag: null,
-      splashColor: Theme
-          .of(context)
-          .accentColor
-          .withOpacity(0.16),
+      splashColor: Theme.of(context).accentColor.withOpacity(0.16),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(12.0))),
       child: const Icon(

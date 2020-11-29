@@ -3,8 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
-import '../../../business_logic/note/provider/fab_provider.dart';
-import '../../../business_logic/note/provider/note_drawer_provider.dart';
+import '../../../business_logic/provider/note/fab_provider.dart';
+import '../../../business_logic/provider/note/note_drawer_provider.dart';
 import '../../../data/deep.dart';
 import '../../../utility/extension.dart';
 import 'list_view/folder_list_view.dart';

@@ -7,7 +7,7 @@ import '../../data/deep.dart';
 import '../../resource/icon_resource.dart';
 import '../../resource/string_resource.dart';
 import '../../utility/extension.dart';
-import 'provider/note_detail_provider.dart';
+import '../provider/note/note_detail_provider.dart';
 
 Future<void> noteInfo(
     {@required BuildContext context, String folderName}) async {

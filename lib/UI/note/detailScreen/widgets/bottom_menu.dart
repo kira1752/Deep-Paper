@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../business_logic/note/bottom_menu_logic.dart';
-import '../../../../business_logic/note/provider/note_detail_provider.dart';
+import '../../../../business_logic/provider/note/note_detail_provider.dart';
 import 'bottom_modal.dart';
 import 'undo_redo.dart';
 
@@ -27,16 +27,9 @@ class BottomMenu extends StatelessWidget {
               children: <Widget>[
                 IconButton(
                   padding: EdgeInsets.zero,
-                  icon: Material(
-                    color: Theme.of(context).accentColor.withOpacity(.16),
-                    type: MaterialType.circle,
-                    child: Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: Icon(
-                        FluentIcons.add_24_regular,
-                        color: Theme.of(context).accentColor,
-                      ),
-                    ),
+                  icon: Icon(
+                    FluentIcons.add_square_24_regular,
+                    color: Theme.of(context).accentColor,
                   ),
                   onPressed: () async {
                     if (FocusScope.of(context).hasFocus) {
@@ -48,39 +41,22 @@ class BottomMenu extends StatelessWidget {
                 const UndoRedo(),
                 IconButton(
                   padding: EdgeInsets.zero,
-                  icon: Material(
-                    color: Theme
-                        .of(context)
-                        .accentColor
-                        .withOpacity(.16),
-                    type: MaterialType.circle,
-                    child: Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: Icon(
-                        FluentIcons.more_vertical_24_regular,
-                        color: Theme
-                            .of(context)
-                            .accentColor,
-                      ),
-                    ),
+                  icon: Icon(
+                    FluentIcons.more_vertical_24_regular,
+                    color: Theme.of(context).accentColor,
                   ),
                   onPressed: () async {
-                    if (FocusScope
-                        .of(context)
-                        .hasFocus) {
+                    if (FocusScope.of(context).hasFocus) {
                       FocusScope.of(context).unfocus();
                     }
                     await openOptionsMenu(
                         context: context,
                         onDelete: () => onDelete(context: context),
                         onCopy: () => onCopy(context: context),
-                        noteInfo: () =>
-                            noteInfo(
+                        noteInfo: () => noteInfo(
                               context: context,
                               folderName:
-                              context
-                                  .read<NoteDetailProvider>()
-                                  .folderName,
+                                  context.read<NoteDetailProvider>().folderName,
                             ));
                   },
                 )

@@ -3,7 +3,7 @@ import 'package:moor/moor.dart';
 import '../../data/deep.dart';
 import '../../resource/string_resource.dart';
 import '../detect_text_direction_to_string.dart';
-import 'provider/note_drawer_provider.dart';
+import '../provider/note/note_drawer_provider.dart';
 
 void create({@required DeepPaperDatabase database, @required String name}) {
   final nameDirection = detectTextDirection(name);

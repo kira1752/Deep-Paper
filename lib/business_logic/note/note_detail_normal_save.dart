@@ -5,8 +5,8 @@ import '../../data/deep.dart';
 import '../../resource/icon_resource.dart';
 import '../../utility/extension.dart';
 import '../detect_text_direction_to_string.dart';
+import '../provider/note/note_detail_provider.dart';
 import 'note_creation.dart' as note_creation;
-import 'provider/note_detail_provider.dart';
 
 void run(
     {@required BuildContext context,

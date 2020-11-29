@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import '../../utility/extension.dart';
-import 'provider/note_detail_provider.dart';
-import 'provider/undo_history_provider.dart';
+import '../provider/note/note_detail_provider.dart';
+import '../provider/note/undo_history_provider.dart';
 
 void noteDetailInit({
   @required UndoHistoryProvider undoHistoryProvider,
@@ -29,7 +29,7 @@ void noteDetailInit({
     });
   }
 
-  KeyboardVisibility.onChange.listen((visible) {
+  KeyboardVisibilityController().onChange.listen((visible) {
     if (visible == false) {
       if (detailFocus.hasFocus) {
         detailFocus.unfocus();

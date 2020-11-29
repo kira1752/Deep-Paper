@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 
 import '../../../../utility/size_helper.dart';
-import '../../../app_theme.dart';
+import '../../../style/app_theme.dart';
 import '../../../widgets/deep_base_dialog.dart';
 
 class NoteInfoDialog extends StatelessWidget {

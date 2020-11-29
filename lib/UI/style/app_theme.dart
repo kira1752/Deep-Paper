@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../utility/size_helper.dart';
+import '../../utility/size_helper.dart';
 
 /// Set theme color [Opacity].
 /// It works for [Light] and [Dark] theme.

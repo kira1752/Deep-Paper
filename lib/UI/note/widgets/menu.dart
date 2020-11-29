@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../../../business_logic/note/note_menu_item_builder.dart';
 import '../../../business_logic/note/note_menu_selected.dart';
-import '../../../business_logic/note/provider/note_drawer_provider.dart';
-import '../../../business_logic/note/provider/selection_provider.dart';
+import '../../../business_logic/provider/note/note_drawer_provider.dart';
+import '../../../business_logic/provider/note/selection_provider.dart';
 import '../../../resource/icon_resource.dart';
 import '../../../resource/string_resource.dart';
 

@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../business_logic/plan/provider/create_plan_provider.dart';
+import '../../../../business_logic/provider/plan/create_plan_provider.dart';
 import '../../../../utility/extension.dart';
 import '../../../../utility/size_helper.dart';
-import '../../../app_theme.dart';
+import '../../../style/app_theme.dart';
 import '../../../transition/widgets/slide_downward_widget.dart';
 import '../../../transition/widgets/slide_right_widget.dart';
 import '../../../widgets/deep_date_picker.dart';
@@ -61,23 +61,16 @@ class __TimeState extends State<_Time> {
         },
         leading: Icon(
           FluentIcons.clock_alarm_24_regular,
-          color: Theme
-              .of(context)
-              .accentColor,
+          color: Theme.of(context).accentColor,
         ),
         title: Selector<CreatePlanProvider, String>(
             selector: (context, provider) =>
                 DateFormat.jm('en_US').format(provider.getTime),
-            builder: (context, time, _) =>
-                SlideRightWidget(
+            builder: (context, time, _) => SlideRightWidget(
                   child: Text(
                     '$time',
                     key: Key('$time'),
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: themeColorOpacity(context: context, opacity: .8),
                         fontSize: SizeHelper.modalTextField),
                   ),
@@ -92,19 +85,13 @@ class __TimeState extends State<_Time> {
     final getDate = DateTime(
         provider.getDate.year, provider.getDate.month, provider.getDate.day);
     final now =
-    DateTime(DateTime
-        .now()
-        .year, DateTime
-        .now()
-        .month, DateTime
-        .now()
-        .day);
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
     final picked = getDate != now
         ? await openTimePicker(context)
         : await openTimePickerWithLimit(
-      context,
-    );
+            context,
+          );
 
     if (picked != null) {
       provider.setTime = picked;

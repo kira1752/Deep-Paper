@@ -7,7 +7,7 @@ import '../../../../data/deep.dart';
 import '../../../../resource/icon_resource.dart';
 import '../../../../resource/string_resource.dart';
 import '../../../../utility/size_helper.dart';
-import '../../../app_theme.dart';
+import '../../../style/app_theme.dart';
 import '../../../widgets/deep_base_dialog.dart';
 import '../../../widgets/deep_snack_bar.dart';
 

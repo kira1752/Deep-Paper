@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-import '../../../../business_logic/note/provider/deep_bottom_provider.dart';
-import '../../../../business_logic/note/provider/fab_provider.dart';
-import '../../../../business_logic/note/provider/selection_provider.dart';
+import '../../../../business_logic/provider/note/deep_bottom_provider.dart';
+import '../../../../business_logic/provider/note/fab_provider.dart';
+import '../../../../business_logic/provider/note/selection_provider.dart';
 import '../../../../data/deep.dart';
 import '../../../../model/note/drawer_folder_model.dart';
 import '../../../../model/note/drawer_note_model.dart';
@@ -15,7 +15,6 @@ import '../../../widgets/deep_drawer.dart';
 import 'drawer_default_item.dart';
 import 'drawer_folder_item.dart';
 import 'drawer_title.dart';
-import 'drawer_total_notes.dart';
 import 'folder_add_button.dart';
 
 class NoteDrawer extends StatefulWidget {
@@ -31,7 +30,7 @@ class _NoteDrawerState extends State<NoteDrawer> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final selectionProvider = context.read<SelectionProvider>();
-      final bottomNavBarProvider = context.read<BottomNavBarProvider>();
+      final bottomNavBarProvider = context.read<MainNavigationProvider>();
       final fabProvider = context.read<FABProvider>();
 
       fabProvider.setScrollDown = false;
@@ -82,8 +81,7 @@ class _NoteDrawerState extends State<NoteDrawer> {
                               setValue: 0,
                               icon: FluentIcons.note_24_regular,
                               activeIcon: FluentIcons.note_24_filled,
-                              total: DrawerTotalNotes(
-                                  countNotes.countAvailableNotes),
+                              total: countNotes.countAvailableNotes,
                             );
                           } else if (index == 2) {
                             return DrawerDefaultItem(
@@ -92,8 +90,7 @@ class _NoteDrawerState extends State<NoteDrawer> {
                               setValue: 1,
                               icon: FluentIcons.delete_24_regular,
                               activeIcon: FluentIcons.delete_24_filled,
-                              total: DrawerTotalNotes(
-                                  countNotes.countDeletedNotes),
+                              total: countNotes.countDeletedNotes,
                             );
                           } else if (index == 3) {
                             return const FolderAddButton();
@@ -116,7 +113,7 @@ class _NoteDrawerState extends State<NoteDrawer> {
                                         : FluentIcons.folder_24_filled,
                                 id: id,
                                 folder: folder,
-                                total: DrawerTotalNotes(total));
+                                total: total);
                           }
                         }),
               );

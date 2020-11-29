@@ -5,7 +5,7 @@ import 'package:weekday_selector/weekday_selector.dart';
 
 import '../../../../business_logic/plan/day_selector_logic.dart'
     as day_selector_logic;
-import '../../../../business_logic/plan/provider/repeat_dialog_provider.dart';
+import '../../../../business_logic/provider/plan/repeat_dialog_provider.dart';
 
 class DaySelector extends StatefulWidget {
   const DaySelector();
@@ -38,24 +38,14 @@ class _DaySelectorState extends State<DaySelector> {
               shortWeekdays: dateSymbols.STANDALONESHORTWEEKDAYS,
               weekdays: dateSymbols.STANDALONEWEEKDAYS,
               selectedFillColor:
-              Theme
-                  .of(context)
-                  .accentColor
-                  .withOpacity(0.70),
-
-              fillColor: Theme
-                  .of(context)
-                  .cardColor,
+                  Theme.of(context).accentColor.withOpacity(0.70),
+              fillColor: Theme.of(context).cardColor,
               shape: RoundedRectangleBorder(
                   side: BorderSide(
-                      width: 2.0, color: Theme
-                      .of(context)
-                      .canvasColor)),
+                      width: 2.0, color: Theme.of(context).canvasColor)),
               selectedShape: RoundedRectangleBorder(
                   side: BorderSide(
-                      width: 2.0, color: Theme
-                      .of(context)
-                      .canvasColor)),
+                      width: 2.0, color: Theme.of(context).canvasColor)),
               onChanged: (day) {
                 day_selector_logic.onChanged(
                     repeatDialogProvider: _repeatDialogProvider,

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../business_logic/note/provider/note_drawer_provider.dart';
+import '../../../../business_logic/provider/note/note_drawer_provider.dart';
 import '../../../../resource/string_resource.dart';
 import '../../../../utility/size_helper.dart';
-import '../../../app_theme.dart';
+import '../../../style/app_theme.dart';
+import 'drawer_total_notes.dart';
 
 class DrawerDefaultItem extends StatelessWidget {
   final String title;
   final int setValue;
   final IconData icon;
   final IconData activeIcon;
-  final Widget total;
+  final int total;
 
   const DrawerDefaultItem(
       {Key key,
@@ -48,69 +49,48 @@ class DrawerDefaultItem extends StatelessWidget {
 
               final drawerProvider = context.read<NoteDrawerProvider>();
 
-              if (!selected &&
-                  drawerProvider.getIndexFolderItem != null &&
-                  setValue != 0) {
+              if (!selected && drawerProvider.getIndexFolderItem != null) {
                 drawerProvider.setFolderState = false;
                 drawerProvider.setIndexFolderItem = null;
                 drawerProvider.setFolder = null;
                 drawerProvider.setIndexDrawerItem = setValue;
                 drawerProvider.setTitleFragment = title;
-              } else if (!selected && setValue != 0) {
+
+                if (title == StringResource.trash) {
+                  if (total == 0) {
+                    context.read<NoteDrawerProvider>().setTrashExist = false;
+                  } else {
+                    context.read<NoteDrawerProvider>().setTrashExist = true;
+                  }
+                }
+              } else if (!selected) {
                 drawerProvider.setIndexDrawerItem = setValue;
                 drawerProvider.setTitleFragment = title;
-              } else if (!selected &&
-                  drawerProvider.getIndexFolderItem != null &&
-                  setValue == 0) {
-                drawerProvider.setFolderState = false;
-                drawerProvider.setIndexFolderItem = null;
-                drawerProvider.setFolder = null;
-                drawerProvider.setIndexDrawerItem = setValue;
-                drawerProvider.setTitleFragment = StringResource.all_notes;
-              } else if (!selected && setValue == 0) {
-                drawerProvider.setIndexDrawerItem = setValue;
-                drawerProvider.setTitleFragment = StringResource.all_notes;
+
+                if (title == StringResource.trash) {
+                  if (total == 0) {
+                    context.read<NoteDrawerProvider>().setTrashExist = false;
+                  } else {
+                    context.read<NoteDrawerProvider>().setTrashExist = true;
+                  }
+                }
               }
             },
-            leading: Material(
-              color: Theme
-                  .of(context)
-                  .accentColor
-                  .withOpacity(.12),
-              type: selected ? MaterialType.transparency : MaterialType.circle,
-              child: Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: selected
-                    ? Icon(activeIcon,
-                    color: Theme
-                        .of(context)
-                        .accentColor
-                        .withOpacity(.87))
-                    : Icon(icon,
-                    color: Theme
-                        .of(context)
-                        .accentColor
-                        .withOpacity(.8)),
-              ),
-            ),
-            trailing: total,
+            leading: selected
+                ? Icon(activeIcon,
+                    color: Theme.of(context).accentColor.withOpacity(.87))
+                : Icon(icon,
+                    color: Theme.of(context).accentColor.withOpacity(.8)),
+            trailing: DrawerTotalNotes(total),
             title: Text(
               title,
               style: selected
-                  ? Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(
-                  color: themeColorOpacity(context: context, opacity: .87),
-                  fontSize: SizeHelper.drawerMenuText)
-                  : Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(
-                  color: themeColorOpacity(context: context, opacity: .7),
-                  fontSize: SizeHelper.drawerMenuText),
+                  ? Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: themeColorOpacity(context: context, opacity: .87),
+                      fontSize: SizeHelper.drawerMenuText)
+                  : Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: themeColorOpacity(context: context, opacity: .7),
+                      fontSize: SizeHelper.drawerMenuText),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             )),

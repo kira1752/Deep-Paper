@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../business_logic/plan/provider/create_plan_provider.dart';
+import '../../../../business_logic/provider/plan/create_plan_provider.dart';
 import '../../../../utility/extension.dart';
-import '../../../app_theme.dart';
+import '../../../style/app_theme.dart';
 import '../../../transition/widgets/slide_left_widget.dart';
 
 class SetReminderTitle extends StatelessWidget {

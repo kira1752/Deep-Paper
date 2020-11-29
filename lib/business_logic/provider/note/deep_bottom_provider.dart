@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-class BottomNavBarProvider with ChangeNotifier {
+class MainNavigationProvider with ChangeNotifier {
   int _currentIndex = 0;
   final PageController _controller = PageController(keepPage: false);
   bool _selection = false;
@@ -9,7 +9,7 @@ class BottomNavBarProvider with ChangeNotifier {
 
   PageController get controller => _controller;
 
-  bool get getSelection => _selection;
+  bool get isSelectionMode => _selection;
 
   set setSelection(bool selection) {
     _selection = selection;

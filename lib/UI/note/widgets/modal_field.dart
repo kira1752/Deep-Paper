@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../utility/size_helper.dart';
-import '../../app_theme.dart';
+import '../../style/app_theme.dart';
 
 class ModalField extends StatelessWidget {
   const ModalField(
@@ -23,16 +23,9 @@ class ModalField extends StatelessWidget {
       child: ListTile(
         shape: const StadiumBorder(),
         onTap: onTap,
-        leading: Material(
-          color: Theme.of(context).accentColor.withOpacity(.1),
-          type: MaterialType.circle,
-          child: Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: Icon(
-              icon,
-              color: Theme.of(context).accentColor,
-            ),
-          ),
+        leading: Icon(
+          icon,
+          color: Theme.of(context).accentColor,
         ),
         title: Text(
           title,

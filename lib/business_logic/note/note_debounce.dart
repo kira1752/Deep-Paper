@@ -1,6 +1,6 @@
 import '../../utility/debounce.dart';
 import '../../utility/extension.dart';
-import 'provider/undo_history_provider.dart';
+import '../provider/note/undo_history_provider.dart';
 
 class DetailFieldDebounce {
   final Debounce _debounce = Debounce();

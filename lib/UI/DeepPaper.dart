@@ -4,21 +4,21 @@ import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:provider/provider.dart';
 
 import '../business_logic/note/note_debounce.dart';
-import '../business_logic/note/provider/note_detail_provider.dart';
-import '../business_logic/note/provider/undo_history_provider.dart';
-import '../business_logic/note/provider/undo_state_provider.dart';
 import '../business_logic/note/text_field_logic.dart' as text_field_logic;
+import '../business_logic/provider/note/note_detail_provider.dart';
+import '../business_logic/provider/note/undo_history_provider.dart';
+import '../business_logic/provider/note/undo_state_provider.dart';
 import '../data/deep.dart';
 import '../model/note/undo_model.dart';
 import '../resource/string_resource.dart';
 import '../utility/deep_route_string.dart';
-import 'app_theme.dart' as app_theme;
-import 'deep_paper.dart';
 import 'note/detailScreen/note_detail.dart';
+import 'style/app_theme.dart' as app_theme;
 import 'transition/deep_route.dart';
+import 'widgets/main_nav.dart';
 
-class DeepMaterialApp extends StatelessWidget {
-  const DeepMaterialApp();
+class DeepPaper extends StatelessWidget {
+  const DeepPaper();
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +31,14 @@ class DeepMaterialApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
         ],
         theme: app_theme.dark(),
+        themeMode: ThemeMode.dark,
         title: 'Deep Paper',
         initialRoute: '/',
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case DeepRouteString.deepPaper:
               return DeepRoute(
-                builder: (_) => const DeepPaper(),
+                builder: (_) => const MainNav(),
                 settings: settings,
               );
             case DeepRouteString.noteCreate:
@@ -102,11 +103,10 @@ class DeepMaterialApp extends StatelessWidget {
               break;
             default:
               return DeepRoute(
-                  builder: (_) => const DeepPaper(), settings: settings);
+                  builder: (_) => const MainNav(), settings: settings);
               break;
           }
         },
-        themeMode: ThemeMode.dark,
       ),
     );
   }

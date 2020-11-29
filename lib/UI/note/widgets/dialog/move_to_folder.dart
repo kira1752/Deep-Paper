@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../business_logic/note/note_creation.dart' as note_creation;
-import '../../../../business_logic/note/provider/deep_bottom_provider.dart';
-import '../../../../business_logic/note/provider/fab_provider.dart';
-import '../../../../business_logic/note/provider/selection_provider.dart';
+import '../../../../business_logic/provider/note/deep_bottom_provider.dart';
+import '../../../../business_logic/provider/note/fab_provider.dart';
+import '../../../../business_logic/provider/note/selection_provider.dart';
 import '../../../../data/deep.dart';
 import '../../../../resource/icon_resource.dart';
 import '../../../../resource/string_resource.dart';
 import '../../../../utility/extension.dart';
 import '../../../../utility/size_helper.dart';
-import '../../../app_theme.dart';
+import '../../../style/app_theme.dart';
 import '../../../widgets/deep_expand_base_dialog.dart';
 import '../../../widgets/deep_snack_bar.dart';
 import '../modal_field.dart';
@@ -22,7 +22,7 @@ Future openMoveToDialog(
     @required FolderNoteData currentFolder,
     @required int drawerIndex,
     @required SelectionProvider selectionProvider,
-    @required BottomNavBarProvider deepBottomProvider,
+    @required MainNavigationProvider deepBottomProvider,
     @required FABProvider fabProvider,
     @required DeepPaperDatabase database}) {
   final defaultItemValue = currentFolder.isNotNull || drawerIndex == 0 ? 1 : 1;
@@ -57,7 +57,7 @@ class _MoveToFolderDialog extends StatelessWidget {
   final FolderNoteData currentFolder;
   final int drawerIndex;
   final SelectionProvider selectionProvider;
-  final BottomNavBarProvider deepBottomProvider;
+  final MainNavigationProvider deepBottomProvider;
   final FABProvider fabProvider;
   final DeepPaperDatabase database;
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../business_logic/plan/provider/repeat_dialog_provider.dart';
+import '../../../../business_logic/provider/plan/repeat_dialog_provider.dart';
 import '../../../../resource/string_resource.dart';
 import '../../../../utility/size_helper.dart';
-import '../../../app_theme.dart';
+import '../../../style/app_theme.dart';
 import '../../utility/repeat_type.dart';
 
 class RepeatTypeMenu extends StatelessWidget {
@@ -21,11 +21,7 @@ class RepeatTypeMenu extends StatelessWidget {
             value: RepeatType.Daily,
             child: Text(
               StringResource.days,
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
                   color: themeColorOpacity(context: context, opacity: .8),
                   fontSize: SizeHelper.modalTextField),
             )),
@@ -33,11 +29,7 @@ class RepeatTypeMenu extends StatelessWidget {
             value: RepeatType.Weekly,
             child: Text(
               StringResource.weeks,
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
                   color: themeColorOpacity(context: context, opacity: .8),
                   fontSize: SizeHelper.modalTextField),
             )),
@@ -45,11 +37,7 @@ class RepeatTypeMenu extends StatelessWidget {
             value: RepeatType.Monthly,
             child: Text(
               StringResource.months,
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
                   color: themeColorOpacity(context: context, opacity: .8),
                   fontSize: SizeHelper.modalTextField),
             )),
@@ -57,11 +45,7 @@ class RepeatTypeMenu extends StatelessWidget {
             value: RepeatType.Yearly,
             child: Text(
               StringResource.years,
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
                   color: themeColorOpacity(context: context, opacity: .8),
                   fontSize: SizeHelper.modalTextField),
             )),
@@ -97,11 +81,7 @@ class RepeatTypeMenu extends StatelessWidget {
                     provider.getTempRepeatDialogType,
                 builder: (context, repeatTypeTitle, _) => Text(
                   '$repeatTypeTitle',
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
                       color: themeColorOpacity(context: context, opacity: .8),
                       fontSize: SizeHelper.modalTextField),
                 ),

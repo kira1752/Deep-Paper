@@ -18,7 +18,7 @@ Future openAddMenu({@required BuildContext context}) {
         ModalField(icon: FluentIcons.camera_24_regular, title: 'Take photo'),
         ModalField(icon: FluentIcons.image_24_regular, title: 'Choose image'),
         ModalField(icon: FluentIcons.mic_on_24_regular, title: 'Recording'),
-        ModalField(icon: FluentIcons.music_24_regular, title: 'Choose audio')
+        ModalField(icon: FluentIcons.music_note_24_regular, title: 'Choose audio')
       ],
     ),
   );

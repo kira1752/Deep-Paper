@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../app_theme.dart';
+import '../../../style/app_theme.dart';
 
 class MoreDefaultAppBar extends StatelessWidget {
   const MoreDefaultAppBar();

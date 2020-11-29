@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 
 import '../../UI/plan/utility/repeat_type.dart';
 import '../../resource/string_resource.dart';
-import 'provider/create_plan_provider.dart';
-import 'provider/repeat_dialog_provider.dart';
+import '../provider/plan/create_plan_provider.dart';
+import '../provider/plan/repeat_dialog_provider.dart';
 
 mixin RepeatDialogLogic<T extends StatefulWidget> on State<T> {
   TextEditingController numberTextField;

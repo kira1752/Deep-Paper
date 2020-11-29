@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../resource/string_resource.dart';
-import '../../../app_theme.dart' as app_theme;
+import '../../../style/app_theme.dart' as app_theme;
 
 class DrawerTitle extends StatelessWidget {
   const DrawerTitle();

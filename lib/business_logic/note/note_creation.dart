@@ -6,7 +6,7 @@ import '../../data/deep.dart';
 import '../../resource/string_resource.dart';
 import '../../utility/extension.dart';
 import '../detect_text_direction_to_string.dart';
-import 'provider/selection_provider.dart';
+import '../provider/note/selection_provider.dart';
 
 Future<int> create(
     {@required DeepPaperDatabase database,

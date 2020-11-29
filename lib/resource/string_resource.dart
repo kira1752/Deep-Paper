@@ -34,6 +34,8 @@ class StringResource {
   static const weekly = 'Weekly';
   static const monthly = 'Monthly';
   static const yearly = 'Yearly';
+  static const chooseDate = 'Choose Date';
+  static const chooseTime = 'Choose Time';
 
   static String selectionAppBar(int count) {
     return '$count selected';

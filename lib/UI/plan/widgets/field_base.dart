@@ -34,42 +34,33 @@ class FieldBase extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        splashColor: Theme
-            .of(context)
-            .accentColor
-            .withOpacity(.16),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Padding(
-              padding: paddingLeading,
-              child: Material(
-                  color: Theme
-                      .of(context)
-                      .accentColor
-                      .withOpacity(.12),
-                  type: MaterialType.circle,
-                  child: Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: leading,
-                  )),
-            ),
-            Expanded(
-              child: Padding(
-                padding: paddingContent,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [title, if (subtitle.isNotNull) subtitle],
+        splashColor: Theme.of(context).accentColor.withOpacity(.16),
+        child: Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                padding: paddingLeading,
+                child: leading,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: paddingContent,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [title, if (subtitle.isNotNull) subtitle],
+                  ),
                 ),
               ),
-            ),
-            if (trailing.isNotNull)
-              Padding(
-                padding: paddingTrailing,
-                child: trailing,
-              )
-          ],
+              if (trailing.isNotNull)
+                Padding(
+                  padding: paddingTrailing,
+                  child: trailing,
+                )
+            ],
+          ),
         ),
       ),
     );

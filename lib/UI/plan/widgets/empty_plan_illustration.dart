@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../utility/illustration.dart';
 import '../../../utility/size_helper.dart';
-import '../../app_theme.dart';
+import '../../style/app_theme.dart';
 
 class EmptyPlanIllustration extends StatelessWidget {
   const EmptyPlanIllustration();
@@ -16,13 +16,11 @@ class EmptyPlanIllustration extends StatelessWidget {
         child: FittedBox(
           child: Column(
             children: <Widget>[
-              RepaintBoundary(
-                child: SvgPicture.asset(
-                  Illustration.getPlan,
-                  fit: BoxFit.contain,
-                  width: SizeHelper.setWidth(size: 220.0),
-                  height: SizeHelper.setHeight(size: 200.0),
-                ),
+              SvgPicture.asset(
+                Illustration.getPlan,
+                fit: BoxFit.contain,
+                width: SizeHelper.setWidth(size: 220.0),
+                height: SizeHelper.setHeight(size: 200.0),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 24.0),
@@ -43,7 +41,7 @@ class EmptyPlanIllustration extends StatelessWidget {
                       TextSpan(
                         text: 'Plan your day here efficiently',
                         style: Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: themeColorOpacity(
+                              color: themeColorOpacity(
                                   context: context, opacity: .7),
                               height: 1.5,
                               fontSize: SizeHelper.bodyText1,

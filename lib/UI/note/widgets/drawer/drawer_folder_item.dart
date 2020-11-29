@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../business_logic/detect_text_direction_to_string.dart';
-import '../../../../business_logic/note/provider/note_drawer_provider.dart';
+import '../../../../business_logic/provider/note/note_drawer_provider.dart';
 import '../../../../data/deep.dart';
 import '../../../../utility/size_helper.dart';
-import '../../../app_theme.dart';
+import '../../../style/app_theme.dart';
+import 'drawer_total_notes.dart';
 
 class DrawerFolderItem extends StatelessWidget {
   final FolderNoteData folder;
   final IconData icon;
   final IconData activeIcon;
   final int id;
-  final Widget total;
+  final int total;
 
   const DrawerFolderItem(
       {Key key,
@@ -63,46 +64,22 @@ class DrawerFolderItem extends StatelessWidget {
                 drawerProvider.setFolder = folder;
               }
             },
-            leading: Material(
-              color: Theme
-                  .of(context)
-                  .accentColor
-                  .withOpacity(.12),
-              type: selected ? MaterialType.transparency : MaterialType.circle,
-              child: Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: selected
-                    ? Icon(activeIcon,
-                    color: Theme
-                        .of(context)
-                        .accentColor
-                        .withOpacity(.87))
-                    : Icon(icon,
-                    color: Theme
-                        .of(context)
-                        .accentColor
-                        .withOpacity(.8)),
-              ),
-            ),
-            trailing: total,
+            leading: selected
+                ? Icon(activeIcon,
+                    color: Theme.of(context).accentColor.withOpacity(.87))
+                : Icon(icon,
+                    color: Theme.of(context).accentColor.withOpacity(.8)),
+            trailing: DrawerTotalNotes(total),
             title: Text(
               '$folderName',
               textDirection: nameDirection,
               style: selected
-                  ? Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(
-                  color: Colors.white.withOpacity(0.87),
-                  fontSize: SizeHelper.drawerMenuText)
-                  : Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(
-                  color: themeColorOpacity(context: context, opacity: .7),
-                  fontSize: SizeHelper.drawerMenuText),
+                  ? Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: Colors.white.withOpacity(0.87),
+                      fontSize: SizeHelper.drawerMenuText)
+                  : Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: themeColorOpacity(context: context, opacity: .7),
+                      fontSize: SizeHelper.drawerMenuText),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             )),

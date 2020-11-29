@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 
 import '../../../../business_logic/note/folder_creation.dart'
     as folder_creation;
-import '../../../../business_logic/note/provider/detect_text_direction_provider.dart';
-import '../../../../business_logic/note/provider/folder_dialog_provider.dart';
-import '../../../../business_logic/note/provider/note_drawer_provider.dart';
+import '../../../../business_logic/provider/note/detect_text_direction_provider.dart';
+import '../../../../business_logic/provider/note/folder_dialog_provider.dart';
+import '../../../../business_logic/provider/note/note_drawer_provider.dart';
 import '../../../../business_logic/provider/text_controller_provider.dart';
 import '../../../../data/deep.dart';
 import '../../../../utility/extension.dart';
 import '../../../../utility/size_helper.dart';
-import '../../../app_theme.dart';
+import '../../../style/app_theme.dart';
 import '../../../widgets/deep_base_dialog.dart';
 
 class RenameFolderDialog extends StatefulWidget {

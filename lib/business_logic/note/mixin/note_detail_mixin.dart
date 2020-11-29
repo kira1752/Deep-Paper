@@ -2,15 +2,15 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../../data/deep.dart';
-import '../../utility/debounce.dart';
-import 'note_detail_initstate.dart';
-import 'note_detail_lifecycle.dart';
-import 'provider/note_detail_provider.dart';
-import 'provider/undo_history_provider.dart';
+import '../../../data/deep.dart';
+import '../../../utility/debounce.dart';
+import '../../provider/note/note_detail_provider.dart';
+import '../../provider/note/undo_history_provider.dart';
+import '../note_detail_initstate.dart';
+import '../note_detail_lifecycle.dart';
 
-mixin NoteDetailLogic<T extends StatefulWidget>
-on State<T>, WidgetsBindingObserver {
+mixin NoteDetailMixin<T extends StatefulWidget>
+    on State<T>, WidgetsBindingObserver {
   TextEditingController detailController;
   FocusNode detailFocus;
   Debounce _scrollDebounce;

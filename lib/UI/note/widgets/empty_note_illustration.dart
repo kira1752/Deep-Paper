@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../utility/illustration.dart';
 import '../../../utility/size_helper.dart';
-import '../../app_theme.dart';
+import '../../style/app_theme.dart';
 
 class EmptyNoteIllustration extends StatelessWidget {
   const EmptyNoteIllustration();
@@ -17,13 +17,11 @@ class EmptyNoteIllustration extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              RepaintBoundary(
-                child: SvgPicture.asset(
-                  Illustration.getNote,
-                  fit: BoxFit.contain,
-                  width: SizeHelper.setWidth(size: 220.0),
-                  height: SizeHelper.setHeight(size: 200.0),
-                ),
+              SvgPicture.asset(
+                Illustration.getNote,
+                fit: BoxFit.contain,
+                width: SizeHelper.setWidth(size: 220.0),
+                height: SizeHelper.setHeight(size: 200.0),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 24.0),

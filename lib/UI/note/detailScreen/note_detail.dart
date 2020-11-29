@@ -2,18 +2,18 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../business_logic/note/mixin/note_detail_mixin.dart';
 import '../../../business_logic/note/note_debounce.dart';
-import '../../../business_logic/note/note_detail_logic.dart';
 import '../../../business_logic/note/note_detail_normal_save.dart' as save;
-import '../../../business_logic/note/provider/note_detail_provider.dart';
-import '../../../business_logic/note/provider/undo_history_provider.dart';
-import '../../../business_logic/note/provider/undo_state_provider.dart';
 import '../../../business_logic/note/text_field_logic.dart' as text_field_logic;
 import '../../../business_logic/provider/TextControllerValue.dart';
+import '../../../business_logic/provider/note/note_detail_provider.dart';
+import '../../../business_logic/provider/note/undo_history_provider.dart';
+import '../../../business_logic/provider/note/undo_state_provider.dart';
 import '../../../business_logic/provider/text_controller_focus_node_value.dart';
 import '../../../data/deep.dart';
 import '../../../utility/size_helper.dart';
-import '../../app_theme.dart';
+import '../../style/app_theme.dart';
 import '../../widgets/deep_keep_alive.dart';
 import '../../widgets/deep_scroll_behavior.dart';
 import 'widgets/bottom_menu.dart';
@@ -27,7 +27,7 @@ class NoteDetail extends StatefulWidget {
 }
 
 class _NoteDetailState extends State<NoteDetail>
-    with WidgetsBindingObserver, NoteDetailLogic {
+    with WidgetsBindingObserver, NoteDetailMixin {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -53,15 +53,11 @@ class _NoteDetailState extends State<NoteDetail>
             leading: IconButton(
               tooltip: 'Back button',
               padding: EdgeInsets.zero,
-              icon: Material(
-                color: Theme.of(context).accentColor.withOpacity(.16),
-                type: MaterialType.circle,
-                child: Padding(
-                  padding: const EdgeInsets.all(6.0),
-                  child: Icon(
-                    FluentIcons.arrow_left_24_filled,
-                    color: Theme.of(context).accentColor,
-                  ),
+              icon: Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Icon(
+                  FluentIcons.arrow_left_24_filled,
+                  color: Theme.of(context).accentColor,
                 ),
               ),
               onPressed: () {
@@ -83,9 +79,8 @@ class _NoteDetailState extends State<NoteDetail>
             child: GestureDetector(
               onTap: onTapNote,
               child: Provider(
-                  create: (_) =>
-                      TextControllerFocusNodeValue(
-                          detailController, detailFocus),
+                  create: (_) => TextControllerFocusNodeValue(
+                      detailController, detailFocus),
                   child: const _NoteDetailBody()),
             ),
           ),
@@ -118,43 +113,35 @@ class _DetailField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: context.select(
-              (TextControllerFocusNodeValue value) =>
-          value.textEditingController),
+          (TextControllerFocusNodeValue value) => value.textEditingController),
       focusNode: context
           .select((TextControllerFocusNodeValue value) => value.focusNode),
       showCursor: true,
       textDirection:
-      context.select((NoteDetailProvider value) => value.detailDirection),
+          context.select((NoteDetailProvider value) => value.detailDirection),
       strutStyle: const StrutStyle(leading: 0.7),
-      style: Theme
-          .of(context)
-          .textTheme
-          .bodyText1
-          .copyWith(
+      style: Theme.of(context).textTheme.bodyText1.copyWith(
           color: themeColorOpacity(context: context, opacity: .7),
           fontWeight: FontWeight.normal,
           fontSize: SizeHelper.detail),
       maxLines: null,
       keyboardType: TextInputType.multiline,
       onTap: () {
-        context
-            .read<UndoHistoryProvider>()
-            .tempInitCursor = context
+        context.read<UndoHistoryProvider>().tempInitCursor = context
             .read<TextControllerFocusNodeValue>()
             .textEditingController
             .selection
             .extentOffset;
       },
-      onChanged: (value) =>
-          text_field_logic.detail(
-              value: value,
-              detailProvider: context.read<NoteDetailProvider>(),
-              undoHistory: context.read<UndoHistoryProvider>(),
-              undoState: context.read<UndoStateProvider>(),
-              debounceProvider: context.read<DetailFieldDebounce>(),
-              controller: context
-                  .read<TextControllerFocusNodeValue>()
-                  .textEditingController),
+      onChanged: (value) => text_field_logic.detail(
+          value: value,
+          detailProvider: context.read<NoteDetailProvider>(),
+          undoHistory: context.read<UndoHistoryProvider>(),
+          undoState: context.read<UndoStateProvider>(),
+          debounceProvider: context.read<DetailFieldDebounce>(),
+          controller: context
+              .read<TextControllerFocusNodeValue>()
+              .textEditingController),
       decoration: const InputDecoration(
           hintText: 'Write your note here...',
           contentPadding: EdgeInsets.fromLTRB(18, 0, 16, 16),

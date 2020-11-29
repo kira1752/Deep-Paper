@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../business_logic/plan/provider/create_plan_provider.dart';
+import '../../../../business_logic/provider/plan/create_plan_provider.dart';
 import '../../../../utility/extension.dart';
 import '../../../../utility/size_helper.dart';
-import '../../../app_theme.dart';
+import '../../../style/app_theme.dart';
 import '../../../transition/widgets/slide_right_widget.dart';
 import '../../../widgets/deep_date_picker.dart';
 import '../../widgets/field_base.dart';
@@ -29,36 +29,26 @@ class DateField extends StatelessWidget {
         ),
         title: Selector<CreatePlanProvider, bool>(
           selector: (context, provider) => provider.getDate.isNull,
-          builder: (context, isEmpty, date) =>
-              SlideRightWidget(
-                child: isEmpty
-                    ? Text(
-                  'Set date',
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(
-                      color: themeColorOpacity(context: context, opacity: .8),
-                      fontSize: SizeHelper.modalTextField),
-                )
-                    : date,
-              ),
+          builder: (context, isEmpty, date) => SlideRightWidget(
+            child: isEmpty
+                ? Text(
+                    'Set date',
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: themeColorOpacity(context: context, opacity: .8),
+                        fontSize: SizeHelper.modalTextField),
+                  )
+                : date,
+          ),
           child: Selector<CreatePlanProvider, String>(
               selector: (context, provider) =>
                   DateFormat.yMMMd('en_US').format(provider.getDate),
-              builder: (context, date, _) =>
-                  SlideRightWidget(
+              builder: (context, date, _) => SlideRightWidget(
                     child: Text(
                       '$date',
                       key: Key('$date'),
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color:
-                          themeColorOpacity(context: context, opacity: .8),
+                              themeColorOpacity(context: context, opacity: .8),
                           fontSize: SizeHelper.modalTextField),
                     ),
                   )),

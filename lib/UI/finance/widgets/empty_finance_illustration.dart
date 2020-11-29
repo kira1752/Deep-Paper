@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../utility/illustration.dart';
 import '../../../utility/size_helper.dart';
-import '../../app_theme.dart';
+import '../../style/app_theme.dart';
 
 class EmptyFinanceIllustration extends StatelessWidget {
   const EmptyFinanceIllustration();

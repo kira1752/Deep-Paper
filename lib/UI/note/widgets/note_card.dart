@@ -2,12 +2,12 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../business_logic/note/provider/deep_bottom_provider.dart';
-import '../../../business_logic/note/provider/fab_provider.dart';
-import '../../../business_logic/note/provider/selection_provider.dart';
+import '../../../business_logic/provider/note/deep_bottom_provider.dart';
+import '../../../business_logic/provider/note/fab_provider.dart';
+import '../../../business_logic/provider/note/selection_provider.dart';
 import '../../../data/deep.dart';
 import '../../../utility/size_helper.dart';
-import '../../app_theme.dart';
+import '../../style/app_theme.dart';
 import '../../transition/widgets/slide_right_widget.dart';
 
 class NoteCard extends StatelessWidget {
@@ -76,7 +76,7 @@ class NoteCard extends StatelessWidget {
               } else if (readNoteSelected &&
                   context.read<SelectionProvider>().getSelection) {
                 final selectionProvider = context.read<SelectionProvider>();
-                final deepBottomProvider = context.read<BottomNavBarProvider>();
+                final deepBottomProvider = context.read<MainNavigationProvider>();
                 final fabProvider = context.read<FABProvider>();
 
                 selectionProvider.remove(key: index);
@@ -98,7 +98,7 @@ class NoteCard extends StatelessWidget {
 
               if (!context.read<SelectionProvider>().getSelection) {
                 final selectionProvider = context.read<SelectionProvider>();
-                final deepBottomProvider = context.read<BottomNavBarProvider>();
+                final deepBottomProvider = context.read<MainNavigationProvider>();
 
                 selectionProvider.setSelected(key: index, note: note);
 
@@ -113,7 +113,7 @@ class NoteCard extends StatelessWidget {
               } else if (readNoteSelected &&
                   context.read<SelectionProvider>().getSelection) {
                 final selectionProvider = context.read<SelectionProvider>();
-                final deepBottomProvider = context.read<BottomNavBarProvider>();
+                final deepBottomProvider = context.read<MainNavigationProvider>();
                 final fabProvider = context.read<FABProvider>();
 
                 selectionProvider.remove(key: index);

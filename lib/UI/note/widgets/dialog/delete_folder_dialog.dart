@@ -3,12 +3,12 @@ import 'package:provider/provider.dart';
 
 import '../../../../business_logic/note/folder_creation.dart'
     as folder_creation;
-import '../../../../business_logic/note/provider/note_drawer_provider.dart';
+import '../../../../business_logic/provider/note/note_drawer_provider.dart';
 import '../../../../data/deep.dart';
 import '../../../../resource/icon_resource.dart';
 import '../../../../resource/string_resource.dart';
 import '../../../../utility/size_helper.dart';
-import '../../../app_theme.dart';
+import '../../../style/app_theme.dart';
 import '../../../widgets/deep_base_dialog.dart';
 import '../../../widgets/deep_snack_bar.dart';
 

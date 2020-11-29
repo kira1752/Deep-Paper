@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 
 import '../../data/deep.dart';
 import '../../utility/extension.dart';
+import '../provider/note/note_detail_provider.dart';
 import 'note_creation.dart' as note_creation;
-import 'provider/note_detail_provider.dart';
 
 Future<void> noteDetailLifecycle(
     {@required AppLifecycleState state,

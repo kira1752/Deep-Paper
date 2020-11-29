@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../business_logic/plan/provider/create_plan_provider.dart';
-import '../../../business_logic/plan/provider/repeat_dialog_provider.dart';
+import '../../../business_logic/provider/plan/create_plan_provider.dart';
+import '../../../business_logic/provider/plan/repeat_dialog_provider.dart';
 import '../plan_detail/widgets/dialog/repeat_dialog.dart';
 
 Future<void> openRepeatDialog(

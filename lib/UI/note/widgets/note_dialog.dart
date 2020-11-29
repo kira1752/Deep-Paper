@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../business_logic/note/provider/deep_bottom_provider.dart';
-import '../../../business_logic/note/provider/detect_text_direction_provider.dart';
-import '../../../business_logic/note/provider/fab_provider.dart';
-import '../../../business_logic/note/provider/folder_dialog_provider.dart';
-import '../../../business_logic/note/provider/note_drawer_provider.dart';
-import '../../../business_logic/note/provider/selection_provider.dart';
+import '../../../business_logic/provider/note/deep_bottom_provider.dart';
+import '../../../business_logic/provider/note/detect_text_direction_provider.dart';
+import '../../../business_logic/provider/note/fab_provider.dart';
+import '../../../business_logic/provider/note/folder_dialog_provider.dart';
+import '../../../business_logic/provider/note/note_drawer_provider.dart';
+import '../../../business_logic/provider/note/selection_provider.dart';
 import '../../../business_logic/provider/text_controller_provider.dart';
 import '../../../data/deep.dart';
 import 'dialog/create_folder_dialog.dart';
@@ -46,7 +46,7 @@ Future<void> openCreateFolderMoveToDialog(
     @required FolderNoteData currentFolder,
     @required int drawerIndex,
     @required SelectionProvider selectionProvider,
-    @required BottomNavBarProvider deepBottomProvider,
+    @required MainNavigationProvider deepBottomProvider,
     @required FABProvider fabProvider,
     @required DeepPaperDatabase database}) {
   return showDialog(

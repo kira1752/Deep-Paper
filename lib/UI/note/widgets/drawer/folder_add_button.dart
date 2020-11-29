@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../utility/size_helper.dart';
-import '../../../app_theme.dart';
+import '../../../style/app_theme.dart';
 import '../note_dialog.dart' as note_dialog;
 
 class FolderAddButton extends StatelessWidget {

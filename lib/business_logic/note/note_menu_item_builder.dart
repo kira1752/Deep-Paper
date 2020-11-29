@@ -5,7 +5,7 @@ import '../../UI/note/widgets/modal_field.dart';
 import '../../resource/icon_resource.dart';
 import '../../resource/string_resource.dart';
 import '../../utility/size_helper.dart';
-import 'provider/note_drawer_provider.dart';
+import '../provider/note/note_drawer_provider.dart';
 
 PopupMenuItemBuilder<int> selectionItemBuilder(BuildContext context) {
   final showTrashSelection = context

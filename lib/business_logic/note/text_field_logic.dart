@@ -4,10 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' as intl;
 
+import '../provider/note/note_detail_provider.dart';
+import '../provider/note/undo_history_provider.dart';
+import '../provider/note/undo_state_provider.dart';
 import 'note_debounce.dart';
-import 'provider/note_detail_provider.dart';
-import 'provider/undo_history_provider.dart';
-import 'provider/undo_state_provider.dart';
 
 Future<void> detail(
     {@required String value,

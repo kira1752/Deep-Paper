@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import '../../utility/size_helper.dart';
-import '../app_theme.dart';
+import '../style/app_theme.dart';
 
 void showSnack(
     {@required BuildContext context,

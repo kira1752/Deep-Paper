@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'provider/repeat_dialog_provider.dart';
+import '../provider/plan/repeat_dialog_provider.dart';
 
 void onChanged(
     {@required RepeatDialogProvider repeatDialogProvider,

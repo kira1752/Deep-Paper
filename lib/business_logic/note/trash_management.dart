@@ -1,7 +1,7 @@
 import 'package:moor/moor.dart';
 
 import '../../data/deep.dart';
-import 'provider/selection_provider.dart';
+import '../provider/note/selection_provider.dart';
 
 Future<void> empty({@required DeepPaperDatabase database}) async {
   await database.noteDao.emptyTrashBin();

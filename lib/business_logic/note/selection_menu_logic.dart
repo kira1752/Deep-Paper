@@ -4,17 +4,17 @@ import '../../UI/note/widgets/dialog/move_to_folder.dart' as move_to_folder;
 import '../../UI/widgets/deep_snack_bar.dart';
 import '../../data/deep.dart';
 import '../../resource/icon_resource.dart';
+import '../provider/note/deep_bottom_provider.dart';
+import '../provider/note/fab_provider.dart';
+import '../provider/note/note_drawer_provider.dart';
+import '../provider/note/selection_provider.dart';
 import 'note_creation.dart' as note_creation;
-import 'provider/deep_bottom_provider.dart';
-import 'provider/fab_provider.dart';
-import 'provider/note_drawer_provider.dart';
-import 'provider/selection_provider.dart';
 import 'trash_management.dart' as trash_management;
 
 void menuTrashSelected(
     {@required BuildContext context,
     @required DeepPaperDatabase database,
-    @required BottomNavBarProvider deepBottomProvider,
+    @required MainNavigationProvider deepBottomProvider,
     @required SelectionProvider selectionProvider,
     @required FABProvider fabProvider,
     @required int choice}) {
@@ -60,7 +60,7 @@ Future<void> menuSelectionSelected(
     {@required BuildContext context,
     @required int choice,
     @required DeepPaperDatabase database,
-    @required BottomNavBarProvider deepBottomProvider,
+    @required MainNavigationProvider deepBottomProvider,
     @required SelectionProvider selectionProvider,
     @required FABProvider fabProvider,
     @required NoteDrawerProvider drawerProvider}) async {

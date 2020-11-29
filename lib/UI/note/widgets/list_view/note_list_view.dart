@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../business_logic/note/provider/fab_provider.dart';
+import '../../../../business_logic/provider/note/fab_provider.dart';
 import '../../../../data/deep.dart';
 import '../../../../utility/deep_route_string.dart';
 import '../../../../utility/extension.dart';
@@ -29,17 +29,17 @@ class NoteListView extends StatelessWidget {
                   ? const EmptyNoteIllustration()
                   : ListView.builder(
                       physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              cacheExtent: 100,
-              semanticChildCount: listNote.length,
-              itemCount: listNote.length,
-              itemBuilder: (context, index) {
-                return NoteCard(
-                  key: ValueKey<int>(index),
-                  index: index,
-                  content: NoteCardContent(
-                    note: listNote[index],
-                  ),
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      cacheExtent: 100,
+                      semanticChildCount: listNote.length,
+                      itemCount: listNote.length,
+                      itemBuilder: (context, index) {
+                        return NoteCard(
+                          key: ValueKey<int>(index),
+                          index: index,
+                          content: NoteCardContent(
+                            note: listNote[index],
+                          ),
                           note: listNote[index],
                           onTap: () {
                             Navigator.pushNamed(

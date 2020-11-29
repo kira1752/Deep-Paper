@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../business_logic/note/provider/fab_provider.dart';
+import '../../../../business_logic/provider/note/fab_provider.dart';
 import '../../../../data/deep.dart';
 import '../../../../utility/deep_route_string.dart';
 import '../../../../utility/extension.dart';

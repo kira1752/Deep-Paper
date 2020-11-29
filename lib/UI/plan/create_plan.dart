@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../business_logic/plan/provider/create_plan_provider.dart';
+import '../../business_logic/provider/plan/create_plan_provider.dart';
 import 'plan_detail/create_plan_page.dart';
 
 Future<void> show({@required BuildContext context}) {
