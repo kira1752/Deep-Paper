@@ -6,7 +6,8 @@ import '../../utility/size_helper.dart';
 /// Set theme color [Opacity].
 /// It works for [Light] and [Dark] theme.
 /// This method will return color according to [ThemeData] with alpha channel.
-Color themeColorOpacity({@required BuildContext context, @required double opacity}) {
+Color themeColorOpacity(
+    {@required BuildContext context, @required double opacity}) {
   final isDark = Theme.of(context).brightness == Brightness.dark;
 
   return isDark
@@ -22,11 +23,7 @@ TextStyle appBarStyle({@required BuildContext context}) {
 }
 
 TextStyle noteDrawerTitle({@required BuildContext context}) {
-  return Theme
-      .of(context)
-      .textTheme
-      .headline6
-      .copyWith(
+  return Theme.of(context).textTheme.headline6.copyWith(
       color: themeColorOpacity(context: context, opacity: .87),
       fontWeight: FontWeight.w500,
       fontSize: SizeHelper.title);
@@ -40,13 +37,14 @@ TextStyle menuItemStyle({@required BuildContext context}) {
 }
 
 ThemeData dark() {
+  var adaptivePlatformDensity = VisualDensity.adaptivePlatformDensity;
   return ThemeData.dark().copyWith(
       applyElevationOverlayColor: true,
       pageTransitionsTheme: const PageTransitionsTheme(builders: {
-        TargetPlatform.android: OpenUpwardsPageTransitionsBuilder(),
-        TargetPlatform.iOS: OpenUpwardsPageTransitionsBuilder(),
+        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
       }),
-      visualDensity: VisualDensity.adaptivePlatformDensity,
+      visualDensity: adaptivePlatformDensity,
       dividerColor: const Color(0xff545458).withOpacity(.65),
       timePickerTheme: const TimePickerThemeData(
         backgroundColor: Color(0xff1c1c1e),
